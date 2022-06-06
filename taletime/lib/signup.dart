@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/constants.dart';
+import 'package:taletime/widgets/input_widget_login_signup.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -16,9 +17,11 @@ class SignupPage extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios,
+          icon: const Icon(
+            Icons.arrow_back_ios,
             size: 20,
-            color: Colors.black,),
+            color: Colors.black,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -31,17 +34,20 @@ class SignupPage extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  const Text("Registrierung",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  ),
-                  const SizedBox(height: 20,),
-                  Text("Erstellen Sie eine kostenloses Konto",
+                  const Text(
+                    "Registrierung",
                     style: TextStyle(
-                        fontSize: 15,
-                        color:Colors.grey[700]),)
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Erstellen Sie ein kostenloses Konto",
+                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                  )
                 ],
               ),
               Column(
@@ -54,16 +60,14 @@ class SignupPage extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.only(top: 3, left: 3),
-                decoration:
-                BoxDecoration(
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     border: const Border(
                       bottom: BorderSide(color: Colors.black),
                       top: BorderSide(color: Colors.black),
                       left: BorderSide(color: Colors.black),
                       right: BorderSide(color: Colors.black),
-                    )
-                ),
+                    )),
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
@@ -74,11 +78,12 @@ class SignupPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: const Text(
-                    "Registrieren", style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
+                    "Registrieren",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -86,10 +91,9 @@ class SignupPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const <Widget>[
                   Text("Sie haben bereits ein Konto?"),
-                  Text(" Anmelden", style:TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18
-                  ),
+                  Text(
+                    " Anmelden",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                   )
                 ],
               )
@@ -99,41 +103,4 @@ class SignupPage extends StatelessWidget {
       ),
     );
   }
-}
-
-
-Widget inputFile({label, obscureText = false})
-{
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-            color:Colors.black87
-        ),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0,
-                horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.grey
-              ),
-            ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey)
-            )
-        ),
-      ),
-      const SizedBox(height: 10,)
-    ],
-  );
 }
