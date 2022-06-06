@@ -1,34 +1,147 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
+import 'package:taletime/screens/login.dart';
 
-Widget inputText({label, icon, obscureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+class Input {
+  InputDecoration textInputDecoration(
+      [String label = "",
+      String hintText = "",
+      Widget icon = const Icon(Icons.add),
+      obscureText = false]) {
+    return InputDecoration(
+      labelText: label,
+      focusColor: kPrimaryColor,
+      hintText: hintText,
+      fillColor: Colors.white,
+      filled: true,
+      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100.0),
+          borderSide: BorderSide(color: kPrimaryColor)),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100.0),
+          borderSide: BorderSide(color: kPrimaryColor)),
+      errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100.0),
+          borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+      focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100.0),
+          borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+      prefixIcon: icon,
+      labelStyle: TextStyle(
+        color: kPrimaryColor,
       ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            prefixIcon: icon,
-            prefixIconColor: kPrimaryColor,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-            ),
-            border: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey))),
-      ),
-      const SizedBox(
-        height: 15,
+    );
+  }
+
+  BoxDecoration inputBoxDecorationShaddow() {
+    return BoxDecoration(boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        blurRadius: 20,
+        offset: const Offset(0, 5),
       )
-    ],
-  );
+    ]);
+  }
+
+  BoxDecoration buttonBoxDecoration(BuildContext context,
+      [String color1 = "", String color2 = ""]) {
+    Color c1 = Theme.of(context).primaryColor;
+    Color c2 = Theme.of(context).colorScheme.secondary;
+    if (color1.isEmpty == false) {
+      c1 = color1 as Color;
+    }
+    if (color2.isEmpty == false) {
+      c2 = color2 as Color;
+    }
+
+    return BoxDecoration(
+      boxShadow: const [
+        BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)
+      ],
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: const [0.0, 1.0],
+        colors: [
+          c1,
+          c2,
+        ],
+      ),
+      color: Colors.deepPurple.shade300,
+      borderRadius: BorderRadius.circular(30),
+    );
+  }
+
+  ButtonStyle buttonStyle() {
+    return ButtonStyle(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+      ),
+      minimumSize: MaterialStateProperty.all(const Size(50, 50)),
+      backgroundColor: MaterialStateProperty.all(Colors.teal.shade600),
+      shadowColor: MaterialStateProperty.all(Colors.transparent),
+    );
+  }
+
+  AlertDialog alartDialog(String title, String content, BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.teal.shade600),
+      ),
+      content: Text(content),
+      actions: [
+        TextButton(
+          child: const Text(
+            "OK",
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.teal.shade600)),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+
+  AlertDialog confirmDialog(
+      String title, String content, BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.teal.shade600),
+      ),
+      content: Text(content),
+      actions: [
+        TextButton(
+          child: const Text(
+            "Yes",
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.teal.shade600)),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const LoginPage()));
+          },
+        ),
+        TextButton(
+          child: const Text(
+            "No",
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.teal.shade600)),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
 }

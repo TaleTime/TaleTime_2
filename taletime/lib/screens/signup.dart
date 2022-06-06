@@ -34,8 +34,9 @@ class SignupPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Column(
-                children: <Widget>[
+              Column(children: <Widget>[
+                SafeArea(
+                    child: Column(children: [
                   const Text(
                     "Registrierung",
                     style: TextStyle(
@@ -46,25 +47,60 @@ class SignupPage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    "Erstellen Sie ein kostenloses Konto",
-                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
-                  )
-                ],
-              ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 100),
+                    height: 200,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/icon.png"),
+                          fit: BoxFit.fitHeight),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text("Erstellen Sie ein kostenloses Konto",
+                      style: TextStyle(fontSize: 15, color: Colors.grey[700]))
+                ]))
+              ]),
               Column(
                 children: <Widget>[
-                  inputText(
-                      label: "Benutzername", icon: const Icon(Icons.person)),
-                  inputText(label: "Email", icon: const Icon(Icons.email)),
-                  inputText(
-                      label: "Passwort",
-                      icon: const Icon(Icons.lock),
-                      obscureText: true),
-                  inputText(
-                      label: "Passwort bestätigen",
-                      icon: const Icon(Icons.lock),
-                      obscureText: true),
+                  //Textfelder für die Eingabe der Daten
+                  SafeArea(
+                      child: Column(
+                    children: [
+                      Container(
+                          child: TextField(
+                              decoration: Input().textInputDecoration(
+                                  "Benutzername",
+                                  "Geben Sie Ihren Benutzernamen ein",
+                                  Icon(Icons.person, color: kPrimaryColor))),
+                          decoration: Input().inputBoxDecorationShaddow()),
+                      const SizedBox(height: 25),
+                      Container(
+                          child: TextField(
+                              decoration: Input().textInputDecoration(
+                                  "Email",
+                                  "Geben Sie Ihre Email-Adresse ein",
+                                  Icon(Icons.email_rounded,
+                                      color: kPrimaryColor))),
+                          decoration: Input().inputBoxDecorationShaddow()),
+                      const SizedBox(height: 25),
+                      Container(
+                          child: TextField(
+                              decoration: Input().textInputDecoration(
+                                  "Passwort",
+                                  "Geben Sie Ihr Passwort ein",
+                                  Icon(Icons.lock, color: kPrimaryColor))),
+                          decoration: Input().inputBoxDecorationShaddow()),
+                      const SizedBox(height: 25),
+                      Container(
+                          child: TextField(
+                              decoration: Input().textInputDecoration(
+                                  "Passwort bestätigen",
+                                  "Bestätigen Sie Ihr Passwort",
+                                  Icon(Icons.lock, color: kPrimaryColor))),
+                          decoration: Input().inputBoxDecorationShaddow())
+                    ],
+                  ))
                 ],
               ),
               //Button für die Registrierung
@@ -90,21 +126,14 @@ class SignupPage extends StatelessWidget {
                           fontSize: 18),
                     ),
                   )),
-              Container(
-                padding: const EdgeInsets.only(top: 100),
-                height: 200,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/icon.png"),
-                      fit: BoxFit.fitHeight),
-                ),
-              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Text("Sie haben bereits ein Konto?"),
                   TextButton(
-                      child: const Text('Anmelden'),
+                      child: Text('Anmelden',
+                          style: TextStyle(color: kPrimaryColor)),
                       onPressed: () {
                         Navigator.push(
                             context,
