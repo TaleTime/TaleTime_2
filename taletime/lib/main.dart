@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:taletime/constants.dart';
-import 'package:taletime/login.dart';
-import 'package:taletime/signup.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/Screens/login.dart';
+import 'package:taletime/Screens/signup.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -33,26 +32,26 @@ class TaleTimeApp extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
-                    ),  
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Text("Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 15,
-                  ),)
+                  Text(
+                    "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 15,
+                    ),
+                  )
                 ],
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 3,
                 decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/icon.png")
-                  )
-                ),
+                    image:
+                        DecorationImage(image: AssetImage("assets/icon.png"))),
               ),
               Column(
                 children: <Widget>[
@@ -61,41 +60,40 @@ class TaleTimeApp extends StatelessWidget {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
                     },
                     shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: Colors.black
-                      ),
-                      borderRadius: BorderRadius.circular(50)
-                    ),
+                        side: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(50)),
                     child: const Text(
                       "Anmelden",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18
-                      ),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                     ),
                   ),
                   // Signup Button
-                  const SizedBox(height:20),
+                  const SizedBox(height: 20),
                   MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignupPage()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignupPage()));
                     },
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)
-                    ),
+                        borderRadius: BorderRadius.circular(50)),
                     child: const Text(
                       "Registrieren",
                       style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18
-                      ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18),
                     ),
                   )
                 ],

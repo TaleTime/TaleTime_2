@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:taletime/constants.dart';
-import 'package:taletime/widgets/input_widget_login_signup.dart';
+import 'package:taletime/screens/home.dart';
+import 'package:taletime/screens/signup.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/widgets/input_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -54,8 +56,11 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: <Widget>[
-                      inputFile(label: "Email"),
-                      inputFile(label: "Passwort", obscureText: true)
+                      inputText(label: "Email", icon: const Icon(Icons.email)),
+                      inputText(
+                          label: "Passwort",
+                          icon: const Icon(Icons.lock),
+                          obscureText: true)
                     ],
                   ),
                 ),
@@ -63,18 +68,15 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Container(
                     padding: const EdgeInsets.only(top: 3, left: 3),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: const Border(
-                          bottom: BorderSide(color: Colors.black),
-                          top: BorderSide(color: Colors.black),
-                          left: BorderSide(color: Colors.black),
-                          right: BorderSide(color: Colors.black),
-                        )),
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()));
+                      },
                       color: kPrimaryColor,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -93,15 +95,16 @@ class LoginPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Text("Sie haben noch kein Konto?"),
-                    Text(
-                      " Registrieren",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    )
+                  children: <Widget>[
+                    const Text("Sie haben noch kein Konto?"),
+                    TextButton(
+                        child: const Text('Registrieren'),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignupPage()));
+                        }),
                   ],
                 ),
                 Container(
