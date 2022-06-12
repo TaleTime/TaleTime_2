@@ -1,0 +1,139 @@
+[
+  {
+    "id": "1",
+    "name" : "Profile 1",
+    "title" : "Listener",
+    "image" : "images/profile_boy_01.png",
+    "favorites" :  [
+      {
+        "rating": "4.5",
+        "title": "THE LOST BALL (1)",
+        "author": "TaleTime",
+        "image": "images/TheLostBall.png",
+        "audio": "assets/Audios/TheLostBall.m4a"
+      },
+      {
+        "rating": "4.6",
+        "title": "Peace Life",
+        "author": "Unknown Author",
+        "image": "images/taletimeicon.png",
+        "audio": "assets/Audios/SoundHelix-Song-1.mp3"
+      },
+      {
+        "rating": "3.5",
+        "title": "THE LOST BALL (2)",
+        "author": "TaleTime",
+        "image": "images/pic-8.png",
+        "audio": "assets/Audios/TheLostBall2.m4a"
+      },
+      {
+        "rating": "4.0",
+        "title": "THE LOST BALL (3)",
+        "author": "TaleTime",
+        "image": "images/pic-1.png",
+        "audio": "assets/Audios/TheLostBall1.m4a"
+      },
+      {
+        "rating": "3.9",
+        "title": "THE LOST BALL (4)",
+        "author": "TaleTime",
+        "image": "images/pic-2.png",
+        "audio": "assets/Audios/TheLostBall2.m4a"
+      }],
+    "recent" :  [
+      {
+        "rating": "3.5",
+        "title": "THE LOST BALL (2)",
+        "author": "TaleTime",
+        "image": "images/pic-8.png",
+        "audio": "assets/Audios/TheLostBall2.m4a"
+      },
+      {
+        "rating": "4.5",
+        "title": "THE LOST BALL (1)",
+        "author": "TaleTime",
+        "image": "images/TheLostBall.png",
+        "audio": "assets/Audios/TheLostBall.m4a"
+      },
+      {
+        "rating": "4.6",
+        "title": "Peace Life",
+        "author": "Unknown Author",
+        "image": "images/taletimeicon.png",
+        "audio": "assets/Audios/SoundHelix-Song-1.mp3"
+      }
+    ],
+    "stories" :  [
+      {
+        "rating": "4.5",
+        "title": "THE LOST BALL (1)",
+        "author": "TaleTime",
+        "image": "images/TheLostBall.png",
+        "audio": "assets/Audios/TheLostBall.m4a"
+      },
+      {
+        "rating": "4.6",
+        "title": "Peace Life",
+        "author": "Unknown Author",
+        "image": "images/taletimeicon.png",
+        "audio": "assets/Audios/SoundHelix-Song-1.mp3"
+      },
+      {
+        "rating": "3.5",
+        "title": "THE LOST BALL (2)",
+        "author": "TaleTime",
+        "image": "images/pic-8.png",
+        "audio": "assets/Audios/TheLostBall2.m4a"
+      },
+      {
+        "rating": "4.0",
+        "title": "THE LOST BALL (3)",
+        "author": "TaleTime",
+        "image": "images/pic-1.png",
+        "audio": "assets/Audios/TheLostBall1.m4a"
+      },
+      {
+        "rating": "3.9",
+        "title": "THE LOST BALL (4)",
+        "author": "TaleTime",
+        "image": "images/pic-2.png",
+        "audio": "assets/Audios/TheLostBall2.m4a"
+      }]
+  },
+  {
+    "id": "2",
+    "name" : "Profile 2",
+    "title" : "Story-Teller",
+    "image" : "images/profile_girl_01.png",
+    "favorites" : [],
+    "recent" : [],
+    "stories" : []
+  },
+  {
+    "id": "3",
+    "name" : "Profile 3",
+    "title" : "Listener",
+    "image" : "images/profile_boy_02.png",
+    "favorites" : [],
+    "recent" : [],
+    "stories" : []
+  },
+  {
+    "id": "4",
+    "name" : "Profile 4",
+    "title" : "Story-Teller",
+    "image" : "images/profile_girl_02.png",
+    "favorites" : [],
+    "recent" : [],
+    "stories" : []
+  },
+  {
+    "id": "5",
+    "name" : "Profile 5",
+    "title" : "Listener",
+    "image" : "images/profile_standard.png",
+    "favorites" : [],
+    "recent" : [],
+    "stories" : []
+  }
+]
