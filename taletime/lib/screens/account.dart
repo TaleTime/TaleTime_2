@@ -1,4 +1,5 @@
 import 'package:taletime/main.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -132,7 +133,7 @@ class _AccountState extends State<Account> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const TaleTimeApp()));
+                            builder: (context) => const ProfilesPage()));
                   },
                   child: const Text(
                     "Abmelden ",

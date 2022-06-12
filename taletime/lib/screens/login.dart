@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/forgot_password.dart';
 import 'package:taletime/screens/home.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/widgets/input_widget.dart';
@@ -117,7 +118,7 @@ class LoginPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Home()));
+                                builder: (context) => const ProfilesPage()));
                       },
                       color: kPrimaryColor,
                       elevation: 0,
