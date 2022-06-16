@@ -155,7 +155,7 @@ class _AccountState extends State<Account> {
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const WelcomePage()));
+                        builder: (context) => const ProfilesPage()));
                   },
                   child: const Text(
                     "Abmelden ",
