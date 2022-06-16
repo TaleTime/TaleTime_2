@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +121,27 @@ class _AccountState extends State<Account> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 )
+              ],
+            ),
+          ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            color: Colors.grey[250],
+            child: Row(
+              children: [
+                MaterialButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilesPage()));
+                  },
+                  child: const Text(
+                    "Profil wechseln ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/Screens/home.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
@@ -86,7 +86,7 @@ class _SignupPageState extends State<SignupPage> {
                             Container(
                                 child: TextFormField(
                                     controller: _nameController,
-                                    decoration: Input().textInputDecoration(
+                                    decoration: Decorations().textInputDecoration(
                                         "Benutzername",
                                         "Geben Sie Ihren Benutzernamen ein",
                                         Icon(Icons.person,
@@ -94,12 +94,12 @@ class _SignupPageState extends State<SignupPage> {
                                     validator: (name) => AuthentificationUtil()
                                         .validateUserName(name)),
                                 decoration:
-                                    Input().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
                                 child: TextFormField(
                                     controller: _emailController,
-                                    decoration: Input().textInputDecoration(
+                                    decoration: Decorations().textInputDecoration(
                                         "Email",
                                         "Geben Sie Ihre Email-Adresse ein",
                                         Icon(Icons.email_rounded,
@@ -107,13 +107,13 @@ class _SignupPageState extends State<SignupPage> {
                                     validator: (email) => AuthentificationUtil()
                                         .validateEmail(email)),
                                 decoration:
-                                    Input().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
                                 child: TextFormField(
                                     controller: _passwordController,
                                     obscureText: true,
-                                    decoration: Input().textInputDecoration(
+                                    decoration: Decorations().textInputDecoration(
                                         "Passwort",
                                         "Geben Sie Ihr Passwort ein",
                                         Icon(Icons.lock, color: kPrimaryColor)),
@@ -121,13 +121,13 @@ class _SignupPageState extends State<SignupPage> {
                                         AuthentificationUtil()
                                             .validatePassword(password)),
                                 decoration:
-                                    Input().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
                                 child: TextFormField(
                                     controller: _confirmPasswordController,
                                     obscureText: true,
-                                    decoration: Input().textInputDecoration(
+                                    decoration: Decorations().textInputDecoration(
                                         "Passwort bestätigen",
                                         "Bestätigen Sie Ihr Passwort",
                                         Icon(Icons.lock, color: kPrimaryColor)),
@@ -141,7 +141,7 @@ class _SignupPageState extends State<SignupPage> {
                                       }
                                       return null;
                                     }),
-                                decoration: Input().inputBoxDecorationShaddow())
+                                decoration: Decorations().inputBoxDecorationShaddow())
                           ]))
                     ],
                   ))
@@ -166,7 +166,7 @@ class _SignupPageState extends State<SignupPage> {
                           if (user != null) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => const Home()));
+                                    builder: (context) => const ProfilesPage()));
                           }
                         } on FirebaseAuthException catch (e) {
                           final SnackBar snackBar =

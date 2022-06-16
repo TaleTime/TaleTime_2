@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
+import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 
@@ -69,29 +70,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           children: <Widget>[
                             Container(
                               child: TextFormField(
-                                decoration: Input().textInputDecoration(
-                                    "Email-Adresse",
-                                    "Geben Sie Ihre Email-Adresse ein",
-                                    Icon(Icons.email_rounded,
-                                        color: kPrimaryColor)),
-                                validator: (val) {
-                                  if (val!.isEmpty) {
-                                    return "Email-Adresse ist erforderlich";
-                                  } else if (!RegExp(
-                                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                                      .hasMatch(val)) {
-                                    return "Geben Sie eine gültige Email-Adresse ein";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              decoration: Input().inputBoxDecorationShaddow(),
+                                  decoration: Decorations().textInputDecoration(
+                                      "Email-Adresse",
+                                      "Geben Sie Ihre Email-Adresse ein",
+                                      Icon(Icons.email_rounded,
+                                          color: kPrimaryColor)),
+                                  validator: (email) => AuthentificationUtil()
+                                      .validateEmail(email)),
+                              decoration:
+                                  Decorations().inputBoxDecorationShaddow(),
                             ),
                             const SizedBox(height: 40.0),
                             Container(
-                              decoration: Input().buttonBoxDecoration(context),
+                              decoration:
+                                  Decorations().buttonBoxDecoration(context),
                               child: ElevatedButton(
-                                style: Input().buttonStyle(),
+                                style: Decorations().buttonStyle(),
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(40, 10, 40, 10),

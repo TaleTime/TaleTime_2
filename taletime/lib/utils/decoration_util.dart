@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/screens/login.dart';
 
-class Input {
+class Decorations {
   InputDecoration textInputDecoration(
       [String label = "",
       String hintText = "",
@@ -23,10 +23,10 @@ class Input {
           borderSide: BorderSide(color: kPrimaryColor)),
       errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
-          borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+          borderSide:  const BorderSide(color: Colors.red, width: 2.0)),
       focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
-          borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+          borderSide:  const BorderSide(color: Colors.red, width: 2.0)),
       prefixIcon: icon,
       labelStyle: TextStyle(
         color: kPrimaryColor,
@@ -81,7 +81,7 @@ class Input {
         ),
       ),
       minimumSize: MaterialStateProperty.all(const Size(50, 50)),
-      backgroundColor: MaterialStateProperty.all(Colors.teal.shade600),
+      backgroundColor: MaterialStateProperty.all(kPrimaryColor),
       shadowColor: MaterialStateProperty.all(Colors.transparent),
     );
   }
@@ -90,7 +90,7 @@ class Input {
     return AlertDialog(
       title: Text(
         title,
-        style: TextStyle(color: Colors.teal.shade600),
+        style: TextStyle(color: kPrimaryColor),
       ),
       content: Text(content),
       actions: [
@@ -100,7 +100,7 @@ class Input {
             style: TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.teal.shade600)),
+              backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -114,17 +114,17 @@ class Input {
     return AlertDialog(
       title: Text(
         title,
-        style: TextStyle(color: Colors.teal.shade600),
+        style: TextStyle(color: kPrimaryColor),
       ),
       content: Text(content),
       actions: [
         TextButton(
           child: const Text(
-            "Yes",
+            "Ja",
             style: TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.teal.shade600)),
+              backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => const LoginPage()));
@@ -132,11 +132,11 @@ class Input {
         ),
         TextButton(
           child: const Text(
-            "No",
+            "Nein",
             style: TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.teal.shade600)),
+              backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
             Navigator.of(context).pop();
           },

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/forgot_password.dart';
-import 'package:taletime/screens/home.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
@@ -84,18 +84,14 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                                 child: TextFormField(
                                     controller: emailController,
-                                    decoration: Input().textInputDecoration(
+                                    decoration: Decorations().textInputDecoration(
                                         "Email-Adresse",
                                         "Geben Sie Ihre Email-Adresse ein",
                                         Icon(Icons.mail, color: kPrimaryColor)),
-                                    validator: (email) => //email != null &&
-                                        //!EmailValidator.validate(email)
-                                        // ? 'Geben Sie eine gültige Email-Adresse ein'
-                                        //: null),
-                                        AuthentificationUtil()
-                                            .validateEmail(email)),
+                                    validator: (email) => AuthentificationUtil()
+                                        .validateEmail(email)),
                                 decoration:
-                                    Input().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(
                               height: 20,
                             ),
@@ -103,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: TextFormField(
                                   controller: passwordController,
                                   obscureText: true,
-                                  decoration: Input().textInputDecoration(
+                                  decoration: Decorations().textInputDecoration(
                                     "Passwort",
                                     "Geben Sie Ihr Passwort ein",
                                     Icon(Icons.lock, color: kPrimaryColor),
@@ -111,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                                   validator: (password) =>
                                       AuthentificationUtil()
                                           .validatePassword(password)),
-                              decoration: Input().inputBoxDecorationShaddow(),
+                              decoration: Decorations().inputBoxDecorationShaddow(),
                             ),
                             const SizedBox(height: 15.0),
                             Container(
@@ -158,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (user != null) {
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => const Home()));
+                                      builder: (context) => const ProfilesPage()));
                             }
                           } on FirebaseAuthException catch (e) {
                             final SnackBar snackBar =
@@ -206,40 +202,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  /** 
-  Future signIn() async {
-    AlertDialog alert = AlertDialog(
-      content: Row(
-        children: [
-          const CircularProgressIndicator(),
-          Container(
-              margin: const EdgeInsets.only(left: 7),
-              child: const Text("Loading...")),
-        ],
-      ),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-    //if (FirebaseAuth.
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
-
-    //Navigator.pop(context);
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
-    //Navigator.pushReplacementNamed(context, "home");
-    */
-  // }
 }

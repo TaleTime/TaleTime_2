@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/screens/home.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase/firebase_options.dart';
@@ -39,6 +39,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.connectionState == ConnectionState.done) {
               User? user = _auth.currentUser;
               if (user != null) {
-                return const Home();
+                return const ProfilesPage();
               } else {
                 return const WelcomePage();
               }
@@ -59,129 +60,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ====================== ALTE LÖSUNG ===========================================================================================
-
-/** 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(
-    const TaleTimeApp(),
-  );
-}
-
-class TaleTimeApp extends StatelessWidget {
-  const TaleTimeApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) => context.read<AuthenticationService>().authStateChanges, initialData: null,
-        )
-      ],
-      child: const MaterialApp(
-        title: 'Flutter Demo',
-        home: AuthenticationWrapper(),
-      ),
-    );
-  }
-    
-  
-  
-}
-
-
-class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User?>();
-
-    if (firebaseUser != null) {
-      return const Home();
-    }
-    return const WelcomePage();
-  }
-}
-*/
-
-
-
-
-/** 
-class TaleTimeApp extends StatelessWidget {
-  const TaleTimeApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TaleTimeApp());
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class TaleTimeApp extends StatelessWidget {
-  const TaleTimeApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong'));
-            } else if (snapshot.hasData) {
-              return const Home();
-            } else {
-              return const WelcomePage();
-            }
-          },
-        ),
-      );
-}
-*/
