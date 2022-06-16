@@ -13,8 +13,9 @@ class Account extends StatefulWidget {
 class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
-    String username = "";
-    String email = "";
+    User? user = FirebaseAuth.instance.currentUser;
+    String? username = user?.displayName;
+    String? email = user?.email;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -45,7 +46,7 @@ class _AccountState extends State<Account> {
                 Expanded(
                   flex: 4,
                   child: ListTile(
-                    title: Text('$username,$email'),
+                    title: Text('$username, $email'),
                   ),
                 ),
                 Expanded(
@@ -131,8 +132,8 @@ class _AccountState extends State<Account> {
                 MaterialButton(
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => const WelcomePage()));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const WelcomePage()));
                   },
                   child: const Text(
                     "Abmelden ",
