@@ -7,6 +7,10 @@ import 'package:taletime/utils/constants.dart';
 /// Hilfsmethoden für die Authentifizierung mit Firebase
 
 class AuthentificationUtil {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return 'Email-Adresse ist erforderlich.';
@@ -44,11 +48,10 @@ class AuthentificationUtil {
       {required String email,
       required String password,
       required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     //try {
     UserCredential userCredential =
-        await auth.signInWithEmailAndPassword(email: email, password: password);
+        await _auth.signInWithEmailAndPassword(email: email, password: password);
     user = userCredential.user;
     //} on FirebaseAuthException catch (e) {
     //  if (e.code == "user-not-found") {
@@ -63,13 +66,21 @@ class AuthentificationUtil {
       required String email,
       required String password,
       required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
 
-    UserCredential userData = await auth.createUserWithEmailAndPassword(
+    UserCredential userData = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
     User? user = userData.user;
     user?.updateDisplayName(userName);
     return user;
+  }
+
+  Future signOut() async {
+    try {print("signing out");
+      return await _auth.signOut();
+    } catch (error) {
+      print(error.toString());
+      return null;
+    }
   }
 
   // Gibt die Fehler der LoginPage in Form einer SnackBar aus

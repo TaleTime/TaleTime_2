@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/screens/login.dart';
 
+import 'authentification_util.dart';
+
 class Decorations {
   InputDecoration textInputDecoration(
       [String label = "",
@@ -127,7 +129,10 @@ class Decorations {
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                context, MaterialPageRoute(builder: (context) {
+              AuthentificationUtil().signOut();
+              return const LoginPage();
+            }));
           },
         ),
         TextButton(
