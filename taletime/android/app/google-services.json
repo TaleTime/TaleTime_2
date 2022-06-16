@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "98775438070",
+    "project_id": "taletime-2022",
+    "storage_bucket": "taletime-2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98775438070:android:cbf3978dabc2700fbc52d7",
+        "android_client_info": {
+          "package_name": "com.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98775438070-97korp0fdtmdbqrjstafqe9m8qii7taf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5IRt2uwcSgR5K8F4CIvsXzQc-ed81qCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98775438070-97korp0fdtmdbqrjstafqe9m8qii7taf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "98775438070-lnmlqj396hca45lgkis592tm33ji80co.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.taletime"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98775438070:android:128dbe7bf0a4a9b1bc52d7",
+        "android_client_info": {
+          "package_name": "de.htwsaar.taletime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98775438070-97korp0fdtmdbqrjstafqe9m8qii7taf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5IRt2uwcSgR5K8F4CIvsXzQc-ed81qCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98775438070-97korp0fdtmdbqrjstafqe9m8qii7taf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "98775438070-lnmlqj396hca45lgkis592tm33ji80co.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.taletime"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/widgets/input_widget.dart';
+import 'package:taletime/utils/decoration_util.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                         color: kPrimaryColor)),
                                 validator: (val) {
                                   if (val!.isEmpty) {
-                                    return "Email-Adresse darf nicht leer sein";
+                                    return "Email-Adresse ist erforderlich";
                                   } else if (!RegExp(
                                           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
                                       .hasMatch(val)) {
@@ -132,8 +132,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                                   const LoginPage()),
                                         );
                                       },
-                                    style: TextStyle(
-                                        color: kPrimaryColor),
+                                    style: TextStyle(color: kPrimaryColor),
                                   ),
                                 ],
                               ),

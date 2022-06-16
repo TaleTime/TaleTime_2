@@ -1,12 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/forgot_password.dart';
 import 'package:taletime/screens/home.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/widgets/input_widget.dart';
+import 'package:taletime/utils/decoration_util.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -67,42 +78,60 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: <Widget>[
-                      Container(
-                          child: TextField(
-                              decoration: Input().textInputDecoration(
-                                  "Benutzername",
-                                  "Geben Sie Ihren Benutzernamen ein",
-                                  Icon(Icons.person, color: kPrimaryColor))),
-                          decoration: Input().inputBoxDecorationShaddow()),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        child: TextField(
-                            decoration: Input().textInputDecoration(
-                                "Passwort",
-                                "Geben Sie Ihr Passwort ein",
-                                Icon(Icons.lock, color: kPrimaryColor))),
-                        decoration: Input().inputBoxDecorationShaddow(),
-                      ),
-                      const SizedBox(height: 15.0),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-                        alignment: Alignment.topRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPasswordPage()));
-                          },
-                          child: Text(
-                            "Passwort vergessen?",
-                            style: TextStyle(color: kPrimaryColor),
-                          ),
-                        ),
-                      ),
+                      Form(
+                          key: _formKey,
+                          child: Column(children: <Widget>[
+                            Container(
+                                child: TextFormField(
+                                    controller: emailController,
+                                    decoration: Input().textInputDecoration(
+                                        "Email-Adresse",
+                                        "Geben Sie Ihre Email-Adresse ein",
+                                        Icon(Icons.mail, color: kPrimaryColor)),
+                                    validator: (email) => //email != null &&
+                                        //!EmailValidator.validate(email)
+                                        // ? 'Geben Sie eine gültige Email-Adresse ein'
+                                        //: null),
+                                        AuthentificationUtil()
+                                            .validateEmail(email)),
+                                decoration:
+                                    Input().inputBoxDecorationShaddow()),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              child: TextFormField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  decoration: Input().textInputDecoration(
+                                    "Passwort",
+                                    "Geben Sie Ihr Passwort ein",
+                                    Icon(Icons.lock, color: kPrimaryColor),
+                                  ),
+                                  validator: (password) =>
+                                      AuthentificationUtil()
+                                          .validatePassword(password)),
+                              decoration: Input().inputBoxDecorationShaddow(),
+                            ),
+                            const SizedBox(height: 15.0),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ForgotPasswordPage()));
+                                },
+                                child: Text(
+                                  "Passwort vergessen?",
+                                  style: TextStyle(color: kPrimaryColor),
+                                ),
+                              ),
+                            ),
+                          ])),
                     ],
                   ),
                 ),
@@ -113,11 +142,31 @@ class LoginPage extends StatelessWidget {
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()));
+                      onPressed: () async {
+                        // Funktion für Login mit Firebase
+                        final isValidForm = _formKey.currentState!.validate();
+
+                        if (isValidForm) {
+                          try {
+                            User? user = await AuthentificationUtil()
+                                .loginUsingEmailPassword(
+                                    email: emailController.text
+                                        .trim()
+                                        .toLowerCase(),
+                                    password: passwordController.text.trim(),
+                                    context: context);
+                            if (user != null) {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()));
+                            }
+                          } on FirebaseAuthException catch (e) {
+                            final SnackBar snackBar =
+                                AuthentificationUtil().showLoginError(e);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        }
                       },
                       color: kPrimaryColor,
                       elevation: 0,
@@ -157,4 +206,40 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  /** 
+  Future signIn() async {
+    AlertDialog alert = AlertDialog(
+      content: Row(
+        children: [
+          const CircularProgressIndicator(),
+          Container(
+              margin: const EdgeInsets.only(left: 7),
+              child: const Text("Loading...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+    //if (FirebaseAuth.
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message.toString())));
+    }
+
+    //Navigator.pop(context);
+    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    //Navigator.pushReplacementNamed(context, "home");
+    */
+  // }
 }

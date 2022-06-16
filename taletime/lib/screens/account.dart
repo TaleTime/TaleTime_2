@@ -1,4 +1,5 @@
-import 'package:taletime/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taletime/screens/welcome.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -129,10 +130,9 @@ class _AccountState extends State<Account> {
               children: [
                 MaterialButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TaleTimeApp()));
+                    FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const WelcomePage()));
                   },
                   child: const Text(
                     "Abmelden ",

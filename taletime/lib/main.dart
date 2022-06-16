@@ -1,13 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/utils/constants.dart';
-import 'package:taletime/Screens/login.dart';
-import 'package:taletime/Screens/signup.dart';
+import 'package:taletime/screens/home.dart';
+import 'package:taletime/screens/welcome.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase/firebase_options.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: TaleTimeApp(),
-  ));
+// ignore: slash_for_doc_comments
+/**
+ * author: Gianluca Goebel
+ * Main-Klasse der TaleTime-App
+ */
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(
+    const TaleTimeApp(),
+  );
 }
 
 class TaleTimeApp extends StatelessWidget {
@@ -15,93 +24,164 @@ class TaleTimeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const MaterialApp(
+        debugShowCheckedModeBanner: false, home: HomePage());
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  const Text(
-                    "Willkommen bei TaleTime",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 15,
-                    ),
-                  )
-                ],
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 3,
-                decoration: const BoxDecoration(
-                    image:
-                        DecorationImage(image: AssetImage("assets/icon.png"))),
-              ),
-              Column(
-                children: <Widget>[
-                  // Login Button
-                  MaterialButton(
-                    minWidth: double.infinity,
-                    height: 60,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                    },
-                    shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: const Text(
-                      "Anmelden",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-                    ),
-                  ),
-                  // Signup Button
-                  const SizedBox(height: 20),
-                  MaterialButton(
-                    minWidth: double.infinity,
-                    height: 60,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupPage()));
-                    },
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: const Text(
-                      "Registrieren",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      body: FutureBuilder(
+          future: Firebase.initializeApp(
+              options: DefaultFirebaseOptions.currentPlatform),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              User? user = _auth.currentUser;
+              if (user != null) {
+                return const Home();
+              } else {
+                return const WelcomePage();
+              }
+            }
+            return const Center(child: CircularProgressIndicator());
+          }),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ====================== ALTE LÖSUNG ===========================================================================================
+
+/** 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(
+    const TaleTimeApp(),
+  );
+}
+
+class TaleTimeApp extends StatelessWidget {
+  const TaleTimeApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<AuthenticationService>().authStateChanges, initialData: null,
+        )
+      ],
+      child: const MaterialApp(
+        title: 'Flutter Demo',
+        home: AuthenticationWrapper(),
+      ),
+    );
+  }
+    
+  
+  
+}
+
+
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User?>();
+
+    if (firebaseUser != null) {
+      return const Home();
+    }
+    return const WelcomePage();
+  }
+}
+*/
+
+
+
+
+/** 
+class TaleTimeApp extends StatelessWidget {
+  const TaleTimeApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: TaleTimeApp());
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class TaleTimeApp extends StatelessWidget {
+  const TaleTimeApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong'));
+            } else if (snapshot.hasData) {
+              return const Home();
+            } else {
+              return const WelcomePage();
+            }
+          },
+        ),
+      );
+}
+*/

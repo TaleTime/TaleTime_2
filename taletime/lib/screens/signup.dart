@@ -1,11 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/Screens/home.dart';
+import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/widgets/input_widget.dart';
+import 'package:taletime/utils/decoration_util.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
+
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -67,38 +80,69 @@ class SignupPage extends StatelessWidget {
                   SafeArea(
                       child: Column(
                     children: [
-                      Container(
-                          child: TextField(
-                              decoration: Input().textInputDecoration(
-                                  "Benutzername",
-                                  "Geben Sie Ihren Benutzernamen ein",
-                                  Icon(Icons.person, color: kPrimaryColor))),
-                          decoration: Input().inputBoxDecorationShaddow()),
-                      const SizedBox(height: 25),
-                      Container(
-                          child: TextField(
-                              decoration: Input().textInputDecoration(
-                                  "Email",
-                                  "Geben Sie Ihre Email-Adresse ein",
-                                  Icon(Icons.email_rounded,
-                                      color: kPrimaryColor))),
-                          decoration: Input().inputBoxDecorationShaddow()),
-                      const SizedBox(height: 25),
-                      Container(
-                          child: TextField(
-                              decoration: Input().textInputDecoration(
-                                  "Passwort",
-                                  "Geben Sie Ihr Passwort ein",
-                                  Icon(Icons.lock, color: kPrimaryColor))),
-                          decoration: Input().inputBoxDecorationShaddow()),
-                      const SizedBox(height: 25),
-                      Container(
-                          child: TextField(
-                              decoration: Input().textInputDecoration(
-                                  "Passwort bestätigen",
-                                  "Bestätigen Sie Ihr Passwort",
-                                  Icon(Icons.lock, color: kPrimaryColor))),
-                          decoration: Input().inputBoxDecorationShaddow())
+                      Form(
+                          key: _formKey,
+                          child: Column(children: <Widget>[
+                            Container(
+                                child: TextFormField(
+                                    controller: _nameController,
+                                    decoration: Input().textInputDecoration(
+                                        "Benutzername",
+                                        "Geben Sie Ihren Benutzernamen ein",
+                                        Icon(Icons.person,
+                                            color: kPrimaryColor)),
+                                    validator: (name) => AuthentificationUtil()
+                                        .validateUserName(name)),
+                                decoration:
+                                    Input().inputBoxDecorationShaddow()),
+                            const SizedBox(height: 25),
+                            Container(
+                                child: TextFormField(
+                                    controller: _emailController,
+                                    decoration: Input().textInputDecoration(
+                                        "Email",
+                                        "Geben Sie Ihre Email-Adresse ein",
+                                        Icon(Icons.email_rounded,
+                                            color: kPrimaryColor)),
+                                    validator: (email) => AuthentificationUtil()
+                                        .validateEmail(email)),
+                                decoration:
+                                    Input().inputBoxDecorationShaddow()),
+                            const SizedBox(height: 25),
+                            Container(
+                                child: TextFormField(
+                                    controller: _passwordController,
+                                    obscureText: true,
+                                    decoration: Input().textInputDecoration(
+                                        "Passwort",
+                                        "Geben Sie Ihr Passwort ein",
+                                        Icon(Icons.lock, color: kPrimaryColor)),
+                                    validator: (password) =>
+                                        AuthentificationUtil()
+                                            .validatePassword(password)),
+                                decoration:
+                                    Input().inputBoxDecorationShaddow()),
+                            const SizedBox(height: 25),
+                            Container(
+                                child: TextFormField(
+                                    controller: _confirmPasswordController,
+                                    obscureText: true,
+                                    decoration: Input().textInputDecoration(
+                                        "Passwort bestätigen",
+                                        "Bestätigen Sie Ihr Passwort",
+                                        Icon(Icons.lock, color: kPrimaryColor)),
+                                    validator: (password) {
+                                      if (_passwordController.text.trim() !=
+                                          password) {
+                                        return 'Die Passwörter stimmen nicht überein';
+                                      } else {
+                                        AuthentificationUtil()
+                                            .validatePassword(password);
+                                      }
+                                      return null;
+                                    }),
+                                decoration: Input().inputBoxDecorationShaddow())
+                          ]))
                     ],
                   ))
                 ],
@@ -109,11 +153,28 @@ class SignupPage extends StatelessWidget {
                   child: MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Home()));
+                    onPressed: () async {
+                      final isValidForm = _formKey.currentState!.validate();
+                      if (isValidForm) {
+                        try {
+                          User? user = await AuthentificationUtil()
+                              .registerWithEmailPassword(
+                                  userName: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  context: context);
+                          if (user != null) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()));
+                          }
+                        } on FirebaseAuthException catch (e) {
+                          final SnackBar snackBar =
+                                AuthentificationUtil().showRegisterError(e);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                        }
+                      }
                     },
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
@@ -126,7 +187,6 @@ class SignupPage extends StatelessWidget {
                           fontSize: 18),
                     ),
                   )),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
