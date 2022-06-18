@@ -7,9 +7,7 @@ import 'package:taletime/utils/constants.dart';
 /// Hilfsmethoden für die Authentifizierung mit Firebase
 
 class AuthentificationUtil {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
@@ -50,14 +48,9 @@ class AuthentificationUtil {
       required BuildContext context}) async {
     User? user;
     //try {
-    UserCredential userCredential =
-        await _auth.signInWithEmailAndPassword(email: email, password: password);
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
     user = userCredential.user;
-    //} on FirebaseAuthException catch (e) {
-    //  if (e.code == "user-not-found") {
-    //    print("No User found for that email");
-    //  }
-    //}
     return user;
   }
 
@@ -66,7 +59,6 @@ class AuthentificationUtil {
       required String email,
       required String password,
       required BuildContext context}) async {
-
     UserCredential userData = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
     User? user = userData.user;
@@ -74,8 +66,14 @@ class AuthentificationUtil {
     return user;
   }
 
+  Future<void> resetPasswordWithEmail(
+      {required String email, required BuildContext context}) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
   Future signOut() async {
-    try {print("signing out");
+    try {
+      print("signing out");
       return await _auth.signOut();
     } catch (error) {
       print(error.toString());
@@ -102,7 +100,6 @@ class AuthentificationUtil {
     return snackBar;
   }
 
-
   // Gibt die Fehler der SignupPage in Form einer SnackBar aus
   SnackBar showRegisterError(FirebaseAuthException e) {
     final SnackBar snackBar;
@@ -116,5 +113,20 @@ class AuthentificationUtil {
       snackBar = const SnackBar(content: Text("null"));
     }
     return snackBar;
+  }
+
+  // Gibt die Fehler der ForgotPasswordPage in Form einer SnackBar aus
+  SnackBar showResetPasswordError(FirebaseException e) {
+    final SnackBar snackbar;
+
+    if (e.code == 'user-not-found') {
+      snackbar = SnackBar(
+          content: const Text(
+              "Es wurde kein Nutzer mit der eingegebenen Email gefunden."),
+          backgroundColor: kErrorColor);
+    } else {
+      snackbar = const SnackBar(content: Text("null"));
+    }
+    return snackbar;
   }
 }

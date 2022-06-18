@@ -19,19 +19,22 @@ class _AccountState extends State<Account> {
     String? email = user?.email;
     return Scaffold(
       appBar: AppBar(
+        elevation: 12,
         backgroundColor: kPrimaryColor,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            size: 20,
+            color: Colors.white,
+          ),
+        ),
         title: const Center(
           child: Text("Account"),
         ),
-        //scrolledUnderElevation: 12,
-        elevation: 12,
         shadowColor: Colors.grey[200],
-        actions: <Widget>[
-          ElevatedButton(
-            onPressed: () {},
-            child: const Text('fertig'),
-          )
-        ],
       ),
       body: Column(
         children: [
@@ -155,7 +158,7 @@ class _AccountState extends State<Account> {
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const ProfilesPage()));
+                        builder: (context) => const WelcomePage()));
                   },
                   child: const Text(
                     "Abmelden ",

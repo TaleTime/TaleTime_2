@@ -15,29 +15,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
-        ),
-      ),
+      appBar:
+          Decorations().appBarDecoration(title: "Anmeldung", context: context),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
@@ -51,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 Column(
                   children: <Widget>[
                     const Text(
-                      "Anmeldung",
+                      "Anmeldung zu Ihrem Konto",
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
@@ -63,15 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 200,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/icon.png"),
+                            image: AssetImage("assets/logo.png"),
                             fit: BoxFit.fitHeight),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      "Anmeldung zu Ihrem Konto",
-                      style: TextStyle(fontSize: 15, color: Colors.grey[700]),
-                    )
                   ],
                 ),
                 Padding(
@@ -83,11 +74,13 @@ class _LoginPageState extends State<LoginPage> {
                           child: Column(children: <Widget>[
                             Container(
                                 child: TextFormField(
-                                    controller: emailController,
-                                    decoration: Decorations().textInputDecoration(
-                                        "Email-Adresse",
-                                        "Geben Sie Ihre Email-Adresse ein",
-                                        Icon(Icons.mail, color: kPrimaryColor)),
+                                    controller: _emailController,
+                                    decoration: Decorations()
+                                        .textInputDecoration(
+                                            "Email-Adresse",
+                                            "Geben Sie Ihre Email-Adresse ein",
+                                            Icon(Icons.mail,
+                                                color: kPrimaryColor)),
                                     validator: (email) => AuthentificationUtil()
                                         .validateEmail(email)),
                                 decoration:
@@ -97,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Container(
                               child: TextFormField(
-                                  controller: passwordController,
+                                  controller: _passwordController,
                                   obscureText: true,
                                   decoration: Decorations().textInputDecoration(
                                     "Passwort",
@@ -107,25 +100,23 @@ class _LoginPageState extends State<LoginPage> {
                                   validator: (password) =>
                                       AuthentificationUtil()
                                           .validatePassword(password)),
-                              decoration: Decorations().inputBoxDecorationShaddow(),
+                              decoration:
+                                  Decorations().inputBoxDecorationShaddow(),
                             ),
                             const SizedBox(height: 15.0),
                             Container(
                               margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                               alignment: Alignment.topRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ForgotPasswordPage()));
-                                },
-                                child: Text(
-                                  "Passwort vergessen?",
-                                  style: TextStyle(color: kPrimaryColor),
-                                ),
-                              ),
+                              child: TextButton(
+                                  child: Text('Passwort vergessen?',
+                                      style: TextStyle(color: kPrimaryColor)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ForgotPasswordPage()));
+                                  }),
                             ),
                           ])),
                     ],
@@ -146,15 +137,16 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             User? user = await AuthentificationUtil()
                                 .loginUsingEmailPassword(
-                                    email: emailController.text
+                                    email: _emailController.text
                                         .trim()
                                         .toLowerCase(),
-                                    password: passwordController.text.trim(),
+                                    password: _passwordController.text.trim(),
                                     context: context);
                             if (user != null) {
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => const ProfilesPage()));
+                                      builder: (context) =>
+                                          const ProfilesPage()));
                             }
                           } on FirebaseAuthException catch (e) {
                             final SnackBar snackBar =

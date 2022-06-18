@@ -3,8 +3,7 @@ import 'package:taletime/utils/profile_column_widget.dart';
 
 import '../Screens/home.dart';
 
-class ProfileList extends StatelessWidget{
-
+class ProfileList extends StatelessWidget {
   final profile;
 
   const ProfileList(this.profile);
@@ -17,9 +16,10 @@ class ProfileList extends StatelessWidget{
       alignment: Alignment.center,
       child: GestureDetector(
         onTap: () async {
-          await Navigator.push( context, MaterialPageRoute(builder: (context) => const Home()));
+          await Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const Home()));
         },
-        child: SizedBox (
+        child: SizedBox(
           height: 120,
           child: Column(
             children: <Widget>[
@@ -41,7 +41,7 @@ class ProfileList extends StatelessWidget{
                                 borderRadius: BorderRadius.circular(5),
                                 color: Colors.transparent,
                               ),
-                              child:Image.asset(profile["image"]),
+                              child: Image.asset(profile["image"]),
                             ),
                           ),
                           Expanded(
@@ -58,7 +58,9 @@ class ProfileList extends StatelessWidget{
                                       fontSize: 20.0,
                                     ),
                                   ),
-                                  const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+                                  const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 2.0)),
                                   Row(
                                     children: [
                                       Icon(
@@ -70,7 +72,8 @@ class ProfileList extends StatelessWidget{
                                       ),
                                       Text(
                                         profile["title"],
-                                        style: const TextStyle(color: Colors.black),
+                                        style: const TextStyle(
+                                            color: Colors.black),
                                       )
                                     ],
                                   ),
@@ -80,7 +83,7 @@ class ProfileList extends StatelessWidget{
                           ),
                           Container(
                             padding: const EdgeInsets.only(top: 7),
-                            child : ProfileColumn().myColumn(context),
+                            child: ProfileColumn().myColumn(context),
                           ),
                         ],
                       ),

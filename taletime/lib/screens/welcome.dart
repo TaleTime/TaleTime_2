@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/screens/signup.dart';
@@ -11,6 +9,8 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: kPrimaryColor, automaticallyImplyLeading: false),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -46,7 +46,7 @@ class WelcomePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 3,
                 decoration: const BoxDecoration(
                     image:
-                        DecorationImage(image: AssetImage("assets/icon.png"))),
+                        DecorationImage(image: AssetImage("assets/logo.png"))),
               ),
               Column(
                 children: <Widget>[

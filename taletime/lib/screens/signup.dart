@@ -21,24 +21,21 @@ class _SignupPageState extends State<SignupPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
-        ),
-      ),
+      appBar: Decorations()
+          .appBarDecoration(title: "Registrierung", context: context),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -51,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                 SafeArea(
                     child: Column(children: [
                   const Text(
-                    "Registrierung",
+                    "Erstellen Sie ein kostenloses Konto",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -65,13 +62,11 @@ class _SignupPageState extends State<SignupPage> {
                     height: 200,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage("assets/icon.png"),
+                          image: AssetImage("assets/logo.png"),
                           fit: BoxFit.fitHeight),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text("Erstellen Sie ein kostenloses Konto",
-                      style: TextStyle(fontSize: 15, color: Colors.grey[700]))
                 ]))
               ]),
               Column(
@@ -86,11 +81,12 @@ class _SignupPageState extends State<SignupPage> {
                             Container(
                                 child: TextFormField(
                                     controller: _nameController,
-                                    decoration: Decorations().textInputDecoration(
-                                        "Benutzername",
-                                        "Geben Sie Ihren Benutzernamen ein",
-                                        Icon(Icons.person,
-                                            color: kPrimaryColor)),
+                                    decoration: Decorations()
+                                        .textInputDecoration(
+                                            "Benutzername",
+                                            "Geben Sie Ihren Benutzernamen ein",
+                                            Icon(Icons.person,
+                                                color: kPrimaryColor)),
                                     validator: (name) => AuthentificationUtil()
                                         .validateUserName(name)),
                                 decoration:
@@ -99,11 +95,12 @@ class _SignupPageState extends State<SignupPage> {
                             Container(
                                 child: TextFormField(
                                     controller: _emailController,
-                                    decoration: Decorations().textInputDecoration(
-                                        "Email",
-                                        "Geben Sie Ihre Email-Adresse ein",
-                                        Icon(Icons.email_rounded,
-                                            color: kPrimaryColor)),
+                                    decoration: Decorations()
+                                        .textInputDecoration(
+                                            "Email",
+                                            "Geben Sie Ihre Email-Adresse ein",
+                                            Icon(Icons.email_rounded,
+                                                color: kPrimaryColor)),
                                     validator: (email) => AuthentificationUtil()
                                         .validateEmail(email)),
                                 decoration:
@@ -113,10 +110,12 @@ class _SignupPageState extends State<SignupPage> {
                                 child: TextFormField(
                                     controller: _passwordController,
                                     obscureText: true,
-                                    decoration: Decorations().textInputDecoration(
-                                        "Passwort",
-                                        "Geben Sie Ihr Passwort ein",
-                                        Icon(Icons.lock, color: kPrimaryColor)),
+                                    decoration: Decorations()
+                                        .textInputDecoration(
+                                            "Passwort",
+                                            "Geben Sie Ihr Passwort ein",
+                                            Icon(Icons.lock,
+                                                color: kPrimaryColor)),
                                     validator: (password) =>
                                         AuthentificationUtil()
                                             .validatePassword(password)),
@@ -127,10 +126,12 @@ class _SignupPageState extends State<SignupPage> {
                                 child: TextFormField(
                                     controller: _confirmPasswordController,
                                     obscureText: true,
-                                    decoration: Decorations().textInputDecoration(
-                                        "Passwort bestätigen",
-                                        "Bestätigen Sie Ihr Passwort",
-                                        Icon(Icons.lock, color: kPrimaryColor)),
+                                    decoration: Decorations()
+                                        .textInputDecoration(
+                                            "Passwort bestätigen",
+                                            "Bestätigen Sie Ihr Passwort",
+                                            Icon(Icons.lock,
+                                                color: kPrimaryColor)),
                                     validator: (password) {
                                       if (_passwordController.text.trim() !=
                                           password) {
@@ -141,7 +142,8 @@ class _SignupPageState extends State<SignupPage> {
                                       }
                                       return null;
                                     }),
-                                decoration: Decorations().inputBoxDecorationShaddow())
+                                decoration:
+                                    Decorations().inputBoxDecorationShaddow())
                           ]))
                     ],
                   ))
@@ -166,13 +168,13 @@ class _SignupPageState extends State<SignupPage> {
                           if (user != null) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => const ProfilesPage()));
+                                    builder: (context) =>
+                                        const ProfilesPage()));
                           }
                         } on FirebaseAuthException catch (e) {
                           final SnackBar snackBar =
-                                AuthentificationUtil().showRegisterError(e);
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
+                              AuthentificationUtil().showRegisterError(e);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }
                     },

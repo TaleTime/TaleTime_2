@@ -25,15 +25,35 @@ class Decorations {
           borderSide: BorderSide(color: kPrimaryColor)),
       errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
-          borderSide:  const BorderSide(color: Colors.red, width: 2.0)),
+          borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
-          borderSide:  const BorderSide(color: Colors.red, width: 2.0)),
+          borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       prefixIcon: icon,
       labelStyle: TextStyle(
         color: kPrimaryColor,
       ),
     );
+  }
+
+  AppBar appBarDecoration(
+      {required String title, required BuildContext context}) {
+    AppBar appBar = AppBar(
+      elevation: 0,
+      title: Text(title),
+      backgroundColor: kPrimaryColor,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          size: 20,
+          color: Colors.white,
+        ),
+      ),
+    );
+    return appBar;
   }
 
   BoxDecoration inputBoxDecorationShaddow() {
@@ -128,8 +148,7 @@ class Decorations {
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               AuthentificationUtil().signOut();
               return const LoginPage();
             }));
