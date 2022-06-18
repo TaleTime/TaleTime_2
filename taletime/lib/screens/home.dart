@@ -12,9 +12,6 @@ class Home extends StatefulWidget {
 class _MyWidgetState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    int _counter = 0;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,

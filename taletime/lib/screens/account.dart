@@ -3,6 +3,7 @@ import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -31,8 +32,8 @@ class _AccountState extends State<Account> {
             color: Colors.white,
           ),
         ),
-        title: const Center(
-          child: Text("Account"),
+        title: Center(
+          child: Text(AppLocalizations.of(context)!.myAccount),
         ),
         shadowColor: Colors.grey[200],
       ),
@@ -50,7 +51,7 @@ class _AccountState extends State<Account> {
                 Expanded(
                   flex: 4,
                   child: ListTile(
-                    title: Text('$username, $email'),
+                    title: Text('$username,  $email'),
                   ),
                 ),
                 Expanded(
@@ -140,9 +141,9 @@ class _AccountState extends State<Account> {
                         MaterialPageRoute(
                             builder: (context) => const ProfilesPage()));
                   },
-                  child: const Text(
-                    "Profil wechseln ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  child:  Text(
+                    AppLocalizations.of(context)!.changeProfile,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -160,9 +161,9 @@ class _AccountState extends State<Account> {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const WelcomePage()));
                   },
-                  child: const Text(
-                    "Abmelden ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text(
+                    AppLocalizations.of(context)!.signOut,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

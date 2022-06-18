@@ -5,6 +5,7 @@ import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -28,8 +29,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        appBar: Decorations()
-            .appBarDecoration(title: "Passwort zurücksetzen", context: context),
+        appBar: Decorations().appBarDecoration(
+            title: AppLocalizations.of(context)!.resetPassword,
+            context: context),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -45,29 +47,30 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
-                              'Probleme beim Anmelden?',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.problemsWithLogin,
+                              style: const TextStyle(
                                   fontSize: 35,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              'Geben Sie die mit Ihrem Konto verbundene Email-Adresse ein.',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!
+                                  .enterAssociatedEmail,
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black87),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              'Wir senden Ihnen einen Link an Ihre Email-Adresse, um Ihr Passwort zurücksetzen zu können.',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.sendResetLink,
+                              style: const TextStyle(
                                 color: Colors.black54,
                               ),
                             ),
@@ -83,12 +86,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               child: TextFormField(
                                   controller: _emailController,
                                   decoration: Decorations().textInputDecoration(
-                                      "Email-Adresse",
-                                      "Geben Sie Ihre Email-Adresse ein",
+                                      AppLocalizations.of(context)!.email,
+                                      AppLocalizations.of(context)!.enterEmail,
                                       Icon(Icons.email_rounded,
                                           color: kPrimaryColor)),
                                   validator: (email) => AuthentificationUtil()
-                                      .validateEmail(email)),
+                                      .validateEmail(email, context)),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
                             ),
@@ -100,11 +103,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         decoration: Decorations().buttonBoxDecoration(context),
                         child: ElevatedButton(
                           style: Decorations().buttonStyle(),
-                          child: const Padding(
-                            padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                             child: Text(
-                              "Passwort zurücksetzen",
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.resetPassword,
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -123,8 +126,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     .resetPasswordWithEmail(
                                         email: email, context: context);
                                 SnackBar resetSuccesful = SnackBar(
-                                    content: const Text(
-                                        "Email wurde erfolgreich versendet."),
+                                    content: Text(AppLocalizations.of(context)!
+                                        .emailSent),
                                     backgroundColor: kPrimaryColor);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(resetSuccesful);
@@ -135,7 +138,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                             const LoginPage()));
                               } on FirebaseAuthException catch (e) {
                                 SnackBar snackBar = AuthentificationUtil()
-                                    .showResetPasswordError(e);
+                                    .showResetPasswordError(e, context);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                               }
@@ -147,10 +150,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            const TextSpan(
-                                text: "Passwort doch nicht vergessen? "),
                             TextSpan(
-                              text: 'Anmelden',
+                                text: AppLocalizations.of(context)!
+                                    .rememberPassword),
+                            TextSpan(
+                              text: AppLocalizations.of(context)!.loginVerb,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(

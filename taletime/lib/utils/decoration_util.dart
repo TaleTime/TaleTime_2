@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/screens/login.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'authentification_util.dart';
 
 class Decorations {
@@ -9,6 +9,7 @@ class Decorations {
       [String label = "",
       String hintText = "",
       Widget icon = const Icon(Icons.add),
+      suffix,
       obscureText = false]) {
     return InputDecoration(
       labelText: label,
@@ -30,6 +31,7 @@ class Decorations {
           borderRadius: BorderRadius.circular(100.0),
           borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       prefixIcon: icon,
+      suffix: suffix,
       labelStyle: TextStyle(
         color: kPrimaryColor,
       ),
@@ -117,9 +119,9 @@ class Decorations {
       content: Text(content),
       actions: [
         TextButton(
-          child: const Text(
-            "OK",
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            AppLocalizations.of(context)!.ok,
+            style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
@@ -141,9 +143,9 @@ class Decorations {
       content: Text(content),
       actions: [
         TextButton(
-          child: const Text(
-            "Ja",
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            AppLocalizations.of(context)!.yes,
+            style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
@@ -155,9 +157,9 @@ class Decorations {
           },
         ),
         TextButton(
-          child: const Text(
-            "Nein",
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            AppLocalizations.of(context)!.no,
+            style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),

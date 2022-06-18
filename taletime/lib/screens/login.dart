@@ -19,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
 
   @override
   void dispose() {
@@ -58,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.only(top: 100),
                       height: 200,
-                      decoration:  const BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(assetLogo),
                             fit: BoxFit.fitHeight),
@@ -77,15 +76,14 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                                 child: TextFormField(
                                     controller: _emailController,
-                                    decoration: Decorations()
-                                        .textInputDecoration(
-                                            AppLocalizations.of(context)!.email,
-                                            AppLocalizations.of(context)!
-                                                .enterEmail,
-                                            Icon(Icons.mail,
-                                                color: kPrimaryColor)),
+                                    decoration:
+                                        Decorations().textInputDecoration(
+                                      AppLocalizations.of(context)!.email,
+                                      AppLocalizations.of(context)!.enterEmail,
+                                      Icon(Icons.mail, color: kPrimaryColor),
+                                    ),
                                     validator: (email) => AuthentificationUtil()
-                                        .validateEmail(email)),
+                                        .validateEmail(email, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(
@@ -102,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   validator: (password) =>
                                       AuthentificationUtil()
-                                          .validatePassword(password)),
+                                          .validatePassword(password, context)),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
                             ),
@@ -154,8 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                                           const ProfilesPage()));
                             }
                           } on FirebaseAuthException catch (e) {
-                            final SnackBar snackBar =
-                                AuthentificationUtil().showLoginError(e);
+                            final SnackBar snackBar = AuthentificationUtil()
+                                .showLoginError(e, context);
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           }

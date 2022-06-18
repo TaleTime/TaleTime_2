@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// author: Gianluca Goebel
 /// Hilfsmethoden für die Authentifizierung mit Firebase
@@ -9,35 +10,35 @@ import 'package:taletime/utils/constants.dart';
 class AuthentificationUtil {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String? validateEmail(String? email) {
+  String? validateEmail(String? email, BuildContext context) {
     if (email == null || email.isEmpty) {
-      return 'Email-Adresse ist erforderlich.';
+      return  AppLocalizations.of(context)!.emailRequired;
     }
 
     if (!EmailValidator.validate(email)) {
-      return 'Geben Sie eine gültige Email-Adresse ein';
+      return AppLocalizations.of(context)!.enterValidEmail;
     }
     return null;
   }
 
-  String? validatePassword(String? password) {
+  String? validatePassword(String? password, BuildContext context) {
     if (password == null || password.isEmpty) {
-      return 'Passwort ist erforderlich.';
+      return AppLocalizations.of(context)!.passwordRequired;
     }
 
     if (password.length < 6) {
-      return 'Passwort muss mindestens 6 Zeichen lang sein';
+      return AppLocalizations.of(context)!.passwordLength;
     }
     return null;
   }
 
-  String? validateUserName(String? name) {
+  String? validateUserName(String? name, BuildContext context) {
     if (name == null || name.isEmpty) {
-      return 'Benutzername ist erforderlich';
+      return AppLocalizations.of(context)!.usernameRequired;
     }
 
     if (name.length < 6) {
-      return 'Benutzername muss mindestens 6 Zeichen lang sein';
+      return AppLocalizations.of(context)!.usernameLength;
     }
     return null;
   }
@@ -73,26 +74,28 @@ class AuthentificationUtil {
 
   Future signOut() async {
     try {
+      // ignore: avoid_print
       print("signing out");
       return await _auth.signOut();
     } catch (error) {
+      // ignore: avoid_print
       print(error.toString());
       return null;
     }
   }
 
   // Gibt die Fehler der LoginPage in Form einer SnackBar aus
-  SnackBar showLoginError(FirebaseAuthException e) {
+  SnackBar showLoginError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
 
     if (e.code == 'user-not-found') {
       snackBar = SnackBar(
-          content: const Text(
-              "Es wurde kein Nutzer mit der eingegebenen Email gefunden."),
+          content:  Text(
+              AppLocalizations.of(context)!.userNotFound),
           backgroundColor: kErrorColor);
     } else if (e.code == 'wrong-password') {
       snackBar = SnackBar(
-          content: const Text("Falsches Passwort."),
+          content:  Text(AppLocalizations.of(context)!.wrongPassword),
           backgroundColor: kErrorColor);
     } else {
       snackBar = const SnackBar(content: Text("null"));
@@ -101,13 +104,13 @@ class AuthentificationUtil {
   }
 
   // Gibt die Fehler der SignupPage in Form einer SnackBar aus
-  SnackBar showRegisterError(FirebaseAuthException e) {
+  SnackBar showRegisterError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
 
     if (e.code == 'email-already-in-use') {
       snackBar = SnackBar(
-          content: const Text(
-              "Es existiert bereits ein Nutzer mit der eingegebenen Email-Adresse."),
+          content:  Text(
+              AppLocalizations.of(context)!.emailAlreadyInUse),
           backgroundColor: kErrorColor);
     } else {
       snackBar = const SnackBar(content: Text("null"));
@@ -116,13 +119,13 @@ class AuthentificationUtil {
   }
 
   // Gibt die Fehler der ForgotPasswordPage in Form einer SnackBar aus
-  SnackBar showResetPasswordError(FirebaseException e) {
+  SnackBar showResetPasswordError(FirebaseException e, BuildContext context) {
     final SnackBar snackbar;
 
     if (e.code == 'user-not-found') {
       snackbar = SnackBar(
-          content: const Text(
-              "Es wurde kein Nutzer mit der eingegebenen Email gefunden."),
+          content:  Text(
+              AppLocalizations.of(context)!.userNotFound),
           backgroundColor: kErrorColor);
     } else {
       snackbar = const SnackBar(content: Text("null"));

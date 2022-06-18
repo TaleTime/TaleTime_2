@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils/profile_list.dart';
 import '../utils/decoration_util.dart';
 
@@ -48,14 +48,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
                 context: context,
                 builder: (BuildContext context) {
                   return Decorations().confirmDialog(
-                      "Logge aus...",
-                      "Wollen Sie sich wirklich aus Ihrem Konto ausloggen?",
+                      AppLocalizations.of(context)!.loggingOut,
+                      AppLocalizations.of(context)!.confirmLogout,
                       context);
                 },
               );
             }),
         title: Text(
-          "Meine Profile",
+          AppLocalizations.of(context)!.myProfiles,
           style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
         ),
         elevation: 0.0,

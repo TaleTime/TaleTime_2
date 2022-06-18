@@ -89,7 +89,7 @@ class _SignupPageState extends State<SignupPage> {
                                             Icon(Icons.person,
                                                 color: kPrimaryColor)),
                                     validator: (name) => AuthentificationUtil()
-                                        .validateUserName(name)),
+                                        .validateUserName(name, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -103,7 +103,7 @@ class _SignupPageState extends State<SignupPage> {
                                             Icon(Icons.email_rounded,
                                                 color: kPrimaryColor)),
                                     validator: (email) => AuthentificationUtil()
-                                        .validateEmail(email)),
+                                        .validateEmail(email, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -117,9 +117,10 @@ class _SignupPageState extends State<SignupPage> {
                                             AppLocalizations.of(context)!.enterPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
+                                                
                                     validator: (password) =>
                                         AuthentificationUtil()
-                                            .validatePassword(password)),
+                                            .validatePassword(password, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -139,7 +140,7 @@ class _SignupPageState extends State<SignupPage> {
                                         return AppLocalizations.of(context)!.passwordsDontMatch;
                                       } else {
                                         AuthentificationUtil()
-                                            .validatePassword(password);
+                                            .validatePassword(password, context);
                                       }
                                       return null;
                                     }),
@@ -174,7 +175,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                         } on FirebaseAuthException catch (e) {
                           final SnackBar snackBar =
-                              AuthentificationUtil().showRegisterError(e);
+                              AuthentificationUtil().showRegisterError(e, context);
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }

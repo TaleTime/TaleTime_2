@@ -1,105 +1,199 @@
 {
     "welcome": "Welcome to TaleTime",
     "@welcome": {
-        "description": "Willkommen bei TaleTime"},
-
+        "description": "Willkommen bei TaleTime"
+    },
     "descriptionWelcome": "The cloud-ready, storytelling Audiotool for fun with the whole family",
     "@descriptionWelcome": {
-        "description": "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie"},
-
+        "description": "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie"
+    },
     "register": "Sign Up",
     "@register": {
-        "description": "Registrierung"},
-
+        "description": "Registrierung"
+    },
     "registerVerb": "Sign Up",
     "@registerVerb": {
-        "description": "Registrieren"},
-
+        "description": "Registrieren"
+    },
     "loginVerb" : "Sign In",
     "@loginVerb": {
-        "description": "Anmelden"},
-
+        "description": "Anmelden"
+    },
     "login": "Sign In",
     "@login": {
-        "description": "Anmeldung"},
-
+        "description": "Anmeldung"
+    },
     "loginToAccount": "Sign In to your Account",
     "@loginToAccount": {
-        "description": "Anmeldung zu Ihrem Konto"},
-
+        "description": "Anmeldung zu Ihrem Konto"
+    },
     "email": "Email adress",
     "@email": {
-        "description": "Email-Adresse"},
-
+        "description": "Email-Adresse"
+    },
     "enterEmail": "Enter your email adress",
     "@enterEmail": {
-        "description": "Geben Sie Ihre Email-Adresse ein"},
-
+        "description": "Geben Sie Ihre Email-Adresse ein"
+    },
     "password": "Password",
     "@password": {
-        "description": "Passwort"},
-
+        "description": "Passwort"
+    },
     "enterPassword" : "Enter your password",
     "@enterPassword": {
-        "description": "Geben Sie Ihr Passwort ein"}, 
-
+        "description": "Geben Sie Ihr Passwort ein"
+    }, 
     "forgotPassword" : "Forgot Password?",
     "@forgotPassword": {
-        "description": "Passwort vergessen?"},
-
+        "description": "Passwort vergessen?"
+    },
     "confirmPassword": "Confirm password",
     "@confirmPassword": {
-        "description": "Passwort bestätigen"},
-
+        "description": "Passwort bestätigen"
+    },
     "confirmYourPassword": "Confirm your password",
     "@confirmYourPassword": {
-        "description": "Bestätigen Sie Ihr Passwort"},
-
+        "description": "Bestätigen Sie Ihr Passwort"
+    },
     "passwordsDontMatch": "The passwords don't match",
     "@passwordsDontMatch": {
-        "description": "Die Passwörter stimmen nicht überein"},
-
+        "description": "Die Passwörter stimmen nicht überein"
+    },
     "dontHaveAccount": "Don't have an Account?",
     "@dontHaveAccount": {
-        "description": "Sie haben noch kein Konto?"},
-
+        "description": "Sie haben noch kein Konto?"
+    },
     "createAccount": "Create an account, it's free.",
     "@createAccount": {
-        "description": "Erstellen Sie ein kostenloses Konto"},
-
+        "description": "Erstellen Sie ein kostenloses Konto"
+    },
     "username": "Username",
     "@username": {
-        "description": "Benutzername"},
-
+        "description": "Benutzername"
+    },
     "enterUsername": "Enter your username",
     "@enterUsername": {
-        "description": "Geben Sie Ihren Benutzernamen ein"},
-
+        "description": "Geben Sie Ihren Benutzernamen ein"
+    },
     "alreadyHaveAccount": "Already have an account?",
     "@alreadyHaveAccount": {
-        "description": "Sie haben bereits ein Konto?"},
-
+        "description": "Sie haben bereits ein Konto?"
+    },
     "resetPassword": "Reset password",
     "@resetPassword": {
-        "description": "Passwort zurücksetzen"},
-
+        "description": "Passwort zurücksetzen"
+    },
     "problemsWithLogin": "Problems with Login?",
     "@problemsWithLogin": {
-        "description": "Probleme beim Anmelden?"},
-
+        "description": "Probleme beim Anmelden?"
+    },
     "enterAssociatedEmail": "Enter the email address associated with your account.",
     "@enterAssociatedEmail": {
-        "description": "Geben Sie die mit Ihrem Konto verbundene Email-Adresse ein."},
-
+        "description": "Geben Sie die mit Ihrem Konto verbundene Email-Adresse ein."
+    },
     "sendResetLink": "We will email you a link to reset your password.",
     "@sendResetLink": {
-        "description": "Wir senden Ihnen einen Link an ihre Email-Adresse, um Ihr Passwort zurücksetzen zu können."},
-
+        "description": "Wir senden Ihnen einen Link an ihre Email-Adresse, um Ihr Passwort zurücksetzen zu können."
+    },
     "rememberPassword": "Remember password?",
     "@rememberPassword": {
-        "description": "Passwort doch nicht vergessen?"},
+        "description": "Passwort doch nicht vergessen?"
+    },
+    "emailRequired": "Email adress is required",
+    "@emailRequired": {
+        "description": "Email-Adresse ist erforderlich"
+    },
+    "enterValidEmail": "Enter a valid email adress",
+    "@enterValidEmail": {
+        "description": "Geben Sie eine gültige Email-Adresse ein"
+    },   
+    "passwordRequired": "Password is required",
+    "@passwordRequired": {
+        "description": "Passwort ist erforderlich"
+    },
+    "passwordLength": "Password needs to be at least 6 characters long",
+    "@passwordLength": {
+        "description": "Passwort muss mindestens 6 Zeichen lang sein"
+    },
+    "usernameRequired": "Username is required",
+    "@usernameRequired": {
+        "description": "Benutzername ist erforderlich"
+    },
+    "usernameLength": "Username needs to be at least 6 characters long",
+    "@usernameLength": {
+        "description": "Benutzername muss mindestens 6 Zeichen lang sein"
+    },
+    "userNotFound": "No user found with the associated email adress",
+    "@userNotFound": {
+        "description": "Es wurde kein Nutzer mit der eingegebenen Email gefunden."
+    },
+    "wrongPassword": "Wrong Password.",
+    "@wrongPassword": {
+        "description": "Falsches Passwort."
+    },
+    "emailAlreadyInUse": "Email already in use.",
+    "@emailAlreadyInUse": {
+        "description": "Es existiert bereits ein Nutzer mit der eingegebenen Email-Adresse."
+    },
+    "ok": "Ok",
+    "@ok": {
+        "description": "Ok"
+    },
+    "yes": "Yes",
+    "@yes": {
+        "description": "Ja"
+    },
+    "no": "No",
+    "@no": {
+        "description": "Nein"
+    },
+    "emailSent": "Email was succesfully sent",
+    "@emailSent": {
+        "description": "Email wurde erfolgreich versendet"
+    },
+    "myProfiles": "My Profiles",
+    "@myProfiles": {
+        "description": "Meine Profile"
+    },
+    "loggingOut": "Signing out out...",
+    "@loggingOut": {
+        "description": "Abmelden..."
+    },
+    "confirmLogout": "Do you really want to sign out?",
+    "@confirmLogout": {
+        "description": "Wollen Sie sich wirklich vom Ihrem Konto abmelden?"
+    },
+    "deleteProfile": "Delete profile...",
+    "@deleteProfile": {
+        "description": "Lösche Profil..."
+    },
+    "confirmProfileDeletion": "Do you really want to delte this profile?",
+    "@confirmProfileDeletion": {
+        "description": "Wollen Sie wirklich dieses Profil löschen?"
+    },
+    "edit": "Edit",
+    "@edit": {
+        "description": "Bearbeiten"
+    },
+    "delete": "Delete",
+    "@delete": {
+        "description": "Löschen"
+    },
+    "myAccount": "My Account",
+    "@myAccount": {
+        "description": "Mein Konto"
+    },
+    "changeProfile": "Change Profile",
+    "@changeProfile": {
+        "description": "Profil wechseln"
+    },
+    "signOut": "Sign Out",
+    "@signOut": {
+        "description": "Abmelden"
+    },
 
 
     "@": {
-        "description": ""}
+        "description": ""
+    }
 }

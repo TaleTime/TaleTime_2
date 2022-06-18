@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileColumn {
   void onSelected(BuildContext context, int item) {
@@ -12,16 +13,16 @@ class ProfileColumn {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text(
-                  "Profil löschen...",
+                  AppLocalizations.of(context)!.deleteProfile,
                   style: TextStyle(color: kPrimaryColor),
                 ),
                 content:
-                    const Text("Wollen Sie wirklich dieses Profil löschen?"),
+                     Text(AppLocalizations.of(context)!.confirmProfileDeletion),
                 actions: [
                   TextButton(
-                    child: const Text(
-                      "Ja",
-                      style: TextStyle(color: Colors.white),
+                    child:  Text(
+                      AppLocalizations.of(context)!.yes,
+                      style: const TextStyle(color: Colors.white),
                     ),
                     style: ButtonStyle(
                         backgroundColor:
@@ -33,9 +34,9 @@ class ProfileColumn {
                     },
                   ),
                   TextButton(
-                    child: const Text(
-                      "Nein",
-                      style: TextStyle(color: Colors.white),
+                    child: Text(
+                      AppLocalizations.of(context)!.no,
+                      style: const TextStyle(color: Colors.white),
                     ),
                     style: ButtonStyle(
                         backgroundColor:
@@ -72,7 +73,7 @@ class ProfileColumn {
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 8),
-                    const Text('Bearbeiten'),
+                    Text(AppLocalizations.of(context)!.edit),
                   ],
                 ),
               ),
@@ -85,7 +86,7 @@ class ProfileColumn {
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 8),
-                    const Text('Löschen'),
+                    Text(AppLocalizations.of(context)!.delete),
                   ],
                 ),
               ),
