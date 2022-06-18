@@ -1,0 +1,105 @@
+{
+    "welcome": "Welcome to TaleTime",
+    "@welcome": {
+        "description": "Willkommen bei TaleTime"},
+
+    "descriptionWelcome": "The cloud-ready, storytelling Audiotool for fun with the whole family",
+    "@descriptionWelcome": {
+        "description": "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie"},
+
+    "register": "Sign Up",
+    "@register": {
+        "description": "Registrierung"},
+
+    "registerVerb": "Sign Up",
+    "@registerVerb": {
+        "description": "Registrieren"},
+
+    "loginVerb" : "Sign In",
+    "@loginVerb": {
+        "description": "Anmelden"},
+
+    "login": "Sign In",
+    "@login": {
+        "description": "Anmeldung"},
+
+    "loginToAccount": "Sign In to your Account",
+    "@loginToAccount": {
+        "description": "Anmeldung zu Ihrem Konto"},
+
+    "email": "Email adress",
+    "@email": {
+        "description": "Email-Adresse"},
+
+    "enterEmail": "Enter your email adress",
+    "@enterEmail": {
+        "description": "Geben Sie Ihre Email-Adresse ein"},
+
+    "password": "Password",
+    "@password": {
+        "description": "Passwort"},
+
+    "enterPassword" : "Enter your password",
+    "@enterPassword": {
+        "description": "Geben Sie Ihr Passwort ein"}, 
+
+    "forgotPassword" : "Forgot Password?",
+    "@forgotPassword": {
+        "description": "Passwort vergessen?"},
+
+    "confirmPassword": "Confirm password",
+    "@confirmPassword": {
+        "description": "Passwort bestätigen"},
+
+    "confirmYourPassword": "Confirm your password",
+    "@confirmYourPassword": {
+        "description": "Bestätigen Sie Ihr Passwort"},
+
+    "passwordsDontMatch": "The passwords don't match",
+    "@passwordsDontMatch": {
+        "description": "Die Passwörter stimmen nicht überein"},
+
+    "dontHaveAccount": "Don't have an Account?",
+    "@dontHaveAccount": {
+        "description": "Sie haben noch kein Konto?"},
+
+    "createAccount": "Create an account, it's free.",
+    "@createAccount": {
+        "description": "Erstellen Sie ein kostenloses Konto"},
+
+    "username": "Username",
+    "@username": {
+        "description": "Benutzername"},
+
+    "enterUsername": "Enter your username",
+    "@enterUsername": {
+        "description": "Geben Sie Ihren Benutzernamen ein"},
+
+    "alreadyHaveAccount": "Already have an account?",
+    "@alreadyHaveAccount": {
+        "description": "Sie haben bereits ein Konto?"},
+
+    "resetPassword": "Reset password",
+    "@resetPassword": {
+        "description": "Passwort zurücksetzen"},
+
+    "problemsWithLogin": "Problems with Login?",
+    "@problemsWithLogin": {
+        "description": "Probleme beim Anmelden?"},
+
+    "enterAssociatedEmail": "Enter the email address associated with your account.",
+    "@enterAssociatedEmail": {
+        "description": "Geben Sie die mit Ihrem Konto verbundene Email-Adresse ein."},
+
+    "sendResetLink": "We will email you a link to reset your password.",
+    "@sendResetLink": {
+        "description": "Wir senden Ihnen einen Link an ihre Email-Adresse, um Ihr Passwort zurücksetzen zu können."},
+
+    "rememberPassword": "Remember password?",
+    "@rememberPassword": {
+        "description": "Passwort doch nicht vergessen?"},
+
+
+    "@": {
+        "description": ""}
+}

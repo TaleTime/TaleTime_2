@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -22,9 +23,9 @@ class WelcomePage extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  const Text(
-                    "Willkommen bei TaleTime",
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.welcome,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
                     ),
@@ -33,7 +34,7 @@ class WelcomePage extends StatelessWidget {
                     height: 20,
                   ),
                   Text(
-                    "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie",
+                    AppLocalizations.of(context)!.descriptionWelcome,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey[700],
@@ -45,8 +46,7 @@ class WelcomePage extends StatelessWidget {
               Container(
                 height: MediaQuery.of(context).size.height / 3,
                 decoration: const BoxDecoration(
-                    image:
-                        DecorationImage(image: AssetImage("assets/logo.png"))),
+                    image: DecorationImage(image: AssetImage(assetLogo))),
               ),
               Column(
                 children: <Widget>[
@@ -63,10 +63,10 @@ class WelcomePage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(50)),
-                    child: const Text(
-                      "Anmelden",
+                    child: Text(
+                      AppLocalizations.of(context)!.loginVerb,
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                          const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                     ),
                   ),
                   // Signup Button
@@ -83,9 +83,9 @@ class WelcomePage extends StatelessWidget {
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
-                    child: const Text(
-                      "Registrieren",
-                      style: TextStyle(
+                    child:  Text(
+                      AppLocalizations.of(context)!.register,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 18),

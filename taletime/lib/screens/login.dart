@@ -6,6 +6,7 @@ import 'package:taletime/screens/forgot_password.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
 
   @override
   void dispose() {
@@ -31,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar:
-          Decorations().appBarDecoration(title: "Anmeldung", context: context),
+      appBar: Decorations().appBarDecoration(
+          title: AppLocalizations.of(context)!.login, context: context),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
@@ -45,10 +47,10 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    const Text(
-                      "Anmeldung zu Ihrem Konto",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    Text(
+                      AppLocalizations.of(context)!.loginToAccount,
+                      style: const TextStyle(
+                          fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 20,
@@ -56,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.only(top: 100),
                       height: 200,
-                      decoration: const BoxDecoration(
+                      decoration:  const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/logo.png"),
+                            image: AssetImage(assetLogo),
                             fit: BoxFit.fitHeight),
                       ),
                     ),
@@ -77,8 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                                     controller: _emailController,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            "Email-Adresse",
-                                            "Geben Sie Ihre Email-Adresse ein",
+                                            AppLocalizations.of(context)!.email,
+                                            AppLocalizations.of(context)!
+                                                .enterEmail,
                                             Icon(Icons.mail,
                                                 color: kPrimaryColor)),
                                     validator: (email) => AuthentificationUtil()
@@ -93,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                                   controller: _passwordController,
                                   obscureText: true,
                                   decoration: Decorations().textInputDecoration(
-                                    "Passwort",
-                                    "Geben Sie Ihr Passwort ein",
+                                    AppLocalizations.of(context)!.password,
+                                    AppLocalizations.of(context)!.enterPassword,
                                     Icon(Icons.lock, color: kPrimaryColor),
                                   ),
                                   validator: (password) =>
@@ -108,7 +111,9 @@ class _LoginPageState extends State<LoginPage> {
                               margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                               alignment: Alignment.topRight,
                               child: TextButton(
-                                  child: Text('Passwort vergessen?',
+                                  child: Text(
+                                      AppLocalizations.of(context)!
+                                          .forgotPassword,
                                       style: TextStyle(color: kPrimaryColor)),
                                   onPressed: () {
                                     Navigator.push(
@@ -161,9 +166,9 @@ class _LoginPageState extends State<LoginPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: const Text(
-                        "Anmelden",
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.loginVerb,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                           color: Colors.white,
@@ -175,9 +180,9 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text("Sie haben noch kein Konto?"),
+                    Text(AppLocalizations.of(context)!.dontHaveAccount),
                     TextButton(
-                        child: Text('Registrieren',
+                        child: Text(AppLocalizations.of(context)!.registerVerb,
                             style: TextStyle(color: kPrimaryColor)),
                         onPressed: () {
                           Navigator.push(

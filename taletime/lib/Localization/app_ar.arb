@@ -1,0 +1,27 @@
+{
+    "welcome": "Willkommen bei TaleTime",
+
+    "descriptionWelcome": "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie",
+
+    "register": "Registrieren",
+
+    "loginVerb" : "Anmelden",
+    
+    
+    
+    "login": "Anmeldung",
+    
+    "loginToAccount": "Anmeldung zu Ihrem Konto",
+
+    "email": "Email-Adresse",
+
+    "enterEmail": "Geben Sie Ihre Email-Adresse ein",
+
+    "password": "Passwort",
+
+    "enterPassword" : "Geben Sie Ihr Passwort ein",
+
+    "forgotPassword" : "Passwort vergessen?",
+
+    "dontHaveAccount": "Sie haben noch kein Konto?"
+}

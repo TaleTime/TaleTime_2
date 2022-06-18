@@ -5,6 +5,7 @@ import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: Decorations()
-          .appBarDecoration(title: "Registrierung", context: context),
+          .appBarDecoration(title: AppLocalizations.of(context)!.register, context: context),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -47,9 +48,9 @@ class _SignupPageState extends State<SignupPage> {
               Column(children: <Widget>[
                 SafeArea(
                     child: Column(children: [
-                  const Text(
-                    "Erstellen Sie ein kostenloses Konto",
-                    style: TextStyle(
+                   Text(
+                    AppLocalizations.of(context)!.createAccount,
+                    style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
@@ -62,7 +63,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 200,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage("assets/logo.png"),
+                          image: AssetImage(assetLogo),
                           fit: BoxFit.fitHeight),
                     ),
                   ),
@@ -83,8 +84,8 @@ class _SignupPageState extends State<SignupPage> {
                                     controller: _nameController,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            "Benutzername",
-                                            "Geben Sie Ihren Benutzernamen ein",
+                                            AppLocalizations.of(context)!.username,
+                                            AppLocalizations.of(context)!.enterUsername,
                                             Icon(Icons.person,
                                                 color: kPrimaryColor)),
                                     validator: (name) => AuthentificationUtil()
@@ -97,8 +98,8 @@ class _SignupPageState extends State<SignupPage> {
                                     controller: _emailController,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            "Email",
-                                            "Geben Sie Ihre Email-Adresse ein",
+                                            AppLocalizations.of(context)!.email,
+                                            AppLocalizations.of(context)!.enterEmail,
                                             Icon(Icons.email_rounded,
                                                 color: kPrimaryColor)),
                                     validator: (email) => AuthentificationUtil()
@@ -112,8 +113,8 @@ class _SignupPageState extends State<SignupPage> {
                                     obscureText: true,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            "Passwort",
-                                            "Geben Sie Ihr Passwort ein",
+                                            AppLocalizations.of(context)!.password,
+                                            AppLocalizations.of(context)!.enterPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
                                     validator: (password) =>
@@ -128,14 +129,14 @@ class _SignupPageState extends State<SignupPage> {
                                     obscureText: true,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            "Passwort bestätigen",
-                                            "Bestätigen Sie Ihr Passwort",
+                                            AppLocalizations.of(context)!.confirmPassword,
+                                            AppLocalizations.of(context)!.confirmYourPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
                                     validator: (password) {
                                       if (_passwordController.text.trim() !=
                                           password) {
-                                        return 'Die Passwörter stimmen nicht überein';
+                                        return AppLocalizations.of(context)!.passwordsDontMatch;
                                       } else {
                                         AuthentificationUtil()
                                             .validatePassword(password);
@@ -181,9 +182,9 @@ class _SignupPageState extends State<SignupPage> {
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
-                    child: const Text(
-                      "Registrieren",
-                      style: TextStyle(
+                    child:  Text(
+                      AppLocalizations.of(context)!.registerVerb,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 18),
@@ -192,9 +193,9 @@ class _SignupPageState extends State<SignupPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Sie haben bereits ein Konto?"),
+                   Text(AppLocalizations.of(context)!.alreadyHaveAccount),
                   TextButton(
-                      child: Text('Anmelden',
+                      child: Text(AppLocalizations.of(context)!.loginVerb,
                           style: TextStyle(color: kPrimaryColor)),
                       onPressed: () {
                         Navigator.push(

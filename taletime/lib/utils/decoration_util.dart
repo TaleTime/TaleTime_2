@@ -37,10 +37,10 @@ class Decorations {
   }
 
   AppBar appBarDecoration(
-      {required String title, required BuildContext context}) {
+      {required String? title, required BuildContext context}) {
     AppBar appBar = AppBar(
       elevation: 0,
-      title: Text(title),
+      title: Text(title!),
       backgroundColor: kPrimaryColor,
       leading: IconButton(
         onPressed: () {
