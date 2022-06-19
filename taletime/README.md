@@ -1,6 +1,6 @@
-# taletime
+# TaleTime
 
-A new Flutter project.
+TaleTime is an interactive audiobook app for iOS and Android based on Flutter.
 
 ## Getting Started
 
@@ -11,6 +11,7 @@ A few resources to get you started if this is your first Flutter project:
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## About us
+
+This project is in active development by several students of [Hochschule für Technik und Wirtschaft des Saarlandes](http://www.htwsaar.de).
+
