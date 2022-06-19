@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:taletime/Localization/locale_provider.dart';
 import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,23 +24,32 @@ Future<void> main() async {
   );
 }
 
-class TaleTimeApp extends StatelessWidget {
+class TaleTimeApp extends StatefulWidget {
   const TaleTimeApp({Key? key}) : super(key: key);
-
   @override
-  Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-      supportedLocales: L10n.all,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-    );
-  }
+  _TaleTimeState createState() => _TaleTimeState();
+}
+
+class _TaleTimeState extends State<TaleTimeApp> {
+  //late final Locale locale = Localizations.localeOf(context);
+  @override
+  Widget build(BuildContext context) => ChangeNotifierProvider<LocaleProvider>(
+      create: (context) => LocaleProvider(),
+      builder: (context, child) {
+        final provider = Provider.of<LocaleProvider>(context);
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: const HomePage(),
+          locale: provider.locale,
+          supportedLocales: L10n.all,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+        );
+      });
 }
 
 class HomePage extends StatefulWidget {

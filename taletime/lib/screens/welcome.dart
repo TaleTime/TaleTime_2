@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:taletime/Localization/l10n.dart';
+import 'package:taletime/Localization/language_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
@@ -11,7 +13,10 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: kPrimaryColor, automaticallyImplyLeading: false),
+        backgroundColor: kPrimaryColor,
+        automaticallyImplyLeading: false,
+        actions: const [LanguagePicker(), SizedBox(width: 12)],
+      ),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -65,8 +70,8 @@ class WelcomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(
                       AppLocalizations.of(context)!.loginVerb,
-                      style:
-                          const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 18),
                     ),
                   ),
                   // Signup Button
@@ -83,16 +88,16 @@ class WelcomePage extends StatelessWidget {
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
-                    child:  Text(
+                    child: Text(
                       AppLocalizations.of(context)!.register,
                       style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
