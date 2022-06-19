@@ -95,7 +95,7 @@
     "@sendResetLink": {
         "description": "Wir senden Ihnen einen Link an ihre Email-Adresse, um Ihr Passwort zurücksetzen zu können."
     },
-    "rememberPassword": "Remember password?",
+    "rememberPassword": "Remember password? ",
     "@rememberPassword": {
         "description": "Passwort doch nicht vergessen?"
     },
@@ -191,8 +191,17 @@
     "@signOut": {
         "description": "Abmelden"
     },
+    "signInSuccesful": "Sign In succesful",
+    "@signInSuccesful": {
+        "description": "Anmelden erfolgreich"
+    },
+    "signUpSuccesful": "Sign Up succesful",
+    "@signUpSuccesful": {
+        "description": "Registrieren erfolgreich"
+    },
 
 
+    
     "@": {
         "description": ""
     }

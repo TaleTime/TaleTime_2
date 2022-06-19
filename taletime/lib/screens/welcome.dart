@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taletime/Localization/l10n.dart';
-import 'package:taletime/Localization/language_util.dart';
+import 'package:taletime/internationalization/language_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';

@@ -7,6 +7,7 @@ class ProfileList extends StatelessWidget {
   final profile;
 
   const ProfileList(this.profile);
+  //const ProfileList(profil, {Key? key, this.profile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/forgot_password.dart';
 import 'package:taletime/screens/signup.dart';
@@ -134,29 +132,16 @@ class _LoginPageState extends State<LoginPage> {
                       height: 60,
                       onPressed: () async {
                         // Funktion für Login mit Firebase
+                        final String _email =
+                            _emailController.text.trim().toLowerCase();
+                        final String _password =
+                            _passwordController.text.trim();
                         final isValidForm = _formKey.currentState!.validate();
-
                         if (isValidForm) {
-                          try {
-                            User? user = await AuthentificationUtil()
-                                .loginUsingEmailPassword(
-                                    email: _emailController.text
-                                        .trim()
-                                        .toLowerCase(),
-                                    password: _passwordController.text.trim(),
-                                    context: context);
-                            if (user != null) {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ProfilesPage()));
-                            }
-                          } on FirebaseAuthException catch (e) {
-                            final SnackBar snackBar = AuthentificationUtil()
-                                .showLoginError(e, context);
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
+                          AuthentificationUtil().loginUsingEmailPassword(
+                              email: _email,
+                              password: _password,
+                              context: context);
                         }
                       },
                       color: kPrimaryColor,

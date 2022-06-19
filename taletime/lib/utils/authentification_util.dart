@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/screens/login.dart';
+import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,7 +14,7 @@ class AuthentificationUtil {
 
   String? validateEmail(String? email, BuildContext context) {
     if (email == null || email.isEmpty) {
-      return  AppLocalizations.of(context)!.emailRequired;
+      return AppLocalizations.of(context)!.emailRequired;
     }
 
     if (!EmailValidator.validate(email)) {
@@ -43,33 +45,72 @@ class AuthentificationUtil {
     return null;
   }
 
-  Future<User?> loginUsingEmailPassword(
+  Future<void> loginUsingEmailPassword(
       {required String email,
       required String password,
       required BuildContext context}) async {
-    User? user;
-    //try {
-    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    user = userCredential.user;
-    return user;
+    try {
+      User? user;
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      user = userCredential.user;
+      if (user != null) {
+        final SnackBar signinSuccesful = SnackBar(
+            content: Text(AppLocalizations.of(context)!.signInSuccesful),
+            backgroundColor: kPrimaryColor);
+        ScaffoldMessenger.of(context).showSnackBar(signinSuccesful);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const ProfilesPage()));
+      }
+    } on FirebaseAuthException catch (e) {
+      final SnackBar snackBar =
+          AuthentificationUtil().showLoginError(e, context);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
-  Future<User?> registerWithEmailPassword(
+  Future<void> registerWithEmailPassword(
       {required String userName,
       required String email,
       required String password,
       required BuildContext context}) async {
-    UserCredential userData = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    User? user = userData.user;
-    user?.updateDisplayName(userName);
-    return user;
+    try {
+      UserCredential userData = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? user = userData.user;
+      user?.updateDisplayName(userName);
+      if (user != null) {
+        final SnackBar signupSuccesful = SnackBar(
+            content: Text(AppLocalizations.of(context)!.signUpSuccesful),
+            backgroundColor: kPrimaryColor);
+        ScaffoldMessenger.of(context).showSnackBar(signupSuccesful);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const ProfilesPage()));
+      }
+    } on FirebaseAuthException catch (e) {
+      final SnackBar snackBar =
+          AuthentificationUtil().showRegisterError(e, context);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   Future<void> resetPasswordWithEmail(
       {required String email, required BuildContext context}) async {
-    await _auth.sendPasswordResetEmail(email: email);
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      SnackBar resetSuccesful = SnackBar(
+          content: Text(AppLocalizations.of(context)!.emailSent),
+          backgroundColor: kPrimaryColor);
+      ScaffoldMessenger.of(context).showSnackBar(resetSuccesful);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    } on FirebaseAuthException catch (e) {
+      SnackBar snackBar =
+          AuthentificationUtil().showResetPasswordError(e, context);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
+    //await _auth.sendPasswordResetEmail(email: email);
   }
 
   Future signOut() async {
@@ -87,15 +128,13 @@ class AuthentificationUtil {
   // Gibt die Fehler der LoginPage in Form einer SnackBar aus
   SnackBar showLoginError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
-
     if (e.code == 'user-not-found') {
       snackBar = SnackBar(
-          content:  Text(
-              AppLocalizations.of(context)!.userNotFound),
+          content: Text(AppLocalizations.of(context)!.userNotFound),
           backgroundColor: kErrorColor);
     } else if (e.code == 'wrong-password') {
       snackBar = SnackBar(
-          content:  Text(AppLocalizations.of(context)!.wrongPassword),
+          content: Text(AppLocalizations.of(context)!.wrongPassword),
           backgroundColor: kErrorColor);
     } else {
       snackBar = const SnackBar(content: Text("null"));
@@ -106,11 +145,9 @@ class AuthentificationUtil {
   // Gibt die Fehler der SignupPage in Form einer SnackBar aus
   SnackBar showRegisterError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
-
     if (e.code == 'email-already-in-use') {
       snackBar = SnackBar(
-          content:  Text(
-              AppLocalizations.of(context)!.emailAlreadyInUse),
+          content: Text(AppLocalizations.of(context)!.emailAlreadyInUse),
           backgroundColor: kErrorColor);
     } else {
       snackBar = const SnackBar(content: Text("null"));
@@ -121,11 +158,9 @@ class AuthentificationUtil {
   // Gibt die Fehler der ForgotPasswordPage in Form einer SnackBar aus
   SnackBar showResetPasswordError(FirebaseException e, BuildContext context) {
     final SnackBar snackbar;
-
     if (e.code == 'user-not-found') {
       snackbar = SnackBar(
-          content:  Text(
-              AppLocalizations.of(context)!.userNotFound),
+          content: Text(AppLocalizations.of(context)!.userNotFound),
           backgroundColor: kErrorColor);
     } else {
       snackbar = const SnackBar(content: Text("null"));

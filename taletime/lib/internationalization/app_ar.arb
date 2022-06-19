@@ -23,7 +23,7 @@
     "problemsWithLogin": "Probleme beim Anmelden?",
     "enterAssociatedEmail": "Geben Sie die mit Ihrem Konto verbundene Email-Adresse ein.",
     "sendResetLink": "Wir senden Ihnen einen Link an ihre Email-Adresse, um Ihr Passwort zurücksetzen zu können.",
-    "rememberPassword": "Passwort doch nicht vergessen?",
+    "rememberPassword": "Passwort doch nicht vergessen? ",
     "emailRequired": "Email-Adresse ist erforderlich",
     "enterValidEmail": "Geben Sie eine gültige Email-Adresse ein",
     "passwordRequired": "Passwort ist erforderlich",
@@ -46,5 +46,7 @@
     "delete": "Löschen",
     "myAccount": "Mein Konto",
     "changeProfile": "Profil wechseln",
-    "signOut": "Abmelden" 
+    "signOut": "Abmelden",
+    "signInSuccesful": "Anmelden erfolgreich",
+    "signUpSuccesful": "Registrieren erfolgreich"
 }

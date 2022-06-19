@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taletime/Localization/l10n.dart';
-import 'package:taletime/Localization/locale_provider.dart';
+import 'package:taletime/internationalization/l10n.dart';
+import 'package:taletime/internationalization/locale_provider.dart';
 
 class LanguagePicker extends StatelessWidget {
   const LanguagePicker({Key? key}) : super(key: key);

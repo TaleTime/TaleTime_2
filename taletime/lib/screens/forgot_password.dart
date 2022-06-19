@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
@@ -116,32 +115,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                           onPressed: () async {
                             final String email =
-                                _emailController.text.toLowerCase().trim();
+                                _emailController.text.trim().toLowerCase();
                             final isValidForm =
                                 _formKey.currentState!.validate();
-
                             if (isValidForm) {
-                              try {
-                                await AuthentificationUtil()
-                                    .resetPasswordWithEmail(
-                                        email: email, context: context);
-                                SnackBar resetSuccesful = SnackBar(
-                                    content: Text(AppLocalizations.of(context)!
-                                        .emailSent),
-                                    backgroundColor: kPrimaryColor);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(resetSuccesful);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
-                              } on FirebaseAuthException catch (e) {
-                                SnackBar snackBar = AuthentificationUtil()
-                                    .showResetPasswordError(e, context);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
+                              AuthentificationUtil().resetPasswordWithEmail(
+                                  email: email, context: context);
                             }
                           },
                         ),

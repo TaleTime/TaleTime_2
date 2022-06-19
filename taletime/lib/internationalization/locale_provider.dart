@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:taletime/Localization/l10n.dart';
+import 'package:taletime/internationalization/l10n.dart';
 
 class LocaleProvider extends ChangeNotifier {
   Locale _locale = const Locale("de");

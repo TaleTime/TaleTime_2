@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:taletime/screens/welcome.dart';
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/screens/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'authentification_util.dart';
 
@@ -152,7 +152,7 @@ class Decorations {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               AuthentificationUtil().signOut();
-              return const LoginPage();
+              return const WelcomePage();
             }));
           },
         ),

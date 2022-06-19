@@ -2,19 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:taletime/Localization/locale_provider.dart';
+import 'package:taletime/internationalization/l10n.dart';
+import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Localization/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase/firebase_options.dart';
 
-// ignore: slash_for_doc_comments
-/**
- * author: Gianluca Goebel
- * Main-Klasse der TaleTime-App
- */
+/// author: Gianluca Goebel
+/// Main-Klasse der TaleTime-App
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +28,6 @@ class TaleTimeApp extends StatefulWidget {
 }
 
 class _TaleTimeState extends State<TaleTimeApp> {
-  //late final Locale locale = Localizations.localeOf(context);
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider<LocaleProvider>(
       create: (context) => LocaleProvider(),

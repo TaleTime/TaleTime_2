@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
@@ -35,8 +33,8 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      appBar: Decorations()
-          .appBarDecoration(title: AppLocalizations.of(context)!.register, context: context),
+      appBar: Decorations().appBarDecoration(
+          title: AppLocalizations.of(context)!.register, context: context),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -48,7 +46,7 @@ class _SignupPageState extends State<SignupPage> {
               Column(children: <Widget>[
                 SafeArea(
                     child: Column(children: [
-                   Text(
+                  Text(
                     AppLocalizations.of(context)!.createAccount,
                     style: const TextStyle(
                       fontSize: 30,
@@ -63,8 +61,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 200,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(assetLogo),
-                          fit: BoxFit.fitHeight),
+                          image: AssetImage(assetLogo), fit: BoxFit.fitHeight),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -84,8 +81,10 @@ class _SignupPageState extends State<SignupPage> {
                                     controller: _nameController,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            AppLocalizations.of(context)!.username,
-                                            AppLocalizations.of(context)!.enterUsername,
+                                            AppLocalizations.of(context)!
+                                                .username,
+                                            AppLocalizations.of(context)!
+                                                .enterUsername,
                                             Icon(Icons.person,
                                                 color: kPrimaryColor)),
                                     validator: (name) => AuthentificationUtil()
@@ -99,7 +98,8 @@ class _SignupPageState extends State<SignupPage> {
                                     decoration: Decorations()
                                         .textInputDecoration(
                                             AppLocalizations.of(context)!.email,
-                                            AppLocalizations.of(context)!.enterEmail,
+                                            AppLocalizations.of(context)!
+                                                .enterEmail,
                                             Icon(Icons.email_rounded,
                                                 color: kPrimaryColor)),
                                     validator: (email) => AuthentificationUtil()
@@ -113,14 +113,15 @@ class _SignupPageState extends State<SignupPage> {
                                     obscureText: true,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            AppLocalizations.of(context)!.password,
-                                            AppLocalizations.of(context)!.enterPassword,
+                                            AppLocalizations.of(context)!
+                                                .password,
+                                            AppLocalizations.of(context)!
+                                                .enterPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
-                                                
                                     validator: (password) =>
-                                        AuthentificationUtil()
-                                            .validatePassword(password, context)),
+                                        AuthentificationUtil().validatePassword(
+                                            password, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -130,17 +131,20 @@ class _SignupPageState extends State<SignupPage> {
                                     obscureText: true,
                                     decoration: Decorations()
                                         .textInputDecoration(
-                                            AppLocalizations.of(context)!.confirmPassword,
-                                            AppLocalizations.of(context)!.confirmYourPassword,
+                                            AppLocalizations.of(context)!
+                                                .confirmPassword,
+                                            AppLocalizations.of(context)!
+                                                .confirmYourPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
                                     validator: (password) {
                                       if (_passwordController.text.trim() !=
                                           password) {
-                                        return AppLocalizations.of(context)!.passwordsDontMatch;
+                                        return AppLocalizations.of(context)!
+                                            .passwordsDontMatch;
                                       } else {
-                                        AuthentificationUtil()
-                                            .validatePassword(password, context);
+                                        AuthentificationUtil().validatePassword(
+                                            password, context);
                                       }
                                       return null;
                                     }),
@@ -158,32 +162,23 @@ class _SignupPageState extends State<SignupPage> {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () async {
+                      final String _userName = _nameController.text;
+                      final String _email =
+                          _emailController.text.trim().toLowerCase();
+                      final String _password = _passwordController.text.trim();
                       final isValidForm = _formKey.currentState!.validate();
                       if (isValidForm) {
-                        try {
-                          User? user = await AuthentificationUtil()
-                              .registerWithEmailPassword(
-                                  userName: _nameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  context: context);
-                          if (user != null) {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfilesPage()));
-                          }
-                        } on FirebaseAuthException catch (e) {
-                          final SnackBar snackBar =
-                              AuthentificationUtil().showRegisterError(e, context);
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
+                        AuthentificationUtil().registerWithEmailPassword(
+                            userName: _userName,
+                            email: _email,
+                            password: _password,
+                            context: context);
                       }
                     },
                     color: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
-                    child:  Text(
+                    child: Text(
                       AppLocalizations.of(context)!.registerVerb,
                       style: const TextStyle(
                           color: Colors.white,
@@ -194,7 +189,7 @@ class _SignupPageState extends State<SignupPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                   Text(AppLocalizations.of(context)!.alreadyHaveAccount),
+                  Text(AppLocalizations.of(context)!.alreadyHaveAccount),
                   TextButton(
                       child: Text(AppLocalizations.of(context)!.loginVerb,
                           style: TextStyle(color: kPrimaryColor)),
