@@ -21,19 +21,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
-  late List profiles;
-  late List profilesss = [];
+  late List profiles = [];
   int cflex = 7;
-
-  readData() async {
-    await DefaultAssetBundle.of(context)
-        .loadString("json/profiles.json")
-        .then((value) {
-      setState(() {
-        profiles = json.decode(value);
-      });
-    });
-  }
 
   Future<void> getUser() {
     return users
@@ -41,7 +30,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
         .then((value) {
           for(var i in value.docs) {
             setState(() {
-              profilesss.add(i.data());
+              profiles.add(i.data());
             });
           }
         })
@@ -51,14 +40,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
   @override
   void initState() {
     super.initState();
-    readData();
     getUser();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor("#fafafa"),
@@ -97,8 +83,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
             Expanded(
               flex: cflex,
               child: ListView.builder(
-                itemCount: profilesss.length,
-                itemBuilder: (context, index) => ProfileList(profilesss[index]),
+                itemCount: profiles.length,
+                itemBuilder: (context, index) => ProfileList(profiles[index]),
               ),
             ),
           ],
