@@ -12,9 +12,8 @@ class MainMenu extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
-        title: 
-           Text(AppLocalizations.of(context)!.mainMenu)
-        , automaticallyImplyLeading: false,
+        title: Text(AppLocalizations.of(context)!.mainMenu),
+        automaticallyImplyLeading: false,
         actions: const [Icon(Icons.home, color: Colors.white)],
       ),
       body: ListView(
@@ -48,7 +47,7 @@ class MainMenu extends StatelessWidget {
                 const Icon(Icons.favorite),
                 MaterialButton(
                   onPressed: () {},
-                  child:  Text(
+                  child: Text(
                     AppLocalizations.of(context)!.favorites,
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),

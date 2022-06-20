@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taletime/internationalization/l10n.dart';
+import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /* die Setting klasse habe ich nur drei funktionen eingeführt 
@@ -15,36 +17,62 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   bool dark = false;
-  var selected;
+
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context);
+    Locale? selectedLanguage = provider.locale;
+    //var selected;
     return Scaffold(
-      appBar: Decorations().appBarDecoration(
-          title: AppLocalizations.of(context)!.settings, context: context),
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        title: Text(AppLocalizations.of(context)!.settings),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          Icon(Icons.settings, color: Colors.white),
+          Container(padding: const EdgeInsets.all(16.0))
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
             Container(
-              child: ListTile(
-                leading: const Icon(Icons.language_outlined),
-                title: Text(AppLocalizations.of(context)!.changeLanguage),
-                trailing: DropdownButton(
-                  items: ["Deutsch", "Englisch", "Arabisch"]
-                      .map((e) => DropdownMenuItem(
-                            child: Text('$e'),
-                            value: e,
-                          ))
-                      .toList(),
-                  onChanged: (val) {
-                    setState(() {
-                      selected = val;
-                    });
-                  },
-                  value: selected,
-                ),
-              ),
-            ),
+                child: ListTile(
+                    leading: const Icon(Icons.language_outlined),
+                    title: Text(AppLocalizations.of(context)!.changeLanguage),
+                    trailing: DropdownButton<Locale>(
+                        value: selectedLanguage,
+                        items: L10n.all.map(
+                          (locale) {
+                            final flag = L10n.getFlag(locale.languageCode);
+                            return DropdownMenuItem(
+                              child: Text(flag,
+                                  style: const TextStyle(fontSize: 32)),
+                              value: locale,
+                              onTap: () {
+                                final provider = Provider.of<LocaleProvider>(
+                                    context,
+                                    listen: false);
+                                provider.setLocale(locale);
+                              },
+                            );
+                          },
+                        ).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedLanguage = value;
+                          });
+                        }))),
             Container(
               child: SwitchListTile(
                 secondary: const Icon(

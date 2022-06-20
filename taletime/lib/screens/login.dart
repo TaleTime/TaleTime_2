@@ -85,6 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                                       AppLocalizations.of(context)!.enterEmail,
                                       Icon(Icons.mail, color: kPrimaryColor),
                                     ),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     validator: (email) => ValidationUtil()
                                         .validateEmail(email, context)),
                                 decoration:
@@ -101,9 +103,10 @@ class _LoginPageState extends State<LoginPage> {
                                     AppLocalizations.of(context)!.enterPassword,
                                     Icon(Icons.lock, color: kPrimaryColor),
                                   ),
-                                  validator: (password) =>
-                                      ValidationUtil()
-                                          .validatePassword(password, context)),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (password) => ValidationUtil()
+                                      .validatePassword(password, context)),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
                             ),
@@ -143,10 +146,11 @@ class _LoginPageState extends State<LoginPage> {
                             _passwordController.text.trim();
                         final isValidForm = _formKey.currentState!.validate();
                         if (isValidForm) {
-                          AuthentificationUtil(auth: auth).loginUsingEmailAndPassword(
-                              email: _email,
-                              password: _password,
-                              context: context);
+                          AuthentificationUtil(auth: auth)
+                              .loginUsingEmailAndPassword(
+                                  email: _email,
+                                  password: _password,
+                                  context: context);
                         }
                       },
                       color: kPrimaryColor,
