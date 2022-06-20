@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/account.dart';
+import 'package:taletime/screens/main_menu.dart';
 import 'package:taletime/utils/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/* die klasse Home habe ich sie geändert um eine Hauptmenü zu nehmen */
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -10,22 +13,13 @@ class Home extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Home> {
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
-        leading: MaterialButton(
-            onPressed: () {},
-            color: Colors.green[200],
-            onLongPress: () {},
-            elevation: 10,
-            splashColor: Colors.black,
-            child: Row(
-              children: const [
-                Icon(Icons.menu),
-              ],
-            )),
         title: const Center(
           child: Text(
             "Home",
@@ -38,71 +32,50 @@ class _MyWidgetState extends State<Home> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: ((context) => const Account())));
               },
-              color: Colors.green[200],
+              color: Colors.teal.shade300,
               child: Row(
                 children: const [Icon(Icons.person)],
               ))
         ],
       ),
+      drawer: Drawer(
+        child: MainMenu(),
+      ),
       body: Column(
         children: const [],
       ),
-      bottomNavigationBar: Container(
-        height: 40,
-        color: Colors.green[150],
-        child: Row(
-          children: [
-            Expanded(
-                child: MaterialButton(
-              onPressed: () {},
-              child: Row(
-                children: const [
-                  Icon(Icons.play_circle),
-                  Text(
-                    ' jetzt hören',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              color: Colors.grey[150],
-              elevation: 12,
-              splashColor: Colors.blue[300],
-            )),
-            Expanded(
-                child: MaterialButton(
-              onPressed: () {},
-              child: Row(
-                children: const [
-                  Icon(Icons.favorite),
-                  Text(
-                    ' Favoriten',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              color: Colors.grey[150],
-              elevation: 12,
-              splashColor: Colors.blue[300],
-            )),
-            Expanded(
-                child: MaterialButton(
-              onPressed: () {},
-              child: Row(
-                children: const [
-                  Icon(Icons.search),
-                  Text(
-                    'Suchen',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              color: Colors.grey[150],
-              elevation: 12,
-              splashColor: Colors.blue[300],
-            )),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        splashColor: Colors.grey[500],
+        backgroundColor: kPrimaryColor,
+        child: const Icon(Icons.add),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          selectedItemColor: Colors.teal.shade100,
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.play_circle),
+                label: " " + AppLocalizations.of(context)!.listenNow,
+                tooltip: " " + AppLocalizations.of(context)!.listenNow,
+                backgroundColor: Colors.white),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: " " + AppLocalizations.of(context)!.favorites,
+                tooltip: " " + AppLocalizations.of(context)!.favorites,
+                backgroundColor: Colors.white),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: " " + AppLocalizations.of(context)!.search,
+                tooltip: " " + AppLocalizations.of(context)!.search,
+                backgroundColor: Colors.white)
+          ],
+          backgroundColor: kPrimaryColor),
     );
   }
 }
