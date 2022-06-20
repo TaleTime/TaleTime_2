@@ -199,6 +199,39 @@
     "@signUpSuccesful": {
         "description": "Registrieren erfolgreich"
     },
+    "mainMenu": "Main Menu",
+    "@mainMenu": {
+        "description": "Hauptmenü"
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Einstellungen"
+    },
+    "favorites": "Favorites",
+    "@favorites": {
+        "description": "Favoriten"
+    },
+    "listenNow": "Listen now",
+    "@listenNow": {
+        "description": "Jetzt anhören"
+    },
+    "search": "Search",
+    "@search": {
+        "description": "Suchen"
+    },
+    "changeLanguage": "Change Language",
+    "@changeLanguage": {
+        "description": "Sprache umstellen"
+    },
+    "darkMode": "Dark Mode",
+    "@darkMode": {
+        "description": "Dark Mode"
+    },
+    "changePassword": "Change Password",
+    "@changePassword": {
+        "description": "Passwort ändern"
+    },
+
 
 
     

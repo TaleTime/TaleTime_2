@@ -48,5 +48,13 @@
     "changeProfile": "Profil wechseln",
     "signOut": "Abmelden", 
     "signInSuccesful": "Anmelden erfolgreich",
-    "signUpSuccesful": "Registrieren erfolgreich"
+    "signUpSuccesful": "Registrieren erfolgreich",
+    "mainMenu": "Hauptmenü",
+    "settings": "Einstellungen",
+    "favorites": "Favoriten",
+    "listenNow": "Jetzt anhören",
+    "search": "Suchen",
+    "changeLanguage": "Sprache umstellen",
+    "darkMode": "Dark Mode",
+    "changePassword": "Passwort ändern"
 }
