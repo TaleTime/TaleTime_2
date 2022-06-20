@@ -6,6 +6,7 @@ import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils/profile_list.dart';
 import '../utils/decoration_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilesPage extends StatefulWidget {
   const ProfilesPage({Key? key}) : super(key: key);
@@ -17,7 +18,11 @@ class ProfilesPage extends StatefulWidget {
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+
   late List profiles;
+  late List profilesss = [];
   int cflex = 7;
 
   readData() async {
@@ -30,14 +35,30 @@ class _ProfilesPageState extends State<ProfilesPage> {
     });
   }
 
+  Future<void> getUser() {
+    return users
+        .get()
+        .then((value) {
+          for(var i in value.docs) {
+            setState(() {
+              profilesss.add(i.data());
+            });
+          }
+        })
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   @override
   void initState() {
     super.initState();
     readData();
+    getUser();
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor("#fafafa"),
@@ -76,8 +97,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
             Expanded(
               flex: cflex,
               child: ListView.builder(
-                itemCount: profiles.length,
-                itemBuilder: (context, index) => ProfileList(profiles[index]),
+                itemCount: profilesss.length,
+                itemBuilder: (context, index) => ProfileList(profilesss[index]),
               ),
             ),
           ],

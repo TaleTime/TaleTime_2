@@ -42,7 +42,7 @@ class ProfileList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5),
                                 color: Colors.transparent,
                               ),
-                              child: Image.asset(profile["image"]),
+                              child: Image.network(profile["image"]),
                             ),
                           ),
                           Expanded(
