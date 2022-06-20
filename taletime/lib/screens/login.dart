@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/forgot_password.dart';
@@ -5,6 +6,7 @@ import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/validation_util.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -80,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                                       AppLocalizations.of(context)!.enterEmail,
                                       Icon(Icons.mail, color: kPrimaryColor),
                                     ),
-                                    validator: (email) => AuthentificationUtil()
+                                    validator: (email) => ValidationUtil()
                                         .validateEmail(email, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
@@ -97,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Icon(Icons.lock, color: kPrimaryColor),
                                   ),
                                   validator: (password) =>
-                                      AuthentificationUtil()
+                                      ValidationUtil()
                                           .validatePassword(password, context)),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
@@ -138,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                             _passwordController.text.trim();
                         final isValidForm = _formKey.currentState!.validate();
                         if (isValidForm) {
-                          AuthentificationUtil().loginUsingEmailPassword(
+                          AuthentificationUtil(auth: auth).loginUsingEmailAndPassword(
                               email: _email,
                               password: _password,
                               context: context);

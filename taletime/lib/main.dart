@@ -7,8 +7,8 @@ import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase/firebase_options.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// author: Gianluca Goebel
 /// Main-Klasse der TaleTime-App

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
@@ -5,6 +6,7 @@ import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/validation_util.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -89,7 +92,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       AppLocalizations.of(context)!.enterEmail,
                                       Icon(Icons.email_rounded,
                                           color: kPrimaryColor)),
-                                  validator: (email) => AuthentificationUtil()
+                                  validator: (email) => ValidationUtil()
                                       .validateEmail(email, context)),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
@@ -119,7 +122,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             final isValidForm =
                                 _formKey.currentState!.validate();
                             if (isValidForm) {
-                              AuthentificationUtil().resetPasswordWithEmail(
+                              AuthentificationUtil(auth: auth).resetPasswordWithEmail(
                                   email: email, context: context);
                             }
                           },

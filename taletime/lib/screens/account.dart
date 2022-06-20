@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
+import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,9 +14,10 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
+    User? user = AuthentificationUtil(auth: auth).user;
     String? username = user?.displayName;
     String? email = user?.email;
     return Scaffold(

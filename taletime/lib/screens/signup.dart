@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/validation_util.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -87,8 +90,9 @@ class _SignupPageState extends State<SignupPage> {
                                                 .enterUsername,
                                             Icon(Icons.person,
                                                 color: kPrimaryColor)),
-                                    validator: (name) => AuthentificationUtil()
-                                        .validateUserName(name, context)),
+                                    validator: (name) =>
+                                        ValidationUtil()
+                                            .validateUserName(name, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -102,8 +106,9 @@ class _SignupPageState extends State<SignupPage> {
                                                 .enterEmail,
                                             Icon(Icons.email_rounded,
                                                 color: kPrimaryColor)),
-                                    validator: (email) => AuthentificationUtil()
-                                        .validateEmail(email, context)),
+                                    validator: (email) =>
+                                        ValidationUtil()
+                                            .validateEmail(email, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -120,8 +125,9 @@ class _SignupPageState extends State<SignupPage> {
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
                                     validator: (password) =>
-                                        AuthentificationUtil().validatePassword(
-                                            password, context)),
+                                        ValidationUtil()
+                                            .validatePassword(
+                                                password, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -143,8 +149,9 @@ class _SignupPageState extends State<SignupPage> {
                                         return AppLocalizations.of(context)!
                                             .passwordsDontMatch;
                                       } else {
-                                        AuthentificationUtil().validatePassword(
-                                            password, context);
+                                        ValidationUtil()
+                                            .validatePassword(
+                                                password, context);
                                       }
                                       return null;
                                     }),
@@ -168,11 +175,12 @@ class _SignupPageState extends State<SignupPage> {
                       final String _password = _passwordController.text.trim();
                       final isValidForm = _formKey.currentState!.validate();
                       if (isValidForm) {
-                        AuthentificationUtil().registerWithEmailPassword(
-                            userName: _userName,
-                            email: _email,
-                            password: _password,
-                            context: context);
+                        AuthentificationUtil(auth: auth)
+                            .registerWithEmailAndPassword(
+                                userName: _userName,
+                                email: _email,
+                                password: _password,
+                                context: context);
                       }
                     },
                     color: kPrimaryColor,
