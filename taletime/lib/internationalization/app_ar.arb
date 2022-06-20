@@ -1,5 +1,5 @@
 {
-    "welcome": "مرحبا بكم في ",
+    "welcomeToTaleTime": "مرحبا بكم في ",
     "descriptionWelcome": "Das cloudfähige, geschichtenerzählende Vorlesetool für Spaß mit der ganzen Familie",
     "register": "انشاء حساب",
     "registerVerb": "انشاء حساب",
@@ -56,5 +56,6 @@
     "search": "Suchen",
     "changeLanguage": "Sprache umstellen",
     "darkMode": "Dark Mode",
-    "changePassword": "Passwort ändern"
+    "changePassword": "Passwort ändern",
+    "welcome": "Willkommen"
 }

@@ -14,6 +14,7 @@ class WelcomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
+        title: Text(AppLocalizations.of(context)!.welcome),
         actions: const [LanguagePicker(), SizedBox(width: 12)],
       ),
       body: SafeArea(
@@ -28,7 +29,7 @@ class WelcomePage extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context)!.welcome,
+                    AppLocalizations.of(context)!.welcomeToTaleTime,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
@@ -57,7 +58,7 @@ class WelcomePage extends StatelessWidget {
                   // Login Button
                   MaterialButton(
                     minWidth: double.infinity,
-                    height: 60,
+                    height: MediaQuery.of(context).size.height / 15,
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -77,7 +78,7 @@ class WelcomePage extends StatelessWidget {
                   const SizedBox(height: 20),
                   MaterialButton(
                     minWidth: double.infinity,
-                    height: 60,
+                    height: MediaQuery.of(context).size.height / 15,
                     onPressed: () {
                       Navigator.push(
                           context,

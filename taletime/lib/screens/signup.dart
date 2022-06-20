@@ -61,7 +61,7 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(top: 100),
-                    height: 200,
+                    height: MediaQuery.of(context).size.height / 6,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(assetLogo), fit: BoxFit.fitHeight),
@@ -113,7 +113,7 @@ class _SignupPageState extends State<SignupPage> {
                                         .validateEmail(email, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
-                            const SizedBox(height: 25),
+                            const SizedBox(height: 20),
                             Container(
                                 child: TextFormField(
                                     controller: _passwordController,
@@ -134,6 +134,7 @@ class _SignupPageState extends State<SignupPage> {
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
+                              height: MediaQuery.of(context).size.height / 13,
                                 child: TextFormField(
                                     controller: _confirmPasswordController,
                                     obscureText: true,
