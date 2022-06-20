@@ -90,9 +90,10 @@ class _SignupPageState extends State<SignupPage> {
                                                 .enterUsername,
                                             Icon(Icons.person,
                                                 color: kPrimaryColor)),
-                                    validator: (name) =>
-                                        ValidationUtil()
-                                            .validateUserName(name, context)),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (name) => ValidationUtil()
+                                        .validateUserName(name, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -106,9 +107,10 @@ class _SignupPageState extends State<SignupPage> {
                                                 .enterEmail,
                                             Icon(Icons.email_rounded,
                                                 color: kPrimaryColor)),
-                                    validator: (email) =>
-                                        ValidationUtil()
-                                            .validateEmail(email, context)),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (email) => ValidationUtil()
+                                        .validateEmail(email, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -124,10 +126,10 @@ class _SignupPageState extends State<SignupPage> {
                                                 .enterPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
-                                    validator: (password) =>
-                                        ValidationUtil()
-                                            .validatePassword(
-                                                password, context)),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (password) => ValidationUtil()
+                                        .validatePassword(password, context)),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
@@ -143,15 +145,16 @@ class _SignupPageState extends State<SignupPage> {
                                                 .confirmYourPassword,
                                             Icon(Icons.lock,
                                                 color: kPrimaryColor)),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     validator: (password) {
                                       if (_passwordController.text.trim() !=
                                           password) {
                                         return AppLocalizations.of(context)!
                                             .passwordsDontMatch;
                                       } else {
-                                        ValidationUtil()
-                                            .validatePassword(
-                                                password, context);
+                                        ValidationUtil().validatePassword(
+                                            password, context);
                                       }
                                       return null;
                                     }),

@@ -92,6 +92,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       AppLocalizations.of(context)!.enterEmail,
                                       Icon(Icons.email_rounded,
                                           color: kPrimaryColor)),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
                                   validator: (email) => ValidationUtil()
                                       .validateEmail(email, context)),
                               decoration:
@@ -122,8 +124,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             final isValidForm =
                                 _formKey.currentState!.validate();
                             if (isValidForm) {
-                              AuthentificationUtil(auth: auth).resetPasswordWithEmail(
-                                  email: email, context: context);
+                              AuthentificationUtil(auth: auth)
+                                  .resetPasswordWithEmail(
+                                      email: email, context: context);
                             }
                           },
                         ),
