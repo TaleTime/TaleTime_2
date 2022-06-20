@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:taletime/utils/constants.dart';
@@ -5,6 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'authentification_util.dart';
 
 class Decorations {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   InputDecoration textInputDecoration(
       [String label = "",
       String hintText = "",
@@ -151,7 +154,7 @@ class Decorations {
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              AuthentificationUtil().signOut();
+              AuthentificationUtil(auth: auth).signOut();
               return const WelcomePage();
             }));
           },
