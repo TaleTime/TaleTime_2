@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
@@ -33,6 +34,7 @@ class _AddProfileState extends State<AddProfile> {
     List<String> items = ["Listener","Story-teller"];
     String? selectedItem = items[0];
     String profileImage = "";
+    String profileImageUpdate = "";
 
     String updateProfile(int index) {
         profileImage = profileImages[index];
@@ -40,6 +42,16 @@ class _AddProfileState extends State<AddProfile> {
         print(profileImage);
         print(profileImages[index]);
         return profileImage;
+    }
+
+    Future getImage(int index) async{
+      var image = await profileImages[index];
+      setState((){
+        profileImage = image;
+      });
+      print(index);
+      print(profileImage);
+      print(profileImages[index]);
     }
 
     Future<void> addUser() {
@@ -112,7 +124,7 @@ class _AddProfileState extends State<AddProfile> {
                                     BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
                                   ],
                                 ),
-                                child: Image.network(updateProfile(4), height: 150),
+                                child: (profileImage != "") ? Image.network(profileImage, height: 150) : Image.network(profileImages[4], height: 150)
                               ),
                             ],
                           ),
@@ -136,7 +148,7 @@ class _AddProfileState extends State<AddProfile> {
                                         return GestureDetector(
                                             onTap: (){
                                               setState(() {
-                                                updateProfile(i);
+                                                getImage(i);
                                               });
                                             },
                                             child: Image.network(profileImages[i], height: 80,)
