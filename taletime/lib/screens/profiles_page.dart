@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:taletime/utils/add_profile.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -71,7 +72,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
           Padding(
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => AddProfile()));
+                },
                 icon: Icon(Icons.person_add, color: kPrimaryColor),
               )),
         ],

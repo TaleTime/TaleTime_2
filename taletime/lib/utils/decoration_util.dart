@@ -11,7 +11,7 @@ class Decorations {
   InputDecoration textInputDecoration(
       [String label = "",
       String hintText = "",
-      Widget icon = const Icon(Icons.add),
+      Widget icon = const Icon(Icons.add, color: Colors.teal,),
       suffix,
       obscureText = false]) {
     return InputDecoration(
