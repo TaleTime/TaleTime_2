@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
@@ -23,6 +22,9 @@ class _AddProfileState extends State<AddProfile> {
   late final List recent = [];
   late final List favorites = [];
   late final List stories = [];
+  String profileImage = "";
+  List<String> items = ["Listener","Story-teller"];
+  String? selectedItem = "";
 
   //AddProfile(this.name, this.title, this.image, this.stories, this.recent, this.favorites);
 
@@ -31,27 +33,12 @@ class _AddProfileState extends State<AddProfile> {
     final _formKey = GlobalKey<FormState>();
     CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
-    List<String> items = ["Listener","Story-teller"];
-    String? selectedItem = items[0];
-    String profileImage = "";
-    String profileImageUpdate = "";
-
     String updateProfile(int index) {
-        profileImage = profileImages[index];
-        print(index);
-        print(profileImage);
-        print(profileImages[index]);
-        return profileImage;
-    }
-
-    Future getImage(int index) async{
-      var image = await profileImages[index];
+      var image = profileImages[index];
       setState((){
         profileImage = image;
       });
-      print(index);
-      print(profileImage);
-      print(profileImages[index]);
+      return profileImage;
     }
 
     Future<void> addUser() {
@@ -116,15 +103,15 @@ class _AddProfileState extends State<AddProfile> {
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(200),
-                                  color: Colors.white,
+                                  color: Colors.teal.shade600,
                                   boxShadow: [
                                     BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
                                   ],
                                 ),
-                                child: (profileImage != "") ? Image.network(profileImage, height: 150) : Image.network(profileImages[4], height: 150)
+                                child: (profileImage != "") ? Image.network(profileImage, height: 150) : Image.network(updateProfile(4), height: 150)
                               ),
                             ],
                           ),
@@ -148,7 +135,7 @@ class _AddProfileState extends State<AddProfile> {
                                         return GestureDetector(
                                             onTap: (){
                                               setState(() {
-                                                getImage(i);
+                                                updateProfile(i);
                                               });
                                             },
                                             child: Image.network(profileImages[i], height: 80,)
@@ -199,7 +186,7 @@ class _AddProfileState extends State<AddProfile> {
                                   color: kPrimaryColor,
                                 ),
                               ),
-                              value: selectedItem,
+                              value: selectedItem != "" ? selectedItem : items[0],
                               items: items
                                   .map((item) => DropdownMenuItem<String>(
                                 value: item,
