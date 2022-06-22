@@ -57,5 +57,9 @@
     "changeLanguage": "Sprache umstellen",
     "darkMode": "Dark Mode",
     "changePassword": "Passwort ändern",
-    "welcome": "Willkommen"
+    "welcome": "Willkommen",
+    "newProfile": "Neues Profil",
+    "addProfile": "Profil hinzufügen",
+    "listener": "Hörer",
+    "storyteller": "Erzähler"
 }

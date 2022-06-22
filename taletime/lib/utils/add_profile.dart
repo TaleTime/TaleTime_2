@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddProfile extends StatefulWidget {
   const AddProfile({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class _AddProfileState extends State<AddProfile> {
   late final List favorites = [];
   late final List stories = [];
   String profileImage = "";
-  List<String> items = ["Listener","Story-teller"];
+
   String? selectedItem = "";
 
   final textEditingController = TextEditingController();
@@ -32,7 +31,9 @@ class _AddProfileState extends State<AddProfile> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
     final _formKey = GlobalKey<FormState>();
+    
     CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
     String updateProfile(int index) {
@@ -69,7 +70,7 @@ class _AddProfileState extends State<AddProfile> {
             );
           },
         ),
-        title: Text("New Profile",
+        title: Text(AppLocalizations.of(context)!.newProfile,
           style: TextStyle(color: Colors.teal.shade600, fontWeight: FontWeight.bold,),
         ),
         elevation: 0.0,
@@ -200,7 +201,7 @@ class _AddProfileState extends State<AddProfile> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           child: Text(
-                            "Add Profile",
+                            AppLocalizations.of(context)!.addProfile,
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
