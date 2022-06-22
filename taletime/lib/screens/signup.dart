@@ -60,12 +60,8 @@ class _SignupPageState extends State<SignupPage> {
                     height: 20,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(top: 100),
-                    height: MediaQuery.of(context).size.height / 6,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(assetLogo), fit: BoxFit.fitHeight),
-                    ),
+                    height: MediaQuery.of(context).size.height / 5,
+                    child: Image.network(assetLogo),
                   ),
                   const SizedBox(height: 20),
                 ]))
@@ -134,7 +130,7 @@ class _SignupPageState extends State<SignupPage> {
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
-                              height: MediaQuery.of(context).size.height / 13,
+                                height: MediaQuery.of(context).size.height / 13,
                                 child: TextFormField(
                                     controller: _confirmPasswordController,
                                     obscureText: true,
