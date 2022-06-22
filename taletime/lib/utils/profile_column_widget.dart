@@ -2,24 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/edit_profile.dart';
 
 class ProfileColumn extends StatefulWidget {
-  final profileId;
-  const ProfileColumn(this.profileId, {Key? key}) : super(key: key);
+  final DocumentSnapshot profile;
+  const ProfileColumn(this.profile, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfileColumnState(this.profileId);
+    return _ProfileColumnState(this.profile);
   }
 }
 
 class _ProfileColumnState extends State<ProfileColumn> {
 
-  late final profileId;
+  late final DocumentSnapshot profile;
 
   CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
-  _ProfileColumnState(this.profileId);
+  _ProfileColumnState(this.profile);
 
   Future<void> deleteUser(id) {
     return users
@@ -32,6 +33,8 @@ class _ProfileColumnState extends State<ProfileColumn> {
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => EditProfile(users, profile)));
         break;
       case 1:
         showDialog(
@@ -55,7 +58,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState((){
-                        deleteUser(profileId);
+                        deleteUser(profile["id"]);
                         Navigator.of(context).pop();
                       });
                     },

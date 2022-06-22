@@ -83,7 +83,7 @@ class ProfileList extends StatelessWidget {
                           ),
                           Container(
                             padding: const EdgeInsets.only(top: 7),
-                            child: ProfileColumn(profile["id"]),
+                            child: ProfileColumn(profile),
                           ),
                         ],
                       ),
