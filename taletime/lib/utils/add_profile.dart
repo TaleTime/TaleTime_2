@@ -31,7 +31,8 @@ class _AddProfileState extends State<AddProfile> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
+    //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
+    List<String> items = ["Listener","Story-teller"];
     final _formKey = GlobalKey<FormState>();
     
     CollectionReference users = FirebaseFirestore.instance.collection('profiles');
@@ -70,7 +71,8 @@ class _AddProfileState extends State<AddProfile> {
             );
           },
         ),
-        title: Text(AppLocalizations.of(context)!.newProfile,
+        title: Text(//AppLocalizations.of(context)!.newProfile,
+          "New Profile",
           style: TextStyle(color: Colors.teal.shade600, fontWeight: FontWeight.bold,),
         ),
         elevation: 0.0,
@@ -201,7 +203,8 @@ class _AddProfileState extends State<AddProfile> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           child: Text(
-                            AppLocalizations.of(context)!.addProfile,
+                            //AppLocalizations.of(context)!.addProfile,
+                            "Add Profile",
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
