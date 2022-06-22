@@ -1,8 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileColumn {
+  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+
+  Future<void> deleteUser(String image, String name, String title, List favorites, List recent, List stories) {
+    return users
+        .add({
+      'favorites': favorites,
+      'image': image,
+      'name': name,
+      'recent': recent,
+      'stories': stories,
+      'title': title
+    })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
@@ -73,7 +90,7 @@ class ProfileColumn {
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.edit),
+                    Text(AppLocalizations.of(context)!.edit, style: TextStyle(color: kPrimaryColor),),
                   ],
                 ),
               ),
@@ -86,7 +103,7 @@ class ProfileColumn {
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.delete),
+                    Text(AppLocalizations.of(context)!.delete, style: TextStyle(color: kPrimaryColor)),
                   ],
                 ),
               ),

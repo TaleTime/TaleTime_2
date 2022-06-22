@@ -26,6 +26,8 @@ class _AddProfileState extends State<AddProfile> {
   List<String> items = ["Listener","Story-teller"];
   String? selectedItem = "";
 
+  final textEditingController = TextEditingController();
+
   //AddProfile(this.name, this.title, this.image, this.stories, this.recent, this.favorites);
 
   @override
@@ -41,7 +43,7 @@ class _AddProfileState extends State<AddProfile> {
       return profileImage;
     }
 
-    Future<void> addUser() {
+    Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories) {
       return users
           .add({
         'favorites': favorites,
@@ -53,18 +55,6 @@ class _AddProfileState extends State<AddProfile> {
       })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
-    }
-
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.teal.shade600;
-      }
-      return Colors.teal.shade600;
     }
 
     return Scaffold(
@@ -150,6 +140,7 @@ class _AddProfileState extends State<AddProfile> {
                         SizedBox(height: 40,),
                         Container(
                           child: TextFormField(
+                            controller: textEditingController,
                             decoration: Decorations().textInputDecoration('UserName', 'Enter your username'),
                             validator: (val) {
                               if (val!.isEmpty) {
@@ -176,12 +167,6 @@ class _AddProfileState extends State<AddProfile> {
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
                                     borderSide: BorderSide(color: kPrimaryColor)),
-                                errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                                focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                                 labelStyle: TextStyle(
                                   color: kPrimaryColor,
                                 ),
@@ -201,6 +186,11 @@ class _AddProfileState extends State<AddProfile> {
                           minWidth: double.infinity,
                           height: MediaQuery.of(context).size.height / 15,
                           onPressed: () {
+                            name = textEditingController.text;
+                            image = profileImage;
+                            title = selectedItem.toString() != "" ? selectedItem.toString() : items[0].toString();
+                            print("name: ${name}\n image: ${image}\n title: ${title}");
+                            addUser(image, name, title, favorites, recent, stories);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
