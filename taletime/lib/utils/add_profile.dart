@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddProfile extends StatefulWidget {
   const AddProfile({Key? key}) : super(key: key);
@@ -27,8 +27,6 @@ class _AddProfileState extends State<AddProfile> {
 
   final textEditingController = TextEditingController();
 
-  //AddProfile(this.name, this.title, this.image, this.stories, this.recent, this.favorites);
-
   @override
   Widget build(BuildContext context) {
     //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
@@ -45,17 +43,29 @@ class _AddProfileState extends State<AddProfile> {
       return profileImage;
     }
 
+    Future<void> updateUser(String userId) {
+      return users
+          .doc(userId)
+          .update({'id': userId})
+          .then((value) => print("User Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+    }
+
     Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories) {
       return users
           .add({
         'favorites': favorites,
+        'id': "",
         'image': image,
         'name': name,
         'recent': recent,
         'stories': stories,
         'title': title
       })
-          .then((value) => print("User Added"))
+          .then((value) {
+        print("User Added");
+        updateUser(value.id);
+      })
           .catchError((error) => print("Failed to add user: $error"));
     }
 
@@ -192,7 +202,6 @@ class _AddProfileState extends State<AddProfile> {
                             name = textEditingController.text;
                             image = profileImage;
                             title = selectedItem.toString() != "" ? selectedItem.toString() : items[0].toString();
-                            print("name: ${name}\n image: ${image}\n title: ${title}");
                             addUser(image, name, title, favorites, recent, stories);
                             Navigator.push(
                                 context,

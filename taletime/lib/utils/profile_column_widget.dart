@@ -3,21 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ProfileColumn {
+class ProfileColumn extends StatefulWidget {
+  final profileId;
+  const ProfileColumn(this.profileId, {Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ProfileColumnState(this.profileId);
+  }
+}
+
+class _ProfileColumnState extends State<ProfileColumn> {
+
+  late final profileId;
+
   CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
-  Future<void> deleteUser(String image, String name, String title, List favorites, List recent, List stories) {
+  _ProfileColumnState(this.profileId);
+
+  Future<void> deleteUser(id) {
     return users
-        .add({
-      'favorites': favorites,
-      'image': image,
-      'name': name,
-      'recent': recent,
-      'stories': stories,
-      'title': title
-    })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+        .doc(id)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 
   void onSelected(BuildContext context, int item) {
@@ -45,9 +54,10 @@ class ProfileColumn {
                         backgroundColor:
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
-                      /*cards.removeLast();
-                      setState(() {});*/
-                      Navigator.of(context).pop();
+                      setState((){
+                        deleteUser(profileId);
+                        Navigator.of(context).pop();
+                      });
                     },
                   ),
                   TextButton(
@@ -69,7 +79,8 @@ class ProfileColumn {
     }
   }
 
-  Column myColumn(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Theme(
