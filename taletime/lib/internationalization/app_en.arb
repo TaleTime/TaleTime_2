@@ -235,6 +235,23 @@
     "@welcome": {
         "description": "Willkommen"
     },
+    "newProfile": "New Profile",
+    "@newProfile": {
+        "description": "Neues Profil"
+    },
+    "addProfile": "Add Profile",
+    "@addProfile": {
+        "description": "Profil hinzufügen"
+    },
+    "listener": "Listener",
+    "@listener": {
+        "description": "Hörer"
+    },
+    "storyteller": "Story-teller",
+    "@storyteller": {
+        "description": "Erzähler"
+    },
+
 
     
     "@": {
