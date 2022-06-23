@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
 
