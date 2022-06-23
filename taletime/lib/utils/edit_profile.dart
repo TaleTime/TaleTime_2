@@ -70,7 +70,7 @@ class _EditProfileState extends State<EditProfile> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.teal.shade600,),
@@ -84,7 +84,7 @@ class _EditProfileState extends State<EditProfile> {
           style: TextStyle(color: Colors.teal.shade600, fontWeight: FontWeight.bold,),
         ),
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         centerTitle: true,
       ),
       body: SingleChildScrollView(

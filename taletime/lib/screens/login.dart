@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                                   decoration: Decorations().textInputDecoration(
                                     AppLocalizations.of(context)!.password,
                                     AppLocalizations.of(context)!.enterPassword,
-                                    Icon(Icons.lock, color: kPrimaryColor),
+                                    Icon(Icons.lock),
                                   ),
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
@@ -162,7 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                     Text(AppLocalizations.of(context)!.dontHaveAccount),
                     TextButton(
                         child: Text(AppLocalizations.of(context)!.registerVerb,
-                            style: TextStyle(color: kPrimaryColor)),
+                            //style: TextStyle(color: kPrimaryColor)
+                            ),
                         onPressed: () {
                           Navigator.push(
                               context,

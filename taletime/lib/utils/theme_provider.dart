@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.light;
+  ThemeMode themeMode = ThemeMode.system;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
@@ -21,6 +21,8 @@ class MyThemes {
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
         primary: kPrimaryColor,
+        onPrimary: Colors.white,
+        shadowColor: Colors.white,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
       )),
@@ -40,22 +42,27 @@ class MyThemes {
       primaryTextTheme: Typography().white,
       textTheme: Typography().white,
       colorScheme: ColorScheme.dark(),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.grey,
+          hoverColor: kPrimaryColor),
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(Colors.black))));
-
+              foregroundColor: MaterialStateProperty.all(kPrimaryColor),
+              overlayColor: MaterialStateProperty.all(Colors.grey.shade800))));
 
   static final lightTheme = ThemeData(
       scaffoldBackgroundColor: Colors.white,
       hintColor: kPrimaryColor,
       errorColor: Colors.red,
-      //focusColor: kPrimaryColor,
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-              primary: kPrimaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0)),
-              textStyle: TextStyle(color: kPrimaryColor))),
+        primary: kPrimaryColor,
+        onPrimary: Colors.white,
+        shadowColor: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+      )),
       primaryColor: kPrimaryColor,
       inputDecorationTheme: InputDecorationTheme(
           fillColor: Colors.white,
@@ -64,9 +71,12 @@ class MyThemes {
       iconTheme: IconThemeData(color: kPrimaryColor, opacity: 0.8),
       appBarTheme: AppBarTheme(color: kPrimaryColor),
       colorScheme: ColorScheme.light(),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+          foregroundColor: Colors.white,
+          backgroundColor: kPrimaryColor,
+          hoverColor: Colors.grey),
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(Colors.black)))
-      
-      );
+              foregroundColor: MaterialStateProperty.all(kPrimaryColor),
+              overlayColor: MaterialStateProperty.all(Colors.grey))));
 }

@@ -67,7 +67,9 @@ class WelcomePage extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context)!.loginVerb,
                         style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
                       ),
                     ),
                   ),
@@ -86,7 +88,7 @@ class WelcomePage extends StatelessWidget {
                         child: Text(
                           AppLocalizations.of(context)!.register,
                           style: TextStyle(
-                              // color: Colors.white,
+                              color: Colors.white,
                               fontWeight: FontWeight.w600,
                               fontSize: 18),
                         ),

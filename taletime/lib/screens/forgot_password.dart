@@ -108,7 +108,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Container(
                         //decoration: Decorations().buttonBoxDecoration(context),
                         child: ElevatedButton(
-                          style: Decorations().buttonStyle(),
+                          //style: Decorations().buttonStyle(),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                             child: Text(
@@ -116,7 +116,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                //color: Colors.white,
                               ),
                             ),
                           ),

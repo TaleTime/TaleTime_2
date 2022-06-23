@@ -1,7 +1,6 @@
 /*mainklasse ist die Hauptmenu man kann sie noch viele Funktion einfügen */
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/settings.dart';
-import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainMenu extends StatelessWidget {
