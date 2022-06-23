@@ -72,8 +72,8 @@ class ProfileList extends StatelessWidget {
                                       ),
                                       Text(
                                         profile["title"],
-                                        style: const TextStyle(
-                                            color: Colors.black),
+                                        //style: const TextStyle(
+                                        //    color: Colors.black),
                                       )
                                     ],
                                   ),

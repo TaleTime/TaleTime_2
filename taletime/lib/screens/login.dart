@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.login, context: context),
       body: SizedBox(
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                                         Decorations().textInputDecoration(
                                       AppLocalizations.of(context)!.email,
                                       AppLocalizations.of(context)!.enterEmail,
-                                      Icon(Icons.mail, color: kPrimaryColor),
+                                      Icon(Icons.mail),
                                     ),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                                   decoration: Decorations().textInputDecoration(
                                     AppLocalizations.of(context)!.password,
                                     AppLocalizations.of(context)!.enterPassword,
-                                    Icon(Icons.lock, color: kPrimaryColor),
+                                    Icon(Icons.lock),
                                   ),
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
@@ -128,38 +128,32 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Container(
                     padding: const EdgeInsets.only(top: 3, left: 3),
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      height: 60,
-                      onPressed: () async {
-                        // Funktion für Login mit Firebase
-                        final String _email =
-                            _emailController.text.trim().toLowerCase();
-                        final String _password =
-                            _passwordController.text.trim();
-                        final isValidForm = _formKey.currentState!.validate();
-                        if (isValidForm) {
-                          AuthentificationUtil(auth: auth)
-                              .loginUsingEmailAndPassword(
-                                  email: _email,
-                                  password: _password,
-                                  context: context);
-                        }
-                      },
-                      color: kPrimaryColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context)!.loginVerb,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    child: SizedBox(
+                        height: MediaQuery.of(context).size.height / 13,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            // Funktion für Login mit Firebase
+                            final String _email =
+                                _emailController.text.trim().toLowerCase();
+                            final String _password =
+                                _passwordController.text.trim();
+                            final isValidForm =
+                                _formKey.currentState!.validate();
+                            if (isValidForm) {
+                              AuthentificationUtil(auth: auth)
+                                  .loginUsingEmailAndPassword(
+                                      email: _email,
+                                      password: _password,
+                                      context: context);
+                            }
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.loginVerb,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                          ),
+                        )),
                   ),
                 ),
                 Row(
@@ -168,7 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                     Text(AppLocalizations.of(context)!.dontHaveAccount),
                     TextButton(
                         child: Text(AppLocalizations.of(context)!.registerVerb,
-                            style: TextStyle(color: kPrimaryColor)),
+                            //style: TextStyle(color: kPrimaryColor)
+                            ),
                         onPressed: () {
                           Navigator.push(
                               context,

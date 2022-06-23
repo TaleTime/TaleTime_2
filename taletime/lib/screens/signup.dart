@@ -35,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.register, context: context),
       body: SingleChildScrollView(
@@ -84,8 +84,8 @@ class _SignupPageState extends State<SignupPage> {
                                                 .username,
                                             AppLocalizations.of(context)!
                                                 .enterUsername,
-                                            Icon(Icons.person,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.person)),
+                                    //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (name) => ValidationUtil()
@@ -101,8 +101,8 @@ class _SignupPageState extends State<SignupPage> {
                                             AppLocalizations.of(context)!.email,
                                             AppLocalizations.of(context)!
                                                 .enterEmail,
-                                            Icon(Icons.email_rounded,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.email_rounded)),
+                                    //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (email) => ValidationUtil()
@@ -120,8 +120,8 @@ class _SignupPageState extends State<SignupPage> {
                                                 .password,
                                             AppLocalizations.of(context)!
                                                 .enterPassword,
-                                            Icon(Icons.lock,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.lock)),
+                                    //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (password) => ValidationUtil()
@@ -140,8 +140,7 @@ class _SignupPageState extends State<SignupPage> {
                                                 .confirmPassword,
                                             AppLocalizations.of(context)!
                                                 .confirmYourPassword,
-                                            Icon(Icons.lock,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.lock)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (password) {
@@ -165,6 +164,33 @@ class _SignupPageState extends State<SignupPage> {
               //Button für die Registrierung
               Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.height / 13,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final String _userName = _nameController.text;
+                          final String _email =
+                              _emailController.text.trim().toLowerCase();
+                          final String _password =
+                              _passwordController.text.trim();
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            AuthentificationUtil(auth: auth)
+                                .registerWithEmailAndPassword(
+                                    userName: _userName,
+                                    email: _email,
+                                    password: _password,
+                                    context: context);
+                          }
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.registerVerb,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
+
+                        /**
                   child: MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
@@ -193,7 +219,9 @@ class _SignupPageState extends State<SignupPage> {
                           fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),
-                  )),
+                  )
+                  */
+                      ))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

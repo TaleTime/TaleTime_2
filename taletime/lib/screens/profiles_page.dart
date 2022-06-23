@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:taletime/utils/add_profile.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
@@ -34,9 +32,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: HexColor("#fafafa"),
+        //backgroundColor: HexColor("#fafafa"),
         leading: IconButton(
-            icon: Icon(Icons.logout, color: kPrimaryColor),
+            icon: Icon(Icons.logout, //color: kPrimaryColor
+            ),
             onPressed: () {
               showDialog(
                 context: context,
@@ -62,7 +61,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => AddProfile()));
                 },
-                icon: Icon(Icons.person_add, color: kPrimaryColor),
+                icon: Icon(Icons.person_add, 
+                //color: kPrimaryColor
+                ),
               )),
         ],
       ),

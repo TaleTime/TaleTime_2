@@ -7,6 +7,7 @@ import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/screens/profiles_page.dart';
 import 'package:taletime/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:taletime/utils/theme_provider.dart';
 import 'firebase/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,23 +30,38 @@ class TaleTimeApp extends StatefulWidget {
 
 class _TaleTimeState extends State<TaleTimeApp> {
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider<LocaleProvider>(
-      create: (context) => LocaleProvider(),
-      builder: (context, child) {
-        final provider = Provider.of<LocaleProvider>(context);
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: const HomePage(),
-          locale: provider.locale,
-          supportedLocales: L10n.all,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
-        );
-      });
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      ChangeNotifierProvider<LocaleProvider>(
+          create: (context) => LocaleProvider()),
+      ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider())
+    ], child: const Providers());
+  }
+}
+
+class Providers extends StatelessWidget {
+  const Providers({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LocaleProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
+      themeMode: themeProvider.themeMode,
+      theme: MyThemes.lightTheme,
+      darkTheme: MyThemes.darkTheme,
+      locale: languageProvider.locale,
+      supportedLocales: L10n.all,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+    );
+  }
 }
 
 class HomePage extends StatefulWidget {
