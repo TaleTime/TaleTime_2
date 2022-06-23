@@ -12,7 +12,7 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+        //backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.welcome),
         actions: const [LanguagePicker(), SizedBox(width: 12)],
@@ -42,7 +42,6 @@ class WelcomePage extends StatelessWidget {
                     AppLocalizations.of(context)!.descriptionWelcome,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.grey[700],
                       fontSize: 15,
                     ),
                   )
@@ -55,46 +54,43 @@ class WelcomePage extends StatelessWidget {
               Column(
                 children: <Widget>[
                   // Login Button
-                  MaterialButton(
-                    minWidth: double.infinity,
+                  SizedBox(
                     height: MediaQuery.of(context).size.height / 15,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                    },
-                    shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Colors.black),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      AppLocalizations.of(context)!.loginVerb,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()));
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.loginVerb,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
                     ),
                   ),
+                  SizedBox(height: 20),
                   // Signup Button
-                  const SizedBox(height: 20),
-                  MaterialButton(
-                    minWidth: double.infinity,
-                    height: MediaQuery.of(context).size.height / 15,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupPage()));
-                    },
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      AppLocalizations.of(context)!.register,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
-                    ),
-                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height / 15,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignupPage()));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.register,
+                          style: TextStyle(
+                              // color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18),
+                        ),
+                      ))
                 ],
               ),
             ],

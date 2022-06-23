@@ -35,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.register, context: context),
       body: SingleChildScrollView(
@@ -84,8 +84,8 @@ class _SignupPageState extends State<SignupPage> {
                                                 .username,
                                             AppLocalizations.of(context)!
                                                 .enterUsername,
-                                            Icon(Icons.person,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.person)),
+                                                //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (name) => ValidationUtil()
@@ -101,8 +101,8 @@ class _SignupPageState extends State<SignupPage> {
                                             AppLocalizations.of(context)!.email,
                                             AppLocalizations.of(context)!
                                                 .enterEmail,
-                                            Icon(Icons.email_rounded,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.email_rounded)),
+                                                //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (email) => ValidationUtil()
@@ -120,8 +120,8 @@ class _SignupPageState extends State<SignupPage> {
                                                 .password,
                                             AppLocalizations.of(context)!
                                                 .enterPassword,
-                                            Icon(Icons.lock,
-                                                color: kPrimaryColor)),
+                                            Icon(Icons.lock)),
+                                                //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (password) => ValidationUtil()
@@ -189,7 +189,7 @@ class _SignupPageState extends State<SignupPage> {
                     child: Text(
                       AppLocalizations.of(context)!.registerVerb,
                       style: const TextStyle(
-                          color: Colors.white,
+                          //color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),

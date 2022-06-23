@@ -11,19 +11,21 @@ class Decorations {
   InputDecoration textInputDecoration(
       [String label = "",
       String hintText = "",
-      Widget icon = const Icon(Icons.add, color: Colors.teal,),
+      Widget icon = const Icon(
+        Icons.add,
+        color: Colors.teal,
+      ),
       suffix,
       obscureText = false]) {
     return InputDecoration(
       labelText: label,
-      focusColor: kPrimaryColor,
+      //focusColor: kPrimaryColor,
       hintText: hintText,
-      fillColor: Colors.white,
+      //fillColor: Colors.white,
       filled: true,
       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100.0),
-          borderSide: BorderSide(color: kPrimaryColor)),
+          borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide()),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
           borderSide: BorderSide(color: kPrimaryColor)),
@@ -35,9 +37,9 @@ class Decorations {
           borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       prefixIcon: icon,
       suffix: suffix,
-      labelStyle: TextStyle(
-        color: kPrimaryColor,
-      ),
+      //labelStyle: TextStyle(
+      //color: kPrimaryColor,
+      // ),
     );
   }
 
@@ -46,7 +48,7 @@ class Decorations {
     AppBar appBar = AppBar(
       elevation: 0,
       title: Text(title!),
-      backgroundColor: kPrimaryColor,
+      //backgroundColor: kPrimaryColor,
       leading: IconButton(
         onPressed: () {
           Navigator.pop(context);
@@ -54,7 +56,7 @@ class Decorations {
         icon: const Icon(
           Icons.arrow_back_ios,
           size: 20,
-          color: Colors.white,
+          //color: Colors.white,
         ),
       ),
     );
@@ -64,13 +66,14 @@ class Decorations {
   BoxDecoration inputBoxDecorationShaddow() {
     return BoxDecoration(boxShadow: [
       BoxShadow(
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.white.withOpacity(0.1),
         blurRadius: 20,
         offset: const Offset(0, 5),
       )
     ]);
   }
 
+/**
   BoxDecoration buttonBoxDecoration(BuildContext context,
       [String color1 = "", String color2 = ""]) {
     Color c1 = Theme.of(context).primaryColor;
@@ -95,10 +98,11 @@ class Decorations {
           c2,
         ],
       ),
-      color: Colors.deepPurple.shade300,
+      //color: Colors.deepPurple.shade300,
       borderRadius: BorderRadius.circular(30),
     );
   }
+  */
 
   ButtonStyle buttonStyle() {
     return ButtonStyle(
@@ -113,7 +117,7 @@ class Decorations {
     );
   }
 
-  AlertDialog alartDialog(String title, String content, BuildContext context) {
+  AlertDialog alertDialog(String title, String content, BuildContext context) {
     return AlertDialog(
       title: Text(
         title,
@@ -148,7 +152,7 @@ class Decorations {
         TextButton(
           child: Text(
             AppLocalizations.of(context)!.yes,
-            style: const TextStyle(color: Colors.white),
+            //style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
@@ -162,7 +166,7 @@ class Decorations {
         TextButton(
           child: Text(
             AppLocalizations.of(context)!.no,
-            style: const TextStyle(color: Colors.white),
+            //style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),

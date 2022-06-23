@@ -11,10 +11,10 @@ class MainMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+        //backgroundColor: kPrimaryColor,
         title: Text(AppLocalizations.of(context)!.mainMenu),
         automaticallyImplyLeading: false,
-        actions: const [Icon(Icons.home, color: Colors.white)],
+        actions: const [Icon(Icons.home)],
       ),
       body: ListView(
         children: [
@@ -33,7 +33,9 @@ class MainMenu extends StatelessWidget {
                   },
                   child: Text(
                     AppLocalizations.of(context)!.settings,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],
@@ -49,7 +51,7 @@ class MainMenu extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     AppLocalizations.of(context)!.favorites,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],
@@ -65,7 +67,7 @@ class MainMenu extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     "Aufnahme",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],
@@ -81,7 +83,7 @@ class MainMenu extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     "More Info",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],
@@ -97,7 +99,7 @@ class MainMenu extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     "Feedback",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],

@@ -23,7 +23,7 @@ class _AccountState extends State<Account> {
     return Scaffold(
       appBar: AppBar(
         elevation: 12,
-        backgroundColor: kPrimaryColor,
+        //backgroundColor: kPrimaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -31,12 +31,10 @@ class _AccountState extends State<Account> {
           icon: const Icon(
             Icons.arrow_back_ios_new,
             size: 20,
-            color: Colors.white,
+            //color: Colors.white,
           ),
         ),
-        title: Center(
-          child: Text(AppLocalizations.of(context)!.myAccount),
-        ),
+        title: Text(AppLocalizations.of(context)!.myAccount),
         shadowColor: Colors.grey[200],
       ),
       body: Column(
@@ -143,7 +141,7 @@ class _AccountState extends State<Account> {
                         MaterialPageRoute(
                             builder: (context) => const ProfilesPage()));
                   },
-                  child:  Text(
+                  child: Text(
                     AppLocalizations.of(context)!.changeProfile,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
