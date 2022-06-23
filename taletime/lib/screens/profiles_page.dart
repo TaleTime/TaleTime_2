@@ -22,26 +22,12 @@ class _ProfilesPageState extends State<ProfilesPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
-  late List profiles = [];
   int cflex = 7;
-
-  Future<void> getUser() {
-    return users
-        .get()
-        .then((value) {
-          for(var i in value.docs) {
-            setState(() {
-              profiles.add(i.data());
-            });
-          }
-        })
-        .catchError((error) => print("Failed to add user: $error"));
-  }
 
   @override
   void initState() {
     super.initState();
-    getUser();
+    //getUser();
   }
 
   @override
@@ -86,9 +72,22 @@ class _ProfilesPageState extends State<ProfilesPage> {
           children: [
             Expanded(
               flex: cflex,
-              child: ListView.builder(
-                itemCount: profiles.length,
-                itemBuilder: (context, index) => ProfileList(profiles[index]),
+              child: StreamBuilder(
+                stream: users.snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
+                  if(streamSnapshot.hasData){
+                    return ListView.builder(
+                      itemCount: streamSnapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                        return ProfileList(documentSnapshot);
+                      },
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
               ),
             ),
           ],

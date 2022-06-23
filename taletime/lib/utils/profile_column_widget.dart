@@ -1,11 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/edit_profile.dart';
 
-class ProfileColumn {
+class ProfileColumn extends StatefulWidget {
+  final DocumentSnapshot profile;
+  const ProfileColumn(this.profile, {Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ProfileColumnState(this.profile);
+  }
+}
+
+class _ProfileColumnState extends State<ProfileColumn> {
+
+  late final DocumentSnapshot profile;
+
+  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+
+  _ProfileColumnState(this.profile);
+
+  Future<void> deleteUser(id) {
+    return users
+        .doc(id)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
+  }
+
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => EditProfile(users, profile)));
         break;
       case 1:
         showDialog(
@@ -28,9 +57,10 @@ class ProfileColumn {
                         backgroundColor:
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
-                      /*cards.removeLast();
-                      setState(() {});*/
-                      Navigator.of(context).pop();
+                      setState((){
+                        deleteUser(profile["id"]);
+                        Navigator.of(context).pop();
+                      });
                     },
                   ),
                   TextButton(
@@ -52,7 +82,8 @@ class ProfileColumn {
     }
   }
 
-  Column myColumn(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Theme(
@@ -73,7 +104,7 @@ class ProfileColumn {
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.edit),
+                    Text(AppLocalizations.of(context)!.edit, style: TextStyle(color: kPrimaryColor),),
                   ],
                 ),
               ),
@@ -86,7 +117,7 @@ class ProfileColumn {
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.delete),
+                    Text(AppLocalizations.of(context)!.delete, style: TextStyle(color: kPrimaryColor)),
                   ],
                 ),
               ),

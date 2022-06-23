@@ -4,35 +4,45 @@ import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
 
-class AddProfile extends StatefulWidget {
-  const AddProfile({Key? key}) : super(key: key);
+class EditProfile extends StatefulWidget {
+
+  final CollectionReference profiles;
+  final DocumentSnapshot profile;
+
+  const EditProfile(this.profiles, this.profile, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddProfileState();
+    return _EditProfileState(this.profiles, this.profile);
   }
 }
 
-class _AddProfileState extends State<AddProfile> {
+class _EditProfileState extends State<EditProfile> {
   late final String name;
   late final String image;
   late final String title;
-  late final List recent = [];
-  late final List favorites = [];
-  late final List stories = [];
-  String profileImage = profileImages[4];
-
-  String? selectedItem = "";
+  late final CollectionReference profiles;
+  late final DocumentSnapshot profile;
 
   final textEditingController = TextEditingController();
+
+  late String profileImage = profile["image"];
+
+  late String? selectedItem = profile["title"];
+
+  _EditProfileState(this.profiles, this.profile);
 
   @override
   Widget build(BuildContext context) {
     //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
     List<String> items = ["Listener","Story-teller"];
     final _formKey = GlobalKey<FormState>();
-    
-    CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+
+    CollectionReference users = profiles;
+
+    DocumentSnapshot user = profile;
+
+    textEditingController.text = textEditingController.text == ""? user["name"] : textEditingController.text;
 
     String updateProfile(int index) {
       var image = profileImages[index];
@@ -42,30 +52,21 @@ class _AddProfileState extends State<AddProfile> {
       return profileImage;
     }
 
-    Future<void> updateUser(String userId) {
+    Future<void> updateUser(String userId, String name, String image, String title) {
       return users
           .doc(userId)
-          .update({'id': userId})
+          .update({
+        'image': image,
+        'name': name,
+        'title': title})
           .then((value) => print("User Updated"))
           .catchError((error) => print("Failed to update user: $error"));
     }
 
-    Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories) {
-      return users
-          .add({
-        'favorites': favorites,
-        'id': "",
-        'image': image,
-        'name': name,
-        'recent': recent,
-        'stories': stories,
-        'title': title
-      })
-          .then((value) {
-        print("User Added");
-        updateUser(value.id);
-      })
-          .catchError((error) => print("Failed to add user: $error"));
+    void reset(){
+      profileImage = "";
+      selectedItem = "";
+      textEditingController.text = "";
     }
 
     return Scaffold(
@@ -74,11 +75,12 @@ class _AddProfileState extends State<AddProfile> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.teal.shade600,),
           onPressed: (){
+            reset();
             Navigator.of(context).pop();
           },
         ),
-        title: Text(//AppLocalizations.of(context)!.newProfile,
-          "New Profile",
+        title: Text(
+          "Edit Profile",
           style: TextStyle(color: Colors.teal.shade600, fontWeight: FontWeight.bold,),
         ),
         elevation: 0.0,
@@ -98,22 +100,16 @@ class _AddProfileState extends State<AddProfile> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        GestureDetector(
-                          child: Stack(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(200),
-                                  color: Colors.teal.shade600,
-                                  boxShadow: [
-                                    BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
-                                  ],
-                                ),
-                                child: Image.network(profileImage, height: 150),
-                              ),
+                        Container(
+                          padding: EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(200),
+                            color: Colors.teal.shade600,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
                             ],
                           ),
+                          child: Image.network(profileImage, height: 150),
                         ),
                         SizedBox(height: 40,),
                         Container(
@@ -162,33 +158,33 @@ class _AddProfileState extends State<AddProfile> {
                         ),
                         SizedBox(height: 30,),
                         Container(
-                          child: SizedBox(
-                            width: 420,
-                            child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                focusColor: kPrimaryColor,
-                                fillColor: Colors.white,
-                                filled: true,
-                                contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
-                                labelStyle: TextStyle(
-                                  color: kPrimaryColor,
-                                ),
+                            child: SizedBox(
+                              width: 420,
+                              child: DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    focusColor: kPrimaryColor,
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(100.0),
+                                        borderSide: BorderSide(color: kPrimaryColor)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(100.0),
+                                        borderSide: BorderSide(color: kPrimaryColor)),
+                                    labelStyle: TextStyle(
+                                      color: kPrimaryColor,
+                                    ),
+                                  ),
+                                  value: selectedItem,
+                                  items: items
+                                      .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(item, style: TextStyle(fontSize: 18, color: kPrimaryColor),),
+                                  )).toList(),
+                                  onChanged: (item) => setState(() {selectedItem = item;})
                               ),
-                              value: selectedItem != "" ? selectedItem : items[0],
-                              items: items
-                                  .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item, style: TextStyle(fontSize: 18, color: kPrimaryColor),),
-                              )).toList(),
-                              onChanged: (item) => setState(() {selectedItem = item;})
-                            ),
-                          )
+                            )
                         ),
                         SizedBox(height: 50),
                         MaterialButton(
@@ -197,19 +193,17 @@ class _AddProfileState extends State<AddProfile> {
                           onPressed: () {
                             name = textEditingController.text;
                             image = profileImage;
-                            title = selectedItem.toString() != "" ? selectedItem.toString() : items[0].toString();
-                            addUser(image, name, title, favorites, recent, stories);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ProfilesPage()));
+                            title = selectedItem.toString();
+                            updateUser(user["id"], name, image,  title);
+                            reset();
+                            Navigator.of(context).pop();
                           },
                           color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           child: Text(
                             //AppLocalizations.of(context)!.addProfile,
-                            "Add Profile",
+                            "Update Profile",
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
