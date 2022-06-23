@@ -4,6 +4,7 @@ import 'package:taletime/internationalization/l10n.dart';
 import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/theme_provider.dart';
 
 /* die Setting klasse habe ich nur drei funktionen eingeführt 
 Sprache umsetellen dunkel umstellen und password ändern
@@ -16,16 +17,15 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool dark = false;
-
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LocaleProvider>(context);
-    Locale? selectedLanguage = provider.locale;
-    //var selected;
+    final languageProvider = Provider.of<LocaleProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    Locale? selectedLanguage = languageProvider.locale;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+        //backgroundColor: kPrimaryColor,
         title: Text(AppLocalizations.of(context)!.settings),
         leading: IconButton(
           onPressed: () {
@@ -34,11 +34,11 @@ class _SettingsState extends State<Settings> {
           icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
-            color: Colors.white,
+            //color: Colors.white,
           ),
         ),
         actions: [
-          Icon(Icons.settings, color: Colors.white),
+          Icon(Icons.settings),
           Container(padding: const EdgeInsets.all(16.0))
         ],
       ),
@@ -77,17 +77,17 @@ class _SettingsState extends State<Settings> {
               child: SwitchListTile(
                 secondary: const Icon(
                   Icons.dark_mode_sharp,
-                  color: Colors.black,
+                  //color: Colors.black,
                 ),
                 title: Text(AppLocalizations.of(context)!.darkMode),
-                value: dark,
-                onChanged: (val) {
-                  setState(() {
-                    dark = val;
-                  });
+                value: themeProvider.isDarkMode,
+                onChanged: (value) {
+                  final provider =
+                      Provider.of<ThemeProvider>(context, listen: false);
+                  provider.toggleTheme(value);
                 },
                 activeTrackColor: kPrimaryColor,
-                activeColor: Colors.black12,
+                //activeColor: Colors.black12,
               ),
             ),
             Container(
@@ -104,8 +104,8 @@ class _SettingsState extends State<Settings> {
               width: double.infinity,
               child: MaterialButton(
                 onPressed: () {},
-                color: Colors.white,
-                splashColor: Colors.green,
+                //color: Colors.white,
+                //splashColor: Colors.green,
                 child: Row(
                   children: [
                     SizedBox(
