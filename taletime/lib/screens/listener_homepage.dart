@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/constants.dart';
 
 class ListenerHomePage extends StatefulWidget {
   const ListenerHomePage({Key? key}) : super(key: key);
@@ -36,7 +43,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   icon: Icon(
                     Icons.menu,
                     size: 33,
-                    color: Colors.teal.shade600,
+                    color: kPrimaryColor,
                   ),
                 )
               ],
@@ -57,7 +64,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 Text(
                   "Taletime User!",
                   style: TextStyle(
-                      color: Colors.teal.shade600,
+                      color: kPrimaryColor,
                       fontSize: 25,
                       fontWeight: FontWeight.bold),
                 ),
@@ -67,7 +74,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 Container(
                   height: 42,
                   child: TextField(
-                    style: TextStyle(color: Colors.teal.shade600),
+                    style: TextStyle(color: kPrimaryColor),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 30),
                       filled: true,
@@ -93,7 +100,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   child: Text(
                     "Recently Played",
                     style: TextStyle(
-                      color: Colors.teal.shade600,
+                      color: kPrimaryColor,
                       fontSize: 18,
                     ),
                   ),
@@ -133,7 +140,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                   color: Colors.grey,
                                   borderRadius: BorderRadius.circular(18),
                                   image: DecorationImage(
-                                    image: AssetImage("images/taletimeicon.png"),
+                                    image: AssetImage("logo.png"),
                                     colorFilter: ColorFilter.mode(
                                         Colors.black.withOpacity(0.6),
                                         BlendMode.dstATop),
@@ -191,7 +198,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                       child: Icon(
                                         Icons.play_arrow_rounded,
                                         size: 35,
-                                        color: Colors.teal.shade600,
+                                        color: kPrimaryColor,
                                       ),
                                     ),
                                   ),
@@ -218,7 +225,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   child: Text(
                     "My Stories",
                     style: TextStyle(
-                      color: Colors.teal.shade600,
+                      color: kPrimaryColor,
                       fontSize: 18,
                     ),
                   ),
@@ -248,7 +255,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                               padding: EdgeInsets.only(top: 8, left: 8, bottom: 8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(11),
-                                color: Colors.teal.shade600,
+                                color: kPrimaryColor,
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,8 +267,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                       borderRadius: BorderRadius.circular(5),
                                       color: Colors.transparent,
                                     ),
-                                    child: Image.asset(
-                                      "images/taletimeicon.png",
+                                    child: Image.network(
+                                      assetLogo,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -271,9 +278,6 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      SizedBox(
-                                        height: 3,
-                                      ),
                                       Row(
                                         children: [
                                           Text(
