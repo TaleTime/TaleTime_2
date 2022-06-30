@@ -10,11 +10,7 @@ class ProfileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      height: 120,
-      alignment: Alignment.center,
-      child: GestureDetector(
+    return GestureDetector(
         onTap: () async {
           await Navigator.push(
               context, MaterialPageRoute(builder: (context) => const Home()));
@@ -94,7 +90,6 @@ class ProfileList extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
