@@ -73,8 +73,9 @@ class _AddProfileState extends State<AddProfile> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.teal.shade600,),
-          onPressed: (){
-            Navigator.of(context).pop();
+          onPressed: () async {
+            await Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ProfilesPage()));
           },
         ),
         title: Text(//AppLocalizations.of(context)!.newProfile,

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/listener_homepage.dart';
+import '../screens/settings.dart';
 
 class NavBarListener extends StatefulWidget{
   @override
@@ -17,7 +18,7 @@ class _NavBarListenerState extends State<NavBarListener>{
     const ListenerHomePage(),
     const Center(child: Text("Favorites", style: TextStyle(fontSize: 50),),),
     const Center(child: Text("Add Story", style: TextStyle(fontSize: 50),),),
-    const Center(child: Text("Settings", style: TextStyle(fontSize: 50),),),
+    const Settings(),
   ];
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels){

@@ -16,18 +16,22 @@ class ProfileList extends StatelessWidget {
           await Navigator.push(
               context, MaterialPageRoute(builder: (context) => NavBarListener()));
         },
-        child: SizedBox(
-          height: 120,
-          child: Column(
+        child: Column(
             children: <Widget>[
-              SizedBox(
+              Container(
                 height: 120,
-                child: ListView(
-                  padding: const EdgeInsets.all(8.0),
-                  itemExtent: 106.0,
+                child: Column(
+                  /*padding: const EdgeInsets.all(8.0),
+                  itemExtent: 106.0,*/
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    Container(
+                      height: 100,
+                      margin: EdgeInsets.only(bottom: 9),
+                      padding: EdgeInsets.only(top: 8, left: 8, bottom: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(11),
+                        color: Colors.transparent,
+                      ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -44,7 +48,7 @@ class ProfileList extends StatelessWidget {
                           Expanded(
                             flex: 3,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 20),
+                              padding: const EdgeInsets.only(top: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -90,7 +94,6 @@ class ProfileList extends StatelessWidget {
               ),
             ],
           ),
-        ),
     );
   }
 }

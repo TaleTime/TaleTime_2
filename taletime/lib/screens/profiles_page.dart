@@ -32,9 +32,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: HexColor("#fafafa"),
+        backgroundColor: Colors.transparent,
         leading: IconButton(
-            icon: Icon(Icons.logout, //color: kPrimaryColor
+            icon: Icon(Icons.logout, color: kPrimaryColor
             ),
             onPressed: () {
               showDialog(
@@ -62,7 +62,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       builder: (context) => AddProfile()));
                 },
                 icon: Icon(Icons.person_add, 
-                //color: kPrimaryColor
+                color: kPrimaryColor
                 ),
               )),
         ],

@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/constants.dart';
 
 class ListenerHomePage extends StatefulWidget {
   const ListenerHomePage({Key? key}) : super(key: key);
