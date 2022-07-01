@@ -21,8 +21,6 @@ class ProfileList extends StatelessWidget {
               Container(
                 height: 120,
                 child: Column(
-                  /*padding: const EdgeInsets.all(8.0),
-                  itemExtent: 106.0,*/
                   children: [
                     Container(
                       height: 100,

@@ -17,9 +17,39 @@ class _AddProfileState extends State<AddProfile> {
   late final String name;
   late final String image;
   late final String title;
-  late final List recent = [];
-  late final List favorites = [];
-  late final List stories = [];
+  late final List recent = [
+    {
+      "rating": "",
+      "title": "",
+      "author": "",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": ""
+    },
+  ];
+  late final List favorites = [
+    {
+      "rating": "",
+      "title": "",
+      "author": "",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": ""
+    },
+  ];
+  late final List stories = [
+    {
+      "rating": "",
+      "title": "",
+      "author": "",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": ""
+    },
+  ];
   String profileImage = profileImages[4];
 
   String? selectedItem = "";

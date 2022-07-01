@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
 
+import '../utils/my_list_view.dart';
+
 class ListenerHomePage extends StatefulWidget {
   const ListenerHomePage({Key? key}) : super(key: key);
 
@@ -150,7 +152,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                       height: 30,
                                       color: Colors.transparent,
                                       child: Marquee(
-                                        text: "Wonderful-Story",
+                                        text: "Wonderful-Story ${i}",
                                         blankSpace: 30,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -235,103 +237,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 260,
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (_, i) {
-                      return GestureDetector(
-                        onTap: () {},
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 75,
-                              margin: EdgeInsets.only(bottom: 9),
-                              padding: EdgeInsets.only(top: 8, left: 8, bottom: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(11),
-                                color: kPrimaryColor,
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    height: 60,
-                                    width: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.transparent,
-                                    ),
-                                    child: Image.network(
-                                      assetLogo,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 18,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "4.5",
-                                            style: const TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Icon(
-                                            Icons.star,
-                                            color: Colors.white,
-                                            size: 17,
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        "Wonderful-Story",
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        "By Taletime-story-teller",
-                                        style: const TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 80,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.white,
-                                        size: 22,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.more_vert,
-                                        color: Colors.white,
-                                        size: 22,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                height: 260,
+                  child: MyListView(),
                 ),
               ],
             ),
