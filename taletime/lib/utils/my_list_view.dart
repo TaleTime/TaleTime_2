@@ -22,6 +22,7 @@ class _MyListViewState extends State<MyListView>{
   @override
   Widget build (BuildContext context){
     return ListView.builder(
+        primary: false,
         itemCount: 10,
         itemBuilder: (_,i){
           return
