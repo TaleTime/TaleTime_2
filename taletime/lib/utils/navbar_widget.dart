@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../screens/add_story_page.dart';
 import '../screens/listener_homepage.dart';
 import '../screens/settings.dart';
 
@@ -17,7 +18,7 @@ class _NavBarListenerState extends State<NavBarListener>{
   final screens = [
     const ListenerHomePage(),
     const Center(child: Text("Favorites", style: TextStyle(fontSize: 50),),),
-    const Center(child: Text("Add Story", style: TextStyle(fontSize: 50),),),
+    const AddStory(),
     const Settings(),
   ];
 

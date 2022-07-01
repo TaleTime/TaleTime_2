@@ -60,7 +60,7 @@ class _DeletePopupState extends State<DeletePopup> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.delete, color: Colors.white, size: 22,),
+      icon: Icon(Icons.delete, color: Colors.white, size: 21,),
       onPressed: () {
         onSelected(context);
       },

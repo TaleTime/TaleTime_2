@@ -98,7 +98,7 @@ class _MyListViewState extends State<MyListView>{
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: isLiked == false ? Icon(_icons[1], size: 22, color: Colors.white,) : Icon(_icons[0], size: 22, color: Colors.white,),
+                                    icon: isLiked == false ? Icon(_icons[1], size: 21, color: Colors.white,) : Icon(_icons[0], size: 21, color: Colors.white,),
                                     onPressed: () {
                                       if (!isLiked){
                                         setState(() {
