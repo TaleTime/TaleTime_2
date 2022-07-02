@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Color kPrimaryColor = Colors.teal.shade600;
 Color kErrorColor = const Color.fromARGB(255, 143, 0, 0);
 const String assetLogo = "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Flogo.png?alt=media&token=9a8874dd-766f-4ed0-827e-ca908e73207d";
+const String storyImagePlaceholder = "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2FnoImage.jpg?alt=media&token=0e66dbf6-cd04-45bc-a79c-9ce4b46e5a60";
 
 List profileImages = [
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_boy_01.png?alt=media&token=190fe16b-41b7-4957-8bbd-1a63dd0efdd7",

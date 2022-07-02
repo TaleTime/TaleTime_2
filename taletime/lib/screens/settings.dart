@@ -9,14 +9,14 @@ import 'package:taletime/utils/theme_provider.dart';
 /* die Setting klasse habe ich nur drei funktionen eingeführt 
 Sprache umsetellen dunkel umstellen und password ändern
 sie muss auf jeden Fall erweitert werden .*/
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LocaleProvider>(context);

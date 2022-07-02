@@ -19,14 +19,49 @@ class _AddProfileState extends State<AddProfile> {
   late final String title;
   late final List recent = [
     {
-      "rating": "",
-      "title": "",
-      "author": "",
+      "rating": "4.5",
+      "title": "Tiger of Drass: Capt. Anuj Nayyar, 23, Kargil Hero",
+      "author": "Meena Nayyar & Himmat Singh Shekhawat",
       "image": "",
       "audio": "",
       "isLiked": false,
-      "id": ""
+      "id": "0"
+    },{
+      "rating": "4.6",
+      "title": "Peace Life",
+      "author": "Unknown Author",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "1"
     },
+    {
+      "rating": "3.5",
+      "title": "The India Story",
+      "author": "Bimal Jalal",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "2"
+    },
+    {
+      "rating": "4.0",
+      "title": "Listen to Your Heart: The London Adventure",
+      "author": "Ruskin Bond",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "3"
+    },
+    {
+      "rating": "3.9",
+      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
+      "author": "Rajnath Singh",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "4"
+    }
   ];
   late final List favorites = [
     {
@@ -41,14 +76,49 @@ class _AddProfileState extends State<AddProfile> {
   ];
   late final List stories = [
     {
-      "rating": "",
-      "title": "",
-      "author": "",
+      "rating": "4.5",
+      "title": "Tiger of Drass: Capt. Anuj Nayyar, 23, Kargil Hero",
+      "author": "Meena Nayyar & Himmat Singh Shekhawat",
       "image": "",
       "audio": "",
       "isLiked": false,
-      "id": ""
+      "id": "0"
+    },{
+      "rating": "4.6",
+      "title": "Peace Life",
+      "author": "Unknown Author",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "1"
     },
+    {
+      "rating": "3.5",
+      "title": "The India Story",
+      "author": "Bimal Jalal",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "2"
+    },
+    {
+      "rating": "4.0",
+      "title": "Listen to Your Heart: The London Adventure",
+      "author": "Ruskin Bond",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "3"
+    },
+    {
+      "rating": "3.9",
+      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
+      "author": "Rajnath Singh",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "4"
+    }
   ];
   String profileImage = profileImages[4];
 

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
@@ -5,16 +6,23 @@ import 'package:taletime/utils/constants.dart';
 import '../utils/my_list_view.dart';
 
 class ListenerHomePage extends StatefulWidget {
-  const ListenerHomePage({Key? key}) : super(key: key);
+  final DocumentSnapshot profile;
+  const ListenerHomePage(this.profile, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState();
+    return _ListenerHomePageState(this.profile);
   }
 }
 
 class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selecetedIndex = 0;
+
+  late final DocumentSnapshot profile;
+
+  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+
+  _ListenerHomePageState(this.profile);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +66,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
                 ),
                 Text(
-                  "Taletime User!",
+                  profile["name"],
                   style: TextStyle(
                       color: kPrimaryColor,
                       fontSize: 25,
@@ -117,7 +125,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     });
                   },
                   controller: PageController(viewportFraction: 0.4),
-                  itemCount: 10,
+                  itemCount: profile["recent"] == null ? 0 : profile["recent"].length,
                   itemBuilder: (_, i) {
                     var _scale = _selecetedIndex == i ? 1.0 : 0.8;
                     return TweenAnimationBuilder(
@@ -136,7 +144,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                   color: Colors.grey,
                                   borderRadius: BorderRadius.circular(18),
                                   image: DecorationImage(
-                                    image: AssetImage("logo.png"),
+                                    image: NetworkImage(profile["recent"][i]["image"] == "" ? storyImagePlaceholder : profile["recent"][i]["image"]),
                                     colorFilter: ColorFilter.mode(
                                         Colors.black.withOpacity(0.6),
                                         BlendMode.dstATop),
@@ -152,7 +160,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                       height: 30,
                                       color: Colors.transparent,
                                       child: Marquee(
-                                        text: "Wonderful-Story ${i}",
+                                        text: profile["recent"][i]["title"],
                                         blankSpace: 30,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -170,7 +178,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                       height: 30,
                                       color: Colors.transparent,
                                       child: Marquee(
-                                        text: "By Taletime-Story-teller",
+                                        text: "By ${profile["recent"][i]["author"]}",
                                         blankSpace: 20,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -238,7 +246,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               children: [
                 Container(
                 height: 260,
-                  child: MyListView(),
+                  child: MyListView(profile["stories"]),
                 ),
               ],
             ),

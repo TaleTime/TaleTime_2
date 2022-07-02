@@ -1,17 +1,27 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
 import 'icon_context_dialog.dart';
 
 class MyListView extends StatefulWidget{
+  final List stories;
+  const MyListView(this.stories, {Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewState();
+    return _MyListViewState(this.stories);
   }
 }
 
 class _MyListViewState extends State<MyListView>{
+
+  late final List stories;
+
+  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+
+  _MyListViewState(this.stories);
 
   late bool isLiked = false;
   final List<IconData> _icons = [
@@ -21,9 +31,11 @@ class _MyListViewState extends State<MyListView>{
 
   @override
   Widget build (BuildContext context){
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
     return ListView.builder(
         primary: false,
-        itemCount: 10,
+        itemCount: stories.length,
         itemBuilder: (_,i){
           return
             GestureDetector(
@@ -47,10 +59,10 @@ class _MyListViewState extends State<MyListView>{
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(15),
                                   color: Colors.transparent,
                                 ),
-                                child: Image.network(assetLogo),
+                                child: Image.network(stories[i]["image"] == "" ? storyImagePlaceholder : stories[i]["image"]),
                               ),
                               SizedBox(width: 20,),
                               Padding(
@@ -61,7 +73,7 @@ class _MyListViewState extends State<MyListView>{
                                     Row(
                                       children: [
                                         Text(
-                                          "4.5",
+                                          stories[i]["rating"],
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12.0
@@ -77,18 +89,26 @@ class _MyListViewState extends State<MyListView>{
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      "Wonderful-story ${i}",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15.0,
+                                    Container(
+                                      width: screenWidth * 0.4,
+                                      child: Text(
+                                        stories[i]["title"],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15.0,
+                                        ),
                                       ),
                                     ),
-                                    Text(
-                                      "By Taletime-story-teller",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13.0,
+                                    Container(
+                                      width: screenWidth * 0.4,
+                                      child: Text(
+                                        stories[i]["author"],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13.0,
+                                        ),
                                       ),
                                     ),
                                   ],

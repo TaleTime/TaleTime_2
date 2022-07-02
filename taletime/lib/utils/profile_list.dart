@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/profile_column_widget.dart';
 
-import '../Screens/home.dart';
 import 'navbar_widget.dart';
 
 class ProfileList extends StatelessWidget {
@@ -14,7 +13,7 @@ class ProfileList extends StatelessWidget {
     return GestureDetector(
         onTap: () async {
           await Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NavBarListener()));
+              context, MaterialPageRoute(builder: (context) => NavBarListener(profile)));
         },
         child: Column(
             children: <Widget>[
