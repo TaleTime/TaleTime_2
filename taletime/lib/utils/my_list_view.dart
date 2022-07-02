@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
-import 'delete_popup.dart';
+import 'icon_context_dialog.dart';
 
 class MyListView extends StatefulWidget{
   @override
@@ -114,7 +114,10 @@ class _MyListViewState extends State<MyListView>{
                                   const SizedBox(
                                     width: 3,
                                   ),
-                                  DeletePopup(),
+                                  IconContextDialog("Delete Story...",
+                                    "Do you really want to delete this story?",
+                                    Icons.delete
+                                  ),
                                   const SizedBox(
                                     width: 1,
                                   ),

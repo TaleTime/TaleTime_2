@@ -2,28 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'constants.dart';
 
-class DeletePopup extends StatefulWidget {
-  const DeletePopup({Key? key}) : super(key: key);
+class IconContextDialog extends StatefulWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+
+  const IconContextDialog(this.title, this.subtitle, this.icon, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _DeletePopupState();
+    return _IconContextDialogState(this.title, this.subtitle, this.icon);
   }
 }
 
-class _DeletePopupState extends State<DeletePopup> {
+class _IconContextDialogState extends State<IconContextDialog> {
+  late final String title;
+  late final String subtitle;
+  late final IconData icon;
 
-  void onSelected(BuildContext context) {
+  _IconContextDialogState(this.title, this.subtitle, this.icon);
+
+  void onSelected(BuildContext context, String title, String subtitle) {
         showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text(
-                  "Delete story...",
+                  title,
                   style: TextStyle(color: kPrimaryColor),
                 ),
                 content:
-                Text("Do you really want to delete this story?"),
+                Text(subtitle),
                 actions: [
                   TextButton(
                     child:  Text(
@@ -60,9 +69,9 @@ class _DeletePopupState extends State<DeletePopup> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.delete, color: Colors.white, size: 21,),
+      icon: Icon(icon, color: Colors.white, size: 21,),
       onPressed: () {
-        onSelected(context);
+        onSelected(context, title, subtitle);
       },
     );
   }
