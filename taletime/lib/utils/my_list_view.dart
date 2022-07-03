@@ -23,7 +23,6 @@ class _MyListViewState extends State<MyListView>{
 
   _MyListViewState(this.stories);
 
-  late bool isLiked = false;
   final List<IconData> _icons = [
     Icons.favorite,
     Icons.favorite_border,
@@ -118,15 +117,15 @@ class _MyListViewState extends State<MyListView>{
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: isLiked == false ? Icon(_icons[1], size: 21, color: Colors.white,) : Icon(_icons[0], size: 21, color: Colors.white,),
+                                    icon: stories[i]["isLiked"] == false ? Icon(_icons[1], size: 21, color: Colors.white,) : Icon(_icons[0], size: 21, color: Colors.white,),
                                     onPressed: () {
-                                      if (!isLiked){
+                                      if (!stories[i]["isLiked"]){
                                         setState(() {
-                                          isLiked = true;
+                                          stories[i]["isLiked"] = true;
                                         });
                                       }else{
                                         setState(() {
-                                          isLiked = false;
+                                          stories[i]["isLiked"] = false;
                                         });
                                       }
                                     },

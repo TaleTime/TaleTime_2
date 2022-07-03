@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
 
+import '../utils/decoration_util.dart';
 import '../utils/my_list_view.dart';
 
 class ListenerHomePage extends StatefulWidget {
@@ -24,13 +25,11 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   _ListenerHomePageState(this.profile);
 
+  List matchStoryList = [];
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
-    void updateList(String value) {
-      // method to update list when searching
-    }
 
     return Scaffold(
         body: Stack(children: [
@@ -78,6 +77,15 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 Container(
                   height: 42,
                   child: TextField(
+                    onChanged: (value){
+                      setState(() {
+                        List stories = profile["stories"];
+                        matchStoryList = stories.where((story)=>story["title"].toLowerCase().contains(value.toLowerCase())).toList();
+                      });
+                      if (value == "") {
+                        matchStoryList.length = 0;
+                      }
+                    },
                     style: TextStyle(color: kPrimaryColor),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 30),
@@ -116,7 +124,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
             top: 270,
             left: -90,
             right: 0,
-            child: Container(
+            child: profile["recent"].length == 0 ? Decorations().noRecentContent("Nothing to show yet. \nplease add some stories to your story library", "recentStories") : Container(
               height: 190,
               child: PageView.builder(
                   onPageChanged: (index) {
@@ -219,6 +227,40 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
             ),
           ),
           Positioned(
+            top: 180,
+            left: 0,
+            right:0,
+            child: Container(
+              margin: EdgeInsets.all(15),
+              height: matchStoryList.isNotEmpty ? (matchStoryList.length >= 4 ? (63.0 * 4.5) : 63.0 * matchStoryList.length) :  0.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.teal.shade600,
+              ),
+              child: ListView.builder(
+                primary: false,
+                itemCount: matchStoryList.length,
+                itemBuilder: (context, index) {
+                  var resultTitle = matchStoryList[index]["title"];
+                  var resultAuthor = matchStoryList[index]["author"];
+                  var resultImage = matchStoryList[index]["image"] == "" ? storyImagePlaceholder : matchStoryList[index]["image"];
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push( context, MaterialPageRoute(builder: (context) => ListenerHomePage(profile)));
+                    },
+                    child: ListTile(
+                      title: Text(resultTitle, style: TextStyle(color: Colors.white),
+                        overflow: TextOverflow.ellipsis,),
+                      subtitle: Text(resultAuthor, style: TextStyle(color: Colors.white),
+                        overflow: TextOverflow.ellipsis,),
+                      leading: Image.network(resultImage),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Positioned(
             top: 490,
             left: 20,
             right: 0,
@@ -246,7 +288,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               children: [
                 Container(
                 height: 260,
-                  child: MyListView(profile["stories"]),
+                  child: profile["stories"].length == 0 ? Decorations().noRecentContent("No stories yet. \nplease add some stories to your story library", "") : MyListView(profile["stories"]),
+                  //child: storyList.length == 0 ? Decorations().noRecentContent("No stories yet. \nplease add some stories to your story library", "") : MyListView(storyList),
                 ),
               ],
             ),

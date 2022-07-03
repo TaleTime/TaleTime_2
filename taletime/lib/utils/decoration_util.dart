@@ -117,6 +117,31 @@ class Decorations {
     );
   }
 
+  Container noRecentContent(String text, String view){
+    if (view == "recentStories") {
+      return Container(
+          padding: const EdgeInsets.only(left: 160, right: 100),
+          margin: const EdgeInsets.only(top: 50),
+          alignment: Alignment.center,
+          child : Column(
+            children: [
+              Text(text, style: TextStyle(fontSize: 13),),
+            ],
+          )
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      margin: const EdgeInsets.only(top: 70),
+      alignment: Alignment.center,
+      child : Column(
+        children: [
+          Text(text, style: TextStyle(fontSize: 13),),
+        ],
+      )
+    );
+  }
+
   AlertDialog alertDialog(String title, String content, BuildContext context) {
     return AlertDialog(
       title: Text(
