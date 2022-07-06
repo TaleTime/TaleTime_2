@@ -29,7 +29,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         appBar: Decorations().appBarDecoration(
             title: AppLocalizations.of(context)!.resetPassword,
@@ -53,30 +52,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             Text(
                               AppLocalizations.of(context)!.problemsWithLogin,
                               style: const TextStyle(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.bold,
-                                  //color: Colors.black
-                                  ),
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              AppLocalizations.of(context)!
-                                  .enterAssociatedEmail,
-                              style: const TextStyle(
+                                AppLocalizations.of(context)!
+                                    .enterAssociatedEmail,
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  //color: Colors.black87)
-                              )
-                            ),
+                                )),
                             const SizedBox(
                               height: 10,
                             ),
                             Text(
                               AppLocalizations.of(context)!.sendResetLink,
-                              style: const TextStyle(
-                                //color: Colors.black54,
-                              ),
+                              style: const TextStyle(),
                             ),
                           ],
                         ),
@@ -106,9 +100,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                       ),
                       Container(
-                        //decoration: Decorations().buttonBoxDecoration(context),
                         child: ElevatedButton(
-                          //style: Decorations().buttonStyle(),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                             child: Text(

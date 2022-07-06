@@ -12,7 +12,6 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.welcome),
         actions: const [LanguagePicker(), SizedBox(width: 12)],

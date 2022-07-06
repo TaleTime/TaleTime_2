@@ -32,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      //backgroundColor: Colors.white,
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.login, context: context),
       body: SizedBox(
@@ -132,8 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: MediaQuery.of(context).size.height / 13,
                         width: double.infinity,
                         child: ElevatedButton(
+                          /// Funktion für Login mit Firebase
                           onPressed: () async {
-                            // Funktion für Login mit Firebase
                             final String _email =
                                 _emailController.text.trim().toLowerCase();
                             final String _password =
@@ -161,9 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Text(AppLocalizations.of(context)!.dontHaveAccount),
                     TextButton(
-                        child: Text(AppLocalizations.of(context)!.registerVerb,
-                            //style: TextStyle(color: kPrimaryColor)
-                            ),
+                        child: Text(AppLocalizations.of(context)!.registerVerb),
                         onPressed: () {
                           Navigator.push(
                               context,

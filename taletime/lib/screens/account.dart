@@ -22,7 +22,6 @@ class _AccountState extends State<Account> {
     return Scaffold(
       appBar: AppBar(
         elevation: 12,
-        //backgroundColor: kPrimaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -30,7 +29,6 @@ class _AccountState extends State<Account> {
           icon: const Icon(
             Icons.arrow_back_ios_new,
             size: 20,
-            //color: Colors.white,
           ),
         ),
         title: Text(AppLocalizations.of(context)!.myAccount),

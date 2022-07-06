@@ -7,16 +7,13 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //return Drawer(
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: kPrimaryColor,
         title: Text(AppLocalizations.of(context)!.mainMenu),
         automaticallyImplyLeading: false,
         actions: const [Icon(Icons.home)],
       ),
       body: Material(
-        //color: Theme.of(context).primaryColor,
         child: ListView(
           padding: padding,
           children: <Widget>[
@@ -29,7 +26,6 @@ class NavigationDrawerWidget extends StatelessWidget {
                 text: AppLocalizations.of(context)!.favorites,
                 icon: Icons.favorite,
                 onClicked: () => selectedItem(context, 1)),
-            //const Divider(color: Colors.white),
             buildMenuItem(
                 text: "More Info",
                 icon: Icons.info,

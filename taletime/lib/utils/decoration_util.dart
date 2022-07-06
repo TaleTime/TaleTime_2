@@ -19,9 +19,7 @@ class Decorations {
       obscureText = false]) {
     return InputDecoration(
       labelText: label,
-      //focusColor: kPrimaryColor,
       hintText: hintText,
-      //fillColor: Colors.white,
       filled: true,
       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       focusedBorder: OutlineInputBorder(
@@ -37,9 +35,6 @@ class Decorations {
           borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       prefixIcon: icon,
       suffix: suffix,
-      //labelStyle: TextStyle(
-      //color: kPrimaryColor,
-      // ),
     );
   }
 
@@ -48,7 +43,6 @@ class Decorations {
     AppBar appBar = AppBar(
       elevation: 0,
       title: Text(title!),
-      //backgroundColor: kPrimaryColor,
       leading: IconButton(
         onPressed: () {
           Navigator.pop(context);
@@ -56,7 +50,6 @@ class Decorations {
         icon: const Icon(
           Icons.arrow_back_ios,
           size: 20,
-          //color: Colors.white,
         ),
       ),
     );
@@ -73,37 +66,6 @@ class Decorations {
     ]);
   }
 
-/**
-  BoxDecoration buttonBoxDecoration(BuildContext context,
-      [String color1 = "", String color2 = ""]) {
-    Color c1 = Theme.of(context).primaryColor;
-    Color c2 = Theme.of(context).colorScheme.secondary;
-    if (color1.isEmpty == false) {
-      c1 = color1 as Color;
-    }
-    if (color2.isEmpty == false) {
-      c2 = color2 as Color;
-    }
-
-    return BoxDecoration(
-      boxShadow: const [
-        BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)
-      ],
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        stops: const [0.0, 1.0],
-        colors: [
-          c1,
-          c2,
-        ],
-      ),
-      //color: Colors.deepPurple.shade300,
-      borderRadius: BorderRadius.circular(30),
-    );
-  }
-  */
-
   ButtonStyle buttonStyle() {
     return ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -117,29 +79,33 @@ class Decorations {
     );
   }
 
-  Container noRecentContent(String text, String view){
+  Container noRecentContent(String text, String view) {
     if (view == "recentStories") {
       return Container(
           padding: const EdgeInsets.only(left: 160, right: 100),
           margin: const EdgeInsets.only(top: 50),
           alignment: Alignment.center,
-          child : Column(
+          child: Column(
             children: [
-              Text(text, style: TextStyle(fontSize: 13),),
+              Text(
+                text,
+                style: TextStyle(fontSize: 13),
+              ),
             ],
-          )
-      );
+          ));
     }
     return Container(
-      padding: const EdgeInsets.only(left: 30, right: 30),
-      margin: const EdgeInsets.only(top: 70),
-      alignment: Alignment.center,
-      child : Column(
-        children: [
-          Text(text, style: TextStyle(fontSize: 13),),
-        ],
-      )
-    );
+        padding: const EdgeInsets.only(left: 30, right: 30),
+        margin: const EdgeInsets.only(top: 70),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Text(
+              text,
+              style: TextStyle(fontSize: 13),
+            ),
+          ],
+        ));
   }
 
   AlertDialog alertDialog(String title, String content, BuildContext context) {
@@ -177,7 +143,6 @@ class Decorations {
         TextButton(
           child: Text(
             AppLocalizations.of(context)!.yes,
-            //style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
@@ -191,7 +156,6 @@ class Decorations {
         TextButton(
           child: Text(
             AppLocalizations.of(context)!.no,
-            //style: const TextStyle(color: Colors.white),
           ),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(kPrimaryColor)),

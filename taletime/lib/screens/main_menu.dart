@@ -10,7 +10,6 @@ class MainMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: kPrimaryColor,
         title: Text(AppLocalizations.of(context)!.mainMenu),
         automaticallyImplyLeading: false,
         actions: const [Icon(Icons.home)],

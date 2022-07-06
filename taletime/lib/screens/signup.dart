@@ -35,7 +35,6 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      //backgroundColor: Colors.white,
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.register, context: context),
       body: SingleChildScrollView(
@@ -85,7 +84,6 @@ class _SignupPageState extends State<SignupPage> {
                                             AppLocalizations.of(context)!
                                                 .enterUsername,
                                             Icon(Icons.person)),
-                                    //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (name) => ValidationUtil()
@@ -102,7 +100,6 @@ class _SignupPageState extends State<SignupPage> {
                                             AppLocalizations.of(context)!
                                                 .enterEmail,
                                             Icon(Icons.email_rounded)),
-                                    //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (email) => ValidationUtil()
@@ -121,7 +118,6 @@ class _SignupPageState extends State<SignupPage> {
                                             AppLocalizations.of(context)!
                                                 .enterPassword,
                                             Icon(Icons.lock)),
-                                    //color: kPrimaryColor)),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (password) => ValidationUtil()
@@ -189,38 +185,6 @@ class _SignupPageState extends State<SignupPage> {
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
-
-                        /**
-                  child: MaterialButton(
-                    minWidth: double.infinity,
-                    height: 60,
-                    onPressed: () async {
-                      final String _userName = _nameController.text;
-                      final String _email =
-                          _emailController.text.trim().toLowerCase();
-                      final String _password = _passwordController.text.trim();
-                      final isValidForm = _formKey.currentState!.validate();
-                      if (isValidForm) {
-                        AuthentificationUtil(auth: auth)
-                            .registerWithEmailAndPassword(
-                                userName: _userName,
-                                email: _email,
-                                password: _password,
-                                context: context);
-                      }
-                    },
-                    color: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      AppLocalizations.of(context)!.registerVerb,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
-                    ),
-                  )
-                  */
                       ))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

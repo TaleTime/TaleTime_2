@@ -6,9 +6,6 @@ import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/theme_provider.dart';
 
-/* die Setting klasse habe ich nur drei funktionen eingeführt 
-Sprache umsetellen dunkel umstellen und password ändern
-sie muss auf jeden Fall erweitert werden .*/
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -25,7 +22,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: kPrimaryColor,
         title: Text(AppLocalizations.of(context)!.settings),
         leading: IconButton(
           onPressed: () {
@@ -34,7 +30,6 @@ class _SettingsPageState extends State<SettingsPage> {
           icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
-            //color: Colors.white,
           ),
         ),
         actions: [
@@ -54,7 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         value: selectedLanguage,
                         items: L10n.supportedLanguages.map(
                           (locale) {
-                            final flag = L10n.getCountryFlag(locale.languageCode);
+                            final flag =
+                                L10n.getCountryFlag(locale.languageCode);
                             return DropdownMenuItem(
                               child: Text(flag,
                                   style: const TextStyle(fontSize: 32)),
@@ -77,7 +73,6 @@ class _SettingsPageState extends State<SettingsPage> {
               child: SwitchListTile(
                 secondary: const Icon(
                   Icons.dark_mode_sharp,
-                  //color: Colors.black,
                 ),
                 title: Text(AppLocalizations.of(context)!.darkMode),
                 value: themeProvider.isDarkMode,
@@ -87,7 +82,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   provider.toggleTheme(value);
                 },
                 activeTrackColor: kPrimaryColor,
-                //activeColor: Colors.black12,
               ),
             ),
             Container(
@@ -104,8 +98,6 @@ class _SettingsPageState extends State<SettingsPage> {
               width: double.infinity,
               child: MaterialButton(
                 onPressed: () {},
-                //color: Colors.white,
-                //splashColor: Colors.green,
                 child: Row(
                   children: [
                     SizedBox(

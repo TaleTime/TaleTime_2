@@ -34,8 +34,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-            icon: Icon(Icons.logout, color: kPrimaryColor
-            ),
+            icon: Icon(Icons.logout, color: kPrimaryColor),
             onPressed: () {
               showDialog(
                 context: context,
@@ -58,12 +57,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => AddProfile()));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => AddProfile()));
                 },
-                icon: Icon(Icons.person_add, 
-                color: kPrimaryColor
-                ),
+                icon: Icon(Icons.person_add, color: kPrimaryColor),
               )),
         ],
       ),
@@ -75,12 +72,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
               flex: cflex,
               child: StreamBuilder(
                 stream: users.snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
-                  if(streamSnapshot.hasData){
+                builder:
+                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                  if (streamSnapshot.hasData) {
                     return ListView.builder(
                       itemCount: streamSnapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                        final DocumentSnapshot documentSnapshot =
+                            streamSnapshot.data!.docs[index];
                         return ProfileList(documentSnapshot);
                       },
                     );
