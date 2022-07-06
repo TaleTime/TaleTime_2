@@ -6,16 +6,21 @@ import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/error_util.dart';
 
-/// author: Gianluca Goebel
 /// Hilfsmethoden für die Authentifizierung mit Firebase
 
 class AuthentificationUtil {
-  final FirebaseAuth auth; //= FirebaseAuth.instance;
-
+  final FirebaseAuth auth;
+  
   AuthentificationUtil({required this.auth});
 
+  /// Gibt den aktuell eingeloggten Benutzer zurück
   User? get user => auth.currentUser;
 
+  /// Ermöglicht das Anmelden mit Eingabe von Email und Passwort
+  ///
+  /// fängt alle FirebaseAuthExceptions ab und gibt diese in Form einer Snackbar als Rückmeldung für den Benutzer aus
+  /// wenn die Anmeldung erfolgreich war, erhält der Benutzer die Rückmeldung, dass die Anmeldung erfolgreich war
+  /// und leitet den Nutzer zur Seite mit den Profilen weiter
   Future<void> loginUsingEmailAndPassword(
       {required String email,
       required String password,
@@ -39,6 +44,11 @@ class AuthentificationUtil {
     }
   }
 
+  /// Ermöglicht das Registrieren mit Eingabe von Email und Passwort
+  ///
+  /// fängt alle FirebaseAuthExceptions ab und gibt diese in Form einer Snackbar als Rückmeldung für den Benutzer aus
+  /// wenn die Registrierung erfolgreich war, erhält der Benutzer die Rückmeldung, dass die Registrierung erfolgreich war
+  /// und leitet den Nutzer zur Seite mit den Profilen weiter
   Future<void> registerWithEmailAndPassword(
       {required String userName,
       required String email,
@@ -63,6 +73,11 @@ class AuthentificationUtil {
     }
   }
 
+  /// Ermöglicht die Zurücksetzung des Passworts mit der Eingabe der Email-Adresse
+  ///
+  /// fängt alle FirebaseAuthExceptions ab und gibt diese in Form einer Snackbar als Rückmeldung für den Benutzer aus
+  /// wenn die Email gültig ist und existiert, dann wird an die eingegebene [email] eine Nachricht zur Zurücksetzung des Passworts versendet
+  ///  und der Nutzer wird zur Anmeldeseite weitergeleitet
   Future<void> resetPasswordWithEmail(
       {required String email, required BuildContext context}) async {
     try {
@@ -77,10 +92,9 @@ class AuthentificationUtil {
       SnackBar snackBar = ErrorUtil().showResetPasswordError(e, context);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
-
-    //await _auth.sendPasswordResetEmail(email: email);
   }
 
+  /// meldet den aktuell eingeloggten Benutzer aus
   Future signOut() async {
     try {
       // ignore: avoid_print
