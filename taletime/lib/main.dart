@@ -53,7 +53,7 @@ class Providers extends StatelessWidget {
       theme: MyThemes.lightTheme,
       darkTheme: MyThemes.darkTheme,
       locale: languageProvider.locale,
-      supportedLocales: L10n.all,
+      supportedLocales: L10n.supportedLanguages,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

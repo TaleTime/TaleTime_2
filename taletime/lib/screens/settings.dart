@@ -52,9 +52,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     title: Text(AppLocalizations.of(context)!.changeLanguage),
                     trailing: DropdownButton<Locale>(
                         value: selectedLanguage,
-                        items: L10n.all.map(
+                        items: L10n.supportedLanguages.map(
                           (locale) {
-                            final flag = L10n.getFlag(locale.languageCode);
+                            final flag = L10n.getCountryFlag(locale.languageCode);
                             return DropdownMenuItem(
                               child: Text(flag,
                                   style: const TextStyle(fontSize: 32)),

@@ -14,9 +14,9 @@ class LanguagePicker extends StatelessWidget {
         child: DropdownButton(
       value: locale,
       icon: Container(width: 12),
-      items: L10n.all.map(
+      items: L10n.supportedLanguages.map(
         (locale) {
-          final flag = L10n.getFlag(locale.languageCode);
+          final flag = L10n.getCountryFlag(locale.languageCode);
           return DropdownMenuItem(
             child: Center(
               child: Text(flag, style: const TextStyle(fontSize: 32)),
