@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/login.dart';
@@ -36,7 +37,7 @@ class AuthentificationUtil {
             backgroundColor: kPrimaryColor);
         ScaffoldMessenger.of(context).showSnackBar(signinSuccesful);
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const ProfilesPage()));
+            MaterialPageRoute(builder: (context) => ProfilesPage(auth.currentUser!.uid)));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showLoginError(e, context);
@@ -59,18 +60,37 @@ class AuthentificationUtil {
           email: email, password: password);
       User? user = userData.user;
       user?.updateDisplayName(userName);
+
+      Map<String, dynamic> userInfoMap = {
+        "email" : email,
+        "password" : password,
+        "userName" : userName,
+        "UID" : auth.currentUser!.uid,
+      };
+
       if (user != null) {
         final SnackBar signupSuccesful = SnackBar(
             content: Text(AppLocalizations.of(context)!.signUpSuccesful),
             backgroundColor: kPrimaryColor);
         ScaffoldMessenger.of(context).showSnackBar(signupSuccesful);
+
+        addUserInfoToDB(auth.currentUser!.uid, userInfoMap);
+
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const ProfilesPage()));
+            MaterialPageRoute(builder: (context) => ProfilesPage(auth.currentUser!.uid)));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showRegisterError(e, context);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  }
+
+  Future addUserInfoToDB(String userId, Map<String, dynamic> userInfoMap){
+    return FirebaseFirestore.instance.collection("users").doc(userId).set(userInfoMap);
+  }
+
+  Future<DocumentSnapshot> getUserFromDB(String userId){
+    return FirebaseFirestore.instance.collection("users").doc(userId).get();
   }
 
   /// Ermöglicht die Zurücksetzung des Passworts mit der Eingabe der Email-Adresse

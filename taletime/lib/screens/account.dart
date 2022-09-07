@@ -136,7 +136,7 @@ class _AccountState extends State<Account> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProfilesPage()));
+                            builder: (context) => ProfilesPage(user!.uid)));
                   },
                   child: Text(
                     AppLocalizations.of(context)!.changeProfile,

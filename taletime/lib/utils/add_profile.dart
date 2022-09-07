@@ -1,84 +1,92 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
 
 class AddProfile extends StatefulWidget {
-  const AddProfile({Key? key}) : super(key: key);
+  final String UID;
+
+  const AddProfile(this.UID , {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddProfileState();
+    return _AddProfileState(this.UID);
   }
 }
 
 class _AddProfileState extends State<AddProfile> {
+
+  late String UID;
+
+  _AddProfileState(this.UID);
+
   late final String name;
   late final String image;
   late final String title;
   late final List recent = [
-    {
-      "rating": "4.5",
-      "title": "Tiger of Drass: Capt. Anuj Nayyar, 23, Kargil Hero",
-      "author": "Meena Nayyar & Himmat Singh Shekhawat",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "0"
-    },{
-      "rating": "4.6",
-      "title": "Peace Life",
-      "author": "Unknown Author",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "1"
-    },
-    {
-      "rating": "3.5",
-      "title": "The India Story",
-      "author": "Bimal Jalal",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "2"
-    },
-    {
-      "rating": "4.0",
-      "title": "Listen to Your Heart: The London Adventure",
-      "author": "Ruskin Bond",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "3"
-    },
-    {
-      "rating": "3.9",
-      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
-      "author": "Rajnath Singh",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "4"
-    }
-  ];
-  late final List favorites = [
-    {
+    /*{
       "rating": "",
       "title": "",
       "author": "",
       "image": "",
       "audio": "",
       "isLiked": false,
-      "id": ""
+      "id": "0"
+    },{
+      "rating": "4.6",
+      "title": "Peace Life",
+      "author": "Unknown Author",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "1"
     },
+    {
+      "rating": "3.5",
+      "title": "The India Story",
+      "author": "Bimal Jalal",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "2"
+    },
+    {
+      "rating": "4.0",
+      "title": "Listen to Your Heart: The London Adventure",
+      "author": "Ruskin Bond",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "3"
+    },
+    {
+      "rating": "3.9",
+      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
+      "author": "Rajnath Singh",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "4"
+    }*/
+  ];
+  late final List favorites = [
+    /*{
+      "rating": "",
+      "title": "",
+      "author": "",
+      "image": "",
+      "audio": "",
+      "isLiked": true,
+      "id": ""
+    },*/
   ];
   late final List stories = [
-    {
-      "rating": "4.5",
-      "title": "Tiger of Drass: Capt. Anuj Nayyar, 23, Kargil Hero",
-      "author": "Meena Nayyar & Himmat Singh Shekhawat",
+    /*{
+      "rating": "",
+      "title": "",
+      "author": "",
       "image": "",
       "audio": "",
       "isLiked": false,
@@ -118,7 +126,7 @@ class _AddProfileState extends State<AddProfile> {
       "audio": "",
       "isLiked": false,
       "id": "4"
-    }
+    }*/
   ];
   String profileImage = profileImages[4];
 
@@ -131,10 +139,12 @@ class _AddProfileState extends State<AddProfile> {
     //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
     List<String> items = ["Listener","Story-teller"];
     final _formKey = GlobalKey<FormState>();
-    
-    CollectionReference users = FirebaseFirestore.instance.collection('profiles');
 
-    String updateProfile(int index) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    CollectionReference profiles = users.doc(UID).collection("profiles");
+
+    String updateImageProfile(int index) {
       var image = profileImages[index];
       setState((){
         profileImage = image;
@@ -142,16 +152,16 @@ class _AddProfileState extends State<AddProfile> {
       return profileImage;
     }
 
-    Future<void> updateUser(String userId) {
-      return users
-          .doc(userId)
-          .update({'id': userId})
+    Future<void> updateUser(String profileId) {
+      return profiles
+          .doc(profileId)
+          .update({'id': profileId})
           .then((value) => print("User Updated"))
           .catchError((error) => print("Failed to update user: $error"));
     }
 
     Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories) {
-      return users
+      return profiles
           .add({
         'favorites': favorites,
         'id': "",
@@ -175,7 +185,7 @@ class _AddProfileState extends State<AddProfile> {
           icon: Icon(Icons.arrow_back_ios, color: Colors.teal.shade600,),
           onPressed: () async {
             await Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilesPage()));
+                context, MaterialPageRoute(builder: (context) => ProfilesPage(UID)));
           },
         ),
         title: Text(//AppLocalizations.of(context)!.newProfile,
@@ -235,7 +245,7 @@ class _AddProfileState extends State<AddProfile> {
                                         return GestureDetector(
                                             onTap: (){
                                               setState(() {
-                                                updateProfile(i);
+                                                updateImageProfile(i);
                                               });
                                             },
                                             child: Image.network(profileImages[i], height: 80,)
@@ -303,7 +313,7 @@ class _AddProfileState extends State<AddProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ProfilesPage()));
+                                    builder: (context) => ProfilesPage(UID)));
                           },
                           color: kPrimaryColor,
                           shape: RoundedRectangleBorder(

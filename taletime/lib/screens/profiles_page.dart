@@ -8,17 +8,23 @@ import '../utils/decoration_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilesPage extends StatefulWidget {
-  const ProfilesPage({Key? key}) : super(key: key);
+
+  final String UID;
+
+  const ProfilesPage(this.UID, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfilesPageState();
+    return _ProfilesPageState(this.UID);
   }
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
+  late String UID;
+
+  _ProfilesPageState(this.UID);
+
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   int cflex = 7;
 
@@ -30,6 +36,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    CollectionReference profiles = users.doc(UID).collection('profiles');
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -58,7 +67,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => AddProfile()));
+                      MaterialPageRoute(builder: (context) => AddProfile(UID)));
                 },
                 icon: Icon(Icons.person_add, color: kPrimaryColor),
               )),
@@ -71,7 +80,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
             Expanded(
               flex: cflex,
               child: StreamBuilder(
-                stream: users.snapshots(),
+                stream: profiles.snapshots(),
                 builder:
                     (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
