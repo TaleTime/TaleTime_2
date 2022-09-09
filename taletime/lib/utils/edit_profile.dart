@@ -20,8 +20,8 @@ class _EditProfileState extends State<EditProfile> {
   late final String name;
   late final String image;
   late final String title;
-  late final CollectionReference profiles;
-  late final DocumentSnapshot profile;
+  late final profiles;
+  late final  profile;
 
   final textEditingController = TextEditingController();
 
@@ -37,11 +37,7 @@ class _EditProfileState extends State<EditProfile> {
     List<String> items = ["Listener","Story-teller"];
     final _formKey = GlobalKey<FormState>();
 
-    CollectionReference users = profiles;
-
-    DocumentSnapshot user = profile;
-
-    textEditingController.text = textEditingController.text == ""? user["name"] : textEditingController.text;
+    textEditingController.text = textEditingController.text == ""? profile["name"] : textEditingController.text;
 
     String updateProfile(int index) {
       var image = profileImages[index];
@@ -51,15 +47,15 @@ class _EditProfileState extends State<EditProfile> {
       return profileImage;
     }
 
-    Future<void> updateUser(String userId, String name, String image, String title) {
-      return users
-          .doc(userId)
+    Future<void> updateprofile(String profileId, String name, String image, String title) {
+      return profiles
+          .doc(profileId)
           .update({
         'image': image,
         'name': name,
         'title': title})
-          .then((value) => print("User Updated"))
-          .catchError((error) => print("Failed to update user: $error"));
+          .then((value) => print("profile Updated"))
+          .catchError((error) => print("Failed to update profile: $error"));
     }
 
     void reset(){
@@ -145,7 +141,7 @@ class _EditProfileState extends State<EditProfile> {
                         Container(
                           child: TextFormField(
                             controller: textEditingController,
-                            decoration: Decorations().textInputDecoration('UserName', 'Enter your username'),
+                            decoration: Decorations().textInputDecoration('profileName', 'Enter your profilename'),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return "Please fill in the blank space";
@@ -193,7 +189,7 @@ class _EditProfileState extends State<EditProfile> {
                             name = textEditingController.text;
                             image = profileImage;
                             title = selectedItem.toString();
-                            updateUser(user["id"], name, image,  title);
+                            updateprofile(profile["id"], name, image,  title);
                             reset();
                             Navigator.of(context).pop();
                           },

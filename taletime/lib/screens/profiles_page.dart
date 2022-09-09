@@ -89,7 +89,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       itemBuilder: (context, index) {
                         final DocumentSnapshot documentSnapshot =
                             streamSnapshot.data!.docs[index];
-                        return ProfileList(documentSnapshot);
+                        return ProfileList(documentSnapshot, profiles);
                       },
                     );
                   }

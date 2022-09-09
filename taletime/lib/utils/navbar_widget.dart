@@ -7,29 +7,31 @@ import '../screens/listener_homepage.dart';
 import '../screens/settings.dart';
 
 class NavBarListener extends StatefulWidget{
-  final DocumentSnapshot profile;
-  const NavBarListener(this.profile, {Key? key}) : super(key: key);
+  //final DocumentSnapshot profile;
+  final profile;
+  final profiles;
+  const NavBarListener(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _NavBarListenerState(this.profile);
+    return _NavBarListenerState(this.profile, this.profiles);
   }
 }
 
 class _NavBarListenerState extends State<NavBarListener>{
   var _currentIndex = 0;
 
-  late final DocumentSnapshot profile;
+  //late final DocumentSnapshot profile;
+  final profile;
+  final profiles;
 
-  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
-
-  _NavBarListenerState(this.profile);
+  _NavBarListenerState(this.profile, this.profiles);
 
   late final screens = [
     ListenerHomePage(profile),
     const Center(child: Text("Favorites", style: TextStyle(fontSize: 50),),),
     const AddStory(),
-    const SettingsPage(),
+    SettingsPage(profile, profiles),
   ];
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels){

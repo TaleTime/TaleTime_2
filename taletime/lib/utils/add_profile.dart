@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taletime/utils/theme_provider.dart';
+import '../internationalization/locale_provider.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
@@ -25,6 +27,8 @@ class _AddProfileState extends State<AddProfile> {
   late final String name;
   late final String image;
   late final String title;
+  late final bool theme;
+  late final String language;
   late final List recent = [
     /*{
       "rating": "",
@@ -139,6 +143,10 @@ class _AddProfileState extends State<AddProfile> {
     //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
     List<String> items = ["Listener","Story-teller"];
     final _formKey = GlobalKey<FormState>();
+    final languageProvider = Provider.of<LocaleProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    //final languageeee = languageProvider.locale.toString();
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -160,7 +168,7 @@ class _AddProfileState extends State<AddProfile> {
           .catchError((error) => print("Failed to update user: $error"));
     }
 
-    Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories) {
+    Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories, String language, bool theme) {
       return profiles
           .add({
         'favorites': favorites,
@@ -169,7 +177,9 @@ class _AddProfileState extends State<AddProfile> {
         'name': name,
         'recent': recent,
         'stories': stories,
-        'title': title
+        'title': title,
+        'language': language,
+        'theme': theme
       })
           .then((value) {
         print("User Added");
@@ -309,7 +319,9 @@ class _AddProfileState extends State<AddProfile> {
                             name = textEditingController.text;
                             image = profileImage;
                             title = selectedItem.toString() != "" ? selectedItem.toString() : items[0].toString();
-                            addUser(image, name, title, favorites, recent, stories);
+                            theme = !themeProvider.isDarkMode;
+                            language = languageProvider.locale.toString();
+                            addUser(image, name, title, favorites, recent, stories, language, theme);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

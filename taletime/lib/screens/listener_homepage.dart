@@ -21,8 +21,6 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   late final DocumentSnapshot profile;
 
-  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
-
   _ListenerHomePageState(this.profile);
 
   List matchStoryList = [];

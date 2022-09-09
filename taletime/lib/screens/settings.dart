@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taletime/internationalization/l10n.dart';
@@ -7,18 +8,56 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  //final DocumentSnapshot profile;
+  final profile;
+  final profiles;
+  const SettingsPage(this.profile, this.profiles,{Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<SettingsPage> createState() => _SettingsPageState(this.profile, this.profiles);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  //late final DocumentSnapshot profile;
+  final profile;
+  final profiles;
+
+  _SettingsPageState(this.profile, this.profiles);
+
   @override
   Widget build(BuildContext context) {
+
+    Future<void> updateLanguage(String profileId, String language) {
+      return profiles
+          .doc(profileId)
+          .update({
+        'language': language})
+          .then((value) => print("profile Updated"))
+          .catchError((error) => print("Failed to update profile: $error"));
+    }
+
+    Future<void> updateTheme(String profileId, bool theme) {
+      return profiles
+          .doc(profileId)
+          .update({
+        'theme': theme})
+          .then((value) => print("profile Updated"))
+          .catchError((error) => print("Failed to update profile: $error"));
+    }
+
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
+    Locale currentLanguage = Locale(profile["language"]);
+
     Locale? selectedLanguage = languageProvider.locale;
+
+    Locale getSelecetedLanguage(Locale language){
+      setState(() {
+        languageProvider.setLocale(language);
+      });
+      return languageProvider.locale;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -67,6 +106,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         onChanged: (value) {
                           setState(() {
                             selectedLanguage = value;
+                            updateLanguage(profile["id"], value.toString());
                           });
                         }))),
             Container(
@@ -80,6 +120,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   final provider =
                       Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(value);
+                  setState(() {
+                    updateTheme(profile["id"], value);
+                  });
                 },
                 activeTrackColor: kPrimaryColor,
               ),

@@ -5,25 +5,26 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/edit_profile.dart';
 
 class ProfileColumn extends StatefulWidget {
-  final DocumentSnapshot profile;
-  const ProfileColumn(this.profile, {Key? key}) : super(key: key);
+  final profile;
+  final profiles;
+  const ProfileColumn(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfileColumnState(this.profile);
+    return _ProfileColumnState(this.profile, this.profiles);
   }
 }
 
 class _ProfileColumnState extends State<ProfileColumn> {
 
-  late final DocumentSnapshot profile;
+  //late final DocumentSnapshot profile;
+  final profile;
+  final profiles;
 
-  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
-
-  _ProfileColumnState(this.profile);
+  _ProfileColumnState(this.profile, this.profiles);
 
   Future<void> deleteUser(id) {
-    return users
+    return profiles
         .doc(id)
         .delete()
         .then((value) => print("User Deleted"))
@@ -34,7 +35,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
     switch (item) {
       case 0:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => EditProfile(users, profile)));
+            context, MaterialPageRoute(builder: (context) => EditProfile(profiles, profile)));
         break;
       case 1:
         showDialog(

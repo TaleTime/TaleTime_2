@@ -19,8 +19,6 @@ class _MyListViewState extends State<MyListView>{
 
   late final List stories;
 
-  CollectionReference users = FirebaseFirestore.instance.collection('profiles');
-
   _MyListViewState(this.stories);
 
   final List<IconData> _icons = [
@@ -122,10 +120,16 @@ class _MyListViewState extends State<MyListView>{
                                       if (!stories[i]["isLiked"]){
                                         setState(() {
                                           stories[i]["isLiked"] = true;
+                                          stories[i].update({'isLiked': true})
+                                              .then((value) => print("User Updated"))
+                                              .catchError((error) => print("Failed to update user: $error"));
                                         });
                                       }else{
                                         setState(() {
                                           stories[i]["isLiked"] = false;
+                                          stories[i].update({'isLiked': false})
+                                              .then((value) => print("User Updated"))
+                                              .catchError((error) => print("Failed to update user: $error"));
                                         });
                                       }
                                     },

@@ -5,15 +5,16 @@ import 'navbar_widget.dart';
 
 class ProfileList extends StatelessWidget {
   final profile;
+  final profiles;
 
-  const ProfileList(this.profile);
+  const ProfileList(this.profile, this.profiles);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
           await Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NavBarListener(profile)));
+              context, MaterialPageRoute(builder: (context) => NavBarListener(profile, profiles)));
         },
         child: Column(
             children: <Widget>[
@@ -81,7 +82,7 @@ class ProfileList extends StatelessWidget {
                           ),
                           Container(
                             padding: const EdgeInsets.only(top: 7),
-                            child: ProfileColumn(profile),
+                            child: ProfileColumn(profile, profiles),
                           ),
                         ],
                       ),
