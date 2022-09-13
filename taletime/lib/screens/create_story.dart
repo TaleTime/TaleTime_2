@@ -17,7 +17,7 @@ class _CreateStoryState extends State<CreateStory> {
   final TextEditingController _titleController = TextEditingController();
 
   /// Variablen
-  Story? myStory;
+  //late Story myStory;
   String? title;
   List<String>? tags;
   FileImage? image;
@@ -60,10 +60,11 @@ class _CreateStoryState extends State<CreateStory> {
                 onPressed: () {
                   final isValidForm = _formKey.currentState!.validate();
                   if (isValidForm) {
+                    final myStory = Story(_titleController.text, tags, image);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RecordStory()));
+                            builder: (context) => RecordStory(myStory)));
                   }
                 },
                 child: Text("Continue")),

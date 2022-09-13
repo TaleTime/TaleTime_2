@@ -8,6 +8,12 @@ class Story {
   List<String>? tags;
   FileImage? image;
 
+  Story(String? title, List<String>? tags, FileImage? image) {
+    this.title = title;
+    this.tags = tags;
+    this.image = image;
+  }
+
   String? getTitle() {
     return this.title;
   }
