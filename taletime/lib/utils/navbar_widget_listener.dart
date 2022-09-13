@@ -29,7 +29,8 @@ class _NavBarListenerState extends State<NavBarListener>{
 
   late final screens = [
     ListenerHomePage(profile),
-    const Center(child: Text("Favorites", style: TextStyle(fontSize: 50),),),
+    const Center(child: Text("Favorites", style: TextStyle(fontSize: 50),),), //hier ersetzen
+    //const Favorites(),
     const AddStory(),
     SettingsPage(profile, profiles),
   ];
