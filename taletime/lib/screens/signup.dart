@@ -59,7 +59,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 20,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 5,
+                    height: MediaQuery.of(context).size.height / 7,
                     child: Image.network(assetLogo),
                   ),
                   const SizedBox(height: 20),

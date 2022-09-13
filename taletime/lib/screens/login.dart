@@ -31,149 +31,155 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: Decorations().appBarDecoration(
-          title: AppLocalizations.of(context)!.login, context: context),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
+        resizeToAvoidBottomInset: false,
+        appBar: Decorations().appBarDecoration(
+            title: AppLocalizations.of(context)!.login, context: context),
+        body: SingleChildScrollView(
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                height: MediaQuery.of(context).size.height - 50,
+                width: double.infinity,
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(
                   children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context)!.loginToAccount,
-                      style: const TextStyle(
-                          fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: Image.network(assetLogo),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Column(
-                    children: <Widget>[
-                      Form(
-                          key: _formKey,
-                          child: Column(children: <Widget>[
-                            Container(
-                                child: TextFormField(
-                                    controller: _emailController,
-                                    decoration:
-                                        Decorations().textInputDecoration(
-                                      AppLocalizations.of(context)!.email,
-                                      AppLocalizations.of(context)!.enterEmail,
-                                      Icon(Icons.mail),
-                                    ),
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (email) => ValidationUtil()
-                                        .validateEmail(email, context)),
-                                decoration:
-                                    Decorations().inputBoxDecorationShaddow()),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              child: TextFormField(
-                                  controller: _passwordController,
-                                  obscureText: true,
-                                  decoration: Decorations().textInputDecoration(
-                                    AppLocalizations.of(context)!.password,
-                                    AppLocalizations.of(context)!.enterPassword,
-                                    Icon(Icons.lock),
-                                  ),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  validator: (password) => ValidationUtil()
-                                      .validatePassword(password, context)),
-                              decoration:
-                                  Decorations().inputBoxDecorationShaddow(),
-                            ),
-                            const SizedBox(height: 15.0),
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-                              alignment: Alignment.topRight,
-                              child: TextButton(
-                                  child: Text(
-                                      AppLocalizations.of(context)!
-                                          .forgotPassword,
-                                      style: TextStyle(color: kPrimaryColor)),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ForgotPasswordPage()));
-                                  }),
-                            ),
-                          ])),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 3, left: 3),
-                    child: SizedBox(
-                        height: MediaQuery.of(context).size.height / 13,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          /// Funktion für Login mit Firebase
-                          onPressed: () async {
-                            final String _email =
-                                _emailController.text.trim().toLowerCase();
-                            final String _password =
-                                _passwordController.text.trim();
-                            final isValidForm =
-                                _formKey.currentState!.validate();
-                            if (isValidForm) {
-                              AuthentificationUtil(auth: auth)
-                                  .loginUsingEmailAndPassword(
-                                      email: _email,
-                                      password: _password,
-                                      context: context);
-                            }
-                          },
+                    Column(children: <Widget>[
+                      SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
                           child: Text(
-                            AppLocalizations.of(context)!.loginVerb,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
+                            AppLocalizations.of(context)!.loginToAccount,
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
                           ),
-                        )),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(AppLocalizations.of(context)!.dontHaveAccount),
-                    TextButton(
-                        child: Text(AppLocalizations.of(context)!.registerVerb),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignupPage()));
-                        }),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height / 6,
+                        child: Image.network(assetLogo),
+                      ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: <Widget>[
+                            Form(
+                                key: _formKey,
+                                child: Column(children: <Widget>[
+                                  Container(
+                                      width: double.infinity,
+                                      child: TextFormField(
+                                          controller: _emailController,
+                                          decoration:
+                                              Decorations().textInputDecoration(
+                                            AppLocalizations.of(context)!.email,
+                                            AppLocalizations.of(context)!
+                                                .enterEmail,
+                                            Icon(Icons.mail),
+                                          ),
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          validator: (email) => ValidationUtil()
+                                              .validateEmail(email, context)),
+                                      decoration: Decorations()
+                                          .inputBoxDecorationShaddow()),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    child: TextFormField(
+                                        controller: _passwordController,
+                                        obscureText: true,
+                                        decoration:
+                                            Decorations().textInputDecoration(
+                                          AppLocalizations.of(context)!
+                                              .password,
+                                          AppLocalizations.of(context)!
+                                              .enterPassword,
+                                          Icon(Icons.lock),
+                                        ),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator: (password) =>
+                                            ValidationUtil().validatePassword(
+                                                password, context)),
+                                    decoration: Decorations()
+                                        .inputBoxDecorationShaddow(),
+                                  ),
+                                  Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(10, 2, 5, 15),
+                                    alignment: Alignment.topRight,
+                                    child: TextButton(
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .forgotPassword,
+                                            style: TextStyle(
+                                                color: kPrimaryColor)),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ForgotPasswordPage()));
+                                        }),
+                                  ),
+                                ])),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 14,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                /// Funktion für Login mit Firebase
+                                onPressed: () async {
+                                  final String _email = _emailController.text
+                                      .trim()
+                                      .toLowerCase();
+                                  final String _password =
+                                      _passwordController.text.trim();
+                                  final isValidForm =
+                                      _formKey.currentState!.validate();
+                                  if (isValidForm) {
+                                    AuthentificationUtil(auth: auth)
+                                        .loginUsingEmailAndPassword(
+                                            email: _email,
+                                            password: _password,
+                                            context: context);
+                                  }
+                                },
+                                child: Text(
+                                  AppLocalizations.of(context)!.loginVerb,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                              )),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(AppLocalizations.of(context)!.dontHaveAccount),
+                          TextButton(
+                              child: Text(
+                                  AppLocalizations.of(context)!.registerVerb),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignupPage()));
+                              }),
+                        ],
+                      ),
+                    ])
                   ],
-                ),
-              ],
-            ))
-          ],
-        ),
-      ),
-    );
+                ))));
   }
 }
