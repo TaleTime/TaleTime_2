@@ -52,4 +52,15 @@ class ValidationUtil {
     }
     return null;
   }
+
+  String? validateTitle(String? title, BuildContext context) {
+    if (title == null || title.isEmpty) {
+      return AppLocalizations.of(context)!.titleRequired;
+    }
+
+    if (title.length < 3) {
+      return AppLocalizations.of(context)!.titleLength;
+    }
+    return null;
+  }
 }
