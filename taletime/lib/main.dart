@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.connectionState == ConnectionState.done) {
               User? user = _auth.currentUser;
               if (user != null) {
-                return ProfilesPage(user!.uid);
+                return ProfilesPage(user.uid);
               } else {
                 return const WelcomePage();
               }
