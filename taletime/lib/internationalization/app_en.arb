@@ -259,6 +259,15 @@
     "@titleLength": {
         "description": "Titel muss mindestens 6 Zeichen lang sein"
     },
+    "profileName": "Profile-Name",
+    "@profileName": {
+        "description": "Profil-Name"
+    },
+    "enterProfile": "Enter a profile name",
+    "@enterProfile": {
+        "description": "Geben Sie einen Profilnamen ein"
+    },
+
 
 
 

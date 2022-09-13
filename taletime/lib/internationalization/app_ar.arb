@@ -63,5 +63,7 @@
     "listener": "Hörer",
     "storyteller": "Erzähler",
     "titleRequired": "Titel ist erforderlich",
-    "titleLength": "Titel muss mindestens 3 Zeichen lang sein"
+    "titleLength": "Titel muss mindestens 3 Zeichen lang sein",
+    "profileName": "Profil-Name",
+    "enterProfile": "Geben Sie einen Profil-Namen ein"
 }
