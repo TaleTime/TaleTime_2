@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:taletime/screens/record_story.dart';
 import 'package:taletime/utils/record_class.dart';
 import 'package:taletime/utils/validation_util.dart';
 
@@ -59,7 +60,10 @@ class _CreateStoryState extends State<CreateStory> {
                 onPressed: () {
                   final isValidForm = _formKey.currentState!.validate();
                   if (isValidForm) {
-                    Text("Valid");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RecordStory()));
                   }
                 },
                 child: Text("Continue")),
