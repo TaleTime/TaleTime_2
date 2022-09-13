@@ -10,7 +10,7 @@ import 'decoration_util.dart';
 class AddProfile extends StatefulWidget {
   final String UID;
 
-  const AddProfile(this.UID , {Key? key}) : super(key: key);
+  const AddProfile(this.UID, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -19,7 +19,6 @@ class AddProfile extends StatefulWidget {
 }
 
 class _AddProfileState extends State<AddProfile> {
-
   late String UID;
 
   _AddProfileState(this.UID);
@@ -141,7 +140,7 @@ class _AddProfileState extends State<AddProfile> {
   @override
   Widget build(BuildContext context) {
     //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
-    List<String> items = ["Listener","Story-teller"];
+    List<String> items = ["Listener", "Story-teller"];
     final _formKey = GlobalKey<FormState>();
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -154,7 +153,7 @@ class _AddProfileState extends State<AddProfile> {
 
     String updateImageProfile(int index) {
       var image = profileImages[index];
-      setState((){
+      setState(() {
         profileImage = image;
       });
       return profileImage;
@@ -168,9 +167,16 @@ class _AddProfileState extends State<AddProfile> {
           .catchError((error) => print("Failed to update user: $error"));
     }
 
-    Future<void> addUser(String image, String name, String title, List favorites, List recent, List stories, String language, bool theme) {
-      return profiles
-          .add({
+    Future<void> addUser(
+        String image,
+        String name,
+        String title,
+        List favorites,
+        List recent,
+        List stories,
+        String language,
+        bool theme) {
+      return profiles.add({
         'favorites': favorites,
         'id': "",
         'image': image,
@@ -180,30 +186,31 @@ class _AddProfileState extends State<AddProfile> {
         'title': title,
         'language': language,
         'theme': theme
-      })
-          .then((value) {
+      }).then((value) {
         print("User Added");
         updateUser(value.id);
-      })
-          .catchError((error) => print("Failed to add user: $error"));
+      }).catchError((error) => print("Failed to add user: $error"));
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.teal.shade600,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+          ),
           onPressed: () async {
-            await Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilesPage(UID)));
+            await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfilesPage(UID)));
           },
         ),
-        title: Text(//AppLocalizations.of(context)!.newProfile,
+        title: Text(
+          //AppLocalizations.of(context)!.newProfile,
           "New Profile",
-          style: TextStyle(color: Colors.teal.shade600, fontWeight: FontWeight.bold,),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         elevation: 0.0,
-        backgroundColor: Colors.white,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -226,9 +233,12 @@ class _AddProfileState extends State<AddProfile> {
                                 padding: EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(200),
-                                  color: Colors.teal.shade600,
                                   boxShadow: [
-                                    BoxShadow(color: Colors.black12, blurRadius: 20, offset: const Offset(5, 5),),
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 20,
+                                      offset: const Offset(5, 5),
+                                    ),
                                   ],
                                 ),
                                 child: Image.network(profileImage, height: 150),
@@ -236,7 +246,9 @@ class _AddProfileState extends State<AddProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 40,),
+                        SizedBox(
+                          height: 40,
+                        ),
                         Container(
                           height: 120,
                           child: Stack(
@@ -248,30 +260,34 @@ class _AddProfileState extends State<AddProfile> {
                                 child: Container(
                                   height: 80,
                                   child: PageView.builder(
-                                      controller: PageController(viewportFraction: 0.2),
+                                      controller:
+                                          PageController(viewportFraction: 0.2),
                                       itemCount: profileImages.length,
-                                      itemBuilder: (_,i)
-                                      {
+                                      itemBuilder: (_, i) {
                                         return GestureDetector(
-                                            onTap: (){
+                                            onTap: () {
                                               setState(() {
                                                 updateImageProfile(i);
                                               });
                                             },
-                                            child: Image.network(profileImages[i], height: 80,)
-                                        );
+                                            child: Image.network(
+                                              profileImages[i],
+                                              height: 80,
+                                            ));
                                       }),
                                 ),
                               ),
                             ],
-
                           ),
                         ),
-                        SizedBox(height: 40,),
+                        SizedBox(
+                          height: 40,
+                        ),
                         Container(
                           child: TextFormField(
                             controller: textEditingController,
-                            decoration: Decorations().textInputDecoration('UserName', 'Enter your username'),
+                            decoration: Decorations().textInputDecoration(
+                                'UserName', 'Enter your username'),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return "Please fill in the blank space";
@@ -281,36 +297,43 @@ class _AddProfileState extends State<AddProfile> {
                           ),
                           decoration: Decorations().inputBoxDecorationShaddow(),
                         ),
-                        SizedBox(height: 30,),
+                        SizedBox(
+                          height: 30,
+                        ),
                         Container(
-                          child: SizedBox(
-                            width: 420,
-                            child: DropdownButtonFormField<String>(
+                            child: SizedBox(
+                          width: 420,
+                          child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                focusColor: kPrimaryColor,
-                                fillColor: Colors.white,
                                 filled: true,
-                                contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(20, 10, 20, 10),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
+                                    borderSide:
+                                        BorderSide(color: kPrimaryColor)),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
-                                labelStyle: TextStyle(
-                                  color: kPrimaryColor,
-                                ),
+                                    borderSide:
+                                        BorderSide(color: kPrimaryColor)),
                               ),
-                              value: selectedItem != "" ? selectedItem : items[0],
+                              value:
+                                  selectedItem != "" ? selectedItem : items[0],
                               items: items
                                   .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item, style: TextStyle(fontSize: 18, color: kPrimaryColor),),
-                              )).toList(),
-                              onChanged: (item) => setState(() {selectedItem = item;})
-                            ),
-                          )
-                        ),
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: kPrimaryColor),
+                                        ),
+                                      ))
+                                  .toList(),
+                              onChanged: (item) => setState(() {
+                                    selectedItem = item;
+                                  })),
+                        )),
                         SizedBox(height: 50),
                         MaterialButton(
                           minWidth: double.infinity,
@@ -318,10 +341,13 @@ class _AddProfileState extends State<AddProfile> {
                           onPressed: () {
                             name = textEditingController.text;
                             image = profileImage;
-                            title = selectedItem.toString() != "" ? selectedItem.toString() : items[0].toString();
+                            title = selectedItem.toString() != ""
+                                ? selectedItem.toString()
+                                : items[0].toString();
                             theme = !themeProvider.isDarkMode;
                             language = languageProvider.locale.toString();
-                            addUser(image, name, title, favorites, recent, stories, language, theme);
+                            addUser(image, name, title, favorites, recent,
+                                stories, language, theme);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -334,9 +360,7 @@ class _AddProfileState extends State<AddProfile> {
                             //AppLocalizations.of(context)!.addProfile,
                             "Add Profile",
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18),
+                                fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                         ),
                       ],

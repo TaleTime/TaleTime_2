@@ -7,7 +7,8 @@ import 'package:taletime/utils/edit_profile.dart';
 class ProfileColumn extends StatefulWidget {
   final profile;
   final profiles;
-  const ProfileColumn(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const ProfileColumn(this.profile, this.profiles, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -16,7 +17,6 @@ class ProfileColumn extends StatefulWidget {
 }
 
 class _ProfileColumnState extends State<ProfileColumn> {
-
   //late final DocumentSnapshot profile;
   final profile;
   final profiles;
@@ -35,7 +35,9 @@ class _ProfileColumnState extends State<ProfileColumn> {
     switch (item) {
       case 0:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => EditProfile(profiles, profile)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditProfile(profiles, profile)));
         break;
       case 1:
         showDialog(
@@ -47,10 +49,10 @@ class _ProfileColumnState extends State<ProfileColumn> {
                   style: TextStyle(color: kPrimaryColor),
                 ),
                 content:
-                     Text(AppLocalizations.of(context)!.confirmProfileDeletion),
+                    Text(AppLocalizations.of(context)!.confirmProfileDeletion),
                 actions: [
                   TextButton(
-                    child:  Text(
+                    child: Text(
                       AppLocalizations.of(context)!.yes,
                       style: const TextStyle(color: Colors.white),
                     ),
@@ -58,7 +60,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
                         backgroundColor:
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
-                      setState((){
+                      setState(() {
                         deleteUser(profile["id"]);
                         Navigator.of(context).pop();
                       });
@@ -87,44 +89,35 @@ class _ProfileColumnState extends State<ProfileColumn> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Theme(
-          data: Theme.of(context).copyWith(
-            iconTheme: IconThemeData(color: kPrimaryColor),
-            textTheme: const TextTheme().apply(bodyColor: Colors.white),
-          ),
-          child: PopupMenuButton<int>(
-            color: Colors.white,
-            onSelected: (item) => onSelected(context, item),
-            itemBuilder: (context) => [
-              PopupMenuItem<int>(
-                value: 0,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.edit,
-                      color: kPrimaryColor,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.edit, style: TextStyle(color: kPrimaryColor),),
-                  ],
-                ),
+        PopupMenuButton<int>(
+          onSelected: (item) => onSelected(context, item),
+          itemBuilder: (context) => [
+            PopupMenuItem<int>(
+              value: 0,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.edit,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    AppLocalizations.of(context)!.edit,
+                  ),
+                ],
               ),
-              PopupMenuItem<int>(
-                value: 1,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.delete,
-                      color: kPrimaryColor,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(AppLocalizations.of(context)!.delete, style: TextStyle(color: kPrimaryColor)),
-                  ],
-                ),
+            ),
+            PopupMenuItem<int>(
+              value: 1,
+              child: Row(
+                children: [
+                  Icon(Icons.delete),
+                  const SizedBox(width: 8),
+                  Text(AppLocalizations.of(context)!.delete),
+                ],
               ),
-            ],
-          ),
-        )
+            ),
+          ],
+        ),
       ],
     );
   }

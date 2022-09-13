@@ -1,4 +1,5 @@
 /*mainklasse ist die Hauptmenu man kann sie noch viele Funktion einfügen */
+// DIese Klasse wird nicht mehr benötigt
 import 'package:flutter/material.dart';
 import 'package:taletime/screens/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,10 +25,12 @@ class MainMenu extends StatelessWidget {
                 const Icon(Icons.settings),
                 MaterialButton(
                   onPressed: () {
+                    /** 
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SettingsPage()));
+                            */
                   },
                   child: Text(
                     AppLocalizations.of(context)!.settings,

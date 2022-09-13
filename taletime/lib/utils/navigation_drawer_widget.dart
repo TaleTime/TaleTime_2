@@ -21,19 +21,23 @@ class NavigationDrawerWidget extends StatelessWidget {
             buildMenuItem(
                 text: AppLocalizations.of(context)!.settings,
                 icon: Icons.settings,
-                onClicked: () => selectedItem(context, 0)),
+                //onClicked: () => selectedItem(context, 0)
+                ),
             buildMenuItem(
                 text: AppLocalizations.of(context)!.favorites,
                 icon: Icons.favorite,
-                onClicked: () => selectedItem(context, 1)),
+                //onClicked: () => selectedItem(context, 1)
+                ),
             buildMenuItem(
                 text: "More Info",
                 icon: Icons.info,
-                onClicked: () => selectedItem(context, 2)),
+                //onClicked: () => selectedItem(context, 2)
+                ),
             buildMenuItem(
                 text: "Feedback",
                 icon: Icons.feedback,
-                onClicked: () => selectedItem(context, 3)),
+                //onClicked: () => selectedItem(context, 3)
+                ),
           ],
         ),
       ),
@@ -49,6 +53,7 @@ class NavigationDrawerWidget extends StatelessWidget {
     );
   }
 
+  /**
   void selectedItem(BuildContext context, int index) {
     Navigator.of(context).pop();
 
@@ -74,5 +79,7 @@ class NavigationDrawerWidget extends StatelessWidget {
         ));
         break;
     }
+    */
   }
-}
+  
+

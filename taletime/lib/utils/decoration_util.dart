@@ -134,18 +134,13 @@ class Decorations {
   AlertDialog confirmDialog(
       String title, String content, BuildContext context) {
     return AlertDialog(
-      title: Text(
-        title,
-        style: TextStyle(color: kPrimaryColor),
-      ),
+      title: Text(title),
       content: Text(content),
       actions: [
         TextButton(
           child: Text(
             AppLocalizations.of(context)!.yes,
           ),
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               AuthentificationUtil(auth: auth).signOut();
@@ -157,8 +152,7 @@ class Decorations {
           child: Text(
             AppLocalizations.of(context)!.no,
           ),
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+          style: ButtonStyle(),
           onPressed: () {
             Navigator.of(context).pop();
           },

@@ -8,7 +8,6 @@ import '../utils/decoration_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilesPage extends StatefulWidget {
-
   final String UID;
 
   const ProfilesPage(this.UID, {Key? key}) : super(key: key);
@@ -36,14 +35,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-
     CollectionReference profiles = users.doc(UID).collection('profiles');
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         leading: IconButton(
-            icon: Icon(Icons.logout, color: kPrimaryColor),
+            icon: Icon(
+              Icons.logout,
+            ),
             onPressed: () {
               showDialog(
                 context: context,
@@ -57,7 +56,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
             }),
         title: Text(
           AppLocalizations.of(context)!.myProfiles,
-          style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         elevation: 0.0,
         centerTitle: true,
@@ -69,7 +68,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => AddProfile(UID)));
                 },
-                icon: Icon(Icons.person_add, color: kPrimaryColor),
+                icon: Icon(
+                  Icons.person_add,
+                ),
               )),
         ],
       ),
