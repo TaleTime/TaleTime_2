@@ -251,9 +251,18 @@
     "@storyteller": {
         "description": "Erzähler"
     },
+    "titleRequired": "Title is required",
+    "@titleRequired": {
+        "description": "Titel ist erforderlich"
+    },
+    "titleLength": "Title needs to be at least 3 characters long",
+    "@titleLength": {
+        "description": "Titel muss mindestens 6 Zeichen lang sein"
+    },
 
 
-    
+
+
     "@": {
         "description": ""
     }

@@ -61,5 +61,7 @@
     "newProfile": "Neues Profil",
     "addProfile": "Profil hinzufügen",
     "listener": "Hörer",
-    "storyteller": "Erzähler"
+    "storyteller": "Erzähler",
+    "titleRequired": "Titel ist erforderlich",
+    "titleLength": "Titel muss mindestens 3 Zeichen lang sein"
 }
