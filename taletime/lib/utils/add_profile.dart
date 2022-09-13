@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taletime/utils/theme_provider.dart';
+import 'package:taletime/utils/validation_util.dart';
 import '../internationalization/locale_provider.dart';
 import '../screens/profiles_page.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddProfile extends StatefulWidget {
   final String UID;
@@ -204,8 +206,7 @@ class _AddProfileState extends State<AddProfile> {
           },
         ),
         title: Text(
-          //AppLocalizations.of(context)!.newProfile,
-          "New Profile",
+          AppLocalizations.of(context)!.newProfile,
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -287,13 +288,10 @@ class _AddProfileState extends State<AddProfile> {
                           child: TextFormField(
                             controller: textEditingController,
                             decoration: Decorations().textInputDecoration(
-                                'UserName', 'Enter your username'),
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Please fill in the blank space";
-                              }
-                              return null;
-                            },
+                                AppLocalizations.of(context)!.profileName,
+                                AppLocalizations.of(context)!.enterProfile),
+                            validator: (val) =>
+                                ValidationUtil().validateUserName(val, context),
                           ),
                           decoration: Decorations().inputBoxDecorationShaddow(),
                         ),
@@ -357,8 +355,7 @@ class _AddProfileState extends State<AddProfile> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                           child: Text(
-                            //AppLocalizations.of(context)!.addProfile,
-                            "Add Profile",
+                            AppLocalizations.of(context)!.addProfile,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 18),
                           ),

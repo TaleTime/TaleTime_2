@@ -151,7 +151,8 @@ class _EditProfileState extends State<EditProfile> {
                           child: TextFormField(
                             controller: textEditingController,
                             decoration: Decorations().textInputDecoration(
-                                'profileName', 'Enter your profilename'),
+                                AppLocalizations.of(context)!.profileName,
+                                AppLocalizations.of(context)!.enterProfile),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return "Please fill in the blank space";

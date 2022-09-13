@@ -11,14 +11,14 @@ class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
   final profile;
   final profiles;
-  const SettingsPage(this.profile, this.profiles,{Key? key}) : super(key: key);
+  const SettingsPage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState(this.profile, this.profiles);
+  State<SettingsPage> createState() =>
+      _SettingsPageState(this.profile, this.profiles);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   //late final DocumentSnapshot profile;
   final profile;
   final profiles;
@@ -27,12 +27,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<void> updateLanguage(String profileId, String language) {
       return profiles
           .doc(profileId)
-          .update({
-        'language': language})
+          .update({'language': language})
           .then((value) => print("profile Updated"))
           .catchError((error) => print("Failed to update profile: $error"));
     }
@@ -40,8 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<void> updateTheme(String profileId, bool theme) {
       return profiles
           .doc(profileId)
-          .update({
-        'theme': theme})
+          .update({'theme': theme})
           .then((value) => print("profile Updated"))
           .catchError((error) => print("Failed to update profile: $error"));
     }
@@ -52,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     Locale? selectedLanguage = languageProvider.locale;
 
-    Locale getSelecetedLanguage(Locale language){
+    Locale getSelecetedLanguage(Locale language) {
       setState(() {
         languageProvider.setLocale(language);
       });
@@ -125,15 +122,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   });
                 },
                 activeTrackColor: kPrimaryColor,
-              ),
-            ),
-            Container(
-              child: ListTile(
-                leading: const Icon(Icons.password_rounded),
-                title: Text(AppLocalizations.of(context)!.changePassword),
-                trailing: MaterialButton(
-                  onPressed: () {},
-                ),
               ),
             ),
             Container(
