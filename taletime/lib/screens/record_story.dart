@@ -15,7 +15,8 @@ class _RecordStoryState extends State<RecordStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Decorations().appBarDecoration(title: "RecordStory", context: context),
+      appBar: Decorations()
+          .appBarDecoration(title: "RecordStory", context: context),
     );
   }
 }
