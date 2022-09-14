@@ -1,5 +1,4 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -28,7 +27,6 @@ class _MyListViewState extends State<MyListView>{
 
   @override
   Widget build (BuildContext context){
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return ListView.builder(
         primary: false,
@@ -120,16 +118,16 @@ class _MyListViewState extends State<MyListView>{
                                       if (!stories[i]["isLiked"]){
                                         setState(() {
                                           stories[i]["isLiked"] = true;
-                                          stories[i].update({'isLiked': true})
+                                         /* stories[i].update({'isLiked': true})
                                               .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));
+                                              .catchError((error) => print("Failed to update user: $error"));*/
                                         });
                                       }else{
                                         setState(() {
                                           stories[i]["isLiked"] = false;
-                                          stories[i].update({'isLiked': false})
+                                          /*stories[i].update({'isLiked': false})
                                               .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));
+                                              .catchError((error) => print("Failed to update user: $error"));*/
                                         });
                                       }
                                     },

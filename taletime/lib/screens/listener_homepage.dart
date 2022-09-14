@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
@@ -6,7 +6,7 @@ import '../utils/decoration_util.dart';
 import '../utils/my_list_view.dart';
 
 class ListenerHomePage extends StatefulWidget {
-  final DocumentSnapshot profile;
+  final profile;
   const ListenerHomePage(this.profile, {Key? key}) : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class ListenerHomePage extends StatefulWidget {
 class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selecetedIndex = 0;
 
-  late final DocumentSnapshot profile;
+  late final profile;
 
   _ListenerHomePageState(this.profile);
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/favorites_page.dart';
 import '../screens/add_story_page.dart';
 import '../screens/listener_homepage.dart';
 import '../screens/settings.dart';
@@ -29,12 +30,13 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   late final screens = [
     ListenerHomePage(profile),
-    const Center(
+    FavoritePage(profile),
+    /*const Center(
       child: Text(
         "Favorites",
         style: TextStyle(fontSize: 50),
       ),
-    ), //hier ersetzen
+    ), *///hier ersetzen
     //const Favorites(),
     const AddStory(),
     SettingsPage(profile, profiles),
