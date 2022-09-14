@@ -4,7 +4,6 @@ import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorUtil {
-
   // Gibt die Fehler der LoginPage in Form einer SnackBar aus
   SnackBar showLoginError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
@@ -47,5 +46,4 @@ class ErrorUtil {
     }
     return snackbar;
   }
-
 }

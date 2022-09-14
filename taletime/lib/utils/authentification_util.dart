@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import 'package:taletime/utils/error_util.dart';
 
 class AuthentificationUtil {
   final FirebaseAuth auth;
-  
+
   AuthentificationUtil({required this.auth});
 
   /// Gibt den aktuell eingeloggten Benutzer zurück
@@ -37,8 +36,8 @@ class AuthentificationUtil {
             content: Text(AppLocalizations.of(context)!.signInSuccesful),
             backgroundColor: kPrimaryColor);
         ScaffoldMessenger.of(context).showSnackBar(signinSuccesful);
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ProfilesPage(auth.currentUser!.uid)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ProfilesPage(auth.currentUser!.uid)));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showLoginError(e, context);
@@ -63,10 +62,10 @@ class AuthentificationUtil {
       user?.updateDisplayName(userName);
 
       Map<String, dynamic> userInfoMap = {
-        "email" : email,
-        "password" : password,
-        "userName" : userName,
-        "UID" : auth.currentUser!.uid,
+        "email": email,
+        "password": password,
+        "userName": userName,
+        "UID": auth.currentUser!.uid,
       };
 
       if (user != null) {
@@ -77,8 +76,8 @@ class AuthentificationUtil {
 
         addUserInfoToDB(auth.currentUser!.uid, userInfoMap);
 
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ProfilesPage(auth.currentUser!.uid)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ProfilesPage(auth.currentUser!.uid)));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showRegisterError(e, context);
@@ -86,11 +85,14 @@ class AuthentificationUtil {
     }
   }
 
-  Future addUserInfoToDB(String userId, Map<String, dynamic> userInfoMap){
-    return FirebaseFirestore.instance.collection("users").doc(userId).set(userInfoMap);
+  Future addUserInfoToDB(String userId, Map<String, dynamic> userInfoMap) {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .set(userInfoMap);
   }
 
-  Future<DocumentSnapshot> getUserFromDB(String userId){
+  Future<DocumentSnapshot> getUserFromDB(String userId) {
     return FirebaseFirestore.instance.collection("users").doc(userId).get();
   }
 

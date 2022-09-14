@@ -17,7 +17,6 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     return Scaffold(
       appBar: Decorations()
           .appBarDecoration(title: "Save/Upload Story", context: context),
-
     );
   }
 }

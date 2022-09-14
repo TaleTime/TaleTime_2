@@ -21,11 +21,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
   late final DocumentSnapshot profile;
   List matchStoryList = [];
   _SpeakerHomePageState(this.profile);
-  
+
   @override
   Widget build(BuildContext context) {
-  final double screenHeight = MediaQuery.of(context).size.height;
-      return Scaffold(
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
         body: Stack(children: [
       Positioned(
         top: 10,

@@ -5,11 +5,12 @@ import 'package:taletime/screens/speaker_homepage.dart';
 
 import '../screens/settings.dart';
 
-class NavBarSpeaker extends StatefulWidget{
+class NavBarSpeaker extends StatefulWidget {
   //final DocumentSnapshot profile;
   final profile;
   final profiles;
-  const NavBarSpeaker(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const NavBarSpeaker(this.profile, this.profiles, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -17,7 +18,7 @@ class NavBarSpeaker extends StatefulWidget{
   }
 }
 
-class _NavBarSpeakerState extends State<NavBarSpeaker>{
+class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
 
   //late final DocumentSnapshot profile;
@@ -28,22 +29,28 @@ class _NavBarSpeakerState extends State<NavBarSpeaker>{
 
   late final screens = [
     SpeakerHomePage(profile),
-    const Center(child: Text("All Stories", style: TextStyle(fontSize: 50),),),
+    const Center(
+      child: Text(
+        "All Stories",
+        style: TextStyle(fontSize: 50),
+      ),
+    ),
     CreateStory(),
     SettingsPage(profile, profiles),
   ];
 
-  BottomNavigationBarItem navBarItems(IconData icons, String labels){
+  BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
-      icon: Icon(icons,),
+      icon: Icon(
+        icons,
+      ),
       label: labels,
     );
   }
 
   @override
-  Widget build(BuildContext context)  {
-
-    return  Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: screens,
@@ -51,7 +58,9 @@ class _NavBarSpeakerState extends State<NavBarSpeaker>{
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 27,
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() { _currentIndex = index;}),
+        onTap: (index) => setState(() {
+          _currentIndex = index;
+        }),
         selectedItemColor: Colors.teal.shade600,
         unselectedItemColor: Colors.grey.shade500,
         elevation: 0.0,
@@ -63,7 +72,5 @@ class _NavBarSpeakerState extends State<NavBarSpeaker>{
         ],
       ),
     );
-
   }
-
 }

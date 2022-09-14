@@ -191,7 +191,7 @@ class _AddProfileState extends State<AddProfile> {
       }).then((value) {
         print("User Added");
         updateUser(value.id);
-      // ignore: invalid_return_type_for_catch_error
+        // ignore: invalid_return_type_for_catch_error
       }).catchError((error) => print("Failed to add user: $error"));
     }
 
