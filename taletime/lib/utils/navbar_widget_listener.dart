@@ -66,7 +66,10 @@ class _NavBarListenerState extends State<NavBarListener> {
         unselectedItemColor: Colors.grey.shade500,
         elevation: 0.0,
         items: [
-          navBarItems(Icons.home, "Home"),
+          navBarItems(
+            Icons.home,
+            "Home",
+          ),
           navBarItems(Icons.favorite_sharp, "Favorites"),
           navBarItems(Icons.playlist_add_sharp, "Add Story"),
           navBarItems(Icons.settings, "Settings"),
