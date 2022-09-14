@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:taletime/screens/create_story.dart';
 import 'package:taletime/screens/speaker_homepage.dart';
 
-import '../screens/add_story_page.dart';
-import '../screens/listener_homepage.dart';
 import '../screens/settings.dart';
 
 class NavBarSpeaker extends StatefulWidget{
