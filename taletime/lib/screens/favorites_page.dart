@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:taletime/utils/constants.dart';
-import 'package:taletime/utils/listfavorite.dart';
-
 import '../utils/my_list_view.dart';
+import '../utils/search-bar-util.dart';
 
 class FavoritePage extends StatefulWidget {
   final profile;
@@ -17,6 +14,7 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
   final profile;
+  List matchStoryList = [];
 
   _FavoritePageState(this.profile);
 
@@ -75,6 +73,13 @@ class _FavoritePageState extends State<FavoritePage> {
                   Container(
                     height: 42,
                     child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          List stories = profile["favorites"];
+                          matchStoryList = SearchBarUtil().searchStory(stories, value);
+                        });
+                        SearchBarUtil().isStoryListEmpty(matchStoryList, value);
+                      },
                       style: TextStyle(color: kPrimaryColor),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 30),
@@ -109,6 +114,12 @@ class _FavoritePageState extends State<FavoritePage> {
                   )
                 ],
               ),
+            ),
+            Positioned(
+              top: 115,
+              left: 0,
+              right: 0,
+              child: SearchBarUtil().searchBarContainer(matchStoryList, profile),
             ),
           ],
         ));
