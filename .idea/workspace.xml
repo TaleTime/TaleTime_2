@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de369832-9a6c-498b-8277-5373600c795b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/TaleTime_2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/taletime/lib/screens/home_listener.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taletime/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/taletime/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taletime/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/taletime/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taletime/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/taletime/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,5 +53,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
