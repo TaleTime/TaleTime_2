@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
+import 'package:taletime/utils/list_view_story_teller.dart';
+import 'package:taletime/utils/recent_stories_story_teller.dart';
 import '../utils/decoration_util.dart';
-import '../utils/my_list_view.dart';
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
