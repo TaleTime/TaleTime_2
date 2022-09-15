@@ -15,7 +15,7 @@ class Decorations {
         Icons.add,
         color: Colors.teal,
       ),
-      suffix,
+      Widget? suffix,
       obscureText = false]) {
     return InputDecoration(
       labelText: label,
