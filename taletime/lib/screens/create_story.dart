@@ -38,95 +38,109 @@ class _CreateStoryState extends State<CreateStory> {
     return Scaffold(
       appBar:
           AppBar(title: Text("Create Story"), automaticallyImplyLeading: false),
-      body: Column(children: [
-        SizedBox(height: 50),
-        Padding(
-          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Container(
-                  child: TextFormField(
-                    controller: _titleController,
-                    decoration: Decorations().textInputDecoration(
-                      "Title",
-                      "Enter the Title for your Story",
-                      Icon(Icons.title),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          SizedBox(height: 50),
+          Padding(
+            padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Container(
+                    child: TextFormField(
+                      controller: _titleController,
+                      decoration: Decorations().textInputDecoration(
+                        "Title",
+                        "Enter the Title for your Story",
+                        Icon(Icons.title),
+                      ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (title) =>
+                          ValidationUtil().validateTitle(title, context),
                     ),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (title) =>
-                        ValidationUtil().validateTitle(title, context),
+                    decoration: Decorations().inputBoxDecorationShaddow(),
                   ),
-                  decoration: Decorations().inputBoxDecorationShaddow(),
-                ),
-                SizedBox(height: 25),
-                Container(
-                  child: TextFormField(
-                    controller: _tagController,
-                    decoration: Decorations().textInputDecoration(
-                        "Tag",
-                        "Enter a Tag (Optional)",
-                        Icon(Icons.tag),
-                        IconButton(
-                            onPressed: () {
-                              if (_tagController.text.isNotEmpty) {
-                                setState(() {
-                                  _chipList.add(ChipModel(
-                                      id: DateTime.now().toString(),
-                                      name: _tagController.text));
-                                  _tagController.text = '';
-                                });
-                              }
-                            },
-                            icon: Icon(Icons.arrow_circle_right_sharp))),
+                  SizedBox(height: 25),
+                  Container(
+                    child: TextFormField(
+                      controller: _tagController,
+                      decoration: Decorations().textInputDecoration(
+                          "Tag",
+                          "Enter a Tag (Optional)",
+                          Icon(Icons.tag),
+                          IconButton(
+                              onPressed: () {
+                                if (_tagController.text.isNotEmpty) {
+                                  setState(() {
+                                    _chipList.add(ChipModel(
+                                        id: DateTime.now().toString(),
+                                        name: _tagController.text));
+                                    _tagController.text = '';
+                                  });
+                                }
+                              },
+                              icon: Icon(Icons.arrow_circle_right_sharp))),
+                    ),
                   ),
-                ),
-                SizedBox(height: 25),
-              ],
+                  SizedBox(height: 25),
+                ],
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 50),
-        Wrap(
-          spacing: 10,
-          children: _chipList
-              .map((chip) => Chip(
-                    label: Text(chip.name),
-                    backgroundColor: Colors
-                        .primaries[Random().nextInt(Colors.primaries.length)],
-                    onDeleted: () => _deleteChip(chip
-                        .id), // call delete function by passing click chip id
-                  ))
-              .toList(),
-        ),
-        SizedBox(height: 50),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height / 14,
-            width: double.infinity,
-            child: ElevatedButton(
-                onPressed: () {
-                  final isValidForm = _formKey.currentState!.validate();
-                  _chipList.forEach((element) {
-                    print(element.name);
-                  });
-                  if (isValidForm) {
-                    final myStory =
-                        Story(_titleController.text, _chipList, image);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecordStory(myStory),
-                      ),
-                    );
-                  }
-                },
-                child: Text("Continue")),
+          SizedBox(height: 50),
+          Wrap(
+            spacing: 10,
+            children: _chipList
+                .map((chip) => Chip(
+                      label: Text(chip.name),
+                      backgroundColor: Colors
+                          .primaries[Random().nextInt(Colors.primaries.length)],
+                      onDeleted: () => _deleteChip(chip
+                          .id), // call delete function by passing click chip id
+                    ))
+                .toList(),
           ),
-        )
-      ]),
+          SizedBox(height: 50),
+          Text("Upload a Image", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Container(
+            height: MediaQuery.of(context).size.height / 5,
+            width: MediaQuery.of(context).size.width / 5,
+            child: Image.network("https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fplus.png?alt=media&token=14b35122-cade-4508-a54b-c7c5930b01a6", color: Colors.green),
+          ),
+          ///Center(child: IconButton(onPressed: () {}, icon: Icon(Icons.add, size: 200, color: Colors.green,))),
+          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 14,
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      final isValidForm = _formKey.currentState!.validate();
+                      _chipList.forEach((element) {
+                        print(element.name);
+                      });
+                      if (isValidForm) {
+                        final myStory =
+                            Story(_titleController.text, _chipList, image);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecordStory(myStory),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text("Continue")),
+              ),
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
