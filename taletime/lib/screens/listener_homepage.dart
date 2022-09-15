@@ -759,7 +759,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         top: 180,
         left: 0,
         right: 0,
-        child: SearchBarUtil().searchBarContainer(matchStoryList, profile),
+        child: SearchBarUtil().searchBarContainer(matchStoryList, profile, profiles),
       ),
       Positioned(
         top: 490,

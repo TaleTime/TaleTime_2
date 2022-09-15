@@ -7,21 +7,23 @@ import 'package:taletime/utils/recent_stories_story_teller.dart';
 import '../utils/decoration_util.dart';
 
 class SpeakerHomePage extends StatefulWidget {
-  final DocumentSnapshot profile;
-  const SpeakerHomePage(this.profile, {Key? key}) : super(key: key);
+  final profile;
+  final profiles;
+  const SpeakerHomePage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _SpeakerHomePageState(this.profile);
+    return _SpeakerHomePageState(this.profile, this.profiles);
   }
 }
 
 class _SpeakerHomePageState extends State<SpeakerHomePage> {
   var _selecetedIndex = 0;
 
-  late final DocumentSnapshot profile;
+  final profile;
+  final profiles;
   List matchStoryList = [];
-  _SpeakerHomePageState(this.profile);
+  _SpeakerHomePageState(this.profile, this.profiles);
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +266,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SpeakerHomePage(profile)));
+                          builder: (context) => SpeakerHomePage(profile, profiles)));
                 },
                 child: ListTile(
                   title: Text(

@@ -18,7 +18,7 @@ class SearchBarUtil {
     }
   }
 
-  Container searchBarContainer(List story, profile) {
+  Container searchBarContainer(List story, profile, profiles) {
     return Container(
       margin: EdgeInsets.all(15),
       height: story.isNotEmpty
