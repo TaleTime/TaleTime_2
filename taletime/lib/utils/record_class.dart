@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:taletime/screens/create_story.dart';
 
 class Story {
   /// Instanzvariablen
   String? title;
-  List<String>? tags;
+  late List<ChipModel> tags;
   FileImage? image;
 
-  Story(String? title, List<String>? tags, FileImage? image) {
+  Story(String? title, List<ChipModel> tags, FileImage? image) {
     this.title = title;
     this.tags = tags;
     this.image = image;
