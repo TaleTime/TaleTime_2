@@ -27,10 +27,8 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
         itemCount: stories.length,
         itemBuilder: (_, index) {
           return Card(
-            shape: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
               color: kPrimaryColor,
               child: ListTile(
-                
                 leading: Image.network(stories[index]["image"] == ""
                     ? storyImagePlaceholder
                     : stories[index]["image"]),

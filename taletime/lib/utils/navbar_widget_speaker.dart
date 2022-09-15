@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/screens/Allstories.dart';
+import 'package:taletime/screens/all_stories.dart';
 import 'package:taletime/screens/create_story.dart';
 import 'package:taletime/screens/speaker_homepage.dart';
 
@@ -30,7 +30,7 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
 
   late final screens = [
     SpeakerHomePage(profile),
-    Allstories(profile['stories']),
+    AllStories(profile['stories']),
     CreateStory(),
     SettingsPage(profile, profiles),
   ];
