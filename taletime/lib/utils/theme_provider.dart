@@ -22,8 +22,8 @@ class MyThemes {
       focusColor: Colors.grey,
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-        primary: kPrimaryColor,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
         shadowColor: Colors.white,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
@@ -59,8 +59,8 @@ class MyThemes {
       errorColor: Colors.red,
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-        primary: kPrimaryColor,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
         shadowColor: Colors.white,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
