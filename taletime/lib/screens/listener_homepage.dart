@@ -8,20 +8,22 @@ import '../utils/search-bar-util.dart';
 
 class ListenerHomePage extends StatefulWidget {
   final profile;
-  const ListenerHomePage(this.profile, {Key? key}) : super(key: key);
+  final profiles;
+  const ListenerHomePage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState(this.profile);
+    return _ListenerHomePageState(this.profile, this.profiles);
   }
 }
 
 class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selecetedIndex = 0;
 
-  late final profile;
+  final profile;
+  final profiles;
 
-  _ListenerHomePageState(this.profile);
+  _ListenerHomePageState(this.profile, this.profiles);
 
   List matchStoryList = [];
 
@@ -237,7 +239,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         top: 180,
         left: 0,
         right: 0,
-        child: SearchBarUtil().searchBarContainer(matchStoryList, profile),
+        child: SearchBarUtil().searchBarContainer(matchStoryList, profile, profiles),
       ),
       Positioned(
         top: 490,
@@ -271,7 +273,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   ? Decorations().noRecentContent(
                       "No stories yet. \nplease add some stories to your story library",
                       "")
-                  : MyListView(profile["stories"]),
+                  : MyListView(profile["stories"], profiles, profile["id"]),
               //child: storyList.length == 0 ? Decorations().noRecentContent("No stories yet. \nplease add some stories to your story library", "") : MyListView(storyList),
             ),
           ],

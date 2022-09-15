@@ -6,21 +6,23 @@ import '../utils/decoration_util.dart';
 import '../utils/my_list_view.dart';
 
 class SpeakerHomePage extends StatefulWidget {
-  final DocumentSnapshot profile;
-  const SpeakerHomePage(this.profile, {Key? key}) : super(key: key);
+  final profile;
+  final profiles;
+  const SpeakerHomePage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _SpeakerHomePageState(this.profile);
+    return _SpeakerHomePageState(this.profile, this.profiles);
   }
 }
 
 class _SpeakerHomePageState extends State<SpeakerHomePage> {
   var _selecetedIndex = 0;
 
-  late final DocumentSnapshot profile;
+  final profile;
+  final profiles;
   List matchStoryList = [];
-  _SpeakerHomePageState(this.profile);
+  _SpeakerHomePageState(this.profile, this.profiles);
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +265,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SpeakerHomePage(profile)));
+                          builder: (context) => SpeakerHomePage(profile, profiles)));
                 },
                 child: ListTile(
                   title: Text(
@@ -315,7 +317,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   ? Decorations().noRecentContent(
                       "No stories yet. \nplease add some stories to your story library",
                       "")
-                  : MyListView(profile["stories"]),
+                  : MyListView(profile["stories"], profiles, profile["id"]),
               //child: storyList.length == 0 ? Decorations().noRecentContent("No stories yet. \nplease add some stories to your story library", "") : MyListView(storyList),
             ),
           ],

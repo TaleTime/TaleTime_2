@@ -1,24 +1,35 @@
 
 import 'package:flutter/material.dart';
-
 import 'constants.dart';
 import 'icon_context_dialog.dart';
 
 class MyListView extends StatefulWidget{
   final List stories;
-  const MyListView(this.stories, {Key? key}) : super(key: key);
+  final profiles;
+  final String profileId;
+  const MyListView(this.stories, this.profiles, this.profileId,{Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewState(this.stories);
+    return _MyListViewState(this.stories, this.profiles, this.profileId);
   }
 }
 
 class _MyListViewState extends State<MyListView>{
 
-  late final List stories;
+  final List stories;
+  final profiles;
+  final String profileId;
+  Map favoriteStory = {};
+  late final String rating;
+  late final String image;
+  late final String author;
+  late final bool isLiked;
+  late final String audio;
+  late final String id;
+  late final String title;
 
-  _MyListViewState(this.stories);
+  _MyListViewState(this.stories, this.profiles, this.profileId);
 
   final List<IconData> _icons = [
     Icons.favorite,
@@ -28,6 +39,30 @@ class _MyListViewState extends State<MyListView>{
   @override
   Widget build (BuildContext context){
     final double screenWidth = MediaQuery.of(context).size.width;
+
+    void updateFavoriteItem(String audio, String author, String id, String image, bool isLiked, String rating, String title) {
+      setState(() {
+        favoriteStory = {
+          "rating": rating,
+          "title": title,
+          "author": author,
+          "image": image,
+          "audio": audio,
+          "isLiked": isLiked,
+          "id": id
+        };
+      });
+    }
+
+    Future<void> updateFavoriteList(List favorites, String profileId, Map favoriteItem) {
+      favorites.add(favoriteItem);
+      return profiles
+          .doc(profileId)
+          .update({'favorites': favorites})
+          .then((value) => print("profile Updated"))
+          .catchError((error) => print("Failed to update profile: $error"));
+    }
+
     return ListView.builder(
         primary: false,
         itemCount: stories.length,
@@ -118,16 +153,22 @@ class _MyListViewState extends State<MyListView>{
                                       if (!stories[i]["isLiked"]){
                                         setState(() {
                                           stories[i]["isLiked"] = true;
-                                         /* stories[i].update({'isLiked': true})
-                                              .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));*/
+                                          rating = stories[i]["rating"];
+                                          image = stories[i]["image"];
+                                          author = stories[i]["author"];
+                                          isLiked = stories[i]["isLiked"];
+                                          audio = stories[i]["audio"];
+                                          id = stories[i]["id"];
+                                          title = stories[i]["title"];
+                                          updateFavoriteItem(audio, author, id, image, isLiked, rating, title);
+                                         updateFavoriteList(stories, profileId, favoriteStory);
                                         });
                                       }else{
                                         setState(() {
                                           stories[i]["isLiked"] = false;
-                                          /*stories[i].update({'isLiked': false})
+                                          stories[i].update({'isLiked': false})
                                               .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));*/
+                                              .catchError((error) => print("Failed to update user: $error"));
                                         });
                                       }
                                     },

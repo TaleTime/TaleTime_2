@@ -5,18 +5,19 @@ import '../utils/search-bar-util.dart';
 
 class FavoritePage extends StatefulWidget {
   final profile;
-
-  const FavoritePage(this.profile, {Key? key}) : super(key: key);
+  final profiles;
+  const FavoritePage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
-  State<FavoritePage> createState() => _FavoritePageState(this.profile);
+  State<FavoritePage> createState() => _FavoritePageState(this.profile, this.profiles);
 }
 
 class _FavoritePageState extends State<FavoritePage> {
   final profile;
+  final profiles;
   List matchStoryList = [];
 
-  _FavoritePageState(this.profile);
+  _FavoritePageState(this.profile, this.profiles);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class _FavoritePageState extends State<FavoritePage> {
                 children: [
                   Container(
                     height: screenHeight * 0.8,
-                    child: MyListView(profile["favorites"]),
+                    child: MyListView(profile["favorites"], profiles, profile["id"]),
                   )
                 ],
               ),
@@ -119,7 +120,7 @@ class _FavoritePageState extends State<FavoritePage> {
               top: 115,
               left: 0,
               right: 0,
-              child: SearchBarUtil().searchBarContainer(matchStoryList, profile),
+              child: SearchBarUtil().searchBarContainer(matchStoryList, profile, profiles),
             ),
           ],
         ));
