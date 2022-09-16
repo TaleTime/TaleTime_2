@@ -39,20 +39,24 @@ class Decorations {
   }
 
   AppBar appBarDecoration(
-      {required String? title, required BuildContext context}) {
+      {required String? title,
+      required BuildContext context,
+      required bool automaticArrow}) {
     AppBar appBar = AppBar(
-      elevation: 0,
-      title: Text(title!),
-      leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(
-          Icons.arrow_back_ios,
-          size: 20,
-        ),
-      ),
-    );
+        elevation: 0,
+        automaticallyImplyLeading: automaticArrow,
+        title: Text(title!),
+        leading: automaticArrow
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  size: 20,
+                ),
+              )
+            : null);
     return appBar;
   }
 
@@ -130,6 +134,35 @@ class Decorations {
       ],
     );
   }
+
+  AlertDialog confirmationDialog(
+      String title, String content, BuildContext context, Function onTap) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+          child: Text(
+            AppLocalizations.of(context)!.yes,
+          ),
+          onPressed: () {
+            onTap();
+          },
+        ),
+        TextButton(
+          child: Text(
+            AppLocalizations.of(context)!.no,
+          ),
+          style: ButtonStyle(),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+
+  /// onPressed als Funktionsübergabe
 
   AlertDialog confirmDialog(
       String title, String content, BuildContext context) {
