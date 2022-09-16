@@ -36,7 +36,9 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: Decorations().appBarDecoration(
-          title: AppLocalizations.of(context)!.register, context: context),
+          title: AppLocalizations.of(context)!.register,
+          context: context,
+          automaticArrow: true),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40),

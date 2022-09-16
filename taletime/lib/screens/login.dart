@@ -33,7 +33,9 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: Decorations().appBarDecoration(
-            title: AppLocalizations.of(context)!.login, context: context),
+            title: AppLocalizations.of(context)!.login,
+            context: context,
+            automaticArrow: true),
         body: SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40),

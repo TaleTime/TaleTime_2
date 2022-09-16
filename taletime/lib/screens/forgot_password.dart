@@ -32,7 +32,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         resizeToAvoidBottomInset: false,
         appBar: Decorations().appBarDecoration(
             title: AppLocalizations.of(context)!.resetPassword,
-            context: context),
+            context: context,
+            automaticArrow: true),
         body: SingleChildScrollView(
           child: Column(
             children: [
