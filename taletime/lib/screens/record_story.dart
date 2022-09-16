@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:taletime/screens/save_or_upload_story.dart';
+import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:taletime/utils/record_class.dart';
 import 'package:taletime/utils/record_class.dart';
@@ -15,186 +16,187 @@ class RecordStory extends StatefulWidget {
 }
 
 class _RecordStoryState extends State<RecordStory> {
+  final TextEditingController _titleController = TextEditingController();
+  String? name = '';
+  List<String> partTitles = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //partTitles.add("Test");
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Story> namelist = [];
-    String name = "Recordstory";
-    TextStyle textStyle = const TextStyle(fontSize: 20, color: Colors.white);
-    Icon iconvert = const Icon(Icons.more_vert_outlined);
-    Color colorfav = Colors.green;
-    Icon iconhome = const Icon(Icons.home);
-    Icon iconaddstories = const Icon(Icons.playlist_add);
-    Icon iconeinstellung = const Icon(Icons.settings);
-    int _currentIndex = 0;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            name,
-            style: textStyle,
+      appBar: Decorations().appBarDecoration(
+          title: "Record Story", context: context, automaticArrow: true),
+      body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Container()],
+            ),
           ),
-          actions: [IconButton(onPressed: () {}, icon: iconvert)],
         ),
-        body: Column(children: [
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.white,
-                ),
-              ),
-              flex: 1),
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: 250,
-                          height: 250,
-                          color: Colors.blue,
-                          child: Text("Heute")),
-                    ],
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height / 4,
+            child: ListView.builder(
+                itemCount: partTitles.length,
+                itemBuilder: ((context, index) {
+                  return Card(
+                      color: kPrimaryColor,
+                      child: ListTile(
+                        subtitle: Text("Duration: $index"),
+                        //title: Text("${namelist[index].title}"),
+                        title: Text(partTitles[index]),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.play_circle)),
+                            IconButton(
+                                onPressed: () {}, icon: const Icon(Icons.edit)),
+                            IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Decorations().confirmationDialog(
+                                          "Do you really want to remove this part?",
+                                          "",
+                                          context, () {
+                                        setState(() {
+                                          partTitles.removeAt(index);
+                                          Navigator.of(context).pop();
+                                        });
+                                      });
+                                    },
+                                  );
+                                },
+                                icon: const Icon(
+                                    Icons.highlight_remove_outlined)),
+                          ],
+                        ),
+                      ));
+                })),
+          ),
+        ),
+        Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                  child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.highlight_remove,
+                            color: kPrimaryColor,
+                          )),
+                    ),
+                    flex: 1,
                   ),
-                ),
-              ),
-              flex: 3),
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: ListView.builder(
-                      itemCount: namelist.length,
-                      itemBuilder: ((context, index) {
-                        return ListTile(
-                          leading: Text("${namelist[index].tags}"),
-                          title: Text("${namelist[index].title}"),
-                          trailing: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.highlight_remove)),
-                        );
-                      })),
-                ),
-              ),
-              flex: 2),
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                    child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        color: Colors.grey[50],
-                      ),
-                      flex: 1,
+                  Expanded(
+                    child: Container(
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.play_circle_fill,
+                            size: 50,
+                            color: kPrimaryColor,
+                          )),
                     ),
-                    Expanded(
-                      child: Container(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.highlight_remove,
-                              color: Colors.green,
-                            )),
-                      ),
-                      flex: 1,
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.play_circle_fill,
-                              size: 50,
-                              color: Colors.green,
-                            )),
-                      ),
-                      flex: 2,
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.done,
-                              color: Colors.green,
-                            )),
-                      ),
-                      flex: 1,
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.grey[50],
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                )),
-              ),
-              flex: 1),
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Center(
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SaveOrUploadStory()));
-                        },
-                        child: Text("Continue")),
+                    flex: 2,
                   ),
+                  Expanded(
+                    child: Container(
+                      child: IconButton(
+                          onPressed: () async {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Decorations().confirmationDialog(
+                                    "Do you really want to add this part?",
+                                    "",
+                                    context, () async {
+                                  final name = await openDialog(
+                                      "Enter a name for your recorded part");
+                                  if (name == "" || name == null) {
+                                    setState(() {
+                                      partTitles.add("Part " +
+                                          partTitles.length.toString());
+                                    });
+                                  } else {
+                                    setState(() {
+                                      this.name = name;
+                                      partTitles.add(name);
+                                    });
+                                  }
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.done, color: kPrimaryColor)),
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              )),
+            ),
+            flex: 1),
+        Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const SaveOrUploadStory()));
+                      },
+                      child: Text("Continue")),
                 ),
               ),
-              flex: 1),
-        ]),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) => setState(() {
-            _currentIndex = index;
-          }),
-          iconSize: 15,
-          items: [
-            BottomNavigationBarItem(
-              icon: iconhome,
-              label: 'Home',
-              backgroundColor: colorfav,
             ),
-            BottomNavigationBarItem(
-              icon: iconaddstories,
-              label: 'AddStory',
-              backgroundColor: colorfav,
+            flex: 1),
+      ]),
+    );
+  }
+
+  Future<String?> openDialog(String title) => showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text(title),
+            content: TextField(
+              controller: _titleController,
+              autofocus: true,
+              decoration: InputDecoration(hintText: "Test your input"),
             ),
-            BottomNavigationBarItem(
-              icon: iconeinstellung,
-              label: 'Setting',
-              backgroundColor: colorfav,
-            ),
-          ],
-        ));
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    submit();
+                  },
+                  child: Text('OK'))
+            ],
+          ));
+
+  void submit() {
+    Navigator.of(context).pop(_titleController.text);
   }
 }
-/*
-Column(
-        children: [
-          SizedBox(
-            height: 100,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SaveOrUploadStory()));
-              },
-              child: ,)
-        ],
-      ),
-      Decorations()
-            .appBarDecoration(title: "RecordStory", context: context),
-*/
