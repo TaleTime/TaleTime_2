@@ -36,8 +36,8 @@ class _CreateStoryState extends State<CreateStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: Text("Create Story"), automaticallyImplyLeading: false),
+      appBar: Decorations().appBarDecoration(
+          title: "Create Story", context: context, automaticArrow: false),
       body: SingleChildScrollView(
         child: Column(children: [
           SizedBox(height: 50),
@@ -102,17 +102,18 @@ class _CreateStoryState extends State<CreateStory> {
                 .toList(),
           ),
           SizedBox(height: 50),
-          Text("Upload a Image", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text("Upload a Image",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           Container(
             height: MediaQuery.of(context).size.height / 5,
             width: MediaQuery.of(context).size.width / 5,
-            child: Image.network("https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fplus.png?alt=media&token=14b35122-cade-4508-a54b-c7c5930b01a6", color: Colors.green),
+            child: Image.network(
+                "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fplus.png?alt=media&token=14b35122-cade-4508-a54b-c7c5930b01a6",
+                color: Colors.green),
           ),
-          ///Center(child: IconButton(onPressed: () {}, icon: Icon(Icons.add, size: 200, color: Colors.green,))),
           SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.all(15.0),
-            
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(

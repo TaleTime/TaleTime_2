@@ -26,8 +26,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Decorations()
-            .appBarDecoration(title: "Save/Upload Story", context: context),
+        appBar: Decorations().appBarDecoration(
+            title: "Save/Upload Story", context: context, automaticArrow: true),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
