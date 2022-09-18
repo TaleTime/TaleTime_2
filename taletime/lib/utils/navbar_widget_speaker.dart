@@ -29,13 +29,6 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
 
   _NavBarSpeakerState(this.profile, this.profiles);
 
-  late final screens = [
-    SpeakerHomePage(profile, profiles),
-    AllStories(test),
-    CreateStory(),
-    SettingsPage(profile, profiles),
-  ];
-
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
       icon: Icon(
@@ -47,10 +40,18 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference lastRecorded = profiles.doc(profile["id"]).collection('lastRecordedList');
+    CollectionReference recordedStories = profiles.doc(profile["id"]).collection('recordedStoriesList');
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: screens,
+        children: [
+          SpeakerHomePage(profile, recordedStories, lastRecorded),
+          AllStories(recordedStories),
+          CreateStory(),
+          SettingsPage(profile, profiles),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 27,
