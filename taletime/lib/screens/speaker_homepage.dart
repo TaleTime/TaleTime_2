@@ -5,6 +5,7 @@ import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/list_view_story_teller.dart';
 import 'package:taletime/utils/recent_stories_story_teller.dart';
 import '../utils/decoration_util.dart';
+import '../utils/my_list_view.dart';
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
@@ -23,6 +24,51 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
   final profile;
   final profiles;
   List matchStoryList = [];
+  List storyList = [{
+    "rating": "4.6",
+    "title": "Peace Life",
+    "author": "Unknown Author",
+    "image": "",
+    "audio": "",
+    "isLiked": false,
+    "id": "1"
+  },
+    {
+      "rating": "3.5",
+      "title": "The India Story",
+      "author": "Bimal Jalal",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "2"
+    },
+    {
+      "rating": "4.0",
+      "title": "Listen to Your Heart: The London Adventure",
+      "author": "Ruskin Bond",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "3"
+    },
+    {
+      "rating": "3.9",
+      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
+      "author": "Rajnath Singh",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "4"
+    },
+    {
+      "rating": "4.6",
+      "title": "Peace Life",
+      "author": "Unknown Author",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "1"
+    }];
   _SpeakerHomePageState(this.profile, this.profiles);
 
   @override
@@ -76,7 +122,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
               child: TextField(
                 onChanged: (value) {
                   setState(() {
-                    List stories = profile["stories"];
+                    List stories = storyList;
                     matchStoryList = stories
                         .where((story) => story["title"]
                             .toLowerCase()
@@ -124,7 +170,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
         top: 270,
         left: -90,
         right: 0,
-        child: profile["recent"].length == 0
+        child: storyList.length == 0
             ? Decorations().noRecentContent(
                 "Nothing to show yet. \nplease add some stories to your story library",
                 "recentStories")
@@ -137,9 +183,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                       });
                     },
                     controller: PageController(viewportFraction: 0.4),
-                    itemCount: profile["recent"] == null
+                    itemCount: storyList == null
                         ? 0
-                        : profile["recent"].length,
+                        : storyList.length,
                     itemBuilder: (_, i) {
                       var _scale = _selecetedIndex == i ? 1.0 : 0.8;
                       return TweenAnimationBuilder(
@@ -159,9 +205,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                     borderRadius: BorderRadius.circular(18),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          profile["recent"][i]["image"] == ""
+                                          storyList[i]["image"] == ""
                                               ? storyImagePlaceholder
-                                              : profile["recent"][i]["image"]),
+                                              : storyList[i]["image"]),
                                       colorFilter: ColorFilter.mode(
                                           Colors.black.withOpacity(0.6),
                                           BlendMode.dstATop),
@@ -177,7 +223,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                         height: 30,
                                         color: Colors.transparent,
                                         child: Marquee(
-                                          text: profile["recent"][i]["title"],
+                                          text: storyList[i]["title"],
                                           blankSpace: 30,
                                           style: TextStyle(
                                               color: Colors.white,
@@ -196,7 +242,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                         color: Colors.transparent,
                                         child: Marquee(
                                           text:
-                                              "By ${profile["recent"][i]["author"]}",
+                                              "By ${storyList[i]["author"]}",
                                           blankSpace: 20,
                                           style: TextStyle(
                                               color: Colors.white,
@@ -314,11 +360,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
           children: [
             Container(
               height: 260,
-              child: profile["stories"].length == 0
+              child: storyList.length == 0
                   ? Decorations().noRecentContent(
                       "No stories yet. \nplease add some stories to your story library",
                       "")
-                  : MyListView(profile["stories"], profiles, profile["id"]),
+                  : MyListView(storyList, profiles),
               //child: storyList.length == 0 ? Decorations().noRecentContent("No stories yet. \nplease add some stories to your story library", "") : MyListView(storyList),
             ),
           ],
