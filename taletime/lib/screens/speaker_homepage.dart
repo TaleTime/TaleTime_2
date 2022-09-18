@@ -318,7 +318,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   ? Decorations().noRecentContent(
                       "No stories yet. \nplease add some stories to your story library",
                       "")
-                  : ListViewStoryTeller(profile["stories"]),
+                  : MyListView(profile["stories"], profiles, profile["id"]),
+              //child: storyList.length == 0 ? Decorations().noRecentContent("No stories yet. \nplease add some stories to your story library", "") : MyListView(storyList),
             ),
           ],
         ),

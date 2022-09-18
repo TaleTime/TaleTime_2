@@ -29,8 +29,13 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   _NavBarSpeakerState(this.profile, this.profiles);
 
   late final screens = [
-    SpeakerHomePage(profile),
-    AllStories(profile['stories']),
+    SpeakerHomePage(profile, profiles),
+    const Center(
+      child: Text(
+        "All Stories",
+        style: TextStyle(fontSize: 50),
+      ),
+    ),
     CreateStory(),
     SettingsPage(profile, profiles),
   ];
