@@ -187,7 +187,7 @@ class _AddProfileState extends State<AddProfile> {
       }).then((value) {
         print("User Added");
         updateUser(value.id);
-        profiles.doc(value.id).collection('favoriteList').add({
+        /*profiles.doc(value.id).collection('favoriteList').add({
           "rating": "4.6",
           "title": "Peace Life",
           "author": "Unknown Author",
@@ -195,8 +195,8 @@ class _AddProfileState extends State<AddProfile> {
           "audio": "",
           "isLiked": true,
           "id": "1"
-        });
-        profiles.doc(value.id).collection('recentList').add({
+        });*/
+        /*profiles.doc(value.id).collection('recentList').add({
           "rating": "4.6",
           "title": "Peace Life",
           "author": "Unknown Author",
@@ -204,8 +204,8 @@ class _AddProfileState extends State<AddProfile> {
           "audio": "",
           "isLiked": false,
           "id": "1"
-        });
-        profiles.doc(value.id).collection('storiesList').add({
+        });*/
+        /*profiles.doc(value.id).collection('storiesList').add({
           "rating": "4.6",
           "title": "Peace Life",
           "author": "Unknown Author",
@@ -213,7 +213,7 @@ class _AddProfileState extends State<AddProfile> {
           "audio": "",
           "isLiked": false,
           "id": "1"
-        });
+        });*/
         // ignore: invalid_return_type_for_catch_error
       }).catchError((error) => print("Failed to add user: $error"));
     }
