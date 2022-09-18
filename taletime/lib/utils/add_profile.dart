@@ -31,15 +31,7 @@ class _AddProfileState extends State<AddProfile> {
   late final bool theme;
   late final String language;
   late final List recent = [
-    /*{
-      "rating": "",
-      "title": "",
-      "author": "",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "0"
-    },{
+   /* {
       "rating": "4.6",
       "title": "Peace Life",
       "author": "Unknown Author",
@@ -74,29 +66,30 @@ class _AddProfileState extends State<AddProfile> {
       "audio": "",
       "isLiked": false,
       "id": "4"
+    },
+    {
+      "rating": "4.6",
+      "title": "Peace Life",
+      "author": "Unknown Author",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "1"
     }*/
   ];
   late final List favorites = [
     /*{
-      "rating": "",
-      "title": "",
-      "author": "",
+      "rating": "4.6",
+      "title": "Peace Life",
+      "author": "Unknown Author",
       "image": "",
       "audio": "",
       "isLiked": true,
-      "id": ""
-    },*/
+      "id": "1"
+    }*/
   ];
   late final List stories = [
-    /*{
-      "rating": "",
-      "title": "",
-      "author": "",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "0"
-    },{
+   /* {
       "rating": "4.6",
       "title": "Peace Life",
       "author": "Unknown Author",
@@ -131,6 +124,15 @@ class _AddProfileState extends State<AddProfile> {
       "audio": "",
       "isLiked": false,
       "id": "4"
+    },
+    {
+      "rating": "3.5",
+      "title": "The India Story",
+      "author": "Bimal Jalal",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "2"
     }*/
   ];
   String profileImage = profileImages[4];
@@ -173,24 +175,45 @@ class _AddProfileState extends State<AddProfile> {
         String image,
         String name,
         String title,
-        List favorites,
-        List recent,
-        List stories,
         String language,
         bool theme) {
       return profiles.add({
-        'favorites': favorites,
         'id': "",
         'image': image,
         'name': name,
-        'recent': recent,
-        'stories': stories,
         'title': title,
         'language': language,
         'theme': theme
       }).then((value) {
         print("User Added");
         updateUser(value.id);
+        profiles.doc(value.id).collection('favoriteList').add({
+          "rating": "4.6",
+          "title": "Peace Life",
+          "author": "Unknown Author",
+          "image": "",
+          "audio": "",
+          "isLiked": true,
+          "id": "1"
+        });
+        profiles.doc(value.id).collection('recentList').add({
+          "rating": "4.6",
+          "title": "Peace Life",
+          "author": "Unknown Author",
+          "image": "",
+          "audio": "",
+          "isLiked": false,
+          "id": "1"
+        });
+        profiles.doc(value.id).collection('storiesList').add({
+          "rating": "4.6",
+          "title": "Peace Life",
+          "author": "Unknown Author",
+          "image": "",
+          "audio": "",
+          "isLiked": false,
+          "id": "1"
+        });
         // ignore: invalid_return_type_for_catch_error
       }).catchError((error) => print("Failed to add user: $error"));
     }
@@ -345,8 +368,7 @@ class _AddProfileState extends State<AddProfile> {
                                 : items[0].toString();
                             theme = !themeProvider.isDarkMode;
                             language = languageProvider.locale.toString();
-                            addUser(image, name, title, favorites, recent,
-                                stories, language, theme);
+                            addUser(image, name, title, language, theme);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
