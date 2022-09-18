@@ -9,24 +9,26 @@ import '../utils/search-bar-util.dart';
 
 class ListenerHomePage extends StatefulWidget {
   final DocumentSnapshot profile;
+  final profiles;
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
-  const ListenerHomePage(this.profile, this.storiesCollection, this.recentCollection,{Key? key}) : super(key: key);
+  const ListenerHomePage(this.profile, this.profiles, this.storiesCollection, this.recentCollection,{Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState(this.profile, this.storiesCollection, this.recentCollection);
+    return _ListenerHomePageState(this.profile, this.profiles, this.storiesCollection, this.recentCollection);
   }
 }
 
 class _ListenerHomePageState extends State<ListenerHomePage> {
-  var _selecetedIndex = 0;
+  var _selectedIndex = 0;
 
   final DocumentSnapshot profile;
+  final profiles;
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
 
-  _ListenerHomePageState(this.profile, this.storiesCollection, this.recentCollection);
+  _ListenerHomePageState(this.profile, this.profiles, this.storiesCollection, this.recentCollection);
 
   List matchStoryList = [];
 
@@ -138,7 +140,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 child: PageView.builder(
                     onPageChanged: (index) {
                       setState(() {
-                        _selecetedIndex = index;
+                        _selectedIndex = index;
                       });
                     },
                     controller: PageController(viewportFraction: 0.4),
@@ -146,7 +148,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         ? 0
                         : profile["recent"].length,
                     itemBuilder: (_, i) {
-                      var _scale = _selecetedIndex == i ? 1.0 : 0.8;
+                      var _scale = _selectedIndex == i ? 1.0 : 0.8;
                       return TweenAnimationBuilder(
                           duration: const Duration(microseconds: 350),
                           tween: Tween(begin: _scale, end: _scale),
@@ -260,7 +262,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                               child: PageView.builder(
                                   onPageChanged: (index) {
                                     setState(() {
-                                      _selecetedIndex = index;
+                                      _selectedIndex = index;
                                     });
                                   },
                                   controller: PageController(viewportFraction: 0.4),
@@ -268,7 +270,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                       ? 0
                                       : documentSnapshot.length,
                                   itemBuilder: (_, i) {
-                                    var _scale = _selecetedIndex == i ? 1.0 : 0.8;
+                                    var _scale = _selectedIndex == i ? 1.0 : 0.8;
                                     return TweenAnimationBuilder(
                                         duration: const Duration(microseconds: 350),
                                         tween: Tween(begin: _scale, end: _scale),
@@ -409,7 +411,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                               ? Decorations().noRecentContent(
                               "No stories yet. \nplease add some stories to your story library",
                               "")
-                              : MyListView(storiesDocumentSnapshot, storiesCollection),
+                              : MyListView(storiesDocumentSnapshot, storiesCollection, profile, profiles),
                         ),
                       ],
                     ),
@@ -522,7 +524,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 child: PageView.builder(
                     onPageChanged: (index) {
                       setState(() {
-                        _selecetedIndex = index;
+                        _selectedIndex = index;
                       });
                     },
                     controller: PageController(viewportFraction: 0.4),
@@ -530,7 +532,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         ? 0
                         : profile["recent"].length,
                     itemBuilder: (_, i) {
-                      var _scale = _selecetedIndex == i ? 1.0 : 0.8;
+                      var _scale = _selectedIndex == i ? 1.0 : 0.8;
                       return TweenAnimationBuilder(
                           duration: const Duration(microseconds: 350),
                           tween: Tween(begin: _scale, end: _scale),
@@ -644,7 +646,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       child: PageView.builder(
                           onPageChanged: (index) {
                             setState(() {
-                              _selecetedIndex = index;
+                              _selectedIndex = index;
                             });
                           },
                           controller: PageController(viewportFraction: 0.4),
@@ -652,7 +654,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                               ? 0
                               : documentSnapshot.length,
                           itemBuilder: (_, i) {
-                            var _scale = _selecetedIndex == i ? 1.0 : 0.8;
+                            var _scale = _selectedIndex == i ? 1.0 : 0.8;
                             return TweenAnimationBuilder(
                                 duration: const Duration(microseconds: 350),
                                 tween: Tween(begin: _scale, end: _scale),

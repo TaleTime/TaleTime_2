@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/utils/constants.dart';
 
 class AllStories extends StatefulWidget {
   final CollectionReference recordedStoriesCollection;
@@ -68,7 +69,7 @@ class _AllStoriesState extends State<AllStories> {
                 ));
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: kPrimaryColor,),
             );
           }
         }

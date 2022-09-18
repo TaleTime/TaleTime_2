@@ -143,7 +143,6 @@ class _AddProfileState extends State<AddProfile> {
 
   @override
   Widget build(BuildContext context) {
-    //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
     List<String> items = ["Listener", "Story-teller"];
     final _formKey = GlobalKey<FormState>();
     final languageProvider = Provider.of<LocaleProvider>(context);

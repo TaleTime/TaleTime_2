@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/list_view_story_teller.dart';
-import 'package:taletime/utils/recent_stories_story_teller.dart';
 import '../utils/decoration_util.dart';
-import '../utils/my_list_view.dart';
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
@@ -26,6 +24,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
   final CollectionReference storiesCollection;
   final CollectionReference lastRecordedCollection;
   List matchStoryList = [];
+  static const String pageView = "recordedStories";
   _SpeakerHomePageState(this.profile, this.storiesCollection, this.lastRecordedCollection);
 
   @override
@@ -453,7 +452,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                               ? Decorations().noRecentContent(
                               "No stories yet. \nplease add some stories to your story library",
                               "")
-                              : MyListView(storiesDocumentSnapshot, storiesCollection),
+                              : ListViewStoryTeller(storiesDocumentSnapshot),
                         ),
                       ],
                     ),
@@ -461,7 +460,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 ]));
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: kPrimaryColor, backgroundColor: Colors.grey, valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor)),
             );
           }
         }
