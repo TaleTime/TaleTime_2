@@ -14,6 +14,15 @@ class _AddStoryState extends State<AddStory> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    List allStories = [{
+      "rating": "4.6",
+      "title": "Wonderful-story",
+      "author": "By Unknown Author",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": "1"
+    }];
 
     return Scaffold(
         body: Stack(
@@ -98,7 +107,7 @@ class _AddStoryState extends State<AddStory> {
                 height: screenHeight * 0.8,
                 child: ListView.builder(
                     primary: false,
-                    itemCount: 10,
+                    itemCount: allStories.length,
                     itemBuilder: (_, i) {
                       return GestureDetector(
                         onTap: () {},
@@ -142,7 +151,7 @@ class _AddStoryState extends State<AddStory> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    "4.5",
+                                                    allStories[i]["rating"],
                                                     style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 12.0),
@@ -158,14 +167,14 @@ class _AddStoryState extends State<AddStory> {
                                                 ],
                                               ),
                                               Text(
-                                                "Wonderful-story ${i}",
+                                                allStories[i]["title"],
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15.0,
                                                 ),
                                               ),
                                               Text(
-                                                "By Taletime-story-teller",
+                                                allStories[i]["author"],
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 13.0,
@@ -183,7 +192,9 @@ class _AddStoryState extends State<AddStory> {
                                             IconContextDialog(
                                                 "Add Story...",
                                                 "Do you really want to add this story?",
-                                                Icons.playlist_add_outlined),
+                                                Icons.playlist_add_outlined,
+                                                allStories[i]["id"],
+                                                allStories),
                                             const SizedBox(
                                               width: 1,
                                             ),
