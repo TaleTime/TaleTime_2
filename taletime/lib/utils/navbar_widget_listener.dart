@@ -28,20 +28,6 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   _NavBarListenerState(this.profile, this.profiles);
 
-  late final screens = [
-    ListenerHomePage(profile),
-    FavoritePage(profile),
-    /*const Center(
-      child: Text(
-        "Favorites",
-        style: TextStyle(fontSize: 50),
-      ),
-    ), *///hier ersetzen
-    //const Favorites(),
-    const AddStory(),
-    SettingsPage(profile, profiles),
-  ];
-
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
       icon: Icon(
@@ -53,10 +39,34 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference favorites = profiles.doc(profile["id"]).collection('favoriteList');
+    CollectionReference recent = profiles.doc(profile["id"]).collection('recentList');
+    CollectionReference stories = profiles.doc(profile["id"]).collection('storiesList');
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: screens,
+        children: [
+          ListenerHomePage(profile, stories, recent),
+          FavoritePage(profile, profiles, favorites),
+          /*StreamBuilder(
+            stream: favorites.snapshots(),
+            builder:
+                (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                final List<QueryDocumentSnapshot> documentSnapshot =
+                streamSnapshot.data!.docs;
+                return FavoritePage(profile, profiles, documentSnapshot);
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),*/
+          const AddStory(),
+          SettingsPage(profile, profiles),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 27,
