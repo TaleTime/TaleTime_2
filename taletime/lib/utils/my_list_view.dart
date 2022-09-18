@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -6,19 +7,21 @@ import 'icon_context_dialog.dart';
 
 class MyListView extends StatefulWidget{
   final List stories;
-  const MyListView(this.stories, {Key? key}) : super(key: key);
+  final CollectionReference storiesCollection;
+  const MyListView(this.stories, this.storiesCollection,{Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewState(this.stories);
+    return _MyListViewState(this.stories, this.storiesCollection);
   }
 }
 
 class _MyListViewState extends State<MyListView>{
 
-  late final List stories;
+  final List stories;
+  final CollectionReference storiesCollection;
 
-  _MyListViewState(this.stories);
+  _MyListViewState(this.stories, this.storiesCollection);
 
   final List<IconData> _icons = [
     Icons.favorite,
@@ -98,7 +101,7 @@ class _MyListViewState extends State<MyListView>{
                                     Container(
                                       width: screenWidth * 0.4,
                                       child: Text(
-                                        stories[i]["author"],
+                                        "By ${stories[i]["author"]}",
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           color: Colors.white,
@@ -118,16 +121,16 @@ class _MyListViewState extends State<MyListView>{
                                       if (!stories[i]["isLiked"]){
                                         setState(() {
                                           stories[i]["isLiked"] = true;
-                                         /* stories[i].update({'isLiked': true})
+                                          stories[i].update({'isLiked': true})
                                               .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));*/
+                                              .catchError((error) => print("Failed to update user: $error"));
                                         });
                                       }else{
                                         setState(() {
                                           stories[i]["isLiked"] = false;
-                                          /*stories[i].update({'isLiked': false})
+                                          stories[i].update({'isLiked': false})
                                               .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));*/
+                                              .catchError((error) => print("Failed to update user: $error"));
                                         });
                                       }
                                     },
@@ -137,7 +140,9 @@ class _MyListViewState extends State<MyListView>{
                                   ),
                                   IconContextDialog("Delete Story...",
                                     "Do you really want to delete this story?",
-                                    Icons.delete
+                                    Icons.delete,
+                                      stories[i]["id"],
+                                      storiesCollection
                                   ),
                                   const SizedBox(
                                     width: 1,
