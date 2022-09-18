@@ -31,29 +31,6 @@ class _MyListViewState extends State<MyListView>{
   Widget build (BuildContext context){
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    void updateFavoriteItem(String audio, String author, String id, String image, bool isLiked, String rating, String title) {
-      setState(() {
-        favoriteStory = {
-          "rating": rating,
-          "title": title,
-          "author": author,
-          "image": image,
-          "audio": audio,
-          "isLiked": isLiked,
-          "id": id
-        };
-      });
-    }
-
-    Future<void> updateFavoriteList(List favorites, String profileId, Map favoriteItem) {
-      favorites.add(favoriteItem);
-      return profiles
-          .doc(profileId)
-          .update({'favorites': favorites})
-          .then((value) => print("profile Updated"))
-          .catchError((error) => print("Failed to update profile: $error"));
-    }
-
     return ListView.builder(
         primary: false,
         itemCount: stories.length,
