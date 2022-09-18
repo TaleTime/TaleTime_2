@@ -6,21 +6,33 @@ class IconContextDialog extends StatefulWidget {
   final String title;
   final String subtitle;
   final IconData icon;
+  final String id;
+  final stories;
 
-  const IconContextDialog(this.title, this.subtitle, this.icon, {Key? key}) : super(key: key);
+  const IconContextDialog(this.title, this.subtitle, this.icon, this.id, this.stories, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _IconContextDialogState(this.title, this.subtitle, this.icon);
+    return _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
   }
 }
 
 class _IconContextDialogState extends State<IconContextDialog> {
-  late final String title;
-  late final String subtitle;
-  late final IconData icon;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final String id;
+  final stories;
 
-  _IconContextDialogState(this.title, this.subtitle, this.icon);
+  _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
+
+  Future<void> deleteUser(String id) {
+    return stories
+        .doc(id)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
+  }
 
   void onSelected(BuildContext context, String title, String subtitle) {
         showDialog(
@@ -44,7 +56,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
                         MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState((){
-                        Navigator.of(context).pop();
+                        deleteUser(id);
                       });
                     },
                   ),
