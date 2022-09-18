@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import '../screens/listener_homepage.dart';
 import 'constants.dart';
 
 class SearchBarUtil {
@@ -42,10 +41,7 @@ class SearchBarUtil {
               : story[index]["image"];
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ListenerHomePage(profile)));
+              Navigator.of(context).pop();
             },
             child: ListTile(
               title: Text(

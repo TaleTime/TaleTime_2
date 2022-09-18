@@ -21,12 +21,12 @@ class MyThemes {
       errorColor: Colors.red,
       focusColor: Colors.grey,
       elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: kPrimaryColor,
-        shadowColor: Colors.white,
+          style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
+        shadowColor: MaterialStateProperty.all<Color>(Colors.white),
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+        MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))),
       )),
       primaryColor: Colors.grey,
       inputDecorationTheme: InputDecorationTheme(
@@ -58,13 +58,13 @@ class MyThemes {
       hintColor: kPrimaryColor,
       errorColor: Colors.red,
       elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: kPrimaryColor,
-        shadowColor: Colors.white,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-      )),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
+            shadowColor: MaterialStateProperty.all<Color>(Colors.white),
+            shape:
+            MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))),
+          )),
       primaryColor: kPrimaryColor,
       inputDecorationTheme: InputDecorationTheme(
           fillColor: Colors.white,
