@@ -47,7 +47,7 @@ class _NavBarListenerState extends State<NavBarListener> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(profile, stories, recent),
+          ListenerHomePage(profile, profiles, stories, recent),
           FavoritePage(profile, profiles, favorites),
           /*StreamBuilder(
             stream: favorites.snapshots(),

@@ -125,7 +125,7 @@ class _FavoritePageState extends State<FavoritePage> {
                               ? Decorations().noRecentContent(
                               "No stories yet. \nplease add some stories to your story library",
                               "")
-                              :MyListView(documentSnapshot, favorites),
+                              :MyListView(documentSnapshot, favorites, profile, profiles),
                         )
                       ],
                     ),

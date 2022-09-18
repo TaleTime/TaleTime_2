@@ -7,11 +7,13 @@ import 'icon_context_dialog.dart';
 class MyListView extends StatefulWidget{
   final List stories;
   final CollectionReference storiesCollection;
-  const MyListView(this.stories, this.storiesCollection,{Key? key}) : super(key: key);
+  final profile;
+  final profiles;
+  const MyListView(this.stories, this.storiesCollection, this.profile, this.profiles,{Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewState(this.stories, this.storiesCollection);
+    return _MyListViewState(this.stories, this.storiesCollection, this.profile, this.profiles);
   }
 }
 
@@ -19,8 +21,17 @@ class _MyListViewState extends State<MyListView>{
 
   final List stories;
   final CollectionReference storiesCollection;
+  final profile;
+  final profiles;
 
-  _MyListViewState(this.stories, this.storiesCollection);
+  late final String newAudio;
+  late final String newImage;
+  late final String newTitle;
+  late final bool newIsLiked;
+  late final String newAuthor;
+  late final String newRating;
+
+  _MyListViewState(this.stories, this.storiesCollection, this.profile, this.profiles);
 
   final List<IconData> _icons = [
     Icons.favorite,
@@ -30,11 +41,51 @@ class _MyListViewState extends State<MyListView>{
   @override
   Widget build (BuildContext context){
     final double screenWidth = MediaQuery.of(context).size.width;
+    CollectionReference favorites = profiles.doc(profile["id"]).collection('favoriteList');
+
+    Future<void> updateStory(String storyId, bool isLiked) {
+      //hasLiked = isLiked;
+      return storiesCollection
+          .doc(storyId)
+          .update({'isLiked': isLiked})
+          .then((value) => print("Story liked/disliked"))
+          .catchError((error) => print("Failed to update user: $error"));
+    }
+
+    Future<void> updateFavoriteList(String storyId) {
+      return favorites
+          .doc(storyId)
+          .update({'id': storyId})
+          .then((value) => print("List Updated"))
+          .catchError((error) => print("Failed to update List: $error"));
+    }
+
+    Future<void> addStory(
+        String audio,
+        String author,
+        String image,
+        String title,
+        String rating,
+        bool isLiked) {
+      return favorites.add({
+        'id': "",
+        'image': image,
+        'audio': audio,
+        'title': title,
+        'rating': rating,
+        'author': author,
+        'isLiked': isLiked
+      }).then((value) {
+        print("Story Added to favorites");
+        updateFavoriteList(value.id);
+      }).catchError((error) => print("Failed to add story to favorites: $error"));
+    }
 
     return ListView.builder(
         primary: false,
         itemCount: stories.length,
         itemBuilder: (_,i){
+          bool hasLiked = stories[i]["isLiked"];
           return
             GestureDetector(
               onTap: (){},
@@ -116,21 +167,27 @@ class _MyListViewState extends State<MyListView>{
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: stories[i]["isLiked"] == false ? Icon(_icons[1], size: 21, color: Colors.white,) : Icon(_icons[0], size: 21, color: Colors.white,),
+                                    icon: hasLiked == false ? Icon(_icons[1], size: 21, color: Colors.white,) : Icon(_icons[0], size: 21, color: Colors.white,),
                                     onPressed: () {
-                                      if (!stories[i]["isLiked"]){
+                                      if (!hasLiked){
                                         setState(() {
-                                          stories[i]["isLiked"] = true;
-                                          stories[i].update({'isLiked': true})
-                                              .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));
+                                          hasLiked = true;
+                                          updateStory(stories[i]["id"], true);
+                                          newAudio = stories[i]["audio"];
+                                          newImage = stories[i]["image"];
+                                          newTitle = stories[i]["title"];
+                                          newIsLiked = true;
+                                          newAuthor = stories[i]["author"];
+                                          newRating = stories[i]["rating"];
+                                          addStory(newAudio,newAuthor,newImage,newTitle,newRating,newIsLiked);
                                         });
                                       }else{
                                         setState(() {
-                                          stories[i]["isLiked"] = false;
-                                          stories[i].update({'isLiked': false})
-                                              .then((value) => print("User Updated"))
-                                              .catchError((error) => print("Failed to update user: $error"));
+                                          hasLiked = false;
+                                          updateStory(stories[i]["id"], false);
+                                          favorites.doc(stories[i]["id"]).delete()
+                                              .then((value) => print("story Deleted"))
+                                              .catchError((error) => print("Failed to delete story: $error"));
                                         });
                                       }
                                     },
