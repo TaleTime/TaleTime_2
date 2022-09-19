@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/add_icon_context_dialog.dart';
 import '../utils/constants.dart';
+import '../utils/search-bar-util.dart';
 
 class AddStory extends StatefulWidget {
   final CollectionReference storiesCollectionReference;
@@ -18,6 +19,8 @@ class _AddStoryState extends State<AddStory> {
 
   final CollectionReference storiesCollectionReference;
   final CollectionReference allStoriesCollectionReference;
+
+  List matchStoryList = [];
 
   _AddStoryState(this.storiesCollectionReference, this.allStoriesCollectionReference);
 
@@ -81,6 +84,12 @@ class _AddStoryState extends State<AddStory> {
                           Container(
                             height: 42,
                             child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  matchStoryList = SearchBarUtil().searchStory(storiesDocumentSnapshot, value);
+                                });
+                                SearchBarUtil().isStoryListEmpty(matchStoryList, value);
+                              },
                               style: TextStyle(color: kPrimaryColor),
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.only(left: 30),
@@ -219,6 +228,12 @@ class _AddStoryState extends State<AddStory> {
                           )
                         ],
                       ),
+                    ),
+                    Positioned(
+                      top: 115,
+                      left: 0,
+                      right: 0,
+                      child: SearchBarUtil().searchBarContainer(matchStoryList),
                     ),
                   ],
                 ));
