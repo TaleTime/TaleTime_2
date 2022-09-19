@@ -28,6 +28,8 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   _NavBarListenerState(this.profile, this.profiles);
 
+  CollectionReference allStories = FirebaseFirestore.instance.collection('allStories');
+
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
       icon: Icon(
@@ -43,13 +45,28 @@ class _NavBarListenerState extends State<NavBarListener> {
     CollectionReference recent = profiles.doc(profile["id"]).collection('recentList');
     CollectionReference stories = profiles.doc(profile["id"]).collection('storiesList');
 
+    /*allStories.add({
+      "rating": "3.5",
+      "title": "The India Story",
+      "author": "Bimal Jalal",
+      "image": "",
+      "audio": "",
+      "isLiked": false,
+      "id": ""
+    }).then((value) {
+      print("User Added");
+      allStories.doc(value.id).update({'id': value.id})
+          .then((value) => print("User Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+    }).catchError((error) => print("Failed to add user: $error"));*/
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
           ListenerHomePage(profile, profiles, stories, recent),
           FavoritePage(profile, profiles, favorites),
-          AddStory(stories),
+          AddStory(stories, allStories),
           SettingsPage(profile, profiles),
         ],
       ),
