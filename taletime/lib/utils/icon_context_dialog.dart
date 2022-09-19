@@ -57,6 +57,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
                     onPressed: () {
                       setState((){
                         deleteUser(id);
+                        Navigator.of(context).pop();
                       });
                     },
                   ),

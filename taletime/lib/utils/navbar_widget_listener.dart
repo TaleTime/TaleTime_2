@@ -49,22 +49,7 @@ class _NavBarListenerState extends State<NavBarListener> {
         children: [
           ListenerHomePage(profile, profiles, stories, recent),
           FavoritePage(profile, profiles, favorites),
-          /*StreamBuilder(
-            stream: favorites.snapshots(),
-            builder:
-                (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-              if (streamSnapshot.hasData) {
-                final List<QueryDocumentSnapshot> documentSnapshot =
-                streamSnapshot.data!.docs;
-                return FavoritePage(profile, profiles, documentSnapshot);
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),*/
-          const AddStory(),
+          AddStory(stories),
           SettingsPage(profile, profiles),
         ],
       ),

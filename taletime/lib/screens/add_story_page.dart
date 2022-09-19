@@ -1,16 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/add_icon_context_dialog.dart';
 import '../utils/constants.dart';
 import '../utils/icon_context_dialog.dart';
 
 class AddStory extends StatefulWidget {
-  const AddStory({Key? key}) : super(key: key);
+  final CollectionReference storiesCollectionReference;
+
+  const AddStory(this.storiesCollectionReference, {Key? key}) : super(key: key);
 
   @override
-  State<AddStory> createState() => _AddStoryState();
+  State<AddStory> createState() => _AddStoryState(this.storiesCollectionReference);
 }
 
 class _AddStoryState extends State<AddStory> {
+
+  final CollectionReference storiesCollectionReference;
+
+  _AddStoryState(this.storiesCollectionReference);
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -189,12 +198,12 @@ class _AddStoryState extends State<AddStory> {
                                         ),
                                         Row(
                                           children: [
-                                            IconContextDialog(
+                                            AddIconContextDialog(
                                                 "Add Story...",
                                                 "Do you really want to add this story?",
                                                 Icons.playlist_add_outlined,
-                                                allStories[i]["id"],
-                                                allStories),
+                                                storiesCollectionReference,
+                                                allStories[i]),
                                             const SizedBox(
                                               width: 1,
                                             ),
