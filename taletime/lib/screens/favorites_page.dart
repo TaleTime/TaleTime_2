@@ -134,7 +134,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     top: 115,
                     left: 0,
                     right: 0,
-                    child: SearchBarUtil().searchBarContainer(matchStoryList, profile),
+                    child: SearchBarUtil().searchBarContainer(matchStoryList),
                   ),
                 ],
               ));
