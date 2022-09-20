@@ -41,8 +41,8 @@ class _AllStoriesState extends State<AllStories> {
                             itemBuilder: (context, index) {
                               return Card(
                                 child: ListTile(
-                                  title: Text(recordedStoriesDocumentSnapshot[index]["title"]),
-                                  subtitle: Text(recordedStoriesDocumentSnapshot[index]["author"]),
+                                  title: Text(recordedStoriesDocumentSnapshot[index]["title"], overflow: TextOverflow.ellipsis,),
+                                  subtitle: Text(recordedStoriesDocumentSnapshot[index]["author"], overflow: TextOverflow.ellipsis,),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
