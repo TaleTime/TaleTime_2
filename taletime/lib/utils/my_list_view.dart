@@ -44,7 +44,6 @@ class _MyListViewState extends State<MyListView>{
     CollectionReference favorites = profiles.doc(profile["id"]).collection('favoriteList');
 
     Future<void> updateStory(String storyId, bool isLiked) {
-      //hasLiked = isLiked;
       return storiesCollection
           .doc(storyId)
           .update({'isLiked': isLiked})
