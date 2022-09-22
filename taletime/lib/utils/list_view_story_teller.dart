@@ -39,14 +39,6 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
   @override
   Widget build(BuildContext context) {
 
-    /*Future<void> updateStory(String storyId, bool isLiked) {
-      return storiesCollection
-          .doc(storyId)
-          .update({'isLiked': isLiked})
-          .then((value) => print("Story liked/disliked"))
-          .catchError((error) => print("Failed to update user: $error"));
-    }*/
-
     Future<void> deleteStory(String storyId) {
       return storiesCollection.doc(storyId).delete()
           .then((value) => print("story Deleted"))
@@ -93,8 +85,8 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                 leading: Image.network(stories[index]["image"] == ""
                     ? storyImagePlaceholder
                     : stories[index]["image"]),
-                title: Text(stories[index]["title"], overflow: TextOverflow.ellipsis,),
-                subtitle: Text(stories[index]["author"], overflow: TextOverflow.ellipsis,),
+                title: Text(stories[index]["title"], overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white),),
+                subtitle: Text(stories[index]["author"], overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white)),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -107,21 +99,101 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                             newIsLiked = false;
                             newAuthor = stories[index]["author"];
                             newRating = stories[index]["rating"];
-                            uploadStory(newAudio,newAuthor,newImage,newTitle,newRating,newIsLiked);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Upload Story...",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    ),
+                                    content:
+                                    Text("Do you really want to upload this story?"),
+                                    actions: [
+                                      TextButton(
+                                        child:  Text(
+                                          "Yes",
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                            MaterialStateProperty.all(kPrimaryColor)),
+                                        onPressed: () {
+                                          setState((){
+                                            uploadStory(newAudio,newAuthor,newImage,newTitle,newRating,newIsLiked);
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          "No",
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                            MaterialStateProperty.all(kPrimaryColor)),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
                           });
-                        }, icon: const Icon(Icons.upload)),
+                        }, icon: const Icon(Icons.upload, color: Colors.white,)),
                     IconButton(onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => EditStory(storiesCollection, stories[index])));
-                    }, icon: const Icon(Icons.edit)),
+                    }, icon: const Icon(Icons.edit, color: Colors.white,)),
                     IconButton(
                         onPressed: () {
                           setState(() {
-                            deleteStory(stories[index]["id"]);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Delete Story...",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    ),
+                                    content:
+                                    Text("Do you really want to delete this story?"),
+                                    actions: [
+                                      TextButton(
+                                        child:  Text(
+                                          "Yes",
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                            MaterialStateProperty.all(kPrimaryColor)),
+                                        onPressed: () {
+                                          setState((){
+                                            deleteStory(stories[index]["id"]);
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          "No",
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                            MaterialStateProperty.all(kPrimaryColor)),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
                           });
-                        }, icon: const Icon(Icons.delete)),
+                        }, icon: const Icon(Icons.delete, color: Colors.white,)),
                   ],
                 ),
               ));
