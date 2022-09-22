@@ -81,7 +81,7 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
         index: _currentIndex,
         children: [
           SpeakerHomePage(profile, profiles, recordedStories, lastRecorded),
-          AllStories(recordedStories),
+          AllStories(profile, profiles, recordedStories),
           CreateStory(),
           SettingsPage(profile, profiles),
         ],
