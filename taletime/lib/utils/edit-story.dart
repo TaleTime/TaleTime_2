@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'decoration_util.dart';
@@ -26,6 +29,9 @@ class _EditStoryState extends State<EditStory> {
   final textEditingControllerTitle = TextEditingController();
   late final String storyImage;
 
+
+  Uint8List? imageByte;
+
   _EditStoryState(this.storiesCollection, this.story);
 
   @override
@@ -42,13 +48,16 @@ class _EditStoryState extends State<EditStory> {
         ? story["title"]
         : textEditingControllerTitle.text;
 
-    /*String updateImage(int index) {
-      var image = storyImage[index];
+    Future<void> uploadImage() async {
+      var picked = await FilePicker.platform.pickFiles();
       setState(() {
-        storyImage = image;
+        if (picked != null) {
+          imageByte = picked.files.first.bytes;
+          print(picked.files.first.name);
+          print(imageByte);
+        }
       });
-      return storyImage;
-    }*/
+    }
 
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
@@ -99,50 +108,61 @@ class _EditStoryState extends State<EditStory> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(200),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 20,
-                                offset: const Offset(5, 5),
-                              ),
-                            ],
+                          child: imageByte == null ?
+                          Container(
+                              width: 170.0,
+                              height: 170.0,
+                              decoration: new BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(storyImage)
+                                  )
+                              )
+                          ) :
+                          Container(
+                              width: 170.0,
+                              height: 170.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: MemoryImage(imageByte!),
+                                  )
+                              )
                           ),
-                          child: Image.network(storyImage, height: 150),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         Container(
-                          height: 120,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 0,
-                                left: -210,
-                                right: 0,
-                                child: Container(
-                                  height: 80,
-                                  child: Column(
-                                      children : [
-                                        Container(
-                                          child: Text("Upload Image"),
-                                        ),
-                                        Container(
-                                          child: IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(Icons.add)),
-                                        ),
-                                      ],
-                                      ),
+                          alignment: Alignment.center,
+                          child: Column(
+                            children : [
+                              Container(
+                                alignment: Alignment.center,
+                                child: Text("Update Image",
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                              ),SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  alignment: Alignment.center,
+                                  iconSize: 50,
+                                  onPressed: () {
+                                    uploadImage();
+                                  },
+                                  icon: const Icon(Icons.add, size: 50),
                                 ),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         Container(
                           child: TextFormField(
@@ -183,13 +203,13 @@ class _EditStoryState extends State<EditStory> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                /*author = textEditingControllerAuthor.text;
+                                Navigator.of(context).pop();
+                                author = textEditingControllerAuthor.text;
                                 image = storyImage;
                                 title = textEditingControllerTitle.text;
                                 updateStory(
-                                    story["id"], author, image, title);*/
-                                //reset();
-                                Navigator.of(context).pop();
+                                    story["id"], author, image, title);
+                                reset();
                               },
                               child: Text(
                                 "Update Story",
@@ -209,3 +229,5 @@ class _EditStoryState extends State<EditStory> {
     );
   }
 }
+
+
