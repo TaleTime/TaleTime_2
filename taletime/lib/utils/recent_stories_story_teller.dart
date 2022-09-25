@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 
-
 ///
 ///
 ///
@@ -24,8 +23,6 @@ import 'package:taletime/utils/constants.dart';
 ///
 ///
 
-
-
 class LVRecentStoryTeller extends StatefulWidget {
   final List stories;
   LVRecentStoryTeller(this.stories, {Key? key}) : super(key: key);
@@ -39,7 +36,7 @@ class LVRecentStoryTeller extends StatefulWidget {
 class _LVRecentStoryTellerState extends State<LVRecentStoryTeller> {
   late final List stories;
   _LVRecentStoryTellerState(this.stories);
-
+//hier wird die liste gezeigt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
