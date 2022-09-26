@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:taletime/screens/PlayStory.dart';
+import 'package:taletime/screens/play_story.dart';
 import 'package:taletime/utils/constants.dart';
 import '../utils/decoration_util.dart';
 import '../utils/my_list_view.dart';
@@ -61,7 +61,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       onPressed: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return const Playstory();
+                          return const PlayStory();
                         }));
                       },
                       icon: Icon(
