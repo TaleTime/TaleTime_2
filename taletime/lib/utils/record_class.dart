@@ -5,14 +5,18 @@ import 'package:taletime/screens/create_story.dart';
 
 class Story {
   /// Instanzvariablen
-  String? title;
+  late String title;
   late List<ChipModel> tags;
   FileImage? image;
 
-  Story(String? title, List<ChipModel> tags, FileImage? image) {
+  Story(String title, List<ChipModel> tags, FileImage? image) {
     this.title = title;
     this.tags = tags;
     this.image = image;
+  }
+
+  Story.test(String title) {
+    this.title = title;
   }
 
   String? getTitle() {
