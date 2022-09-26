@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taletime/internationalization/l10n.dart';
 import 'package:taletime/internationalization/locale_provider.dart';
+import 'package:taletime/screens/changePassword.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/theme_provider.dart';
@@ -128,7 +129,12 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 40,
               width: double.infinity,
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const ChangePassword();
+                  }));
+                },
                 child: Row(
                   children: [
                     SizedBox(

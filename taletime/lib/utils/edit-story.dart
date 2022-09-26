@@ -10,7 +10,8 @@ class EditStory extends StatefulWidget {
   final CollectionReference storiesCollection;
   final DocumentSnapshot story;
 
-  const EditStory(this.storiesCollection, this.story, {Key? key}) : super(key: key);
+  const EditStory(this.storiesCollection, this.story, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +29,6 @@ class _EditStoryState extends State<EditStory> {
   final textEditingControllerAuthor = TextEditingController();
   final textEditingControllerTitle = TextEditingController();
   late final String storyImage;
-
 
   Uint8List? imageByte;
 
@@ -108,29 +108,24 @@ class _EditStoryState extends State<EditStory> {
                     child: Column(
                       children: [
                         Container(
-                          child: imageByte == null ?
-                          Container(
-                              width: 170.0,
-                              height: 170.0,
-                              decoration: new BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(storyImage)
-                                  )
-                              )
-                          ) :
-                          Container(
-                              width: 170.0,
-                              height: 170.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: MemoryImage(imageByte!),
-                                  )
-                              )
-                          ),
+                          child: imageByte == null
+                              ? Container(
+                                  width: 170.0,
+                                  height: 170.0,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(storyImage))))
+                              : Container(
+                                  width: 170.0,
+                                  height: 170.0,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: MemoryImage(imageByte!),
+                                      ))),
                         ),
                         SizedBox(
                           height: 30,
@@ -138,12 +133,15 @@ class _EditStoryState extends State<EditStory> {
                         Container(
                           alignment: Alignment.center,
                           child: Column(
-                            children : [
+                            children: [
                               Container(
                                 alignment: Alignment.center,
                                 child: Text("Update Image",
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                              ),SizedBox(
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
+                              ),
+                              SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -168,8 +166,7 @@ class _EditStoryState extends State<EditStory> {
                           child: TextFormField(
                             controller: textEditingControllerAuthor,
                             decoration: Decorations().textInputDecoration(
-                                "Author's name",
-                                "Type in new name"),
+                                "Author's name", "Type in new name"),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return "Please fill in the blank space";
@@ -183,20 +180,19 @@ class _EditStoryState extends State<EditStory> {
                           height: 30,
                         ),
                         Container(
-                          child: TextFormField(
-                            controller: textEditingControllerTitle,
-                            decoration: Decorations().textInputDecoration(
-                                "Story's Title",
-                                "Type in new title"),
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Please fill in the blank space";
-                              }
-                              return null;
-                            },
-                          ),
-                          decoration: Decorations().inputBoxDecorationShaddow()
-                        ),
+                            child: TextFormField(
+                              controller: textEditingControllerTitle,
+                              decoration: Decorations().textInputDecoration(
+                                  "Story's Title", "Type in new title"),
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Please fill in the blank space";
+                                }
+                                return null;
+                              },
+                            ),
+                            decoration:
+                                Decorations().inputBoxDecorationShaddow()),
                         SizedBox(height: 50),
                         SizedBox(
                             height: MediaQuery.of(context).size.height / 15,
@@ -207,8 +203,7 @@ class _EditStoryState extends State<EditStory> {
                                 author = textEditingControllerAuthor.text;
                                 image = storyImage;
                                 title = textEditingControllerTitle.text;
-                                updateStory(
-                                    story["id"], author, image, title);
+                                updateStory(story["id"], author, image, title);
                                 reset();
                               },
                               child: Text(
@@ -229,5 +224,3 @@ class _EditStoryState extends State<EditStory> {
     );
   }
 }
-
-
