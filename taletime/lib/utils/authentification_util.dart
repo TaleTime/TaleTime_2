@@ -117,6 +117,38 @@ class AuthentificationUtil {
     }
   }
 
+  void changePassword(BuildContext context, String oldPassword, String newPassword) async {
+    //Create field for user to input old password
+    String? email = user!.email;
+    if (email == null) {
+      return;
+    }
+    //pass the password here
+
+    //String newPassword = "password";
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: oldPassword,
+      );
+
+      user!.updatePassword(newPassword).then((_) {
+        print("Successfully changed password");
+        Navigator.pop(context);
+      }).catchError((error) {
+        print("Password can't be changed" + error.toString());
+        //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
   /// meldet den aktuell eingeloggten Benutzer aus
   Future signOut() async {
     try {
