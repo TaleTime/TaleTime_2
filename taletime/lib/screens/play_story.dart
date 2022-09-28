@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:taletime/screens/login.dart';
+import 'package:taletime/utils/constants.dart';
 
 import 'package:taletime/utils/record_class.dart';
-
-import '../utils/constants.dart';
 
 class PlayStory extends StatefulWidget {
   const PlayStory({Key? key}) : super(key: key);
@@ -14,148 +11,135 @@ class PlayStory extends StatefulWidget {
 }
 
 class _PlayStoryState extends State<PlayStory> {
-  double changeVoice = 0.0;
-  double changeLimit = 0.0;
+  double changevoice = 0.0;
 
-  String name = "Play Story";
-  TextStyle textStyle = const TextStyle(fontSize: 20, color: Colors.white);
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
+  // Beispielwerte
+  double _currentValue = 10;
+  Story s1 = Story.test("Test 1");
+  Story s2 = Story.test("Test 2");
+  Story s3 = Story.test("Test 3");
+  Story s4 = Story.test("Test 4");
+  Story s5 = Story.test("Test 5");
+  Story s6 = Story.test("Test 6");
+  Story s7 = Story.test("Test 7");
+  Story s8 = Story.test("Test 8");
   List<Story> list = [];
 
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      list.add(s1);
+      list.add(s2);
+      list.add(s3);
+      list.add(s4);
+      list.add(s5);
+      list.add(s6);
+      list.add(s7);
+      list.add(s8);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ImageProvider imageProvider;
+    //ImageProvider imageProvider;
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(
-        title: Text(name, style: textStyle),
-        centerTitle: true,
-        backgroundColor: Colors.teal.shade600,
+        title: Text("Play Story"),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-
-              },
-              icon: const Icon(Icons.audio_file)),
-        ],
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
-          Expanded(
-            flex: 1,
-            child: Row(children: [
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Container(
-                      color: const Color.fromARGB(255, 191, 221, 192),
-                      alignment: Alignment.center,
-
-                      // ignore: prefer_const_constructors
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(assetLogo),
-                        radius: 75,
-                        backgroundColor: Colors.red,
-                      ),
+          Column(
+            children: [
+              SizedBox(height: 10),
+              Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    //alignment: Alignment.topLeft,
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage("logo.png"),
+                      radius: 75,
                     ),
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                  ),
+                  Expanded(
                     child: Column(
+                      //mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: const Text(
-                              "Mahmoud",
-                              style:
-                                  TextStyle(fontSize: 30, color: Colors.green),
-                            ),
+                        Container(
+                          //alignment: Alignment.topCenter,
+                          child: Text(
+                            "MahmoudeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeRRRRRRRRRRRRRRRRRRRRR",
+                            style: TextStyle(color: kPrimaryColor),
+                            //overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: const Text(
-                              "Orabi",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color.fromARGB(255, 191, 221, 192)),
-                            ),
-                          ),
+                        SizedBox(height: 10),
+                        Container(
+                          child: const Text("Orabi"),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.play_circle,
-                                        color: Colors.green,
-                                      ))),
-                              Expanded(
-                                  flex: 1,
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.favorite_border))),
-                              Expanded(
-                                  flex: 1,
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.more_vert))),
-                            ],
-                          ),
-                        )
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.play_circle)),
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.favorite_border)),
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.more_vert)),
+                          ],
+                        ),
                       ],
                     ),
-                  )),
-            ]),
+                  ),
+                ],
+              ),
+            ],
           ),
-          Expanded(
-            flex: 1,
-            child: Consumer(builder: (context, value, child) {
-              return Container(
-                child: Card(
-                  child: ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: ((context, index) {
-                        return ListTile(
-                            leading: Text("$index"),
-                            title: Text("${list[index].title} $index"),
-                            trailing: Text("${list[index].tags}"),
-                            onTap: () => this
-                                ._globalKey
-                                .currentState
-                                ?.showBottomSheet(
-                                    (context) => _bottomdownWidget(context)));
-                      })),
-                ),
-              );
-            }),
+          SizedBox(height: 50),
+          Container(
+            height: MediaQuery.of(context).size.height / 2.5,
+            child: ListView.builder(
+                primary: false,
+                itemCount: list.length,
+                itemBuilder: (_, index) {
+                  return Card(
+                    color: kPrimaryColor,
+                    child: ListTile(
+                        leading: Text("$index"),
+                        title: Text(list[index].title),
+                        subtitle: Text("$index:00"),
+                        onTap: () => this
+                            ._globalKey
+                            .currentState
+                            ?.showBottomSheet((context) =>
+                                _bottomdownWidget(context, list[index].title)),
+                        trailing:
+                            Row(mainAxisSize: MainAxisSize.min, children: [])),
+                  );
+                }),
           ),
         ],
       ),
     );
   }
 
-  Container _bottomdownWidget(BuildContext context) {
+  Container _bottomdownWidget(BuildContext context, String title) {
     return Container(
       width: double.infinity,
-      height: 120,
-      color: const Color.fromARGB(255, 97, 92, 92),
+      height: MediaQuery.of(context).size.height / 4.5,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -167,13 +151,9 @@ class _PlayStoryState extends State<PlayStory> {
                     Expanded(
                         flex: 1,
                         child: Container(
-                          color: Colors.blue,
-                          child: const Center(
-                            child: Text(
-                              "Part ",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.black),
-                            ),
+                          color: kPrimaryColor,
+                          child: Center(
+                            child: Text(title),
                           ),
                         )),
                     Expanded(
@@ -194,7 +174,7 @@ class _PlayStoryState extends State<PlayStory> {
                                 flex: 1,
                                 child: IconButton(
                                   onPressed: () {},
-                                  icon: const Icon(Icons.forward_10_outlined),
+                                  icon: const Icon(Icons.replay_10),
                                 )),
                             Expanded(
                                 flex: 1,
@@ -206,11 +186,11 @@ class _PlayStoryState extends State<PlayStory> {
                             Expanded(
                                 flex: 2,
                                 child: IconButton(
-                                  onPressed: () { },
-                                  icon: const Icon(
+                                  onPressed: () {},
+                                  icon: Icon(
                                     Icons.play_arrow,
+                                    color: kPrimaryColor,
                                     size: 30,
-                                    color: Colors.green,
                                   ),
                                 )),
                             Expanded(
@@ -223,7 +203,7 @@ class _PlayStoryState extends State<PlayStory> {
                                 flex: 1,
                                 child: IconButton(
                                   onPressed: () {},
-                                  icon: const Icon(Icons.replay_10),
+                                  icon: const Icon(Icons.forward_10_outlined),
                                 )),
                           ],
                         )),
@@ -231,12 +211,11 @@ class _PlayStoryState extends State<PlayStory> {
                         flex: 1,
                         child: Slider(
                             min: 0,
-                            max: 10,
-                            value: changeLimit,
-                            onChanged: (ch) {
-                              setState(() {
-                                changeLimit = ch;
-                              });
+                            max: 100,
+                            value: _currentValue,
+                            label: "$_currentValue",
+                            onChanged: (value) {
+                              setState(() => _currentValue = value);
                             })),
                     Expanded(flex: 1, child: Container()),
                   ],
@@ -262,10 +241,10 @@ class _PlayStoryState extends State<PlayStory> {
                               child: Slider(
                                 min: 0,
                                 max: 100,
-                                value: changeVoice,
+                                value: changevoice,
                                 onChanged: (val) {
                                   setState(() {
-                                    changeVoice = val;
+                                    changevoice = val;
                                   });
                                 },
                               ))
@@ -280,22 +259,3 @@ class _PlayStoryState extends State<PlayStory> {
     );
   }
 }
-/**
- *  Expanded(
-            flex: 1,
-            child: Container(
-              child: Center(
-                child: MaterialButton(
-                  color: Colors.green,
-                  onPressed: () {
-                    /*      Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return const viereck();
-                      },
-                    )); */
-                  },
-                ),
-              ),
-            ),
-          )
- */

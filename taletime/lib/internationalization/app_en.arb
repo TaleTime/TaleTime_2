@@ -267,8 +267,14 @@
     "@enterProfile": {
         "description": "Geben Sie einen Profilnamen ein"
     },
-
-
+    "oldPassword": "Old password",
+    "@oldPassword": {
+        "description": "Altes Passwort"
+    },
+    "enterOldPassword": "Enter Old password",
+    "@enterOldPassword": {
+        "description": "Geben Sie Ihr altes Passwort ein"
+    },
 
 
 

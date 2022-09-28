@@ -5,6 +5,7 @@ import 'package:taletime/screens/login.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taletime/utils/text_form_field_util.dart';
 import 'package:taletime/utils/validation_util.dart';
 
 class SignupPage extends StatefulWidget {
@@ -77,81 +78,29 @@ class _SignupPageState extends State<SignupPage> {
                           key: _formKey,
                           child: Column(children: <Widget>[
                             Container(
-                                child: TextFormField(
-                                    controller: _nameController,
-                                    decoration: Decorations()
-                                        .textInputDecoration(
-                                            AppLocalizations.of(context)!
-                                                .username,
-                                            AppLocalizations.of(context)!
-                                                .enterUsername,
-                                            Icon(Icons.person)),
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (name) => ValidationUtil()
-                                        .validateUserName(name, context)),
+                                child: TextFormFieldUtil().enterUserNameForm(
+                                    context, _nameController),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
-                                child: TextFormField(
-                                    controller: _emailController,
-                                    decoration: Decorations()
-                                        .textInputDecoration(
-                                            AppLocalizations.of(context)!.email,
-                                            AppLocalizations.of(context)!
-                                                .enterEmail,
-                                            Icon(Icons.email_rounded)),
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (email) => ValidationUtil()
-                                        .validateEmail(email, context)),
+                                child: TextFormFieldUtil()
+                                    .enterEmailForm(context, _emailController),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 20),
                             Container(
-                                child: TextFormField(
-                                    controller: _passwordController,
-                                    obscureText: true,
-                                    decoration: Decorations()
-                                        .textInputDecoration(
-                                            AppLocalizations.of(context)!
-                                                .password,
-                                            AppLocalizations.of(context)!
-                                                .enterPassword,
-                                            Icon(Icons.lock)),
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (password) => ValidationUtil()
-                                        .validatePassword(password, context)),
+                                child: TextFormFieldUtil().enterPasswordForm(
+                                    context, _passwordController),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow()),
                             const SizedBox(height: 25),
                             Container(
                                 height: MediaQuery.of(context).size.height / 13,
-                                child: TextFormField(
-                                    controller: _confirmPasswordController,
-                                    obscureText: true,
-                                    decoration: Decorations()
-                                        .textInputDecoration(
-                                            AppLocalizations.of(context)!
-                                                .confirmPassword,
-                                            AppLocalizations.of(context)!
-                                                .confirmYourPassword,
-                                            Icon(Icons.lock)),
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (password) {
-                                      if (_passwordController.text.trim() !=
-                                          password) {
-                                        return AppLocalizations.of(context)!
-                                            .passwordsDontMatch;
-                                      } else {
-                                        ValidationUtil().validatePassword(
-                                            password, context);
-                                      }
-                                      return null;
-                                    }),
+                                child: TextFormFieldUtil().confirmPasswordForm(
+                                    context,
+                                    _passwordController,
+                                    _confirmPasswordController),
                                 decoration:
                                     Decorations().inputBoxDecorationShaddow())
                           ]))
