@@ -4,18 +4,20 @@ import 'package:taletime/screens/login.dart';
 
 import 'package:taletime/utils/record_class.dart';
 
-class Playstory extends StatefulWidget {
-  const Playstory({Key? key}) : super(key: key);
+import '../utils/constants.dart';
+
+class PlayStory extends StatefulWidget {
+  const PlayStory({Key? key}) : super(key: key);
 
   @override
-  State<Playstory> createState() => _PlaystoryState();
+  State<PlayStory> createState() => _PlayStoryState();
 }
 
-class _PlaystoryState extends State<Playstory> {
-  double changevoice = 0.0;
-  double changelimit = 0.0;
+class _PlayStoryState extends State<PlayStory> {
+  double changeVoice = 0.0;
+  double changeLimit = 0.0;
 
-  String name = "PlayStory";
+  String name = "Play Story";
   TextStyle textStyle = const TextStyle(fontSize: 20, color: Colors.white);
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   List<Story> list = [];
@@ -28,24 +30,17 @@ class _PlaystoryState extends State<Playstory> {
       appBar: AppBar(
         title: Text(name, style: textStyle),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal.shade600,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-              //hier damit ich nicht leer lasse
-              return const LoginPage();
-            })));
+            Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back),
         ),
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: ((context) {
-                  //hier damit ich nicht leer lasse
-                  return const LoginPage();
-                })));
+
               },
               icon: const Icon(Icons.audio_file)),
         ],
@@ -66,7 +61,7 @@ class _PlaystoryState extends State<Playstory> {
 
                       // ignore: prefer_const_constructors
                       child: CircleAvatar(
-                        backgroundImage: const AssetImage("assert/logo.png"),
+                        backgroundImage: NetworkImage(assetLogo),
                         radius: 75,
                         backgroundColor: Colors.red,
                       ),
@@ -198,35 +193,20 @@ class _PlaystoryState extends State<Playstory> {
                             Expanded(
                                 flex: 1,
                                 child: IconButton(
-                                  onPressed: () {
-                                    //     Navigator.of(context).push(
-                                    //         MaterialPageRoute(builder: (context) {
-                                    //       return;
-                                    //    }));
-                                  },
+                                  onPressed: () {},
                                   icon: const Icon(Icons.forward_10_outlined),
                                 )),
                             Expanded(
                                 flex: 1,
                                 child: IconButton(
-                                  onPressed: () {
-                                    //   Navigator.of(context).push(
-                                    //      MaterialPageRoute(builder: (context) {
-                                    //    return;
-                                    //  }));
-                                  },
+                                  onPressed: () {},
                                   icon:
                                       const Icon(Icons.skip_previous_outlined),
                                 )),
                             Expanded(
                                 flex: 2,
                                 child: IconButton(
-                                  onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //      MaterialPageRoute(builder: (context) {
-                                    //    return;
-                                    //  }));
-                                  },
+                                  onPressed: () { },
                                   icon: const Icon(
                                     Icons.play_arrow,
                                     size: 30,
@@ -236,23 +216,13 @@ class _PlaystoryState extends State<Playstory> {
                             Expanded(
                                 flex: 1,
                                 child: IconButton(
-                                    onPressed: () {
-                                      //     Navigator.of(context).push(
-                                      //         MaterialPageRoute(builder: (context) {
-                                      //       return;
-                                      //    }));
-                                    },
+                                    onPressed: () {},
                                     icon:
                                         const Icon(Icons.skip_next_outlined))),
                             Expanded(
                                 flex: 1,
                                 child: IconButton(
-                                  onPressed: () {
-                                    //  Navigator.of(context).push(
-                                    //     MaterialPageRoute(builder: (context) {
-                                    //   return;
-                                    //  }));
-                                  },
+                                  onPressed: () {},
                                   icon: const Icon(Icons.replay_10),
                                 )),
                           ],
@@ -262,10 +232,10 @@ class _PlaystoryState extends State<Playstory> {
                         child: Slider(
                             min: 0,
                             max: 10,
-                            value: changelimit,
+                            value: changeLimit,
                             onChanged: (ch) {
                               setState(() {
-                                changelimit = ch;
+                                changeLimit = ch;
                               });
                             })),
                     Expanded(flex: 1, child: Container()),
@@ -284,12 +254,7 @@ class _PlaystoryState extends State<Playstory> {
                           Expanded(
                             flex: 1,
                             child: IconButton(
-                                onPressed: () {
-                                  //  Navigator.of(context)
-                                  //      .push(MaterialPageRoute(builder: (context) {
-                                  //     return;
-                                  //    }));
-                                },
+                                onPressed: () {},
                                 icon: const Icon(Icons.volume_up_outlined)),
                           ),
                           Expanded(
@@ -297,10 +262,10 @@ class _PlaystoryState extends State<Playstory> {
                               child: Slider(
                                 min: 0,
                                 max: 100,
-                                value: changevoice,
+                                value: changeVoice,
                                 onChanged: (val) {
                                   setState(() {
-                                    changevoice = val;
+                                    changeVoice = val;
                                   });
                                 },
                               ))
