@@ -30,6 +30,7 @@ class _MyListViewState extends State<MyListView>{
   late final bool newIsLiked;
   late final String newAuthor;
   late final String newRating;
+  late final String newId;
 
   _MyListViewState(this.stories, this.storiesCollection, this.profile, this.profiles);
 
@@ -65,7 +66,8 @@ class _MyListViewState extends State<MyListView>{
         String image,
         String title,
         String rating,
-        bool isLiked) {
+        bool isLiked,
+        /*String id*/) {
       return favorites.add({
         'id': "",
         'image': image,
@@ -178,7 +180,8 @@ class _MyListViewState extends State<MyListView>{
                                           newIsLiked = true;
                                           newAuthor = stories[i]["author"];
                                           newRating = stories[i]["rating"];
-                                          addStory(newAudio,newAuthor,newImage,newTitle,newRating,newIsLiked);
+                                          //newId = stories[i]["id"];
+                                          addStory(newAudio,newAuthor,newImage,newTitle,newRating,newIsLiked/*,newId*/);
                                         });
                                       }else{
                                         setState(() {
