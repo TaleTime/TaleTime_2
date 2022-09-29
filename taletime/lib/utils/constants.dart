@@ -14,3 +14,34 @@ List profileImages = [
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_girl_01.png?alt=media&token=bdd1b80c-7df2-49c5-bbd5-344c4af9379d",
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_standard.png?alt=media&token=a5af1ee4-3d77-4354-9db3-4413e6234f7e"
 ];
+
+String printDuration(Duration duration) {
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+  return "$twoDigitMinutes:$twoDigitSeconds";
+}
+
+Future<String?> openDialog(
+        BuildContext context, String title, TextEditingController controller) =>
+    showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(title),
+              content: TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(hintText: "Enter a Title"),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      submit(context, controller);
+                    },
+                    child: Text('OK'))
+              ],
+            ));
+
+void submit(BuildContext context, TextEditingController controller) {
+  Navigator.of(context).pop(controller.text);
+}

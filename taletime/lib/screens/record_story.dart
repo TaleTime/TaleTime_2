@@ -1,36 +1,91 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:taletime/screens/save_or_upload_story.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:taletime/utils/record_class.dart';
-import 'package:taletime/utils/record_class.dart';
+import 'package:taletime/utils/sound_recorder.dart';
 
 class RecordStory extends StatefulWidget {
   final Story? myStory;
   RecordStory(this.myStory);
 
   @override
-  State<RecordStory> createState() => _RecordStoryState();
+  State<RecordStory> createState() => _RecordStoryState(myStory);
 }
 
 class _RecordStoryState extends State<RecordStory> {
+  final Story? myStory;
+  _RecordStoryState(this.myStory);
+
   final TextEditingController _titleController = TextEditingController();
-  String? name = '';
-  List<String> partTitles = [];
+  final recorder = SoundRecorder();
+
+  Duration duration = Duration(seconds: 0);
+  Timer? timer;
+
+  ///
+  ///
+  ///
+  /// TEST
+  ///
+  ///
+  final player = FlutterSoundPlayer();
+
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+
+  List<Record> records = [];
+
+  void addTime() {
+    final addSeconds = 1;
+    setState(() {
+      final seconds = duration.inSeconds + addSeconds;
+      if (seconds == 5) {
+        timer!.cancel();
+        recorder.stop(context, _titleController, records, duration);
+        resetTimer();
+      } else {
+        duration = Duration(seconds: seconds);
+      }
+    });
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 1), (_) => addTime());
+  }
+
+  void resetTimer() {
+    setState(() {
+      duration = Duration();
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    //partTitles.add("Test");
+    player.openPlayer();
+
+    recorder.initRecorder(
+        "${myStory!.title} ${records.length}", "${myStory!.title}");
+  }
+
+  @override
+  void dispose() {
+    recorder.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Story> namelist = [];
-
     return Scaffold(
       appBar: Decorations().appBarDecoration(
           title: "Record Story", context: context, automaticArrow: true),
@@ -40,7 +95,9 @@ class _RecordStoryState extends State<RecordStory> {
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [Container()],
+              children: [
+                Text('${printDuration(duration)}'),
+              ],
             ),
           ),
         ),
@@ -49,20 +106,40 @@ class _RecordStoryState extends State<RecordStory> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 4,
             child: ListView.builder(
-                itemCount: partTitles.length,
+                itemCount: records.length,
                 itemBuilder: ((context, index) {
                   return Card(
                       color: kPrimaryColor,
                       child: ListTile(
-                        subtitle: Text("Duration: $index"),
-                        //title: Text("${namelist[index].title}"),
-                        title: Text(partTitles[index]),
+                        subtitle: Text(
+                            "Duration: ${printDuration(records[index].getDuration())}"),
+                        title: Text(records[index].recordTitle),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.play_circle)),
+                                onPressed: () async {
+                                  bool isPlaying = player.isPlaying;
+
+                                  ///
+                                  ///
+                                  ///
+                                  ///
+                                  ///
+                                  ///
+                                  ///
+                                  if (isPlaying) {
+                                    player.pausePlayer();
+                                  } else {
+                                    setState(() {
+                                      player.startPlayer(
+                                          fromURI: records[index].audio.path);
+                                    });
+                                  }
+                                },
+                                icon: Icon(player.isPlaying
+                                    ? Icons.pause
+                                    : Icons.play_circle)),
                             IconButton(
                                 onPressed: () {}, icon: const Icon(Icons.edit)),
                             IconButton(
@@ -75,7 +152,7 @@ class _RecordStoryState extends State<RecordStory> {
                                           "",
                                           context, () {
                                         setState(() {
-                                          partTitles.removeAt(index);
+                                          records.removeAt(index);
                                           Navigator.of(context).pop();
                                         });
                                       });
@@ -99,58 +176,23 @@ class _RecordStoryState extends State<RecordStory> {
                   Expanded(
                     child: Container(
                       child: IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            if (recorder.isRecording) {
+                              await recorder.stop(
+                                  context, _titleController, records, duration);
+                            } else {
+                              await recorder.record(
+                                  "${records.length} ${myStory!.title}");
+                              startTimer();
+                            }
+                            setState(() {});
+                          },
                           icon: Icon(
-                            Icons.highlight_remove,
-                            color: kPrimaryColor,
-                          )),
-                    ),
-                    flex: 1,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.play_circle_fill,
+                            recorder.isRecording ? Icons.stop : Icons.mic,
                             size: 50,
-                            color: kPrimaryColor,
                           )),
                     ),
                     flex: 2,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: IconButton(
-                          onPressed: () async {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Decorations().confirmationDialog(
-                                    "Do you really want to add this part?",
-                                    "",
-                                    context, () async {
-                                  final name = await openDialog(
-                                      "Enter a name for your recorded part");
-                                  if (name == "" || name == null) {
-                                    setState(() {
-                                      partTitles.add("Part " +
-                                          partTitles.length.toString());
-                                    });
-                                  } else {
-                                    setState(() {
-                                      this.name = name;
-                                      partTitles.add(name);
-                                    });
-                                  }
-                                  Navigator.of(context).pop();
-                                });
-                              },
-                            );
-                          },
-                          icon: Icon(Icons.done, color: kPrimaryColor)),
-                    ),
-                    flex: 1,
                   ),
                 ],
               )),
@@ -163,11 +205,17 @@ class _RecordStoryState extends State<RecordStory> {
                 child: Center(
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const SaveOrUploadStory()));
+                        if (records.length > 0) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SaveOrUploadStory()));
+                        } else {
+                          SnackBar snackBar =
+                              SnackBar(content: Text("No recordings added"));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       },
                       child: Text("Continue")),
                 ),
@@ -176,27 +224,5 @@ class _RecordStoryState extends State<RecordStory> {
             flex: 1),
       ]),
     );
-  }
-
-  Future<String?> openDialog(String title) => showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text(title),
-            content: TextField(
-              controller: _titleController,
-              autofocus: true,
-              decoration: InputDecoration(hintText: "Test your input"),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    submit();
-                  },
-                  child: Text('OK'))
-            ],
-          ));
-
-  void submit() {
-    Navigator.of(context).pop(_titleController.text);
   }
 }
