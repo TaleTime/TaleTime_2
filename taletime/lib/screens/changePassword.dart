@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/authentification_util.dart';
-import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:taletime/utils/text_form_field_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

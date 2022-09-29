@@ -135,24 +135,66 @@ class _SettingsPageState extends State<SettingsPage> {
                     return const ChangePassword();
                   }));
                 },
-                child: Row(
+                child: Column(
                   children: [
-                    SizedBox(
-                      width: 5,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.password),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.changePassword,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w100),
+                        )
+                      ],
                     ),
-                    Icon(Icons.password),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.changePassword,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
-                    )
                   ],
                 ),
               ),
-            )
+            ),
+            Container(
+              height: 40,
+              width: double.infinity,
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const ChangePassword();
+                  }));
+                },
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.person),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Text(
+                          "Change Profile",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w100),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+                child: ListTile(
+              leading: Icon(Icons.person),
+              title: Text("Change Profile"),
+              onTap: () => print("Test"),
+            ))
           ],
         ),
       ),

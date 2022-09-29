@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/add_profile.dart';
-import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils/profile_list.dart';
-import '../utils/decoration_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilesPage extends StatefulWidget {
