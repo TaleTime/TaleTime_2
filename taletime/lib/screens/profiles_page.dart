@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/screens/welcome.dart';
 import 'package:taletime/utils/add_profile.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../utils/authentification_util.dart';
 import '../utils/profile_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -22,7 +25,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   _ProfilesPageState(this.UID);
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
   int cflex = 7;
 
   @override
@@ -45,10 +48,13 @@ class _ProfilesPageState extends State<ProfilesPage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Decorations().confirmDialog(
+                  return Decorations().confirmationDialog(
                       AppLocalizations.of(context)!.loggingOut,
                       AppLocalizations.of(context)!.confirmLogout,
-                      context);
+                      context, () {
+                    AuthentificationUtil(auth: auth).signOut();
+                    return const WelcomePage();
+                  });
                 },
               );
             }),

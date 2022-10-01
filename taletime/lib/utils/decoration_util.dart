@@ -8,6 +8,17 @@ import 'authentification_util.dart';
 class Decorations {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  /// Decoration for a TextField
+  ///
+  /// [label] --> Label of the TextField
+  ///
+  /// [hintText] --> Hint-Text of the TextField
+  ///
+  /// [icon] --> Icon that is on the Left of the TextField
+  ///
+  /// [suffix] --> Icon or Button that is on the right of the TextField
+  ///
+  /// [obscureText] --> If true then the entered Text is not visible
   InputDecoration textInputDecoration(
       [String label = "",
       String hintText = "",
@@ -38,6 +49,11 @@ class Decorations {
     );
   }
 
+  /// decoration for the AppBar
+  ///
+  /// [title] --> Title of the AppBar
+  ///
+  /// if [automaticArrow] is true then there will be a IconButton to return to the last page
   AppBar appBarDecoration(
       {required String? title,
       required BuildContext context,
@@ -60,6 +76,7 @@ class Decorations {
     return appBar;
   }
 
+  /// shadow for BoxDecoration
   BoxDecoration inputBoxDecorationShaddow() {
     return BoxDecoration(boxShadow: [
       BoxShadow(
@@ -68,19 +85,6 @@ class Decorations {
         offset: const Offset(0, 5),
       )
     ]);
-  }
-
-  ButtonStyle buttonStyle() {
-    return ButtonStyle(
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-      ),
-      minimumSize: MaterialStateProperty.all(const Size(50, 50)),
-      backgroundColor: MaterialStateProperty.all(kPrimaryColor),
-      shadowColor: MaterialStateProperty.all(Colors.transparent),
-    );
   }
 
   Container noRecentContent(String text, String view) {
@@ -112,29 +116,13 @@ class Decorations {
         ));
   }
 
-  AlertDialog alertDialog(String title, String content, BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        title,
-        style: TextStyle(color: kPrimaryColor),
-      ),
-      content: Text(content),
-      actions: [
-        TextButton(
-          child: Text(
-            AppLocalizations.of(context)!.ok,
-            style: const TextStyle(color: Colors.white),
-          ),
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  }
-
+  /// AlertDialog that aks for confirmation for a specific Function [onTap]
+  ///
+  /// [title] --> Title of the AlertDialog
+  ///
+  /// [content] --> Content of the AlertDialog
+  ///
+  /// [onTap] --> Function that gets called if the user confirms the AlertDialog
   AlertDialog confirmationDialog(
       String title, String content, BuildContext context, Function onTap) {
     return AlertDialog(
@@ -147,38 +135,6 @@ class Decorations {
           ),
           onPressed: () {
             onTap();
-          },
-        ),
-        TextButton(
-          child: Text(
-            AppLocalizations.of(context)!.no,
-          ),
-          style: ButtonStyle(),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  }
-
-  /// onPressed als Funktionsübergabe
-
-  AlertDialog confirmDialog(
-      String title, String content, BuildContext context) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        TextButton(
-          child: Text(
-            AppLocalizations.of(context)!.yes,
-          ),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              AuthentificationUtil(auth: auth).signOut();
-              return const WelcomePage();
-            }));
           },
         ),
         TextButton(
