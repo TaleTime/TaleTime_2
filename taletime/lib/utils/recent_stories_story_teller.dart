@@ -1,28 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 
-///
-///
-///
-///
-///
-///
-///
-///
-///
-/// FUNKTIONIERT MOMENTAN NICHT!!!!!!!!!
-///
-///
-///
-///
-///
-///
-///
-///
-///
-///
-///
-
 class LVRecentStoryTeller extends StatefulWidget {
   final List stories;
   LVRecentStoryTeller(this.stories, {Key? key}) : super(key: key);
