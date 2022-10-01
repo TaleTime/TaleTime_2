@@ -3,7 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:taletime/utils/validation_util.dart';
 
+/// contains TextFormFields with the belonging validation
 class TextFormFieldUtil {
+  /// TextFormField to enter a username
+  ///
+  /// [nameController] --> catches the user input for the username
   TextFormField enterUserNameForm(
       BuildContext context, TextEditingController nameController) {
     return TextFormField(
@@ -16,6 +20,9 @@ class TextFormFieldUtil {
         validator: (name) => ValidationUtil().validateUserName(name, context));
   }
 
+  /// TextFormField to enter a email-adress
+  ///
+  /// [emailController] --> catches the user input for the email-adress
   TextFormField enterEmailForm(
       BuildContext context, TextEditingController emailController) {
     return TextFormField(
@@ -29,6 +36,9 @@ class TextFormFieldUtil {
         validator: (email) => ValidationUtil().validateEmail(email, context));
   }
 
+  /// TextFormField to enter the old password (ChangePassword-Class)
+  ///
+  /// [oldPasswordController] --> catches the user input for the old password
   TextFormField enterOldPasswordForm(
       BuildContext context, TextEditingController oldPasswordController) {
     return TextFormField(
@@ -44,6 +54,9 @@ class TextFormFieldUtil {
             ValidationUtil().validatePassword(password, context));
   }
 
+  /// TextFormField to enter a password
+  ///
+  /// [passwordController] --> catches the user input for the password
   TextFormField enterPasswordForm(
       BuildContext context, TextEditingController passwordController) {
     return TextFormField(
@@ -59,6 +72,9 @@ class TextFormFieldUtil {
             ValidationUtil().validatePassword(password, context));
   }
 
+  /// TextFormField to enter the confirmation password
+  ///
+  /// compares the input in the [passwordController] with the input from the [confirmPasswordController]
   TextFormField confirmPasswordForm(
       BuildContext context,
       TextEditingController passwordController,

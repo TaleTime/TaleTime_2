@@ -6,7 +6,7 @@ import 'package:taletime/utils/authentification_util.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:taletime/utils/decoration_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taletime/utils/validation_util.dart';
+import 'package:taletime/utils/text_form_field_util.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -16,10 +16,16 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  /// The [_formKey] is used to check if the user input is valid
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  /// The Text-Editing-Controller is used to catch the input from the user for his email-adress
   final TextEditingController _emailController = TextEditingController();
+
+  /// instance of Firebase to use Firebase functions; here: reset password with email
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  /// disposes the email Text-Editing-Controller when its not needed anymore
   @override
   void dispose() {
     _emailController.dispose();
@@ -81,18 +87,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
+                            /// TextField that catches the user input for the email-adress
                             Container(
-                              child: TextFormField(
-                                  controller: _emailController,
-                                  decoration: Decorations().textInputDecoration(
-                                      AppLocalizations.of(context)!.email,
-                                      AppLocalizations.of(context)!.enterEmail,
-                                      Icon(Icons.email_rounded,
-                                          color: kPrimaryColor)),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  validator: (email) => ValidationUtil()
-                                      .validateEmail(email, context)),
+                              child: TextFormFieldUtil()
+                                  .enterEmailForm(context, _emailController),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
                             ),
@@ -112,6 +110,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ),
                             ),
                           ),
+
+                          /// send the user an email to reset his password
+                          /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                           onPressed: () async {
                             final String email =
                                 _emailController.text.trim().toLowerCase();
@@ -134,6 +135,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     .rememberPassword),
                             TextSpan(
                               text: AppLocalizations.of(context)!.loginVerb,
+
+                              /// redirects the user to the LoginPage
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(

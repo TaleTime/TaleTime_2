@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// contains error-outputs in the form of a SnackBar for the LoginPage, the SignupPage and ResetPasswordPage
 class ErrorUtil {
-  // Gibt die Fehler der LoginPage in Form einer SnackBar aus
+  /// Outputs the LoginPage errors in the form of a SnackBar
   SnackBar showLoginError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
     if (e.code == 'user-not-found') {
@@ -21,7 +22,7 @@ class ErrorUtil {
     return snackBar;
   }
 
-  // Gibt die Fehler der SignupPage in Form einer SnackBar aus
+  /// Outputs the SignupPage errors in the form of a SnackBar
   SnackBar showRegisterError(FirebaseAuthException e, BuildContext context) {
     final SnackBar snackBar;
     if (e.code == 'email-already-in-use') {
@@ -34,7 +35,7 @@ class ErrorUtil {
     return snackBar;
   }
 
-  // Gibt die Fehler der ForgotPasswordPage in Form einer SnackBar aus
+  /// Outputs the ForgotPasswordPage errors in the form of a SnackBar
   SnackBar showResetPasswordError(FirebaseException e, BuildContext context) {
     final SnackBar snackbar;
     if (e.code == 'user-not-found') {

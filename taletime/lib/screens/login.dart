@@ -16,11 +16,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  /// The Text-Editing-Controllers are used to catch the input from the user for his email and password
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  /// The [_formKey] is used to check if the user input is valid
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // instance of Firebase to use Firebase functions; here: login with email and password
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  /// disposes all Text-Editing-Controllers when they aren't needed anymore
   @override
   void dispose() {
     _emailController.dispose();
@@ -69,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                             Form(
                                 key: _formKey,
                                 child: Column(children: <Widget>[
+                                  /// TextField that catches the user input for the email-adress
                                   Container(
                                       width: double.infinity,
                                       child: TextFormFieldUtil().enterEmailForm(
@@ -78,6 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                                   const SizedBox(
                                     height: 20,
                                   ),
+
+                                  /// TextField that catches the user input for the password
                                   Container(
                                     child: TextFormFieldUtil()
                                         .enterPasswordForm(
@@ -113,8 +122,10 @@ class _LoginPageState extends State<LoginPage> {
                           child: SizedBox(
                               height: MediaQuery.of(context).size.height / 14,
                               width: double.infinity,
+                              //Button for the Login
                               child: ElevatedButton(
-                                /// Funktion für Login mit Firebase
+                                /// logs in the user with the entered email and password
+                                /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                                 onPressed: () async {
                                   final String _email = _emailController.text
                                       .trim()
@@ -147,6 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                           TextButton(
                               child: Text(
                                   AppLocalizations.of(context)!.registerVerb),
+
+                              /// redirects the user to the SignupPage
                               onPressed: () {
                                 Navigator.push(
                                     context,

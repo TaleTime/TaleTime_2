@@ -23,12 +23,13 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  /// The [_formKey] is uesd to check if the user input is valid
+  /// The [_formKey] is used to check if the user input is valid
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // instance of Firebase to use Firebase functions; here: register with email and password
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  /// disposes all Text-Editing-Controllers when they aren't need anymore
+  /// disposes all Text-Editing-Controllers when they aren't needed anymore
   @override
   void dispose() {
     _nameController.dispose();
@@ -120,7 +121,7 @@ class _SignupPageState extends State<SignupPage> {
                   ))
                 ],
               ),
-              //Button für die Registrierung
+              //Button for the registration
               Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
                   child: SizedBox(
@@ -128,7 +129,7 @@ class _SignupPageState extends State<SignupPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         /// creates a new user with the input from the user
-                        /// if the input isn't valid, the the user will be informed with a error message under the corresponding Textfield
+                        /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                         onPressed: () async {
                           final String _userName = _nameController.text;
                           final String _email =
