@@ -11,9 +11,9 @@ import 'package:taletime/utils/theme_provider.dart';
 import 'firebase/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-/// author: Gianluca Goebel
-/// Main-Klasse der TaleTime-App
+/// Main-Class of the TaleTime-App
 
+/// initiliazes the Firebase Options for the App
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -29,6 +29,10 @@ class TaleTimeApp extends StatefulWidget {
 }
 
 class _TaleTimeState extends State<TaleTimeApp> {
+  /// creates the Providers for the App
+  /// current Providers:
+  /// LocaleProvider --> Used to change the Language of the App
+  /// ThemeProvider  --> Used to change the Theme of the App: Lightmode/Darkmode
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
@@ -39,6 +43,8 @@ class _TaleTimeState extends State<TaleTimeApp> {
   }
 }
 
+/// initializes the LocaleProvider (locale; supportedLocales; localizationDelegates)
+/// and the ThemeProvider (theme; darkTheme)
 class Providers extends StatelessWidget {
   const Providers({Key? key}) : super(key: key);
 
@@ -83,8 +89,12 @@ class _HomePageState extends State<HomePage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               User? user = _auth.currentUser;
+
+              /// if the user is already logged in he will be redirected to the ProfilesPage
               if (user != null) {
                 return ProfilesPage(user.uid);
+
+                /// if the user isn't logged in he will be redirected to the WelcomePage
               } else {
                 return const WelcomePage();
               }

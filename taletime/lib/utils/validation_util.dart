@@ -2,14 +2,15 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-/// Hilfsklasse, die nützliche Methoden zur Validierung von Email, Passwort und Benutzernamen enthält
-
+/// This class has methods to validate email, password, username and a title
 class ValidationUtil {
-  /// Überprüft, ob die eingegebene Email-Adresse gültig ist
+  /// Checks if the entered [email] is valid.
   ///
-  /// [email] darf nicht leer sein und muss eine gültige Email-Adresse sein
-  /// Wenn dies nicht der Fall ist wird ein String mit der zugehörigen Fehlermeldung zurückgegeben
-  /// Wenn die [email] gültig ist wird null zurückgegeben
+  /// [email] can't be empty and must be a valid email-adress.
+  ///
+  /// If this isn't the case then a String with the belonging error message is returned.
+  ///
+  /// If the [email] is valid then null is returned.
   String? validateEmail(String? email, BuildContext context) {
     if (email == null || email.isEmpty) {
       return AppLocalizations.of(context)!.emailRequired;
@@ -21,11 +22,13 @@ class ValidationUtil {
     return null;
   }
 
-  /// Überprüft, ob das eingegebene Passwort gültig ist
+  /// Checks if the entered [password] is valid.
   ///
-  /// [password] darf nicht leer sein und muss mindestens 6 Zeichen lang sein
-  /// Wenn dies nicht der Fall ist wird ein String mit der zugehörigen Fehlermeldung zurückgegeben
-  /// Wenn das [password] gültig ist wird null zurückgegeben
+  /// [password] can't be empty and must be at least 6 characters long.
+  ///
+  /// If this isn't the case then a String with the belonging error message is returned.
+  ///
+  /// If the [password] is valid then null is returned.
   String? validatePassword(String? password, BuildContext context) {
     if (password == null || password.isEmpty) {
       return AppLocalizations.of(context)!.passwordRequired;
@@ -37,11 +40,13 @@ class ValidationUtil {
     return null;
   }
 
-  /// Überprüft, ob der eingegebene Benutzername gültig ist
+  /// Checks if the entered [username] is valid
   ///
-  /// [username] darf nicht leer sein und muss mindestens 6 Zeichen lang sein
-  /// Wenn dies nicht der Fall ist wird ein String mit der zugehörigen Fehlermeldung zurückgegeben
-  /// Wenn der [username] gültig ist wird null zurückgegeben
+  /// [username] can't be empty and must be at least 6 characters long.
+  ///
+  /// If this isn't the case then a String with the belonging error message is returned.
+  ///
+  /// If the [username] is valid then null is returned.
   String? validateUserName(String? username, BuildContext context) {
     if (username == null || username.isEmpty) {
       return AppLocalizations.of(context)!.usernameRequired;
@@ -53,6 +58,13 @@ class ValidationUtil {
     return null;
   }
 
+  /// Checks if the entered [title] is valid
+  ///
+  /// [title] can't be empty and must be at least 3 characters long.
+  ///
+  /// If this isn't the case then a String with the belonging error message is returned.
+  ///
+  /// If the [title] is valid then null is returned.
   String? validateTitle(String? title, BuildContext context) {
     if (title == null || title.isEmpty) {
       return AppLocalizations.of(context)!.titleRequired;

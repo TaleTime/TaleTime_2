@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/utils/constants.dart';
 
-/// Hilfsklasse, die die Farbschema für einen Light-und Darkmode enthalten sowie eine Funktion, um diesen umzuschalten
-
+/// This class is used to change the current ThemeMode
 class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.system;
 
+  /// checks if the current Theme-Mode is set to Darkmode
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
+  /// changes the current Theme-Mode
   void toggleTheme(bool isOn) {
     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
 }
 
+/// This class contains color schemes for a Light- and Darkmode
 class MyThemes {
+  /// Darkmode
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade900,
     hintColor: Colors.white,
@@ -65,6 +68,7 @@ class MyThemes {
     sliderTheme: SliderThemeData(thumbColor: kPrimaryColor),
   );
 
+  /// Lightmode
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     hintColor: kPrimaryColor,

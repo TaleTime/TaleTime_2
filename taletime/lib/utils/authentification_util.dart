@@ -7,21 +7,20 @@ import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/utils/error_util.dart';
 
-/// Hilfsmethoden für die Authentifizierung mit Firebase
-
+/// Contains methods to authenticate with Firebase
 class AuthentificationUtil {
   final FirebaseAuth auth;
 
   AuthentificationUtil({required this.auth});
 
-  /// Gibt den aktuell eingeloggten Benutzer zurück
+  /// returns the current user
   User? get user => auth.currentUser;
 
-  /// Ermöglicht das Anmelden mit Eingabe von Email und Passwort
+  /// Allows the login by entering email and password.
   ///
-  /// fängt alle FirebaseAuthExceptions ab und gibt diese in Form einer Snackbar als Rückmeldung für den Benutzer aus
-  /// wenn die Anmeldung erfolgreich war, erhält der Benutzer die Rückmeldung, dass die Anmeldung erfolgreich war
-  /// und leitet den Nutzer zur Seite mit den Profilen weiter
+  /// catches all FirebaseAuthExceptions und outputs them in the form of a SnackBar as feedback for the user.
+  ///
+  /// if the login was successful then the user receives a confirmation that the registration was successful and redirects the user to the profile page.
   Future<void> loginUsingEmailAndPassword(
       {required String email,
       required String password,
@@ -45,11 +44,11 @@ class AuthentificationUtil {
     }
   }
 
-  /// Ermöglicht das Registrieren mit Eingabe von Email und Passwort
+  /// Allows the registration by entering email and password.
   ///
-  /// fängt alle FirebaseAuthExceptions ab und gibt diese in Form einer Snackbar als Rückmeldung für den Benutzer aus
-  /// wenn die Registrierung erfolgreich war, erhält der Benutzer die Rückmeldung, dass die Registrierung erfolgreich war
-  /// und leitet den Nutzer zur Seite mit den Profilen weiter
+  /// catches all FirebaseAuthExceptions and outputs them in the form of a snack bar as feedback for the user.
+  ///
+  /// if the registration was successful then the user receives a confirmation that the registration was successful and redirects the user to the profile page.
   Future<void> registerWithEmailAndPassword(
       {required String userName,
       required String email,
@@ -96,11 +95,11 @@ class AuthentificationUtil {
     return FirebaseFirestore.instance.collection("users").doc(userId).get();
   }
 
-  /// Ermöglicht die Zurücksetzung des Passworts mit der Eingabe der Email-Adresse
+  /// Allows the user to reset his password by entering his email address.
   ///
-  /// fängt alle FirebaseAuthExceptions ab und gibt diese in Form einer Snackbar als Rückmeldung für den Benutzer aus
-  /// wenn die Email gültig ist und existiert, dann wird an die eingegebene [email] eine Nachricht zur Zurücksetzung des Passworts versendet
-  ///  und der Nutzer wird zur Anmeldeseite weitergeleitet
+  /// catches all FirebaseAuthExceptions and outputs them in the form of a snack bar as feedback for the user.
+  ///
+  /// if the email is valid and exists, then a password reset message will be sent to the entered [email] and the user will be redirected to the login page.
   Future<void> resetPasswordWithEmail(
       {required String email, required BuildContext context}) async {
     try {
@@ -117,22 +116,18 @@ class AuthentificationUtil {
     }
   }
 
-  void changePassword(BuildContext context, String oldPassword, String newPassword) async {
-    //Create field for user to input old password
+  /// Allows the user to change his [oldPassword] to a [newPassword]
+  void changePassword(
+      BuildContext context, String oldPassword, String newPassword) async {
     String? email = user!.email;
     if (email == null) {
       return;
     }
-    //pass the password here
-
-    //String newPassword = "password";
-
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: oldPassword,
       );
-
       user!.updatePassword(newPassword).then((_) {
         print("Successfully changed password");
         Navigator.pop(context);
@@ -149,14 +144,12 @@ class AuthentificationUtil {
     }
   }
 
-  /// meldet den aktuell eingeloggten Benutzer aus
+  /// Logs out the currently logged in user.
   Future signOut() async {
     try {
-      // ignore: avoid_print
       print("signing out");
       return await auth.signOut();
     } catch (error) {
-      // ignore: avoid_print
       print(error.toString());
       return null;
     }

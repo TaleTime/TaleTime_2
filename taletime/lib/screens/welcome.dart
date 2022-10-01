@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:taletime/internationalization/language_util.dart';
 import 'package:taletime/screens/login.dart';
 import 'package:taletime/screens/signup.dart';
 import 'package:taletime/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// First Screen that appears if you open the app
+/// Here the user has the option to go to the Login or Register Page
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
@@ -14,7 +15,6 @@ class WelcomePage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.welcome),
-        actions: const [LanguagePicker(), SizedBox(width: 12)],
       ),
       body: SafeArea(
         child: Container(
@@ -52,11 +52,12 @@ class WelcomePage extends StatelessWidget {
               ),
               Column(
                 children: <Widget>[
-                  // Login Button
+                  /// Login Button
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 15,
                     width: double.infinity,
                     child: ElevatedButton(
+                      /// redirects the user to the LoginPage
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -71,11 +72,12 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // Signup Button
+                  /// Signup Button
                   SizedBox(
                       height: MediaQuery.of(context).size.height / 15,
                       width: double.infinity,
                       child: ElevatedButton(
+                        /// redirects the user to the SignupPage
                         onPressed: () {
                           Navigator.push(
                               context,
