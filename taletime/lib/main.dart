@@ -4,10 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:taletime/internationalization/l10n.dart';
 import 'package:taletime/internationalization/locale_provider.dart';
-import 'package:taletime/screens/profiles_page.dart';
-import 'package:taletime/screens/welcome.dart';
+import 'package:taletime/profiles/screens/profiles_page.dart';
+import 'package:taletime/login%20and%20registration/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:taletime/utils/theme_provider.dart';
+import 'package:taletime/common%20utils/theme_provider.dart';
 import 'firebase/firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
