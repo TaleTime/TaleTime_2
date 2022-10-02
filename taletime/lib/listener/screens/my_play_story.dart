@@ -138,8 +138,7 @@ class _MyPlayStoryState extends State<MyPlayStory>{
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.transparent,
                 ),
-                child: Expanded(
-                  child: Column(
+                child: Column(
                     children: [
                       Container(
                         width: 300,
@@ -250,7 +249,7 @@ class _MyPlayStoryState extends State<MyPlayStory>{
                             onPressed: () {},
                             icon: Icon(Icons.volume_up_outlined, color: kPrimaryColor,),
                           ),
-                          Expanded(
+                          Expanded (
                               flex: 5,
                               child: Slider(
                                 activeColor: kPrimaryColor,
@@ -264,13 +263,11 @@ class _MyPlayStoryState extends State<MyPlayStory>{
                                     player.setVolume(changeVoice);
                                   });
                                 },
-                              ))
+                              )),
                         ],
                       )
                     ],
                   ),
-
-                ),
               ),
             ),
           ],

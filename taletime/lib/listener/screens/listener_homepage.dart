@@ -53,6 +53,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 left: 8,
                 right: 16,
                 child: AppBar(
+                  automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
                   elevation: 0.0,
                   actions: <Widget>[
