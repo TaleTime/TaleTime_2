@@ -1,10 +1,13 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/screens/record_story.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
 
 import '../../common utils/decoration_util.dart';
+import 'my_record_story.dart';
 
 class CreateStory extends StatefulWidget {
   @override
@@ -36,8 +39,8 @@ class _CreateStoryState extends State<CreateStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Decorations().appBarDecoration(
-          title: "Create Story", context: context, automaticArrow: false),
+      appBar: AppBar(
+          centerTitle: true, automaticallyImplyLeading: false, title: Text("Create Story", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
       body: SingleChildScrollView(
         child: Column(children: [
           SizedBox(height: 50),
@@ -102,14 +105,15 @@ class _CreateStoryState extends State<CreateStory> {
                 .toList(),
           ),
           SizedBox(height: 50),
-          Text("Upload a Image",
+          Text("Upload Image",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           Container(
             height: MediaQuery.of(context).size.height / 5,
             width: MediaQuery.of(context).size.width / 5,
-            child: Image.network(
-                "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fplus.png?alt=media&token=14b35122-cade-4508-a54b-c7c5930b01a6",
-                color: Colors.green),
+            child: IconButton(
+              onPressed: () {  },
+              icon: Icon(Icons.add, color: kPrimaryColor, size: 75,),
+                ),
           ),
           SizedBox(height: 50),
           Padding(
@@ -131,12 +135,12 @@ class _CreateStoryState extends State<CreateStory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RecordStory(myStory),
+                            builder: (context) => MyRecordStory(myStory),
                           ),
                         );
                       }
                     },
-                    child: Text("Continue")),
+                    child: Text("Continue", style: TextStyle(color: Colors.white, fontSize: 20),)),
               ),
             ),
           )

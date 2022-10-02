@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/storyteller/utils/sound_recorder.dart';
 
@@ -87,8 +86,8 @@ class _RecordStoryState extends State<RecordStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Decorations().appBarDecoration(
-          title: "Record Story", context: context, automaticArrow: true),
+      appBar: AppBar(
+          centerTitle: true, title: Text("Story Recorder", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
@@ -140,27 +139,6 @@ class _RecordStoryState extends State<RecordStory> {
                                 icon: Icon(player.isPlaying
                                     ? Icons.pause
                                     : Icons.play_circle)),
-                            IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.edit)),
-                            IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Decorations().confirmationDialog(
-                                          "Do you really want to remove this part?",
-                                          "",
-                                          context, () {
-                                        setState(() {
-                                          records.removeAt(index);
-                                          Navigator.of(context).pop();
-                                        });
-                                      });
-                                    },
-                                  );
-                                },
-                                icon: const Icon(
-                                    Icons.highlight_remove_outlined)),
                           ],
                         ),
                       ));
