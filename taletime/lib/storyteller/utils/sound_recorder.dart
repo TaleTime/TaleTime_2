@@ -1,3 +1,6 @@
+///The class [sound_recorder] allows the user to record the story.
+///It also offers the possibility to delete the recorded story.
+///You can record a specific time or a complete story.
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';

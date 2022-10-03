@@ -1,3 +1,5 @@
+///the class [recent_stories] shows the list horizontally.
+
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
 
@@ -14,10 +16,11 @@ class LVRecentStoryTeller extends StatefulWidget {
 class _LVRecentStoryTellerState extends State<LVRecentStoryTeller> {
   late final List stories;
   _LVRecentStoryTellerState(this.stories);
-//hier wird die liste gezeigt
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      ///Here the list is displayed horizontally with the help of the Listview.builder.
       body: ListView.builder(
         primary: false,
         scrollDirection: Axis.horizontal,
