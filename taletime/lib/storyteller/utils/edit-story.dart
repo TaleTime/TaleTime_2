@@ -62,6 +62,11 @@ class _EditStoryState extends State<EditStory> {
       print(myUrl);
       setState(() {
         url = myUrl;
+        storiesCollection
+            .doc(story["id"])
+            .update({'image': myUrl})
+            .then((value) => print("story Updated"))
+            .catchError((error) => print("Failed to update story: $error"));
         myImage = Image.file(file);
       });
     }
@@ -85,7 +90,7 @@ class _EditStoryState extends State<EditStory> {
         String storyId, String author, String image, String title) {
       return storiesCollection
           .doc(storyId)
-          .update({'image': image, 'author': author, 'title': title})
+          .update({'author': author, 'title': title})
           .then((value) => print("story Updated"))
           .catchError((error) => print("Failed to update story: $error"));
     }
@@ -166,7 +171,9 @@ class _EditStoryState extends State<EditStory> {
                                   alignment: Alignment.center,
                                   iconSize: 50,
                                   onPressed: () {
-                                    getImageFromGallery();
+                                    setState(() {
+                                      getImageFromGallery();
+                                    });
                                   },
                                   icon: const Icon(Icons.add, size: 50),
                                 ),
