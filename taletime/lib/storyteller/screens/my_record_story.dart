@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
@@ -24,7 +23,6 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   _MyRecordStoryState(this.myStory);
 
   SoundRecorder recorder = SoundRecorder();
-  //FlutterSoundPlayer player = FlutterSoundPlayer();
   final AudioPlayer player = AudioPlayer();
   bool isPlaying = false;
 
@@ -38,16 +36,11 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   bool playbackReady = false;
   var recordedFile = null;
 
-  void initPlayer() async {
-    await player.setSource(UrlSource(recorder.getPath));
-  }
-
   /// initiliazes the Recorder and the Audioplayer
   @override
   void initState() {
     super.initState();
     recorder.initRecorder();
-    initPlayer();
   }
 
   /// disposes the recorder
