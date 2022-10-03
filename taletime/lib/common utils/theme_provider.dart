@@ -73,8 +73,6 @@ class MyThemes {
     errorColor: Colors.red,
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-      backgroundColor: MaterialStateProperty.all<Color>(kPrimaryColor),
       shadowColor: MaterialStateProperty.all<Color>(Colors.white),
       shape: MaterialStateProperty.all<OutlinedBorder>(
         RoundedRectangleBorder(

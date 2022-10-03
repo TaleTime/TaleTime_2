@@ -15,10 +15,6 @@ class Story {
     this.image = image;
   }
 
-  Story.test(String title) {
-    this.title = title;
-  }
-
   String? getTitle() {
     return this.title;
   }
