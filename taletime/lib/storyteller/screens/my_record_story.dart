@@ -53,12 +53,12 @@ class _MyRecordStoryState extends State<MyRecordStory> {
 
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
-    //var refAudios = FirebaseStorage.instance.ref().child("audios");
+    var refAudios = FirebaseStorage.instance.ref().child("audios");
 
     await refImages.child("${author}.jpg").putFile(image);
-    //await refAudios.child("${author}.mp3").putFile(audio);
+    await refAudios.child("${author}.mp3").putFile(audio);
     String myImageUrl = await refImages.child("${author}.jpg").getDownloadURL();
-    //String myAudioUrl = await refImages.child("${author}.mp3").getDownloadURL();
+    String myAudioUrl = await refImages.child("${author}.mp3").getDownloadURL();
 
     setState(() {
       storiesCollection.add({
@@ -66,7 +66,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
         "title": title,
         "author": author,
         "image": myImageUrl,
-        "audio": "",
+        "audio": myAudioUrl,
         "isLiked": false,
         "id": ""
       }).then((value) {
