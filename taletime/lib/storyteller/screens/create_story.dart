@@ -1,3 +1,9 @@
+/// The [create_story] class allows for the user to create a new story with [insert title] and [insert tags] and [add photo] .
+
+///with the button you can create the story and put it on the page
+
+///The list of tags is displayed here
+
 import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +38,8 @@ class _CreateStoryState extends State<CreateStory> {
   Image? image;
   late File imageFile;
 
+  ///with the method the photo is fetched from the Galary and stored in filePickerResult.
+  /// then you can get the photo with the Path
   @override
   void initState() {
     super.initState();
@@ -84,6 +92,7 @@ class _CreateStoryState extends State<CreateStory> {
               child: Column(
                 children: [
                   Container(
+                    ///enter the title the Story
                     child: TextFormField(
                       controller: _titleController,
                       decoration: Decorations().textInputDecoration(
@@ -99,6 +108,7 @@ class _CreateStoryState extends State<CreateStory> {
                   ),
                   SizedBox(height: 25),
                   Container(
+                    ///enter the Tags the Story
                     child: TextFormField(
                       controller: _tagController,
                       decoration: Decorations().textInputDecoration(
@@ -147,6 +157,7 @@ class _CreateStoryState extends State<CreateStory> {
                 onPressed: () {
                   getImageFromGallery();
                 },
+                //here is the photo from the Gallery
                 child: Text("Upload Image",
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),

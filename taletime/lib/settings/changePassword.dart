@@ -1,3 +1,8 @@
+///The class takes the old password and the new password and confirmed password from the user.
+///The old password is compared with the password stored in the database.If the two match, the new password will be accepted.
+
+///   At the end the act is confirmed with a button
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
@@ -40,6 +45,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
+
+                      /// Enter old password
                       child: TextFormFieldUtil().enterOldPasswordForm(
                           context, _oldPasswordController),
                     ),
@@ -48,18 +55,24 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
+
+                        ///Enter new password
                         child: TextFormFieldUtil()
                             .enterPasswordForm(context, _passwordController)),
                     SizedBox(
                       height: 10,
                     ),
                     Padding(
+
+                        /// enter the confirm the password and one compares between the new and confirmed
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormFieldUtil().confirmPasswordForm(context,
                             _passwordController, _confirmPasswordController)),
                     SizedBox(
                       height: 25,
                     ),
+
+                    /// When you press the button, the old password is exchanged with the new password in the database.
                     Center(
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height / 13,
@@ -76,6 +89,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   _passwordController.text.trim());
                             }
                           },
+
+                          ///the password has been changed
                           child: Text(
                               AppLocalizations.of(context)!.changePassword),
                         ),

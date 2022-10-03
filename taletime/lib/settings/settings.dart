@@ -1,3 +1,8 @@
+///The [Setting] class offers many functions for the user.
+///The user can change the language (German, English, Arabic).
+///The user can change the mode (light, dark).
+///The user can change the password
+///you can change the profiles
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

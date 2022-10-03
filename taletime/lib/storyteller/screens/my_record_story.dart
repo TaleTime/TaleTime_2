@@ -1,3 +1,5 @@
+/// the class [my_record]enables the user, to play back (listen to)
+/// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
 import 'dart:async';
 import 'dart:io';
 
