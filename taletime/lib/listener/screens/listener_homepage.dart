@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:taletime/listener/screens/play_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import '../../common utils/decoration_util.dart';
 import '../utils/list_view_listener.dart';
@@ -54,15 +53,12 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 left: 8,
                 right: 16,
                 child: AppBar(
+                  automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
                   elevation: 0.0,
                   actions: <Widget>[
                     IconButton(
                       onPressed: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return const PlayStory();
-                        }));
                       },
                       icon: Icon(
                         Icons.menu,
@@ -142,123 +138,6 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   ],
                 ),
               ),
-              /*Positioned(
-        top: 270,
-        left: -90,
-        right: 0,
-        child: profile["recent"].length == 0
-            ? Decorations().noRecentContent(
-                "Nothing to show yet. \nplease add some stories to your story library",
-                "recentStories")
-            : Container(
-                height: 190,
-                child: PageView.builder(
-                    onPageChanged: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                    },
-                    controller: PageController(viewportFraction: 0.4),
-                    itemCount: profile["recent"] == null
-                        ? 0
-                        : profile["recent"].length,
-                    itemBuilder: (_, i) {
-                      var _scale = _selectedIndex == i ? 1.0 : 0.8;
-                      return TweenAnimationBuilder(
-                          duration: const Duration(microseconds: 350),
-                          tween: Tween(begin: _scale, end: _scale),
-                          curve: Curves.ease,
-                          child: GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                margin: EdgeInsets.only(right: 30),
-                                height: 180,
-                                width: 85,
-                                padding: EdgeInsets.only(
-                                    top: 15, left: 15, right: 10),
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(18),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          profile["recent"][i]["image"] == ""
-                                              ? storyImagePlaceholder
-                                              : profile["recent"][i]["image"]),
-                                      colorFilter: ColorFilter.mode(
-                                          Colors.black.withOpacity(0.6),
-                                          BlendMode.dstATop),
-                                      fit: BoxFit.cover,
-                                    )),
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 10,
-                                      left: 0,
-                                      right: 20,
-                                      child: Container(
-                                        height: 30,
-                                        color: Colors.transparent,
-                                        child: Marquee(
-                                          text: profile["recent"][i]["title"],
-                                          blankSpace: 30,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                          pauseAfterRound: Duration(seconds: 2),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 35,
-                                      left: 0,
-                                      right: 45,
-                                      child: Container(
-                                        height: 30,
-                                        color: Colors.transparent,
-                                        child: Marquee(
-                                          text:
-                                              "By ${profile["recent"][i]["author"]}",
-                                          blankSpace: 20,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold),
-                                          pauseAfterRound: Duration(seconds: 2),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 115,
-                                      left: 92,
-                                      right: 0,
-                                      child: Container(
-                                        height: 45,
-                                        width: 15,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Icon(
-                                          Icons.play_arrow_rounded,
-                                          size: 35,
-                                          color: kPrimaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                          builder: (_, value, child) {
-                            return Transform.scale(
-                              scale: _scale,
-                              child: child,
-                            );
-                          });
-                    }),
-              ),
-      ),*/
               StreamBuilder(
                   stream: recentCollection.snapshots(),
                   builder:

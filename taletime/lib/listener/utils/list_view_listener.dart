@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../common utils/constants.dart';
+import '../screens/my_play_story.dart';
 import 'icon_context_dialog.dart';
 
 class MyListView extends StatefulWidget{
@@ -89,7 +90,12 @@ class _MyListViewState extends State<MyListView>{
           bool hasLiked = stories[i]["isLiked"];
           return
             GestureDetector(
-              onTap: (){},
+              onTap: (){
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return MyPlayStory(stories[i]) ;
+                }));
+              },
               child: Column(
                 children: <Widget>[
                   Container(
