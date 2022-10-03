@@ -22,7 +22,8 @@ class MyRecordStory extends StatefulWidget {
   MyRecordStory(this.title, this.image, this.storiesCollection);
 
   @override
-  State<MyRecordStory> createState() => _MyRecordStoryState(this.title, this.image, this.storiesCollection);
+  State<MyRecordStory> createState() =>
+      _MyRecordStoryState(this.title, this.image, this.storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
@@ -74,7 +75,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
       }).then((value) {
         print("Story Added to favorites");
         updateFavoriteList(value.id, storiesCollection);
-      }).catchError((error) => print("Failed to add story to favorites: $error"));
+      }).catchError(
+          (error) => print("Failed to add story to favorites: $error"));
     });
   }
 
@@ -299,7 +301,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
                 String newTitle = title;
                 File newImage = image;
                 File newAudio = File(recorder.getPath);
-                print("this is the path of the recorded audio ${recorder.getPath}");
+                print(
+                    "this is the path of the recorded audio ${recorder.getPath}");
                 print("this is the recorded audio ${newAudio}");
                 setState(() {
                   createStory(newTitle, newImage, newAuthor, newAudio);
