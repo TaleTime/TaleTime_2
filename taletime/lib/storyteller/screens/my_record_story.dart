@@ -89,7 +89,6 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   void initState() {
     super.initState();
     recorder.initRecorder();
-    initPlayer();
   }
 
   /// disposes the recorder
