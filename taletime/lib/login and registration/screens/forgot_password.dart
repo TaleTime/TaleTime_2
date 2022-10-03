@@ -100,6 +100,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                       Container(
                         child: ElevatedButton(
+                          style: elevatedButtonDefaultStyle(),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                             child: Text(

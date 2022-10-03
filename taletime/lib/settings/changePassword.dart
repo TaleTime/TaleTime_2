@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/login%20and%20registration/utils/authentification_util.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/common%20utils/text_form_field_util.dart';
@@ -57,13 +58,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                         child: TextFormFieldUtil().confirmPasswordForm(context,
                             _passwordController, _confirmPasswordController)),
                     SizedBox(
-                      height: 20,
+                      height: 25,
                     ),
                     Center(
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height / 13,
-                        width: MediaQuery.of(context).size.width / 2,
+                        width: double.infinity,
                         child: ElevatedButton(
+                          style: elevatedButtonDefaultStyle(),
                           onPressed: () {
                             final isValidForm =
                                 _formKey.currentState!.validate();

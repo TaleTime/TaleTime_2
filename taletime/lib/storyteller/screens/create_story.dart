@@ -1,11 +1,10 @@
+import 'dart:io';
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/storyteller/screens/record_story.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
-
 import '../../common utils/decoration_util.dart';
 import 'my_record_story.dart';
 
@@ -21,7 +20,13 @@ class _CreateStoryState extends State<CreateStory> {
 
   String? title;
   final List<ChipModel> _chipList = [];
-  FileImage? image;
+  Image? image;
+
+  @override
+  void initState() {
+    super.initState();
+    image = Image.network(storyImagePlaceholder);
+  }
 
   @override
   void dispose() {
@@ -36,11 +41,27 @@ class _CreateStoryState extends State<CreateStory> {
     });
   }
 
+  void getImageFromGallery() async {
+    FilePickerResult? filePickerResult = await FilePicker.platform.pickFiles();
+    if (filePickerResult != null) {
+      String? name = filePickerResult.files.single.path;
+      File file = File(name!);
+      setState(() {
+        image = Image.file(file);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true, automaticallyImplyLeading: false, title: Text("Create Story", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: Text(
+            "Create Story",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          )),
       body: SingleChildScrollView(
         child: Column(children: [
           SizedBox(height: 50),
@@ -86,7 +107,6 @@ class _CreateStoryState extends State<CreateStory> {
                               icon: Icon(Icons.arrow_circle_right_sharp))),
                     ),
                   ),
-                  SizedBox(height: 25),
                 ],
               ),
             ),
@@ -105,25 +125,37 @@ class _CreateStoryState extends State<CreateStory> {
                 .toList(),
           ),
           SizedBox(height: 50),
-          Text("Upload Image",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 14,
+              child: ElevatedButton(
+                style: elevatedButtonDefaultStyle(),
+                onPressed: () {
+                  getImageFromGallery();
+                },
+                child: Text("Upload Image",
+                    style:
+                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
           Container(
-            height: MediaQuery.of(context).size.height / 5,
-            width: MediaQuery.of(context).size.width / 5,
-            child: IconButton(
-              onPressed: () {  },
-              icon: Icon(Icons.add, color: kPrimaryColor, size: 75,),
-                ),
+            height: 200,
+            width: 200,
+            child: Image(image: image!.image),
           ),
           SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(16.0),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 14,
                 width: double.infinity,
                 child: ElevatedButton(
+                    style: elevatedButtonDefaultStyle(),
                     onPressed: () {
                       final isValidForm = _formKey.currentState!.validate();
                       _chipList.forEach((element) {
@@ -140,7 +172,10 @@ class _CreateStoryState extends State<CreateStory> {
                         );
                       }
                     },
-                    child: Text("Continue", style: TextStyle(color: Colors.white, fontSize: 20),)),
+                    child: Text(
+                      "Continue",
+                      style: TextStyle(fontSize: 24),
+                    )),
               ),
             ),
           )

@@ -128,6 +128,8 @@ class _SignupPageState extends State<SignupPage> {
                       height: MediaQuery.of(context).size.height / 13,
                       width: double.infinity,
                       child: ElevatedButton(
+                        style: elevatedButtonDefaultStyle(),
+
                         /// creates a new user with the input from the user
                         /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                         onPressed: () async {

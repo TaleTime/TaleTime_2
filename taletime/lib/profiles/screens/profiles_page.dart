@@ -51,9 +51,12 @@ class _ProfilesPageState extends State<ProfilesPage> {
                   return Decorations().confirmationDialog(
                       AppLocalizations.of(context)!.loggingOut,
                       AppLocalizations.of(context)!.confirmLogout,
-                      context, () {
+                      context, () async {
                     AuthentificationUtil(auth: auth).signOut();
-                    return const WelcomePage();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WelcomePage()));
                   });
                 },
               );

@@ -57,6 +57,8 @@ class WelcomePage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height / 15,
                     width: double.infinity,
                     child: ElevatedButton(
+                      style: elevatedButtonDefaultStyle(),
+
                       /// redirects the user to the LoginPage
                       onPressed: () {
                         Navigator.push(
@@ -72,11 +74,14 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+
                   /// Signup Button
                   SizedBox(
                       height: MediaQuery.of(context).size.height / 15,
                       width: double.infinity,
                       child: ElevatedButton(
+                        style: elevatedButtonDefaultStyle(),
+
                         /// redirects the user to the SignupPage
                         onPressed: () {
                           Navigator.push(

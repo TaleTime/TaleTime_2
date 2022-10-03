@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:taletime/login%20and%20registration/screens/welcome.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../login and registration/utils/authentification_util.dart';
 
 class Decorations {
   final FirebaseAuth auth = FirebaseAuth.instance;

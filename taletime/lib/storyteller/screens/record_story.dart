@@ -49,7 +49,7 @@ class _RecordStoryState extends State<RecordStory> {
       final seconds = duration.inSeconds + addSeconds;
       if (seconds == 5) {
         timer!.cancel();
-        recorder.stop(context, _titleController, records, duration);
+        recorder.stop();
         resetTimer();
       } else {
         duration = Duration(seconds: seconds);
@@ -72,8 +72,7 @@ class _RecordStoryState extends State<RecordStory> {
     super.initState();
     player.openPlayer();
 
-    recorder.initRecorder(
-        "${myStory!.title} ${records.length}", "${myStory!.title}");
+    recorder.initRecorder();
   }
 
   @override
@@ -87,7 +86,11 @@ class _RecordStoryState extends State<RecordStory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true, title: Text("Story Recorder", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+          centerTitle: true,
+          title: Text(
+            "Story Recorder",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          )),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
@@ -112,7 +115,7 @@ class _RecordStoryState extends State<RecordStory> {
                       child: ListTile(
                         subtitle: Text(
                             "Duration: ${printDuration(records[index].getDuration())}"),
-                        title: Text(records[index].recordTitle),
+                        //title: Text(records[index].recordTitle),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -156,11 +159,9 @@ class _RecordStoryState extends State<RecordStory> {
                       child: IconButton(
                           onPressed: () async {
                             if (recorder.isRecording) {
-                              await recorder.stop(
-                                  context, _titleController, records, duration);
+                              await recorder.stop();
                             } else {
-                              await recorder.record(
-                                  "${records.length} ${myStory!.title}");
+                              await recorder.record();
                               startTimer();
                             }
                             setState(() {});
@@ -184,11 +185,6 @@ class _RecordStoryState extends State<RecordStory> {
                   child: ElevatedButton(
                       onPressed: () {
                         if (records.length > 0) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SaveOrUploadStory()));
                         } else {
                           SnackBar snackBar =
                               SnackBar(content: Text("No recordings added"));

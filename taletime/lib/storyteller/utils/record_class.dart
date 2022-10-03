@@ -7,9 +7,9 @@ class Story {
   /// Instanzvariablen
   late String title;
   late List<ChipModel> tags;
-  FileImage? image;
+  Image? image;
 
-  Story(String title, List<ChipModel> tags, FileImage? image) {
+  Story(String title, List<ChipModel> tags, Image? image) {
     this.title = title;
     this.tags = tags;
     this.image = image;
@@ -23,42 +23,35 @@ class Story {
     return this.title;
   }
 
-  FileImage? getImage() {
+  Image? getImage() {
     return this.image;
   }
 }
 
 class Record {
-  /// Instanzvariablen
-  late String recordTitle;
   late Duration duration;
   late File audio;
 
-  Record(String recordTitle, Duration duration, File audio) {
-    this.recordTitle = recordTitle;
+  Record(File audio, Duration duration) {
     this.duration = duration;
     this.audio = audio;
-  }
-
-  String getRecordTitle() {
-    return this.recordTitle;
   }
 
   Duration getDuration() {
     return this.duration;
   }
 
-  String getAudio() {
+  String getAudioPath() {
     return this.audio.path;
   }
 }
 
 class RecordedStory {
   late Story story;
-  late List<Record> records;
+  late Record recording;
 
-  RecordedStory(Story story, List<Record> records) {
+  RecordedStory(Story story, Record recording) {
     this.story = story;
-    this.records = records;
+    this.recording = recording;
   }
 }

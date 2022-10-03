@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
@@ -21,47 +22,155 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   final Story? myStory;
   _MyRecordStoryState(this.myStory);
 
+  SoundRecorder recorder = SoundRecorder();
+  FlutterSoundPlayer player = FlutterSoundPlayer();
 
-  Widget buildStart(){
-    final isRecording = false;
+  /// Recording-time of the current recording
+  Duration recordingTime = Duration.zero;
+
+  /// If [playbackReady] is true the recording can be played by the Audioplayer; is initially set to false
+  ///
+  /// gets set to true when the current recording is finished
+  /// and set to fault if the recording gets discarded.
+  bool playbackReady = false;
+  var recordedFile = null;
+
+  /// initiliazes the Recorder and the Audioplayer
+  @override
+  void initState() {
+    super.initState();
+    recorder.initRecorder();
+    player.openPlayer();
+  }
+
+  /// disposes the recorder and player
+  @override
+  void dispose() {
+    super.dispose();
+    recorder.dispose();
+    player.closePlayer();
+  }
+
+  /// counts the Recording Time
+  void recordTime() {
+    var startTime = DateTime.now();
+    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      recordingTime = DateTime.now().difference(startTime);
+
+      if (!recorder.isRecording) {
+        t.cancel(); //cancel function calling
+      }
+
+      setState(() {});
+    });
+  }
+
+  /// Discards the current recording
+  ///
+  /// Shows the user a confirm dialog if he really wants to discard the current recording
+  ///
+  /// sets [playbackReady] to false
+  ///
+  /// resets [recordingTime] and the path of the recorded file
+  void discardRecording() {
+    showDialog(
+      context: context,
+      builder: (context) => Decorations().confirmationDialog(
+        "Do you really want to discard the current recording?",
+        "",
+        context,
+        () {
+          recorder.closeRecorder();
+          setState(() {
+            recordedFile = null;
+            recorder.path = '';
+            playbackReady = false;
+            recordingTime = Duration.zero;
+          });
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  /// Saves the current recording and redirects the user to the save or upload page
+  ///
+  /// Creates a recordedStory Object with the recording and the story details from the create stories page
+  /// and passes it on to the save or upload page
+  void saveRecording() {
+    File recording = File(recorder.getPath);
+    Record record = new Record(recording, recordingTime);
+    RecordedStory recordedStory = new RecordedStory(myStory!, record);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SaveOrUploadStory(recordedStory)));
+  }
+
+  Widget buildStart() {
+    final isRecording = recorder.isRecording;
     final icon = isRecording ? Icons.stop : Icons.mic;
     final text = isRecording ? "STOP" : "START";
-    final primary = isRecording ? Colors.teal.shade100 : kPrimaryColor;
-    final onPrimary = isRecording ? Colors.white : Colors.black;
+
+    final backgroundColor = isRecording ? Colors.teal.shade100 : kPrimaryColor;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         minimumSize: Size(175, 50),
-        primary: primary,
-        onPrimary: onPrimary
+        backgroundColor: backgroundColor,
       ),
-        icon: Icon(icon, color:Colors.white),
-        label: Text(text, style: TextStyle(color:Colors.white),),
-      onPressed: () {},
+      icon: Icon(icon, color: Colors.white),
+      label: Text(
+        text,
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: playbackReady
+          ? null
+          : () {
+              if (isRecording) {
+                recordedFile = recorder.stop();
+
+                setState(() {
+                  playbackReady = true;
+                });
+              } else {
+                recorder.record();
+                setState(() {
+                  playbackReady = false;
+                });
+                recordTime();
+              }
+            },
     );
   }
 
-  Widget buildPlay(){
-    final isPlaying = false;
+  Widget buildPlay() {
+    final isPlaying = player.isPlaying;
     final icon = isPlaying ? Icons.stop : Icons.play_arrow;
     final text = isPlaying ? "Stop playing" : "Start Playing";
-    final primary = isPlaying ? Colors.teal.shade100 : kPrimaryColor;
-    final onPrimary = isPlaying ? Colors.white : Colors.black;
+    final backgroundColor =
+        playbackReady ? kPrimaryColor : Colors.grey.shade100;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          minimumSize: Size(175, 50),
-          primary: primary,
-          onPrimary: onPrimary
+          backgroundColor: backgroundColor, minimumSize: Size(175, 50)),
+      icon: Icon(icon, color: Colors.white),
+      label: Text(
+        text,
+        style: TextStyle(color: Colors.white),
       ),
-      icon: Icon(icon, color:Colors.white),
-      label: Text(text, style: TextStyle(color:Colors.white),),
-      onPressed: () {},
+      onPressed: playbackReady
+          ? () {
+              player.startPlayer(fromURI: recorder.getPath);
+            }
+          : null,
     );
   }
 
-  Widget buildPlayer(){
-    final recoder = false;
+  ///shows the recording time of the current recording
+  ///and the text 'Now Recording' or 'Press Start' depending on if the recorder is recording or not
+  Widget buildPlayer() {
+    final recoder = recorder.isRecording;
     final text = recoder ? "Now Recording" : "Press Start";
     final animate = recoder;
 
@@ -78,44 +187,77 @@ class _MyRecordStoryState extends State<MyRecordStory> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("TalTime", style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),),
-              SizedBox(height: 10,),
-              Text("00:00", style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),),
-              SizedBox(height: 10,),
-              Text(text, style: TextStyle(color: Colors.white, fontSize: 12),),
+              Text(
+                "TaleTime",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                printDuration(recordingTime),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                text,
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
             ],
           ),
         ),
       ),
-
     );
   }
 
-  Widget buildSave(){
-
+  Widget buildSave() {
+    final backgroundColor =
+        playbackReady ? kPrimaryColor : Colors.grey.shade100;
     return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
+        style: ElevatedButton.styleFrom(
           minimumSize: Size(150, 40),
-          primary: kPrimaryColor,
-          onPrimary: Colors.black
-      ),
-      icon: Icon(Icons.save_alt, color:Colors.white),
-      label: Text("SAVE", style: TextStyle(color:Colors.white),),
-      onPressed: () {},
-    );
+          backgroundColor: backgroundColor,
+        ),
+        icon: Icon(Icons.save_alt, color: Colors.white),
+        label: Text(
+          "SAVE",
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: playbackReady
+            ? () {
+                File recording = File(recorder.getPath);
+                Record record = new Record(recording, recordingTime);
+                RecordedStory recordedStory =
+                    new RecordedStory(myStory!, record);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SaveOrUploadStory(recordedStory)));
+              }
+            : null);
   }
 
-  Widget buildDiscard(){
-
+  Widget buildDiscard() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 40),
-          primary: kPrimaryColor,
-          onPrimary: Colors.black
+          foregroundColor: Colors.black,
+          backgroundColor: kPrimaryColor,
+          minimumSize: Size(150, 40)),
+      icon: Icon(Icons.delete_forever, color: Colors.white),
+      label: Text(
+        "DISCARD",
+        style: TextStyle(color: Colors.white),
       ),
-      icon: Icon(Icons.delete_forever, color:Colors.white),
-      label: Text("DISCARD", style: TextStyle(color:Colors.white),),
-      onPressed: () {},
+      onPressed: playbackReady ? discardRecording : null,
     );
   }
 
@@ -123,22 +265,36 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true, title: Text("Story Recorder", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+          centerTitle: true,
+          title: Text(
+            "Story Recorder",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          )),
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 75,),
+            SizedBox(
+              height: 75,
+            ),
             buildPlayer(),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             buildStart(),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             buildPlay(),
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildDiscard(),
-                SizedBox(width: 35,),
+                SizedBox(
+                  width: 35,
+                ),
                 buildSave()
               ],
             )
