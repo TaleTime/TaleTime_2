@@ -44,7 +44,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
               child: Expanded(
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow),
+                        primary: Colors.yellow),
                     onPressed: () {
                       test.startPlayer(
                           fromURI: myRecordedStory.recording.getAudioPath());
