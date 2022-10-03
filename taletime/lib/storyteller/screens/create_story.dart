@@ -12,14 +12,13 @@ import 'my_record_story.dart';
 class CreateStory extends StatefulWidget {
   final CollectionReference storiesCollection;
 
-  CreateStory(this.storiesCollection,{Key? key}) : super(key: key);
+  CreateStory(this.storiesCollection, {Key? key}) : super(key: key);
 
   @override
   State<CreateStory> createState() => _CreateStoryState(this.storiesCollection);
 }
 
 class _CreateStoryState extends State<CreateStory> {
-
   final CollectionReference storiesCollection;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -31,7 +30,7 @@ class _CreateStoryState extends State<CreateStory> {
   String? title;
   final List<ChipModel> _chipList = [];
   Image? image;
-  File? imageFile;
+  late File imageFile;
 
   @override
   void initState() {
@@ -180,7 +179,10 @@ class _CreateStoryState extends State<CreateStory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyRecordStory(_titleController.text, imageFile!, storiesCollection),
+                            builder: (context) => MyRecordStory(
+                                _titleController.text,
+                                imageFile,
+                                storiesCollection),
                           ),
                         );
                       }
