@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taletime/internationalization/l10n.dart';
 import 'package:taletime/internationalization/locale_provider.dart';
+import 'package:taletime/profiles/screens/profiles_page.dart';
 import 'package:taletime/settings/changePassword.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final profiles;
 
   _SettingsPageState(this.profile, this.profiles);
-
+  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     Future<void> updateLanguage(String profileId, String language) {
@@ -79,121 +81,88 @@ class _SettingsPageState extends State<SettingsPage> {
         child: ListView(
           children: [
             Container(
+                child: Card(
+              child: ListTile(
+                  leading: const Icon(Icons.language_outlined),
+                  title: Text(AppLocalizations.of(context)!.changeLanguage),
+                  trailing: DropdownButton<Locale>(
+                      value: selectedLanguage,
+                      items: L10n.supportedLanguages.map(
+                        (locale) {
+                          final flag = L10n.getCountryFlag(locale.languageCode);
+                          return DropdownMenuItem(
+                            child: Text(flag,
+                                style: const TextStyle(fontSize: 32)),
+                            value: locale,
+                            onTap: () {
+                              final provider = Provider.of<LocaleProvider>(
+                                  context,
+                                  listen: false);
+                              provider.setLocale(locale);
+                            },
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedLanguage = value;
+                          updateLanguage(profile["id"], value.toString());
+                        });
+                      })),
+            )),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Card(
+                child: SwitchListTile(
+                  secondary: const Icon(
+                    Icons.dark_mode_sharp,
+                  ),
+                  title: Text(AppLocalizations.of(context)!.darkMode),
+                  value: themeProvider.isDarkMode,
+                  onChanged: (value) {
+                    final provider =
+                        Provider.of<ThemeProvider>(context, listen: false);
+                    provider.toggleTheme(value);
+                    setState(() {
+                      updateTheme(profile["id"], value);
+                    });
+                  },
+                  activeTrackColor: kPrimaryColor,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Card(
                 child: ListTile(
-                    leading: const Icon(Icons.language_outlined),
-                    title: Text(AppLocalizations.of(context)!.changeLanguage),
-                    trailing: DropdownButton<Locale>(
-                        value: selectedLanguage,
-                        items: L10n.supportedLanguages.map(
-                          (locale) {
-                            final flag =
-                                L10n.getCountryFlag(locale.languageCode);
-                            return DropdownMenuItem(
-                              child: Text(flag,
-                                  style: const TextStyle(fontSize: 32)),
-                              value: locale,
-                              onTap: () {
-                                final provider = Provider.of<LocaleProvider>(
-                                    context,
-                                    listen: false);
-                                provider.setLocale(locale);
-                              },
-                            );
-                          },
-                        ).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedLanguage = value;
-                            updateLanguage(profile["id"], value.toString());
-                          });
-                        }))),
-            Container(
-              child: SwitchListTile(
-                secondary: const Icon(
-                  Icons.dark_mode_sharp,
-                ),
-                title: Text(AppLocalizations.of(context)!.darkMode),
-                value: themeProvider.isDarkMode,
-                onChanged: (value) {
-                  final provider =
-                      Provider.of<ThemeProvider>(context, listen: false);
-                  provider.toggleTheme(value);
-                  setState(() {
-                    updateTheme(profile["id"], value);
-                  });
-                },
-                activeTrackColor: kPrimaryColor,
-              ),
-            ),
-            Container(
-              height: 40,
-              width: double.infinity,
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const ChangePassword();
-                  }));
-                },
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(Icons.password),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.changePassword,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w100),
-                        )
-                      ],
-                    ),
-                  ],
+                  leading: Icon(Icons.password),
+                  title: Text(AppLocalizations.of(context)!.changePassword),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const ChangePassword();
+                    }));
+                  },
                 ),
               ),
             ),
-            Container(
-              height: 40,
-              width: double.infinity,
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const ChangePassword();
-                  }));
-                },
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(Icons.person),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          "Change Profile",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w100),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            SizedBox(
+              height: 10,
             ),
             Card(
                 child: ListTile(
               leading: Icon(Icons.person),
-              title: Text("Change Profile"),
-              onTap: () => print("Test"),
+              title: Text(AppLocalizations.of(context)!.changeProfile),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return ProfilesPage(auth.currentUser!.uid);
+                }));
+              },
             ))
           ],
         ),
