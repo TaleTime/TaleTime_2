@@ -38,7 +38,6 @@ class _EditStoryState extends State<EditStory> {
 
   Uint8List? imageByte;
 
-  File? _pickedImage;
   String? url;
 
   Image? myImage;
@@ -54,12 +53,13 @@ class _EditStoryState extends State<EditStory> {
     var ref = FirebaseStorage.instance.ref().child("images");
     FilePickerResult? filePickerResult = await FilePicker.platform.pickFiles();
     if (filePickerResult != null) {
-      String? name = filePickerResult.files.single.path;
-      File file = File(name!);
+      String? image = filePickerResult.files.single.path;
+      String? name = filePickerResult.files.single.name;
+      File file = File(image!);
       // Upload file
-      await ref.child(name).putFile(file);
+      await ref.child(name!).putFile(file);
       String myUrl = await ref.getDownloadURL();
-      print(url);
+      print(myUrl);
       setState(() {
         url = myUrl;
         myImage = Image.file(file);
@@ -71,7 +71,7 @@ class _EditStoryState extends State<EditStory> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
 
-    storyImage = story["image"] == "" ? storyImagePlaceholder : story["image"];
+    //storyImage = story["image"] == "" ? storyImagePlaceholder : story["image"];
 
     textEditingControllerAuthor.text = textEditingControllerAuthor.text == ""
         ? story["author"]
@@ -80,8 +80,6 @@ class _EditStoryState extends State<EditStory> {
     textEditingControllerTitle.text = textEditingControllerTitle.text == ""
         ? story["title"]
         : textEditingControllerTitle.text;
-
-
 
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
@@ -93,7 +91,7 @@ class _EditStoryState extends State<EditStory> {
     }
 
     void reset() {
-      storyImage = "";
+      //storyImage = "";
       textEditingControllerTitle.text = "";
       textEditingControllerAuthor.text = "";
     }
@@ -139,7 +137,7 @@ class _EditStoryState extends State<EditStory> {
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: Image(image: myImage!.image,) as ImageProvider
+                                          image: myImage!.image
                                       )
                                   )
                             )
