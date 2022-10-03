@@ -34,7 +34,6 @@ dependencies:
   audioplayers: ^1.1.0
   flutter_picker: ^2.0.5
   avatar_glow: ^2.0.2
-  #flutter_gallery: ^2.4.0+20400
 
 dev_dependencies:
   flutter_test:
