@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -5,20 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 
-import '../../common utils/decoration_util.dart';
-
 class SoundRecorder extends FlutterSoundRecorder {
+  /// FlutterSoundRecorder Object
   FlutterSoundRecorder? _audioRecorder = FlutterSoundRecorder();
+  String path = '';
+
+  ///
   bool _isRecorderInitialised = false;
 
-  final pathToSaveAudio = "audio_example.aac";
-
+  /// return true if the recorder is currently recording
   bool get isRecording => _audioRecorder!.isRecording;
 
-  Future initRecorder(String fileName, String directoryName) async {
+  /// initializes the Sound-Recorder and aks for microphone permission if it wasn't granted already from the user
+  Future initRecorder() async {
+    /// asks the user for microphone permission
     final status = await Permission.microphone.request();
 
     if (status != PermissionStatus.granted) {
@@ -31,10 +34,7 @@ class SoundRecorder extends FlutterSoundRecorder {
     }
 
     await _audioRecorder!.openRecorder();
-    directoryPath = await _directoryPath(directoryName);
-    completePath = await _completePath(directoryPath, fileName);
-    _createDirectory();
-    createFile(completePath);
+
     _isRecorderInitialised = true;
 
     await _audioRecorder!.setSubscriptionDuration(
@@ -50,53 +50,18 @@ class SoundRecorder extends FlutterSoundRecorder {
     _isRecorderInitialised = false;
   }
 
-  Future record(String path) async {
+  Future record() async {
     if (!_isRecorderInitialised) return;
-    await _audioRecorder!.startRecorder(toFile: path);
+    await _audioRecorder!.startRecorder(toFile: 'audio');
   }
 
-  Future stop(BuildContext context, TextEditingController controller,
-      List<Record> records, Duration duration) async {
-    if (!_isRecorderInitialised) return;
+  Future<void> stop() async {
+    if (!_isRecorderInitialised) ;
 
-    final path = await _audioRecorder!.stopRecorder();
-
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Decorations().confirmationDialog(
-              "Do you really want to add this part?", "", context, () async {
-            String? name = await openDialog(
-                context, "Enter a name for your recorded part", controller);
-            if (name == null) {
-              name = "Part";
-            }
-            final audioFile = File(path!);
-
-            Record record = Record(name, duration, audioFile);
-            records.add(record);
-            Navigator.of(context).pop();
-          });
-        });
+    path = (await _audioRecorder!.stopRecorder())!;
   }
 
-  String completePath = "";
-  String directoryPath = "";
-
-  Future<String> _completePath(String directoryName, String fileName) async {
-    var name = getFileName(fileName);
-    return "$directoryName$name";
-  }
-
-  Future<String> _directoryPath(String directoryName) async {
-    var directory = await getExternalStorageDirectory();
-    var directoryPath = directory!.path;
-    return "$directoryPath/records/$directoryName";
-  }
-
-  String getFileName(String fileName) {
-    return "$fileName.mp3";
-  }
+  String get getPath => path;
 
   Future createFile(String path) async {
     File(path).create(recursive: true).then((File file) async {
@@ -107,12 +72,14 @@ class SoundRecorder extends FlutterSoundRecorder {
     });
   }
 
-  void _createDirectory() async {
-    bool isDirectoryCreated = await Directory(directoryPath).exists();
-    if (!isDirectoryCreated) {
-      Directory(directoryPath).create().then((Directory directory) {
-        print("DIRECTORY CREATED AT : " + directory.path);
-      });
-    }
+  Duration? recordTime(Duration diff) {
+    var startTime = DateTime.now();
+    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      diff = DateTime.now().difference(startTime);
+
+      if (!isRecording) {
+        t.cancel(); //cancel function calling
+      }
+    });
   }
 }

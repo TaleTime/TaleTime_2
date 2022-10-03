@@ -29,36 +29,25 @@ class Story {
 }
 
 class Record {
-  /// Instanzvariablen
-  late String recordTitle;
   late Duration duration;
   late File audio;
 
-  Record(String recordTitle, Duration duration, File audio) {
-    this.recordTitle = recordTitle;
+  Record(File audio, Duration duration) {
     this.duration = duration;
     this.audio = audio;
-  }
-
-  String getRecordTitle() {
-    return this.recordTitle;
   }
 
   Duration getDuration() {
     return this.duration;
   }
-
-  String getAudio() {
-    return this.audio.path;
-  }
 }
 
 class RecordedStory {
   late Story story;
-  late List<Record> records;
+  late Record recording;
 
-  RecordedStory(Story story, List<Record> records) {
+  RecordedStory(Story story, Record recording) {
     this.story = story;
-    this.records = records;
+    this.recording = recording;
   }
 }
