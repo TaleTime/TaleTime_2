@@ -61,7 +61,7 @@ class _EditStoryState extends State<EditStory> {
       String myUrl = await ref.getDownloadURL();
       print(myUrl);
       setState(() {
-        url = myUrl;
+        url = myUrl == "" ? storyImagePlaceholder : myUrl;
         storiesCollection
             .doc(story["id"])
             .update({'image': myUrl})
