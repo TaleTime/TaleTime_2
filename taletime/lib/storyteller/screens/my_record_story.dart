@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
@@ -12,21 +14,28 @@ import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/storyteller/utils/sound_recorder.dart';
 
 class MyRecordStory extends StatefulWidget {
-  final Story? myStory;
-  MyRecordStory(this.myStory);
+  final String title;
+  final File image;
+  final CollectionReference storiesCollection;
+  MyRecordStory(this.title, this.image, this.storiesCollection);
 
   @override
-  State<MyRecordStory> createState() => _MyRecordStoryState(myStory);
+  State<MyRecordStory> createState() => _MyRecordStoryState(this.title, this.image, this.storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
-  final Story? myStory;
-  _MyRecordStoryState(this.myStory);
+  //final Story? myStory;
+  final String title;
+  final File image;
+  final CollectionReference storiesCollection;
+
+  _MyRecordStoryState(this.title, this.image, this.storiesCollection);
 
   SoundRecorder recorder = SoundRecorder();
-  //FlutterSoundPlayer player = FlutterSoundPlayer();
   final AudioPlayer player = AudioPlayer();
   bool isPlaying = false;
+  // instance of Firebase to use Firebase functions; here: register with email and password
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   /// Recording-time of the current recording
   Duration recordingTime = Duration.zero;
@@ -40,6 +49,39 @@ class _MyRecordStoryState extends State<MyRecordStory> {
 
   void initPlayer() async {
     await player.setSource(UrlSource(recorder.getPath));
+  }
+
+  void createStory(String title, File image, String author, File audio) async {
+    var refImages = FirebaseStorage.instance.ref().child("images");
+    var refAudios = FirebaseStorage.instance.ref().child("audios");
+
+    await refImages.child("${author}.jpg").putFile(image);
+    await refAudios.child("${author}.mp3").putFile(audio);
+    String myImageUrl = await refImages.child("${author}.jpg").getDownloadURL();
+    String myAudioUrl = await refImages.child("${author}.mp3").getDownloadURL();
+
+    setState(() {
+      storiesCollection.add({
+        "rating": "2.5",
+        "title": title,
+        "author": author,
+        "image": myImageUrl,
+        "audio": myAudioUrl,
+        "isLiked": false,
+        "id": ""
+      }).then((value) {
+        print("Story Added to favorites");
+        updateFavoriteList(value.id, storiesCollection);
+      }).catchError((error) => print("Failed to add story to favorites: $error"));
+    });
+  }
+
+  Future<void> updateFavoriteList(String storyId, stories) {
+    return stories
+        .doc(storyId)
+        .update({'id': storyId})
+        .then((value) => print("List Updated"))
+        .catchError((error) => print("Failed to update List: $error"));
   }
 
   /// initiliazes the Recorder and the Audioplayer
@@ -106,11 +148,11 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   void saveRecording() {
     File recording = File(recorder.getPath);
     Record record = new Record(recording, recordingTime);
-    RecordedStory recordedStory = new RecordedStory(myStory!, record);
-    Navigator.push(
+    //RecordedStory recordedStory = new RecordedStory(myStory!, record);
+    /*Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(recordedStory)));
+            builder: (context) => SaveOrUploadStory(recordedStory)));*/
   }
 
   Widget buildStart() {
@@ -123,7 +165,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         minimumSize: Size(175, 50),
-        backgroundColor: backgroundColor,
+        primary: backgroundColor,
       ),
       icon: Icon(icon, color: Colors.white),
       label: Text(
@@ -158,7 +200,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor, minimumSize: Size(175, 50)),
+          primary: backgroundColor, minimumSize: Size(175, 50)),
       icon: Icon(icon, color: Colors.white),
       label: Text(
         text,
@@ -243,7 +285,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     return ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           minimumSize: Size(150, 40),
-          backgroundColor: backgroundColor,
+          primary: backgroundColor,
         ),
         icon: Icon(Icons.save_alt, color: Colors.white),
         label: Text(
@@ -252,15 +294,22 @@ class _MyRecordStoryState extends State<MyRecordStory> {
         ),
         onPressed: playbackReady
             ? () {
-                File recording = File(recorder.getPath);
-                Record record = new Record(recording, recordingTime);
+                String newAuthor = auth.currentUser!.displayName.toString();
+                String newTitle = title;
+                File newImage = image;
+                File newAudio = File(recorder.getPath);
+                setState(() {
+                  createStory(newTitle, newImage, newAuthor, newAudio);
+                });
+
+                /*Record record = new Record(recording, recordingTime);
                 RecordedStory recordedStory =
                     new RecordedStory(myStory!, record);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SaveOrUploadStory(recordedStory)));
+                            SaveOrUploadStory(recordedStory)));*/
               }
             : null);
   }
@@ -268,8 +317,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildDiscard() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: kPrimaryColor,
+          onPrimary: Colors.black,
+          primary: kPrimaryColor,
           minimumSize: Size(150, 40)),
       icon: Icon(Icons.delete_forever, color: Colors.white),
       label: Text(
