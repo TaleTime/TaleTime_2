@@ -1,3 +1,5 @@
+///the classe [add_profile] allows users to create a profile with name,image,title,language, and theme.
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,7 @@ class _AddProfileState extends State<AddProfile> {
   late final bool theme;
   late final String language;
   late final List recent = [
-   /* {
+    /* {
       "rating": "4.6",
       "title": "Peace Life",
       "author": "Unknown Author",
@@ -89,7 +91,7 @@ class _AddProfileState extends State<AddProfile> {
     }*/
   ];
   late final List stories = [
-   /* {
+    /* {
       "rating": "4.6",
       "title": "Peace Life",
       "author": "Unknown Author",
@@ -171,11 +173,7 @@ class _AddProfileState extends State<AddProfile> {
     }
 
     Future<void> addUser(
-        String image,
-        String name,
-        String title,
-        String language,
-        bool theme) {
+        String image, String name, String title, String language, bool theme) {
       return profiles.add({
         'id': "",
         'image': image,

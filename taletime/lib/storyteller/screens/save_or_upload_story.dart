@@ -1,3 +1,7 @@
+//the [save_or_upload_story] class enables the user,
+///to either save the story to storage in firebase or share the story with specific listeners or all listeners.
+///It contains three functions save ,load,load all
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
