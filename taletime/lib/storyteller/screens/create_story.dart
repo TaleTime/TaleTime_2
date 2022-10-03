@@ -41,7 +41,7 @@ class _CreateStoryState extends State<CreateStory> {
     });
   }
 
-  void getImage() async {
+  void getImageFromGallery() async {
     FilePickerResult? filePickerResult = await FilePicker.platform.pickFiles();
     if (filePickerResult != null) {
       String? name = filePickerResult.files.single.path;
@@ -133,7 +133,7 @@ class _CreateStoryState extends State<CreateStory> {
               child: ElevatedButton(
                 style: elevatedButtonDefaultStyle(),
                 onPressed: () {
-                  getImage();
+                  getImageFromGallery();
                 },
                 child: Text("Upload Image",
                     style:
@@ -143,9 +143,7 @@ class _CreateStoryState extends State<CreateStory> {
           ),
           Container(
             height: 200,
-            //MediaQuery.of(context).size.height / 5,
             width: 200,
-            //MediaQuery.of(context).size.width / 5,
             child: Image(image: image!.image),
           ),
           SizedBox(height: 50),
@@ -157,7 +155,7 @@ class _CreateStoryState extends State<CreateStory> {
                 height: MediaQuery.of(context).size.height / 14,
                 width: double.infinity,
                 child: ElevatedButton(
-                  style: elevatedButtonDefaultStyle(),
+                    style: elevatedButtonDefaultStyle(),
                     onPressed: () {
                       final isValidForm = _formKey.currentState!.validate();
                       _chipList.forEach((element) {

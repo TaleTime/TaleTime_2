@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
@@ -23,11 +24,18 @@ class _MyRecordStoryState extends State<MyRecordStory> {
 
   SoundRecorder recorder = SoundRecorder();
   FlutterSoundPlayer player = FlutterSoundPlayer();
+
+  /// Recording-time of the current recording
   Duration recordingTime = Duration.zero;
 
+  /// If [playbackReady] is true the recording can be played by the Audioplayer; is initially set to false
+  ///
+  /// gets set to true when the current recording is finished
+  /// and set to fault if the recording gets discarded.
   bool playbackReady = false;
   var recordedFile = null;
 
+  /// initiliazes the Recorder and the Audioplayer
   @override
   void initState() {
     super.initState();
@@ -35,6 +43,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     player.openPlayer();
   }
 
+  /// disposes the recorder and player
+  @override
+  void dispose() {
+    super.dispose();
+    recorder.dispose();
+    player.closePlayer();
+  }
+
+  /// counts the Recording Time
   void recordTime() {
     var startTime = DateTime.now();
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -48,36 +65,82 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     });
   }
 
+  /// Discards the current recording
+  ///
+  /// Shows the user a confirm dialog if he really wants to discard the current recording
+  ///
+  /// sets [playbackReady] to false
+  ///
+  /// resets [recordingTime] and the path of the recorded file
+  void discardRecording() {
+    showDialog(
+      context: context,
+      builder: (context) => Decorations().confirmationDialog(
+        "Do you really want to discard the current recording?",
+        "",
+        context,
+        () {
+          recorder.closeRecorder();
+          setState(() {
+            recordedFile = null;
+            recorder.path = '';
+            playbackReady = false;
+            recordingTime = Duration.zero;
+          });
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  /// Saves the current recording and redirects the user to the save or upload page
+  ///
+  /// Creates a recordedStory Object with the recording and the story details from the create stories page
+  /// and passes it on to the save or upload page
+  void saveRecording() {
+    File recording = File(recorder.getPath);
+    Record record = new Record(recording, recordingTime);
+    RecordedStory recordedStory = new RecordedStory(myStory!, record);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SaveOrUploadStory(recordedStory)));
+  }
+
   Widget buildStart() {
     final isRecording = recorder.isRecording;
     final icon = isRecording ? Icons.stop : Icons.mic;
     final text = isRecording ? "STOP" : "START";
-    final foregroundColor = isRecording ? Colors.white : Colors.black;
+
     final backgroundColor = isRecording ? Colors.teal.shade100 : kPrimaryColor;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          minimumSize: Size(175, 50), backgroundColor: backgroundColor),
+        minimumSize: Size(175, 50),
+        backgroundColor: backgroundColor,
+      ),
       icon: Icon(icon, color: Colors.white),
       label: Text(
         text,
         style: TextStyle(color: Colors.white),
       ),
-      onPressed: () {
-        if (isRecording) {
-          recordedFile = recorder.stop();
+      onPressed: playbackReady
+          ? null
+          : () {
+              if (isRecording) {
+                recordedFile = recorder.stop();
 
-          setState(() {
-            playbackReady = true;
-          });
-        } else {
-          recorder.record();
-          setState(() {
-            playbackReady = false;
-          });
-          recordTime();
-        }
-      },
+                setState(() {
+                  playbackReady = true;
+                });
+              } else {
+                recorder.record();
+                setState(() {
+                  playbackReady = false;
+                });
+                recordTime();
+              }
+            },
     );
   }
 
@@ -104,6 +167,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     );
   }
 
+  ///shows the recording time of the current recording
+  ///and the text 'Now Recording' or 'Press Start' depending on if the recorder is recording or not
   Widget buildPlayer() {
     final recoder = recorder.isRecording;
     final text = recoder ? "Now Recording" : "Press Start";
@@ -184,15 +249,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildDiscard() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 40),
-          primary: kPrimaryColor,
-          onPrimary: Colors.black),
+          foregroundColor: Colors.black,
+          backgroundColor: kPrimaryColor,
+          minimumSize: Size(150, 40)),
       icon: Icon(Icons.delete_forever, color: Colors.white),
       label: Text(
         "DISCARD",
         style: TextStyle(color: Colors.white),
       ),
-      onPressed: () {},
+      onPressed: playbackReady ? discardRecording : null,
     );
   }
 
