@@ -1,8 +1,12 @@
+
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../common utils/constants.dart';
 import '../../common utils/decoration_util.dart';
 
@@ -26,13 +30,17 @@ class _EditStoryState extends State<EditStory> {
   final CollectionReference storiesCollection;
   final story;
 
+  _EditStoryState(this.storiesCollection, this.story);
+
   final textEditingControllerAuthor = TextEditingController();
   final textEditingControllerTitle = TextEditingController();
   late final String storyImage;
 
   Uint8List? imageByte;
 
-  _EditStoryState(this.storiesCollection, this.story);
+  File? _pickedImage;
+  String? url;
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +57,24 @@ class _EditStoryState extends State<EditStory> {
         : textEditingControllerTitle.text;
 
     Future<void> uploadImage() async {
-      var picked = await FilePicker.platform.pickFiles();
-      setState(() {
+      var ref = FirebaseStorage.instance.ref().child("images");
+      FilePickerResult? picked = await FilePicker.platform.pickFiles();
         if (picked != null) {
-          imageByte = picked.files.first.bytes;
+          /*imageByte = picked.files.first.bytes;
           print(picked.files.first.name);
-          print(imageByte);
+          print(imageByte);*/
+          Uint8List? fileBytes = picked.files.first.bytes;
+          String fileName = picked.files.first.name;
+
+          // Upload file
+          await ref.child(fileName).putData(fileBytes!);
+          url = await ref.getDownloadURL();
+          print(url);
+          File file = File(picked.files.single.path!);
+          setState(() {
+            _pickedImage = file;
+          });
         }
-      });
     }
 
     Future<void> updateStory(
@@ -108,24 +126,19 @@ class _EditStoryState extends State<EditStory> {
                     child: Column(
                       children: [
                         Container(
-                          child: imageByte == null
-                              ? Container(
+                            child: Container(
                                   width: 170.0,
                                   height: 170.0,
                                   decoration: new BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: NetworkImage(storyImage))))
-                              : Container(
-                                  width: 170.0,
-                                  height: 170.0,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: MemoryImage(imageByte!),
-                                      ))),
+                                          image: _pickedImage == null
+                                              ? (story["image"] == "" ? NetworkImage(storyImagePlaceholder) : NetworkImage(story["image"])) as ImageProvider
+                                              : FileImage(_pickedImage!)
+                                      )
+                                  )
+                            )
                         ),
                         SizedBox(
                           height: 30,
@@ -201,7 +214,7 @@ class _EditStoryState extends State<EditStory> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 author = textEditingControllerAuthor.text;
-                                image = storyImage;
+                                image = url!;
                                 title = textEditingControllerTitle.text;
                                 updateStory(story["id"], author, image, title);
                                 reset();
