@@ -53,8 +53,8 @@ class _EditStoryState extends State<EditStory> {
     var ref = FirebaseStorage.instance.ref().child("images");
     FilePickerResult? filePickerResult = await FilePicker.platform.pickFiles();
     if (filePickerResult != null) {
-      String? image = filePickerResult.files.single.path;
-      String? name = filePickerResult.files.single.name;
+      String? image = filePickerResult.files.first.path;
+      String? name = filePickerResult.files.first.name;
       File file = File(image!);
       // Upload file
       await ref.child(name!).putFile(file);
