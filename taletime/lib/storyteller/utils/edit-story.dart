@@ -41,6 +41,31 @@ class _EditStoryState extends State<EditStory> {
   File? _pickedImage;
   String? url;
 
+  Image? myImage;
+
+  @override
+  void initState() {
+    super.initState();
+    myImage = story["image"] == "" ? Image.network(storyImagePlaceholder) : Image.network(story["image"]);
+    url = "";
+  }
+
+  void getImageFromGallery() async {
+    var ref = FirebaseStorage.instance.ref().child("images");
+    FilePickerResult? filePickerResult = await FilePicker.platform.pickFiles();
+    if (filePickerResult != null) {
+      String? name = filePickerResult.files.single.path;
+      File file = File(name!);
+      // Upload file
+      await ref.child(name).putFile(file);
+      String myUrl = await ref.getDownloadURL();
+      print(url);
+      setState(() {
+        url = myUrl;
+        myImage = Image.file(file);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,21 +81,7 @@ class _EditStoryState extends State<EditStory> {
         ? story["title"]
         : textEditingControllerTitle.text;
 
-    Future<void> uploadImage() async {
-      var ref = FirebaseStorage.instance.ref().child("images");
-      FilePickerResult? picked = await FilePicker.platform.pickFiles();
-        if (picked != null) {
-          File file = File(picked.files.single.path!);
-          String fileName = picked.files.first.name;
-          // Upload file
-          await ref.child(fileName).putFile(file);
-          url = await ref.getDownloadURL();
-          print(url);
-          setState(() {
-            _pickedImage = file;
-          });
-        }
-    }
+
 
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
@@ -128,9 +139,7 @@ class _EditStoryState extends State<EditStory> {
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: _pickedImage == null
-                                              ? (story["image"] == "" ? NetworkImage(storyImagePlaceholder) : NetworkImage(story["image"])) as ImageProvider
-                                              : FileImage(_pickedImage!)
+                                          image: Image(image: myImage!.image,) as ImageProvider
                                       )
                                   )
                             )
@@ -159,7 +168,7 @@ class _EditStoryState extends State<EditStory> {
                                   alignment: Alignment.center,
                                   iconSize: 50,
                                   onPressed: () {
-                                    uploadImage();
+                                    getImageFromGallery();
                                   },
                                   icon: const Icon(Icons.add, size: 50),
                                 ),
