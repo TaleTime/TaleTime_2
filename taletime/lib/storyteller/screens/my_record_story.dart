@@ -20,7 +20,8 @@ class MyRecordStory extends StatefulWidget {
   MyRecordStory(this.title, this.image, this.storiesCollection);
 
   @override
-  State<MyRecordStory> createState() => _MyRecordStoryState(this.title, this.image, this.storiesCollection);
+  State<MyRecordStory> createState() =>
+      _MyRecordStoryState(this.title, this.image, this.storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
@@ -45,7 +46,6 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// gets set to true when the current recording is finished
   /// and set to fault if the recording gets discarded.
   bool playbackReady = false;
-  var recordedFile = null;
 
   void initPlayer() async {
     await player.setSource(UrlSource(recorder.getPath));
@@ -54,11 +54,14 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
     var refAudios = FirebaseStorage.instance.ref().child("audios");
-
+    File audioFile = await File(recorder.getPath);
+    String filePath = recorder.getPath;
+    String fileString =
+        filePath.substring(filePath.lastIndexOf('/'), filePath.length);
     await refImages.child("${author}.jpg").putFile(image);
-    await refAudios.child("${author}.mp3").putFile(audio);
+    await refAudios.child(fileString).putFile(audioFile);
     String myImageUrl = await refImages.child("${author}.jpg").getDownloadURL();
-    String myAudioUrl = await refImages.child("${author}.mp3").getDownloadURL();
+    String myAudioUrl = await refAudios.child(fileString).getDownloadURL();
 
     setState(() {
       storiesCollection.add({
@@ -72,7 +75,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
       }).then((value) {
         print("Story Added to favorites");
         updateFavoriteList(value.id, storiesCollection);
-      }).catchError((error) => print("Failed to add story to favorites: $error"));
+      }).catchError(
+          (error) => print("Failed to add story to favorites: $error"));
     });
   }
 
@@ -129,8 +133,6 @@ class _MyRecordStoryState extends State<MyRecordStory> {
         () {
           recorder.closeRecorder();
           setState(() {
-            recordedFile = null;
-            recorder.path = '';
             playbackReady = false;
             recordingTime = Duration.zero;
           });
@@ -175,7 +177,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
           ? null
           : () {
               if (isRecording) {
-                recordedFile = recorder.stop();
+                recorder.stop();
 
                 setState(() {
                   playbackReady = true;
@@ -297,7 +299,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
                 String newTitle = title;
                 File newImage = image;
                 File newAudio = File(recorder.getPath);
-                print("this is the path of the recorded audio ${recorder.getPath}");
+                print(
+                    "this is the path of the recorded audio ${recorder.getPath}");
                 print("this is the recorded audio ${newAudio}");
                 setState(() {
                   createStory(newTitle, newImage, newAuthor, newAudio);

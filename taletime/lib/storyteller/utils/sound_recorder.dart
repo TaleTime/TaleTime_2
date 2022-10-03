@@ -11,7 +11,9 @@ import 'package:taletime/storyteller/utils/record_class.dart';
 class SoundRecorder extends FlutterSoundRecorder {
   /// FlutterSoundRecorder Object
   FlutterSoundRecorder? _audioRecorder = FlutterSoundRecorder();
-  String path = '';
+  String _path = '';
+
+  String get getPath => _path;
 
   ///
   bool _isRecorderInitialised = false;
@@ -31,15 +33,22 @@ class SoundRecorder extends FlutterSoundRecorder {
     final statusStorage = await Permission.storage.status;
     if (!statusStorage.isGranted) {
       await Permission.storage.request();
+    } else {
+      Directory directory = await getApplicationDocumentsDirectory();
+      String filepath = directory.path +
+          '/' +
+          DateTime.now().microsecondsSinceEpoch.toString() +
+          '.aac';
+
+      await _audioRecorder!.openRecorder();
+      _path = filepath;
+      await File(_path).create();
+      _isRecorderInitialised = true;
+
+      await _audioRecorder!.setSubscriptionDuration(
+        const Duration(milliseconds: 100),
+      );
     }
-
-    await _audioRecorder!.openRecorder();
-
-    _isRecorderInitialised = true;
-
-    await _audioRecorder!.setSubscriptionDuration(
-      const Duration(milliseconds: 100),
-    );
   }
 
   void dispose() {
@@ -52,34 +61,12 @@ class SoundRecorder extends FlutterSoundRecorder {
 
   Future record() async {
     if (!_isRecorderInitialised) return;
-    await _audioRecorder!.startRecorder(toFile: 'audio');
+    await _audioRecorder!.startRecorder(toFile: _path);
   }
 
   Future<void> stop() async {
     if (!_isRecorderInitialised) ;
 
-    path = (await _audioRecorder!.stopRecorder())!;
-  }
-
-  String get getPath => path;
-
-  Future createFile(String path) async {
-    File(path).create(recursive: true).then((File file) async {
-      //write to file
-      Uint8List bytes = await file.readAsBytes();
-      file.writeAsBytes(bytes);
-      print("FILE CREATED AT : " + file.path);
-    });
-  }
-
-  Duration? recordTime(Duration diff) {
-    var startTime = DateTime.now();
-    Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      diff = DateTime.now().difference(startTime);
-
-      if (!isRecording) {
-        t.cancel(); //cancel function calling
-      }
-    });
+    await _audioRecorder!.stopRecorder();
   }
 }
