@@ -124,6 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                               width: double.infinity,
                               //Button for the Login
                               child: ElevatedButton(
+                                style: elevatedButtonDefaultStyle(),
+
                                 /// logs in the user with the entered email and password
                                 /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                                 onPressed: () async {
