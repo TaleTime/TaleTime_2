@@ -7,7 +7,6 @@ import 'package:taletime/storyteller/screens/speaker_homepage.dart';
 import '../../settings/settings.dart';
 
 class NavBarSpeaker extends StatefulWidget {
-  //final DocumentSnapshot profile;
   final profile;
   final profiles;
   const NavBarSpeaker(this.profile, this.profiles, {Key? key})
@@ -22,7 +21,6 @@ class NavBarSpeaker extends StatefulWidget {
 class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
 
-  //late final DocumentSnapshot profile;
   final profile;
   final profiles;
 
@@ -82,7 +80,7 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
         children: [
           SpeakerHomePage(profile, profiles, recordedStories, lastRecorded),
           AllStories(profile, profiles, recordedStories),
-          CreateStory(),
+          CreateStory(recordedStories),
           SettingsPage(profile, profiles),
         ],
       ),

@@ -6,6 +6,7 @@
 
 import 'dart:io';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
@@ -15,18 +16,28 @@ import '../../common utils/decoration_util.dart';
 import 'my_record_story.dart';
 
 class CreateStory extends StatefulWidget {
+  final CollectionReference storiesCollection;
+
+  CreateStory(this.storiesCollection,{Key? key}) : super(key: key);
+
   @override
-  State<CreateStory> createState() => _CreateStoryState();
+  State<CreateStory> createState() => _CreateStoryState(this.storiesCollection);
 }
 
 class _CreateStoryState extends State<CreateStory> {
+
+  final CollectionReference storiesCollection;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _tagController = TextEditingController();
 
+  _CreateStoryState(this.storiesCollection);
+
   String? title;
   final List<ChipModel> _chipList = [];
   Image? image;
+  File? imageFile;
 
   ///with the method the photo is fetched from the Galary and stored in filePickerResult.
   /// then you can get the photo with the Path
@@ -34,6 +45,7 @@ class _CreateStoryState extends State<CreateStory> {
   void initState() {
     super.initState();
     image = Image.network(storyImagePlaceholder);
+    imageFile = File("");
   }
 
   @override
@@ -56,6 +68,7 @@ class _CreateStoryState extends State<CreateStory> {
       File file = File(name!);
       setState(() {
         image = Image.file(file);
+        imageFile = file;
       });
     }
   }
@@ -178,7 +191,7 @@ class _CreateStoryState extends State<CreateStory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyRecordStory(myStory),
+                            builder: (context) => MyRecordStory(_titleController.text, imageFile!, storiesCollection),
                           ),
                         );
                       }
