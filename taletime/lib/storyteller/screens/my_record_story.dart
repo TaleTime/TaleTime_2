@@ -297,8 +297,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
                 String newTitle = title;
                 File newImage = image;
                 File newAudio = File(recorder.getPath);
-                print(recorder.getPath);
-                print(newAudio);
+                print("this is the path of the recorded audio ${recorder.getPath}");
+                print("this is the recorded audio ${newAudio}");
                 setState(() {
                   createStory(newTitle, newImage, newAuthor, newAudio);
                 });
