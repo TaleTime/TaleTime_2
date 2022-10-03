@@ -58,7 +58,7 @@ class _EditStoryState extends State<EditStory> {
       File file = File(image!);
       // Upload file
       await ref.child(name!).putFile(file);
-      String myUrl = await ref.getDownloadURL();
+      String myUrl = await ref.child(name!).getDownloadURL();
       print(myUrl);
       setState(() {
         url = myUrl == "" ? storyImagePlaceholder : myUrl;
