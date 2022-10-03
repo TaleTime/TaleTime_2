@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -23,7 +24,9 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   _MyRecordStoryState(this.myStory);
 
   SoundRecorder recorder = SoundRecorder();
-  FlutterSoundPlayer player = FlutterSoundPlayer();
+  //FlutterSoundPlayer player = FlutterSoundPlayer();
+  final AudioPlayer player = AudioPlayer();
+  bool isPlaying = false;
 
   /// Recording-time of the current recording
   Duration recordingTime = Duration.zero;
@@ -35,20 +38,23 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   bool playbackReady = false;
   var recordedFile = null;
 
+  void initPlayer() async {
+    await player.setSource(UrlSource(recorder.getPath));
+  }
+
   /// initiliazes the Recorder and the Audioplayer
   @override
   void initState() {
     super.initState();
     recorder.initRecorder();
-    player.openPlayer();
+    initPlayer();
   }
 
-  /// disposes the recorder and player
+  /// disposes the recorder
   @override
   void dispose() {
     super.dispose();
     recorder.dispose();
-    player.closePlayer();
   }
 
   /// counts the Recording Time
@@ -145,7 +151,6 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   }
 
   Widget buildPlay() {
-    final isPlaying = player.isPlaying;
     final icon = isPlaying ? Icons.stop : Icons.play_arrow;
     final text = isPlaying ? "Stop playing" : "Start Playing";
     final backgroundColor =
@@ -161,7 +166,21 @@ class _MyRecordStoryState extends State<MyRecordStory> {
       ),
       onPressed: playbackReady
           ? () {
-              player.startPlayer(fromURI: recorder.getPath);
+              if (isPlaying) {
+                player.stop();
+                isPlaying = false;
+              } else {
+                player.play(UrlSource(recorder.getPath));
+
+                setState(() {
+                  isPlaying = true;
+                });
+                player.onPlayerComplete.listen((event) {
+                  setState(() {
+                    isPlaying = false;
+                  });
+                });
+              }
             }
           : null,
     );
