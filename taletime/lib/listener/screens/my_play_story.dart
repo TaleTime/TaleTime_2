@@ -39,6 +39,14 @@ class _MyPlayStoryState extends State<MyPlayStory>{
     initPlayer();
   }
 
+  displayDoubleDigits(int digit){
+    if (digit < 10){
+      return "0${digit}";
+    } else {
+      return "${digit}";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -164,9 +172,10 @@ class _MyPlayStoryState extends State<MyPlayStory>{
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("${(_currentValue /60).floor()}:${(_currentValue %60).floor()}", style: TextStyle(fontSize: 14, color: kPrimaryColor, fontWeight: FontWeight.bold),),
+                          Text("${displayDoubleDigits((_currentValue /60).floor())}:${displayDoubleDigits((_currentValue %60).floor())}",
+                            style: TextStyle(fontSize: 14, color: kPrimaryColor, fontWeight: FontWeight.bold),),
                           Text("/", style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),),
-                          Text("${duration!.inMinutes}:${duration!.inSeconds % 60}", style: TextStyle(fontSize: 14, color: kPrimaryColor),),
+                          Text("${displayDoubleDigits(duration!.inMinutes)}:${displayDoubleDigits(duration!.inSeconds % 60)}", style: TextStyle(fontSize: 14, color: kPrimaryColor),),
                         ],
                       ),
                       const SizedBox(height: 30,),
