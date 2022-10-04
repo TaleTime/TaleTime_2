@@ -12,6 +12,7 @@ import 'package:marquee/marquee.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/list_view_story_teller.dart';
 import '../../common utils/decoration_util.dart';
+import '../../listener/screens/my_play_story.dart';
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
@@ -150,7 +151,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 ),
               ),
               StreamBuilder(
-                  stream: lastRecordedCollection.snapshots(),
+                  stream: storiesCollection.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
@@ -189,7 +190,15 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                               Tween(begin: _scale, end: _scale),
                                           curve: Curves.ease,
                                           child: GestureDetector(
-                                              onTap: () {},
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return MyPlayStory(
+                                                      lastRecordedDocumentSnapshot[
+                                                          i]);
+                                                }));
+                                              },
                                               child: Container(
                                                 margin:
                                                     EdgeInsets.only(right: 30),
@@ -341,14 +350,10 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           : matchStoryList[index]["image"];
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SpeakerHomePage(
-                                      profile,
-                                      profiles,
-                                      storiesCollection,
-                                      lastRecordedCollection)));
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return MyPlayStory(matchStoryList[index]);
+                          }));
                         },
                         child: ListTile(
                           title: Text(

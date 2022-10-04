@@ -37,42 +37,10 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference lastRecorded = profiles.doc(profile["id"]).collection('lastRecordedList');
-    CollectionReference recordedStories = profiles.doc(profile["id"]).collection('recordedStoriesList');
-
-    /*Future<void> updateFavoriteList(String storyId, stories) {
-      return stories
-          .doc(storyId)
-          .update({'id': storyId})
-          .then((value) => print("List Updated"))
-          .catchError((error) => print("Failed to update List: $error"));
-    }
-
-    recordedStories.add({
-      "rating": "3.9",
-      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
-      "author": "Rajnath Singh",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": ""
-    }).then((value) {
-      print("Story Added to favorites");
-      updateFavoriteList(value.id, recordedStories);
-    }).catchError((error) => print("Failed to add story to favorites: $error"));
-
-    lastRecorded.add({
-      "rating": "4.0",
-      "title": "Listen to Your Heart: The London Adventure",
-      "author": "Ruskin Bond",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": ""
-    }).then((value) {
-      print("Story Added to favorites");
-      updateFavoriteList(value.id, lastRecorded);
-    }).catchError((error) => print("Failed to add story to favorites: $error"));*/
+    CollectionReference lastRecorded =
+        profiles.doc(profile["id"]).collection('lastRecordedList');
+    CollectionReference recordedStories =
+        profiles.doc(profile["id"]).collection('recordedStoriesList');
 
     return Scaffold(
       body: IndexedStack(
@@ -80,7 +48,7 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
         children: [
           SpeakerHomePage(profile, profiles, recordedStories, lastRecorded),
           AllStories(profile, profiles, recordedStories),
-          CreateStory(recordedStories),
+          CreateStory(profile, recordedStories),
           SettingsPage(profile, profiles),
         ],
       ),

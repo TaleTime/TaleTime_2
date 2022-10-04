@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:taletime/common%20utils/constants.dart';
+import 'package:taletime/listener/screens/my_play_story.dart';
+import 'package:taletime/listener/utils/my_list_view_listener.dart';
 import '../../common utils/decoration_util.dart';
 import '../utils/list_view_listener.dart';
 import '../utils/search-bar-util.dart';
@@ -58,8 +60,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   elevation: 0.0,
                   actions: <Widget>[
                     IconButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       icon: Icon(
                         Icons.menu,
                         size: 33,
@@ -139,7 +140,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 ),
               ),
               StreamBuilder(
-                  stream: recentCollection.snapshots(),
+                  stream: storiesCollection.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
@@ -176,7 +177,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                               Tween(begin: _scale, end: _scale),
                                           curve: Curves.ease,
                                           child: GestureDetector(
-                                              onTap: () {},
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return MyPlayStory(
+                                                      documentSnapshot[i]);
+                                                }));
+                                              },
                                               child: Container(
                                                 margin:
                                                     EdgeInsets.only(right: 30),
@@ -335,12 +343,18 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   children: [
                     Container(
                       height: 260,
-                      child: storiesDocumentSnapshot.length == 0
-                          ? Decorations().noRecentContent(
-                              "No stories yet. \nplease add some stories to your story library",
-                              "")
-                          : MyListView(storiesDocumentSnapshot,
-                              storiesCollection, profile, profiles),
+                      child: StreamBuilder(
+                        stream: storiesCollection.snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
+                          return storiesDocumentSnapshot.length == 0
+                              ? Decorations().noRecentContent(
+                                  "No stories yet. \nplease add some stories to your story library",
+                                  "")
+                              : MyListViewListener(storiesDocumentSnapshot,
+                                  storiesCollection, profile, profiles);
+                        },
+                      ),
                     ),
                   ],
                 ),

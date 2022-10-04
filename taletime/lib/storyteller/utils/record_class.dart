@@ -1,44 +1,37 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:taletime/storyteller/screens/create_story.dart';
 
 class Story {
   /// Instanzvariablen
   late String title;
-  late List<ChipModel> tags;
-  Image? image;
+  late List<String> tags;
+  late String imagePath;
 
-  Story(String title, List<ChipModel> tags, Image? image) {
+  Story(String title, List<String> tags, String imagePath) {
     this.title = title;
     this.tags = tags;
-    this.image = image;
+    this.imagePath = imagePath;
   }
 
-  String? getTitle() {
+  String getTitle() {
     return this.title;
   }
 
-  Image? getImage() {
-    return this.image;
+  String getImagePath() {
+    return this.imagePath;
   }
 }
 
 class Record {
-  late Duration duration;
-  late File audio;
+  late String audio;
 
-  Record(File audio, Duration duration) {
-    this.duration = duration;
+  Record(String audio) {
     this.audio = audio;
   }
 
-  Duration getDuration() {
-    return this.duration;
-  }
-
   String getAudioPath() {
-    return this.audio.path;
+    return this.audio;
   }
 }
 
@@ -50,4 +43,10 @@ class RecordedStory {
     this.story = story;
     this.recording = recording;
   }
+}
+
+class ChipModel {
+  final String id;
+  final String name;
+  ChipModel({required this.id, required this.name});
 }

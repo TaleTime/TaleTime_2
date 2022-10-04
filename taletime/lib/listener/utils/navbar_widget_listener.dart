@@ -49,21 +49,6 @@ class _NavBarListenerState extends State<NavBarListener> {
     CollectionReference stories =
         profiles.doc(profile["id"]).collection('storiesList');
 
-    /*allStories.add({
-      "rating": "3.5",
-      "title": "The India Story",
-      "author": "Bimal Jalal",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": ""
-    }).then((value) {
-      print("User Added");
-      allStories.doc(value.id).update({'id': value.id})
-          .then((value) => print("User Updated"))
-          .catchError((error) => print("Failed to update user: $error"));
-    }).catchError((error) => print("Failed to add user: $error"));*/
-
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,

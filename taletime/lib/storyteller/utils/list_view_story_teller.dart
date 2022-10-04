@@ -3,9 +3,10 @@
 ///it will show the list of all history of a registered person .
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:taletime/common%20utils/constants.dart';
+import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
+import 'package:taletime/storyteller/utils/record_class.dart';
+import 'package:taletime/storyteller/utils/upload_util.dart';
 
 import 'edit-story.dart';
 
@@ -47,38 +48,6 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> deleteStory(String storyId) {
-      return storiesCollection
-          .doc(storyId)
-          .delete()
-          .then((value) => print("story Deleted"))
-          .catchError((error) => print("Failed to delete story: $error"));
-    }
-
-    Future<void> updateFavoriteList(String storyId) {
-      return allStories
-          .doc(storyId)
-          .update({'id': storyId})
-          .then((value) => print("List Updated"))
-          .catchError((error) => print("Failed to update List: $error"));
-    }
-
-    Future<void> uploadStory(String audio, String author, String image,
-        String title, String rating, bool isLiked) {
-      return allStories.add({
-        'id': "",
-        'image': image,
-        'audio': audio,
-        'title': title,
-        'rating': rating,
-        'author': author,
-        'isLiked': isLiked
-      }).then((value) {
-        print("Story uploaded succesfully");
-        updateFavoriteList(value.id);
-      }).catchError((error) => print("Failed to upload story: $error"));
-    }
-
     return Scaffold(
       body: ListView.builder(
         primary: false,
@@ -87,9 +56,11 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
           return Card(
               color: kPrimaryColor,
               child: ListTile(
-                leading: Image.network(stories[index]["image"] == ""
-                    ? storyImagePlaceholder
-                    : stories[index]["image"]),
+                leading: Image.network(
+                  stories[index]["image"],
+                  fit: BoxFit.fill,
+                  width: 60,
+                ),
                 title: Text(
                   stories[index]["title"],
                   overflow: TextOverflow.ellipsis,
@@ -103,6 +74,23 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                   children: [
                     IconButton(
                         onPressed: () {
+                          String title = stories[index]["title"];
+                          List<String> tags = ["test"];
+                          String imagePath = stories[index]["image"];
+                          Story story = Story(title, tags, imagePath);
+                          Record record = Record(stories[index]["audio"]);
+
+                          RecordedStory recording =
+                              RecordedStory(story, record);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SaveOrUploadStory(
+                                      recording,
+                                      profile,
+                                      storiesCollection,
+                                      true)));
+                          /**
                           setState(() {
                             newAudio = stories[index]["audio"];
                             newImage = stories[index]["image"];
@@ -133,13 +121,14 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                                     kPrimaryColor)),
                                         onPressed: () {
                                           setState(() {
-                                            uploadStory(
-                                                newAudio,
-                                                newAuthor,
-                                                newImage,
-                                                newTitle,
-                                                newRating,
-                                                newIsLiked);
+                                            UploadUtil(storiesCollection)
+                                                .uploadStory(
+                                                    newAudio,
+                                                    newAuthor,
+                                                    newImage,
+                                                    newTitle,
+                                                    newRating,
+                                                    newIsLiked);
                                             Navigator.of(context).pop();
                                           });
                                         },
@@ -162,6 +151,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                   );
                                 });
                           });
+                           */
                         },
                         icon: const Icon(
                           Icons.upload,
@@ -205,7 +195,9 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                                     kPrimaryColor)),
                                         onPressed: () {
                                           setState(() {
-                                            deleteStory(stories[index]["id"]);
+                                            UploadUtil(storiesCollection)
+                                                .deleteStory(
+                                                    stories[index]["id"]);
                                             Navigator.of(context).pop();
                                           });
                                         },

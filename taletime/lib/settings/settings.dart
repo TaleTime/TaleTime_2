@@ -27,7 +27,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  //late final DocumentSnapshot profile;
   final profile;
   final profiles;
 
@@ -67,15 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-          ),
-        ),
+        automaticallyImplyLeading: false,
         actions: [
           Icon(Icons.settings),
           Container(padding: const EdgeInsets.all(16.0))

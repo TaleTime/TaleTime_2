@@ -2,12 +2,10 @@
 /// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
 import 'dart:async';
 import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
@@ -16,23 +14,22 @@ import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/storyteller/utils/sound_recorder.dart';
 
 class MyRecordStory extends StatefulWidget {
-  final String title;
-  final File image;
+  final Story myStory;
+  final profile;
   final CollectionReference storiesCollection;
-  MyRecordStory(this.title, this.image, this.storiesCollection);
+  MyRecordStory(this.myStory, this.profile, this.storiesCollection);
 
   @override
   State<MyRecordStory> createState() =>
-      _MyRecordStoryState(this.title, this.image, this.storiesCollection);
+      _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
-  //final Story? myStory;
-  final String title;
-  final File image;
+  final Story? myStory;
+  final profile;
   final CollectionReference storiesCollection;
 
-  _MyRecordStoryState(this.title, this.image, this.storiesCollection);
+  _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
 
   SoundRecorder recorder = SoundRecorder();
   final AudioPlayer player = AudioPlayer();
@@ -48,47 +45,6 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// gets set to true when the current recording is finished
   /// and set to fault if the recording gets discarded.
   bool playbackReady = false;
-
-  void initPlayer() async {
-    await player.setSource(UrlSource(recorder.getPath));
-  }
-
-  void createStory(String title, File image, String author, File audio) async {
-    var refImages = FirebaseStorage.instance.ref().child("images");
-    var refAudios = FirebaseStorage.instance.ref().child("audios");
-    File audioFile = await File(recorder.getPath);
-    String filePath = recorder.getPath;
-    String fileString =
-        filePath.substring(filePath.lastIndexOf('/'), filePath.length);
-    await refImages.child("${author}.jpg").putFile(image);
-    await refAudios.child(fileString).putFile(audioFile);
-    String myImageUrl = await refImages.child("${author}.jpg").getDownloadURL();
-    String myAudioUrl = await refAudios.child(fileString).getDownloadURL();
-
-    setState(() {
-      storiesCollection.add({
-        "rating": "2.5",
-        "title": title,
-        "author": author,
-        "image": myImageUrl,
-        "audio": myAudioUrl,
-        "isLiked": false,
-        "id": ""
-      }).then((value) {
-        print("Story Added to favorites");
-        updateFavoriteList(value.id, storiesCollection);
-      }).catchError(
-          (error) => print("Failed to add story to favorites: $error"));
-    });
-  }
-
-  Future<void> updateFavoriteList(String storyId, stories) {
-    return stories
-        .doc(storyId)
-        .update({'id': storyId})
-        .then((value) => print("List Updated"))
-        .catchError((error) => print("Failed to update List: $error"));
-  }
 
   /// initiliazes the Recorder and the Audioplayer
   @override
@@ -149,13 +105,17 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// Creates a recordedStory Object with the recording and the story details from the create stories page
   /// and passes it on to the save or upload page
   void saveRecording() {
-    File recording = File(recorder.getPath);
-    Record record = new Record(recording, recordingTime);
-    //RecordedStory recordedStory = new RecordedStory(myStory!, record);
-    /*Navigator.push(
+    File newAudio = File(recorder.getPath);
+    print("this is the path of the recorded audio ${recorder.getPath}");
+    print("this is the recorded audio ${newAudio}");
+    setState(() {});
+    Record record = new Record(newAudio.path);
+    RecordedStory recordedStory = new RecordedStory(myStory!, record);
+    Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(recordedStory)));*/
+            builder: (context) => SaveOrUploadStory(
+                recordedStory, profile, storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -295,29 +255,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
           "SAVE",
           style: TextStyle(color: Colors.white),
         ),
-        onPressed: playbackReady
-            ? () {
-                String newAuthor = auth.currentUser!.displayName.toString();
-                String newTitle = title;
-                File newImage = image;
-                File newAudio = File(recorder.getPath);
-                print(
-                    "this is the path of the recorded audio ${recorder.getPath}");
-                print("this is the recorded audio ${newAudio}");
-                setState(() {
-                  createStory(newTitle, newImage, newAuthor, newAudio);
-                });
-
-                /*Record record = new Record(recording, recordingTime);
-                RecordedStory recordedStory =
-                    new RecordedStory(myStory!, record);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SaveOrUploadStory(recordedStory)));*/
-              }
-            : null);
+        onPressed: playbackReady ? saveRecording : null);
   }
 
   Widget buildDiscard() {

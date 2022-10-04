@@ -32,125 +32,20 @@ class _AddProfileState extends State<AddProfile> {
   late final String title;
   late final bool theme;
   late final String language;
-  late final List recent = [
-    /* {
-      "rating": "4.6",
-      "title": "Peace Life",
-      "author": "Unknown Author",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "1"
-    },
-    {
-      "rating": "3.5",
-      "title": "The India Story",
-      "author": "Bimal Jalal",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "2"
-    },
-    {
-      "rating": "4.0",
-      "title": "Listen to Your Heart: The London Adventure",
-      "author": "Ruskin Bond",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "3"
-    },
-    {
-      "rating": "3.9",
-      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
-      "author": "Rajnath Singh",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "4"
-    },
-    {
-      "rating": "4.6",
-      "title": "Peace Life",
-      "author": "Unknown Author",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "1"
-    }*/
-  ];
-  late final List favorites = [
-    /*{
-      "rating": "4.6",
-      "title": "Peace Life",
-      "author": "Unknown Author",
-      "image": "",
-      "audio": "",
-      "isLiked": true,
-      "id": "1"
-    }*/
-  ];
-  late final List stories = [
-    /* {
-      "rating": "4.6",
-      "title": "Peace Life",
-      "author": "Unknown Author",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "1"
-    },
-    {
-      "rating": "3.5",
-      "title": "The India Story",
-      "author": "Bimal Jalal",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "2"
-    },
-    {
-      "rating": "4.0",
-      "title": "Listen to Your Heart: The London Adventure",
-      "author": "Ruskin Bond",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "3"
-    },
-    {
-      "rating": "3.9",
-      "title": "INDO-PAK WAR 1971- Reminiscences of Air Warriors",
-      "author": "Rajnath Singh",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "4"
-    },
-    {
-      "rating": "3.5",
-      "title": "The India Story",
-      "author": "Bimal Jalal",
-      "image": "",
-      "audio": "",
-      "isLiked": false,
-      "id": "2"
-    }*/
-  ];
+
   String profileImage = profileImages[4];
 
   String? selectedItem = "";
 
   final textEditingController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     List<String> items = ["Listener", "Story-teller"];
-    final _formKey = GlobalKey<FormState>();
+
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-
-    //final languageeee = languageProvider.locale.toString();
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -184,34 +79,6 @@ class _AddProfileState extends State<AddProfile> {
       }).then((value) {
         print("User Added");
         updateUser(value.id);
-        /*profiles.doc(value.id).collection('favoriteList').add({
-          "rating": "4.6",
-          "title": "Peace Life",
-          "author": "Unknown Author",
-          "image": "",
-          "audio": "",
-          "isLiked": true,
-          "id": "1"
-        });*/
-        /*profiles.doc(value.id).collection('recentList').add({
-          "rating": "4.6",
-          "title": "Peace Life",
-          "author": "Unknown Author",
-          "image": "",
-          "audio": "",
-          "isLiked": false,
-          "id": "1"
-        });*/
-        /*profiles.doc(value.id).collection('storiesList').add({
-          "rating": "4.6",
-          "title": "Peace Life",
-          "author": "Unknown Author",
-          "image": "",
-          "audio": "",
-          "isLiked": false,
-          "id": "1"
-        });*/
-        // ignore: invalid_return_type_for_catch_error
       }).catchError((error) => print("Failed to add user: $error"));
     }
 
@@ -307,6 +174,8 @@ class _AddProfileState extends State<AddProfile> {
                         ),
                         Container(
                           child: TextFormField(
+                            autocorrect: false,
+                            keyboardType: TextInputType.visiblePassword,
                             controller: textEditingController,
                             decoration: Decorations().textInputDecoration(
                                 AppLocalizations.of(context)!.profileName,

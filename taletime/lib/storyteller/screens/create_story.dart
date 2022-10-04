@@ -16,26 +16,34 @@ import '../../common utils/decoration_util.dart';
 import 'my_record_story.dart';
 
 class CreateStory extends StatefulWidget {
+  final profile;
   final CollectionReference storiesCollection;
 
-  CreateStory(this.storiesCollection, {Key? key}) : super(key: key);
+  CreateStory(this.profile, this.storiesCollection, {Key? key})
+      : super(key: key);
 
   @override
-  State<CreateStory> createState() => _CreateStoryState(this.storiesCollection);
+  State<CreateStory> createState() =>
+      _CreateStoryState(this.profile, this.storiesCollection);
 }
 
 class _CreateStoryState extends State<CreateStory> {
+  final profile;
   final CollectionReference storiesCollection;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _tagController = TextEditingController();
 
-  _CreateStoryState(this.storiesCollection);
+  _CreateStoryState(this.profile, this.storiesCollection);
 
   String? title;
   final List<ChipModel> _chipList = [];
+
+  /// image that gets displayed after uploading an image from the gallery
   Image? image;
+
+  ///
   late File imageFile;
 
   ///with the method the photo is fetched from the Galary and stored in filePickerResult.
@@ -185,16 +193,14 @@ class _CreateStoryState extends State<CreateStory> {
                         print(element.name);
                       });
                       if (isValidForm) {
+                        List<String> tags = ["test"];
                         final myStory =
-                            Story(_titleController.text, _chipList, image);
+                            Story(_titleController.text, tags, imageFile.path);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyRecordStory(
-                                _titleController.text,
-                                imageFile,
-                                storiesCollection),
-                          ),
+                              builder: (context) => MyRecordStory(
+                                  myStory, profile, storiesCollection)),
                         );
                       }
                     },
@@ -209,10 +215,4 @@ class _CreateStoryState extends State<CreateStory> {
       ),
     );
   }
-}
-
-class ChipModel {
-  final String id;
-  final String name;
-  ChipModel({required this.id, required this.name});
 }

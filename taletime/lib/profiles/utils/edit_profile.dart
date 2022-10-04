@@ -33,7 +33,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    //List<String> items = [AppLocalizations.of(context)!.listener,AppLocalizations.of(context)!.storyteller];
     List<String> items = ["Listener", "Story-teller"];
     final _formKey = GlobalKey<FormState>();
 
@@ -203,6 +202,7 @@ class _EditProfileState extends State<EditProfile> {
                             height: MediaQuery.of(context).size.height / 15,
                             width: double.infinity,
                             child: ElevatedButton(
+                              style: elevatedButtonDefaultStyle(),
                               onPressed: () {
                                 name = textEditingController.text;
                                 image = profileImage;
