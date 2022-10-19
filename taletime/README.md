@@ -3,7 +3,7 @@ layout: default
 ---
 
 <div id="app" class="d-none d-md-block">
-    <img title="Test"
+    <iframe title="Test"
             width="300"
             height="200"
             src="https://taletime-2022.web.app/#/">
