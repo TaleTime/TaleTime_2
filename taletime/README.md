@@ -13,7 +13,16 @@ TaleTime is an interactive audiobook app for iOS and Android based on Flutter.
 
 ## Current Features
 
-<ul>Test</ul>
+### Storyteller
+
+<li>Record a Story</li>
+<li>Play your recorded Story</li>
+<li>Upload/Save your recorded Story</li>
+
+<li>Abspielen</li>
+<li>Abspielen</li>
+<li>Abspielen</li>
+<li>Abspielen</li>
 <li>Abspielen</li>
 
 ## About us
