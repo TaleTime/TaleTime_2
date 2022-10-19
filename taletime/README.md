@@ -4,12 +4,8 @@ TaleTime is an interactive audiobook app for iOS and Android based on Flutter.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+</div> -->
+*[Try our online demo]([https://taletime-2022.web.app/#/])")*
 
 ## About us
 
