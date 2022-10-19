@@ -7,13 +7,10 @@ layout: default
             width="300"
             height="200"
             src="https://taletime-2022.web.app/#/">
-    </img>
+    
 </div>
 
-<iframe
-  src="https://codepen.io/team/codepen/embed/preview/PNaGbb"
-  style="width:100%; height:300px;"
-></iframe>
+
 
 # TaleTime
 
