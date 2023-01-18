@@ -45,7 +45,6 @@ const animationDuration = Duration(milliseconds: 200);
 const background = Color.fromARGB(255, 255, 255, 255);
 const footerPadding = EdgeInsets.only(left: 45.0, right: 45.0, bottom: 45.0);
 const pageContentPadding = EdgeInsets.only(top: 45.0, left: 45.0, right: 45.0);
-const pageImageColor = Color.fromRGBO(0, 137, 123, 1);
 const pageTitleStyle = TextStyle(
   fontSize: 23.0,
   wordSpacing: 1,

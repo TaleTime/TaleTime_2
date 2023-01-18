@@ -98,9 +98,9 @@ class WelcomePage extends StatelessWidget {
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       )),
-
-                      //Onboarding Button
-                      SizedBox(
+                  SizedBox(height: 20),
+                  //Onboarding Button
+                  SizedBox(
                       height: MediaQuery.of(context).size.height / 15,
                       width: double.infinity,
                       child: ElevatedButton(
@@ -111,7 +111,8 @@ class WelcomePage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const OnboardingMain()));
+                                  builder: (context) =>
+                                      const OnboardingMain()));
                         },
                         child: Text(
                           AppLocalizations.of(context)!.onboarding,

@@ -37,7 +37,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('logo.png', color: pageImageColor),
+                child: Image.network(assetLogo),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
@@ -84,7 +84,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('logo.png', color: pageImageColor),
+                child: Image.network(assetLogo),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
@@ -131,7 +131,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('logo.png', color: pageImageColor),
+                child: Image.network(assetLogo),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
