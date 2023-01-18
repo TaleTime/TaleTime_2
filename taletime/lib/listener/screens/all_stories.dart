@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taletime/common%20utils/constants.dart';
 
 import '../../common utils/decoration_util.dart';
@@ -83,7 +84,8 @@ class _AllStoriesState extends State<AllStories> {
                         height: 800,
                         child: recordedStoriesDocumentSnapshot.length == 0
                             ? Decorations().noRecentContent(
-                                "No stories yet. \nplease add some stories to your story library",
+                                AppLocalizations.of(context)!
+                                    .allStories_noStoriesAvailableError,
                                 "")
                             : ListViewStoryTeller(
                                 recordedStoriesDocumentSnapshot,
