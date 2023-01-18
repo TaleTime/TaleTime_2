@@ -11,6 +11,10 @@
     "@register": {
         "description": "Registrierung"
     },
+    "onboarding": "Onboarding",
+    "@onboarding": {
+        "description": "Onboarding"
+    },
     "registerVerb": "Sign Up",
     "@registerVerb": {
         "description": "Registrieren"

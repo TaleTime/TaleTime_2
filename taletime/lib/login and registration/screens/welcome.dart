@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taletime/login%20and%20registration/screens/login.dart';
+import 'package:taletime/onboarding/onboarding.dart';
 import 'package:taletime/login%20and%20registration/screens/signup.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../onboarding/onboarding_main.dart';
 
 /// First Screen that appears if you open the app
 /// Here the user has the option to go to the Login or Register Page
@@ -91,6 +94,27 @@ class WelcomePage extends StatelessWidget {
                         },
                         child: Text(
                           AppLocalizations.of(context)!.register,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
+                      )),
+
+                      //Onboarding Button
+                      SizedBox(
+                      height: MediaQuery.of(context).size.height / 15,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: elevatedButtonDefaultStyle(),
+
+                        /// redirects the user to the Onboarding
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const OnboardingMain()));
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.onboarding,
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
