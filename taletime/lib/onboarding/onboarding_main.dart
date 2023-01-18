@@ -6,9 +6,7 @@ import 'models/footer_model.dart';
 import 'models/page_model.dart';
 import 'onboarding.dart';
 import 'views/footer.dart';
-
-
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingMain extends StatefulWidget {
   const OnboardingMain({Key? key}) : super(key: key);
@@ -39,15 +37,14 @@ class _OnboardingMainState extends State<OnboardingMain> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('logo.png',
-                    color: pageImageColor),
+                child: Image.asset('logo.png', color: pageImageColor),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'SECURED BACKUP',
+                    'Welcome to Tale Time!',
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -58,40 +55,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
-                    style: pageInfoStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep your files in closed safe so you can\'t lose them. Consider TrueNAS.',
+                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -120,15 +84,14 @@ class _OnboardingMainState extends State<OnboardingMain> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('logo.png',
-                    color: pageImageColor),
+                child: Image.asset('logo.png', color: pageImageColor),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'CHANGE AND RISE',
+                    'STEP 1',
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -139,7 +102,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Give others access to any file or folders you choose',
+                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -168,15 +131,14 @@ class _OnboardingMainState extends State<OnboardingMain> {
                   horizontal: 45.0,
                   vertical: 90.0,
                 ),
-                child: Image.asset('logo.png',
-                    color: pageImageColor),
+                child: Image.asset('logo.png', color: pageImageColor),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'EASY ACCESS',
+                    'STEP 2',
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -187,7 +149,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Reach your files anytime from any devices anywhere',
+                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -209,67 +171,46 @@ class _OnboardingMainState extends State<OnboardingMain> {
 
   SizedBox _skipButton({void Function(int)? setIndex}) {
     return SizedBox(
-      width: width,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Material(
-          borderRadius: defaultSkipButtonBorderRadius,
-          color: defaultSkipButtonColor,
-          child: InkWell(
-            borderRadius: defaultSkipButtonBorderRadius,
-            onTap: () {
-              if (setIndex != null) {
-                index = 2;
-                setIndex(2);
-              }
-            },
-            child: const Padding(
-              padding: defaultSkipButtonPadding,
-              child: Text(
-                'Skip',
-                style: defaultSkipButtonTextStyle,
-              ),
-            ),
+        width: width,
+        child: ElevatedButton(
+          style: elevatedButtonDefaultStyle(),
+
+          /// move to last step
+          onPressed: () {
+            if (setIndex != null) {
+              index = 2;
+              setIndex(2);
+            }
+          },
+          child: Text(
+            AppLocalizations.of(context)!.skip,
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   SizedBox get _backToMainButton {
     return SizedBox(
-      width: width,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Material(
-          borderRadius: defaultProceedButtonBorderRadius,
-          color: defaultProceedButtonColor,
-          child: InkWell(
-            borderRadius: defaultProceedButtonBorderRadius,
-            onTap: () {
-              Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const WelcomePage()));
-            },
-            child: const Padding(
-              padding: defaultProceedButtonPadding,
-              child: Text(
-                'Finish Onboarding',
-                style: defaultProceedButtonTextStyle,
-              ),
-            ),
+        width: width,
+        child: ElevatedButton(
+          style: elevatedButtonDefaultStyle(),
+
+          /// move to last step
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const WelcomePage()));
+          },
+          child: Text(
+            AppLocalizations.of(context)!.finish,
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -296,10 +237,10 @@ class _OnboardingMainState extends State<OnboardingMain> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         index != pagesLength - 1
+                        index != pagesLength - 1
                             ? _skipButton(setIndex: setIndex)
                             : _backToMainButton, //Back to main page
-                           
+
                         Padding(
                           padding: const EdgeInsets.only(right: 45.0),
                           child: CustomIndicator(

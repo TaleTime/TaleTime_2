@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/constants.dart';
 
 ///This contains [7] different kinds of indicator designs you can choose from including [polygon_diamond, polygon_arrow, polygon_pentagon, polygon_square, polygon_circle, line_uniform, line_nonuniform]
 enum DesignType {
@@ -24,9 +25,9 @@ class Indicator {
   Indicator({
     required this.indicatorDesign,
     this.activeIndicator =
-        const ActiveIndicator(color: Colors.grey, borderWidth: 0.7),
+        const ActiveIndicator(color: arrows, borderWidth: 0.7),
     this.closedIndicator =
-        const ClosedIndicator(color: Colors.white, borderWidth: 0.7),
+        const ClosedIndicator(color: arrows, borderWidth: 0.7),
   });
 }
 
@@ -41,7 +42,7 @@ class ClosedIndicator {
   final Color color;
   final double borderWidth;
 
-  const ClosedIndicator({this.color = Colors.grey, this.borderWidth = 0.7});
+  const ClosedIndicator({this.color = arrows, this.borderWidth = 0.7});
 }
 
 ///You can choose between a polygon or a straight line for your design choice of your indicator

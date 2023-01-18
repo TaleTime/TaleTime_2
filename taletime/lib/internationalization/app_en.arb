@@ -11,13 +11,21 @@
     "@register": {
         "description": "Registrierung"
     },
+    "registerVerb": "Sign Up",
+    "@registerVerb": {
+        "description": "Registrieren"
+    },
     "onboarding": "Onboarding",
     "@onboarding": {
         "description": "Onboarding"
     },
-    "registerVerb": "Sign Up",
-    "@registerVerb": {
-        "description": "Registrieren"
+    "skip": "Skip",
+    "@skip": {
+        "description": "Skip"
+    },
+    "finish": "Finish",
+    "@finish": {
+        "description": "Finish"
     },
     "loginVerb": "Sign In",
     "@loginVerb": {
