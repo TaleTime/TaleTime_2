@@ -68,5 +68,6 @@
     "enterProfile": "Geben Sie einen Profil-Namen ein",
     "oldPassword": "Altes Passwort",
     "enterOldPassword": "Geben Sie Ihr altes Passwort ein",
-    "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library"
+    "allStories_pageTitle":"???TODO: All Stories",
+    "allStories_noStoriesAvailableError": "???TODO: No stories yet. \nplease add some stories to your story library"
 }

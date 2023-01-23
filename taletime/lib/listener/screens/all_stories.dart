@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/constants.dart';
-
 import '../../common utils/decoration_util.dart';
 import '../../storyteller/utils/list_view_story_teller.dart';
 
@@ -43,7 +42,7 @@ class _AllStoriesState extends State<AllStories> {
                   child: AppBar(
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "All Stories",
+                      AppLocalizations.of(context)!.allStories_pageTitle,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,

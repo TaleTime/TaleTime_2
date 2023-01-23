@@ -68,5 +68,6 @@
     "enterProfile": "Geben Sie einen Profil-Namen ein",
     "oldPassword": "Altes Passwort",
     "enterOldPassword": "Geben Sie Ihr altes Passwort ein",
+    "allStories_pageTitle":"Alle Geschichten",
     "allStories_noStoriesAvailableError": "Keine Geschichten vorhanden. \nBitte fügen sie Geschichten zu ihrer Bibliothek hinzu"
 }
