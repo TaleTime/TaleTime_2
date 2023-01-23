@@ -23,36 +23,58 @@ To become a taletime story-teller, all you need is to register an account, creat
 Everyone may contribute to improving TaleTime as it is an open source project. The entire source code is available on [GitHub](https://github.com/TaleTime/TaleTime_2/tree/main/taletime),  where you can also learn more about contributing.
 
 Please ensure that your code adheres to the same style as the existing codebase whether adding a new feature or resolving a problem, and make an effort to write your code as simply as you can. Additionally, test your modifications before committing them, and only do so if they don't damage anything. You must use English for commenting.
+## Installation
+TODO Disclaimer
+### Flutter
+Download current [Flutter Version](https://docs.flutter.dev/get-started/install) and follow the installation guide for your OS. Here you will install Flutter and Android Studio, you will update your path Variable to use cmd's more easily inside the shell and configure your Android Emulator. The process is well documented and the cmd "flutter doctor" helps you find and solve any problems you might encounter. 
+#### Disclaimer
+During installation on Windows it might be necessary to update the included dart, use "flutter pub upgrade --major-versions" if needed. For any other encountered error you can use [Google](https://www.google.de/), the Flutter community is very active and helpful.
 
+### IDE
+We recommend using [Visual Studio Code](https://code.visualstudio.com/) because its a lightweight IDE which can be customized to your needs. In addition to that the Project is already configured to it and offers a few benefits.
+#### Recommended Plugins
+##### Code Spell Checker: streetsidesoftware.code-spell-checker
+Offers Spellchecking for English, other language packages can be downloaded aswell 
+##### Markdown All in One: yzhang.markdown-all-in-one
+All in one Markdown solution
+##### Flutter: Dart-Code.flutter
+Flutter Extension with Dart
+##### Flutter Intl: localizely.flutter-intl
+Flutter localization binding from .arb files with official Intl library
+##### Gradle for Java: vscjava.vscode-gradle
+Manage Gradle Projects, run Gradle tasks and provide better Gradle file authoring experience in VS Code
+
+### iOS Development setup 
+TBD  
 ## Current Features
 
 ### Login and Registration
 
-<li>Create a new Account</li>
-<li>Login to your Account</li>
-<li>Reset Password</li>
+- Create a new Account
+- Login to your Account
+- Reset Password
 
 ### Profiles
 
-<li>Create/Edit/Delete Listener/Storyteller Profiles</li>
+- Create/Edit/Delete Listener/Storyteller Profiles
 
 ### Listener
 
-<li>Search Stories</li>
-<li>Listen to Stories</li>
-<li>Add Stories to Favorites</li>
+- Search Stories
+- Listen to Stories
+- Add Stories to Favorites
 
 ### Storyteller
 
-<li>Record a Story</li>
-<li>Play your recorded Story</li>
-<li>Upload/Save your recorded Story</li>
+- Record a Story
+- Play your recorded Story
+- Upload/Save your recorded Story
 
 ### Settings
 
-<li>Change Language (English/German)</li>
-<li>Light-and Darkmode</li>
-<li>Change Password</li>
+- Change Language (English/German)
+- Light-and Darkmode
+- Change Password
 
 
 ## About us
