@@ -39,6 +39,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.2.0
+  lint: ^2.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
   generate: true

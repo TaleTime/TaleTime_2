@@ -60,10 +60,10 @@ All User visible Messages must be translated.
 
 1. Add a new variable to all internationalization files (app_en.arb,...). Be sure to prefix translation which are only used on one side with the class name in CamelCase, this ensures at least some  clearness in the internationalization files.\
 Example: "pageClass_pageTitle":"Title of or Page",
-2. Run "flutter gen-l10n" to update your internationalization files. In VsCode you can use the commandbar button "Update l10n". This has to be done for any internationalization change.
-3. Call " AppLocalizations.of(context)!.\<your_variable_name> inside your Class. It will Autoimport "import 'internationalization/localizations_ext.dart';". The "!" is needed to tell flutter that the variable won't be null.\
+1. Run "flutter gen-l10n" to update your internationalization files.VsCode is configured to automatically update internationalization files on save. In VsCode you can use the commandbar button "Update l10n" manually.
+2. Call " AppLocalizations.of(context)!.\<your_variable_name> inside your Class. It will Autoimport "import 'internationalization/localizations_ext.dart';". The "!" is needed to tell flutter that the variable won't be null.\
 Example:  AppLocalizations.of(context)!.pageClass_pageTitle
-4. To see your internationalization inside your App you have to restart the application.
+1. To see your internationalization inside your App you have to restart the application.
 
 ## Current Features
 

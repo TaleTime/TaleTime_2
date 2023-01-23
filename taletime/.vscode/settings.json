@@ -1,0 +1,9 @@
+{
+    "dart.flutterGenerateLocalizationsOnSave": "manualIfDirty",
+    "dart.flutterHotReloadOnSave": "manualIfDirty",
+    "dart.hotReloadOnSave": "manualIfDirty",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+}
