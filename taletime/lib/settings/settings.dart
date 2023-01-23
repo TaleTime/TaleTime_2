@@ -12,7 +12,7 @@ import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/profiles/screens/profiles_page.dart';
 import 'package:taletime/settings/changePassword.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {

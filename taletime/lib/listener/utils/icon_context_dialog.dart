@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import '../../common utils/constants.dart';
 
 class IconContextDialog extends StatefulWidget {
@@ -9,11 +9,15 @@ class IconContextDialog extends StatefulWidget {
   final String id;
   final stories;
 
-  const IconContextDialog(this.title, this.subtitle, this.icon, this.id, this.stories, {Key? key}) : super(key: key);
+  const IconContextDialog(
+      this.title, this.subtitle, this.icon, this.id, this.stories,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
+    return _IconContextDialogState(
+        this.title, this.subtitle, this.icon, this.id, this.stories);
   }
 }
 
@@ -24,7 +28,8 @@ class _IconContextDialogState extends State<IconContextDialog> {
   final String id;
   final stories;
 
-  _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
+  _IconContextDialogState(
+      this.title, this.subtitle, this.icon, this.id, this.stories);
 
   Future<void> deleteUser(String id) {
     return stories
@@ -35,54 +40,54 @@ class _IconContextDialogState extends State<IconContextDialog> {
   }
 
   void onSelected(BuildContext context, String title, String subtitle) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(
-                  title,
-                  style: TextStyle(color: kPrimaryColor),
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              title,
+              style: TextStyle(color: kPrimaryColor),
+            ),
+            content: Text(subtitle),
+            actions: [
+              TextButton(
+                child: Text(
+                  AppLocalizations.of(context)!.yes,
+                  style: const TextStyle(color: Colors.white),
                 ),
-                content:
-                Text(subtitle),
-                actions: [
-                  TextButton(
-                    child:  Text(
-                      AppLocalizations.of(context)!.yes,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all(kPrimaryColor)),
-                    onPressed: () {
-                      setState((){
-                        deleteUser(id);
-                        Navigator.of(context).pop();
-                      });
-                    },
-                  ),
-                  TextButton(
-                    child: Text(
-                      AppLocalizations.of(context)!.no,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all(kPrimaryColor)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            });
-    }
-
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                onPressed: () {
+                  setState(() {
+                    deleteUser(id);
+                    Navigator.of(context).pop();
+                  });
+                },
+              ),
+              TextButton(
+                child: Text(
+                  AppLocalizations.of(context)!.no,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(icon, color: Colors.white, size: 21,),
+      icon: Icon(
+        icon,
+        color: Colors.white,
+        size: 21,
+      ),
       onPressed: () {
         onSelected(context, title, subtitle);
       },

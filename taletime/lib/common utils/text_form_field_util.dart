@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
 

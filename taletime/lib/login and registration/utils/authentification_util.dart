@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:taletime/login%20and%20registration/screens/login.dart';
 import 'package:taletime/profiles/screens/profiles_page.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import 'package:taletime/login%20and%20registration/utils/error_util.dart';
 
 /// Contains methods to authenticate with Firebase

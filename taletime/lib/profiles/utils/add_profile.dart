@@ -9,7 +9,7 @@ import '../../internationalization/locale_provider.dart';
 import '../screens/profiles_page.dart';
 import '../../common utils/constants.dart';
 import '../../common utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 
 class AddProfile extends StatefulWidget {
   final String UID;

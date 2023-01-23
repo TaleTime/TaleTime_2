@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taletime/login%20and%20registration/screens/login.dart';
 import 'package:taletime/login%20and%20registration/screens/signup.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 
 /// First Screen that appears if you open the app
 /// Here the user has the option to go to the Login or Register Page

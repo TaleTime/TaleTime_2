@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 
 /// This class has methods to validate email, password, username and a title
 class ValidationUtil {

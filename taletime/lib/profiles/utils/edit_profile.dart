@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../common utils/constants.dart';
 import '../../common utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 
 class EditProfile extends StatefulWidget {
   final CollectionReference profiles;

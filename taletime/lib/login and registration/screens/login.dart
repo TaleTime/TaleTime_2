@@ -5,7 +5,7 @@ import 'package:taletime/login%20and%20registration/screens/forgot_password.dart
 import 'package:taletime/login%20and%20registration/screens/signup.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/text_form_field_util.dart';
 
 class LoginPage extends StatefulWidget {

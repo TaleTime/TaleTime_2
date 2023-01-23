@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:taletime/login%20and%20registration/screens/welcome.dart';
 import 'package:taletime/profiles/utils/add_profile.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import '../../login and registration/utils/authentification_util.dart';
 import '../utils/profile_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
