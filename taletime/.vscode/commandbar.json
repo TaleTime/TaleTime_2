@@ -1,0 +1,16 @@
+{
+  "skipTerminateQuickPick": true,
+  "skipSwitchToOutput": false,
+  "skipErrorMessage": true,
+  "commands": [
+    {
+      "text": "Update l10n",
+      "tooltip": "Updates internationalization files",
+      "color": "yellow",
+      "command": "flutter gen-l10n",
+      "alignment": "left",
+      "skipTerminateQuickPick": false,
+      "priority": 0
+    }
+  ]
+}
