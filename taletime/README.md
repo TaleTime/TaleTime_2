@@ -43,9 +43,28 @@ Flutter Extension with Dart
 Flutter localization binding from .arb files with official Intl library
 ##### Gradle for Java: vscjava.vscode-gradle
 Manage Gradle Projects, run Gradle tasks and provide better Gradle file authoring experience in VS Code
+##### vscode-commandbar: gsppvo.vscode-commandbar
+Visual Studio Code Command bar
+##### Git Graph: mhutchie.git-graph
+View a Git Graph of your repository, and perform Git actions from the graph.
+##### GitLens - Git supercharged: eamodio.gitlens
+Supercharge Git within VS Code — Visualize code authorship at a glance via Git blame annotations and CodeLens, seamlessly navigate and explore Git repositories, gain valuable insights via rich visualizations and powerful comparison commands, and so much more.
 
 ### iOS Development setup 
 TBD  
+
+## Developing
+Always open the "taletime" folder inside your IDE to make sure all cmds are working
+### internationalization: l10n
+All User visible Messages must be translated.
+
+1. Add a new variable to all internationalization files (app_en.arb,...). Be sure to prefix translation which are only used on one side with the class name in CamelCase, this ensures at least some  clearness in the internationalization files.\
+Example: "pageClass_pageTitle":"Title of or Page",
+2. Run "flutter gen-l10n" to update your internationalization files. In VsCode you can use the commandbar button "Update l10n". This has to be done for any internationalization change.
+3. Call " AppLocalizations.of(context)!.\<your_variable_name> inside your Class. It will Autoimport "import 'internationalization/localizations_ext.dart';". The "!" is needed to tell flutter that the variable won't be null.\
+Example:  AppLocalizations.of(context)!.pageClass_pageTitle
+4. To see your internationalization inside your App you have to restart the application.
+
 ## Current Features
 
 ### Login and Registration
