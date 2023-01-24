@@ -6,4 +6,10 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": true
     },
+    "dart.lineLength": 100,
+    "[dart]": {
+        "editor.rulers": [
+            100
+        ],
+    }
 }
