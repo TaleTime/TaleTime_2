@@ -18,7 +18,7 @@ class SearchBarUtil {
 
   Container searchBarContainer(List story) {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: const EdgeInsets.all(15),
       height: story.isNotEmpty
           ? (story.length >= 4 ? (63.0 * 4.5) : 63.0 * story.length)
           : 0.0,
@@ -44,12 +44,12 @@ class SearchBarUtil {
             child: ListTile(
               title: Text(
                 resultTitle,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
                 resultAuthor,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
               ),
               leading: Image.network(resultImage),

@@ -89,10 +89,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           children: <Widget>[
                             /// TextField that catches the user input for the email-adress
                             Container(
-                              child: TextFormFieldUtil()
-                                  .enterEmailForm(context, _emailController),
                               decoration:
                                   Decorations().inputBoxDecorationShaddow(),
+                              child: TextFormFieldUtil()
+                                  .enterEmailForm(context, _emailController),
                             ),
                             const SizedBox(height: 40.0),
                           ],

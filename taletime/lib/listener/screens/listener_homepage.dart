@@ -5,7 +5,6 @@ import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/listener/screens/my_play_story.dart';
 import 'package:taletime/listener/utils/my_list_view_listener.dart';
 import '../../common utils/decoration_util.dart';
-import '../utils/list_view_listener.dart';
 import '../utils/search-bar-util.dart';
 
 class ListenerHomePage extends StatefulWidget {
@@ -20,8 +19,8 @@ class ListenerHomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState(this.profile, this.profiles,
-        this.storiesCollection, this.recentCollection);
+    return _ListenerHomePageState(profile, profiles,
+        storiesCollection, recentCollection);
   }
 }
 
@@ -90,10 +89,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
-                    Container(
+                    SizedBox(
                       height: 42,
                       child: TextField(
                         onChanged: (value) {
@@ -115,15 +114,15 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                           ),
                           hintText: "Search stories...",
                           hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 18),
-                          suffixIcon: Icon(
+                              const TextStyle(color: Colors.grey, fontSize: 18),
+                          suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
                     Container(
@@ -150,11 +149,11 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         top: 270,
                         left: -90,
                         right: 0,
-                        child: documentSnapshot.length == 0
+                        child: documentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
                                 "Nothing to show yet. \nplease add some stories to your story library",
                                 "recentStories")
-                            : Container(
+                            : SizedBox(
                                 height: 190,
                                 child: PageView.builder(
                                     onPageChanged: (index) {
@@ -168,13 +167,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                         ? 0
                                         : documentSnapshot.length,
                                     itemBuilder: (_, i) {
-                                      var _scale =
+                                      var scale =
                                           _selectedIndex == i ? 1.0 : 0.8;
                                       return TweenAnimationBuilder(
                                           duration:
                                               const Duration(microseconds: 350),
                                           tween:
-                                              Tween(begin: _scale, end: _scale),
+                                              Tween(begin: scale, end: scale),
                                           curve: Curves.ease,
                                           child: GestureDetector(
                                               onTap: () {
@@ -187,10 +186,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                               },
                                               child: Container(
                                                 margin:
-                                                    EdgeInsets.only(right: 30),
+                                                    const EdgeInsets.only(right: 30),
                                                 height: 180,
                                                 width: 85,
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     top: 15,
                                                     left: 15,
                                                     right: 10),
@@ -231,7 +230,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                               documentSnapshot[
                                                                   i]["title"],
                                                           blankSpace: 30,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontSize: 16,
@@ -239,7 +238,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                                   FontWeight
                                                                       .bold),
                                                           pauseAfterRound:
-                                                              Duration(
+                                                              const Duration(
                                                                   seconds: 2),
                                                         ),
                                                       ),
@@ -256,7 +255,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                           text:
                                                               "By ${documentSnapshot[i]["author"]}",
                                                           blankSpace: 20,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontSize: 12,
@@ -264,7 +263,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                                   FontWeight
                                                                       .bold),
                                                           pauseAfterRound:
-                                                              Duration(
+                                                              const Duration(
                                                                   seconds: 2),
                                                         ),
                                                       ),
@@ -296,7 +295,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                               )),
                                           builder: (_, value, child) {
                                             return Transform.scale(
-                                              scale: _scale,
+                                              scale: scale,
                                               child: child,
                                             );
                                           });
@@ -304,7 +303,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                               ),
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
@@ -341,13 +340,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 260,
                       child: StreamBuilder(
                         stream: storiesCollection.snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
-                          return storiesDocumentSnapshot.length == 0
+                          return storiesDocumentSnapshot.isEmpty
                               ? Decorations().noRecentContent(
                                   "No stories yet. \nplease add some stories to your story library",
                                   "")
@@ -361,7 +360,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               ),
             ]));
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

@@ -8,7 +8,7 @@ class MyPlayStory extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MyPlayStoryState(this.story);
+    return _MyPlayStoryState(story);
   }
 }
 
@@ -24,7 +24,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   double changeVoice = 0.0;
   double _currentValue = 0;
 
-  Duration? duration = Duration(seconds: 0);
+  Duration? duration = const Duration(seconds: 0);
 
   void initPlayer() async {
     await player.setSource(UrlSource(story["audio"]));
@@ -39,9 +39,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   displayDoubleDigits(int digit) {
     if (digit < 10) {
-      return "0${digit}";
+      return "0$digit";
     } else {
-      return "${digit}";
+      return "$digit";
     }
   }
 
@@ -96,7 +96,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
           top: 110,
           left: 10,
           right: 10,
-          child: Container(
+          child: SizedBox(
             height: 300,
             child: Column(
               children: [
@@ -124,23 +124,23 @@ class _MyPlayStoryState extends State<MyPlayStory> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: screenWidth * 0.8,
                     child: Text(
                       story["title"],
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.teal,
                           fontSize: 21.0,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: screenWidth * 0.8,
                     child: Text(
                       story["author"],
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.teal,
                         fontSize: 16.0,
                       ),
@@ -162,7 +162,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             ),
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   width: 300,
                   child: Slider.adaptive(
                       activeColor: kPrimaryColor,
@@ -208,7 +208,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
+                SizedBox(
                   width: 200,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

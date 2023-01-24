@@ -12,7 +12,7 @@ class EditProfile extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EditProfileState(this.profiles, this.profile);
+    return _EditProfileState(profiles, profile);
   }
 }
 
@@ -34,7 +34,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     List<String> items = ["Listener", "Story-teller"];
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     textEditingController.text = textEditingController.text == ""
         ? profile["name"]
@@ -66,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
           ),
           onPressed: () {
@@ -74,7 +74,7 @@ class _EditProfileState extends State<EditProfile> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(
+        title: const Text(
           "Edit Profile",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -87,32 +87,32 @@ class _EditProfileState extends State<EditProfile> {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(25, 50, 25, 30),
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(25, 50, 25, 30),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               alignment: Alignment.center,
               child: Column(
                 children: [
                   Form(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(200),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 blurRadius: 20,
-                                offset: const Offset(5, 5),
+                                offset: Offset(5, 5),
                               ),
                             ],
                           ),
                           child: Image.network(profileImage, height: 150),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Container(
+                        SizedBox(
                           height: 120,
                           child: Stack(
                             children: [
@@ -120,7 +120,7 @@ class _EditProfileState extends State<EditProfile> {
                                 top: 0,
                                 left: -210,
                                 right: 0,
-                                child: Container(
+                                child: SizedBox(
                                   height: 80,
                                   child: PageView.builder(
                                       controller:
@@ -143,10 +143,11 @@ class _EditProfileState extends State<EditProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         Container(
+                          decoration: Decorations().inputBoxDecorationShaddow(),
                           child: TextFormField(
                             controller: textEditingController,
                             decoration: Decorations().textInputDecoration(
@@ -159,9 +160,8 @@ class _EditProfileState extends State<EditProfile> {
                               return null;
                             },
                           ),
-                          decoration: Decorations().inputBoxDecorationShaddow(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Container(
@@ -187,7 +187,7 @@ class _EditProfileState extends State<EditProfile> {
                                         value: item,
                                         child: Text(
                                           item,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 18,
                                           ),
                                         ),
@@ -197,7 +197,7 @@ class _EditProfileState extends State<EditProfile> {
                                     selectedItem = item;
                                   })),
                         )),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         SizedBox(
                             height: MediaQuery.of(context).size.height / 15,
                             width: double.infinity,
@@ -212,10 +212,10 @@ class _EditProfileState extends State<EditProfile> {
                                 reset();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
+                              child: const Text(
                                 //AppLocalizations.of(context)!.addProfile,
                                 "Update Profile",
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             )),

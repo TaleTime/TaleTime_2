@@ -28,14 +28,14 @@ class ProfileList extends StatelessWidget {
       },
       child: Column(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: 120,
             child: Column(
               children: [
                 Container(
                   height: 100,
-                  margin: EdgeInsets.only(bottom: 9),
-                  padding: EdgeInsets.only(top: 8, left: 8, bottom: 8),
+                  margin: const EdgeInsets.only(bottom: 9),
+                  padding: const EdgeInsets.only(top: 8, left: 8, bottom: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(11),
                     color: Colors.transparent,

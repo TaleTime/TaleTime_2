@@ -15,7 +15,7 @@ class AllStories extends StatefulWidget {
 
   @override
   State<AllStories> createState() => _AllStoriesState(
-      this.profile, this.profiles, this.recordedStoriesCollection);
+      profile, profiles, recordedStoriesCollection);
 }
 
 class _AllStoriesState extends State<AllStories> {
@@ -79,9 +79,9 @@ class _AllStoriesState extends State<AllStories> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 800,
-                        child: recordedStoriesDocumentSnapshot.length == 0
+                        child: recordedStoriesDocumentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
                                 AppLocalizations.of(context)!
                                     .allStories_noStoriesAvailableError,

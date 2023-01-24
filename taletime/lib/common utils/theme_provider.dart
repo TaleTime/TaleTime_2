@@ -33,7 +33,7 @@ class MyThemes {
       ),
     )),
     primaryColor: Colors.grey,
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(),
       ),
@@ -41,16 +41,16 @@ class MyThemes {
       prefixIconColor: Colors.white,
       labelStyle: TextStyle(color: Colors.white),
     ),
-    buttonTheme: ButtonThemeData(
+    buttonTheme: const ButtonThemeData(
       minWidth: 200.0,
       textTheme: ButtonTextTheme.primary,
       hoverColor: Colors.grey,
     ),
-    iconTheme: IconThemeData(color: Colors.white, opacity: 0.8),
-    appBarTheme: AppBarTheme(color: Colors.black),
+    iconTheme: const IconThemeData(color: Colors.white, opacity: 0.8),
+    appBarTheme: const AppBarTheme(color: Colors.black),
     primaryTextTheme: Typography().white,
     textTheme: Typography().white,
-    colorScheme: ColorScheme.dark(),
+    colorScheme: const ColorScheme.dark(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: Colors.black,
         backgroundColor: Colors.grey,
@@ -87,7 +87,7 @@ class MyThemes {
         labelStyle: TextStyle(color: kPrimaryColor)),
     iconTheme: IconThemeData(color: kPrimaryColor, opacity: 0.8),
     appBarTheme: AppBarTheme(color: kPrimaryColor),
-    colorScheme: ColorScheme.light(),
+    colorScheme: const ColorScheme.light(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: Colors.white,
         backgroundColor: kPrimaryColor,

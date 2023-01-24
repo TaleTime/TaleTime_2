@@ -63,11 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height / 6,
                         child: Image.network(assetLogo),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
@@ -78,21 +78,21 @@ class _LoginPageState extends State<LoginPage> {
                                   /// TextField that catches the user input for the email-adress
                                   Container(
                                       width: double.infinity,
-                                      child: TextFormFieldUtil().enterEmailForm(
-                                          context, _emailController),
                                       decoration: Decorations()
-                                          .inputBoxDecorationShaddow()),
+                                          .inputBoxDecorationShaddow(),
+                                      child: TextFormFieldUtil().enterEmailForm(
+                                          context, _emailController)),
                                   const SizedBox(
                                     height: 20,
                                   ),
 
                                   /// TextField that catches the user input for the password
                                   Container(
+                                    decoration: Decorations()
+                                        .inputBoxDecorationShaddow(),
                                     child: TextFormFieldUtil()
                                         .enterPasswordForm(
                                             context, _passwordController),
-                                    decoration: Decorations()
-                                        .inputBoxDecorationShaddow(),
                                   ),
                                   Container(
                                     margin:
@@ -129,24 +129,24 @@ class _LoginPageState extends State<LoginPage> {
                                 /// logs in the user with the entered email and password
                                 /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                                 onPressed: () async {
-                                  final String _email = _emailController.text
+                                  final String email = _emailController.text
                                       .trim()
                                       .toLowerCase();
-                                  final String _password =
+                                  final String password =
                                       _passwordController.text.trim();
                                   final isValidForm =
                                       _formKey.currentState!.validate();
                                   if (isValidForm) {
                                     AuthentificationUtil(auth: auth)
                                         .loginUsingEmailAndPassword(
-                                            email: _email,
-                                            password: _password,
+                                            email: email,
+                                            password: password,
                                             context: context);
                                   }
                                 },
                                 child: Text(
                                   AppLocalizations.of(context)!.loginVerb,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18),
                                 ),

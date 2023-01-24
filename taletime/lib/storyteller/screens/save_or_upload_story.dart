@@ -8,10 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:taletime/storyteller/screens/speaker_homepage.dart';
 import 'package:taletime/storyteller/utils/navbar_widget_storyteller.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/storyteller/utils/upload_util.dart';
@@ -58,9 +56,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
     var refAudios = FirebaseStorage.instance.ref().child("audios");
-    File audioFile = await File(myRecordedStory.recording.getAudioPath());
+    File audioFile = File(myRecordedStory.recording.getAudioPath());
     String filePath = myRecordedStory.recording.getAudioPath();
-    String imagePath = "${author}/${title}.jpg";
+    String imagePath = "$author/$title.jpg";
     String fileString =
         filePath.substring(filePath.lastIndexOf('/'), filePath.length);
     await refImages.child(imagePath).putFile(image);
@@ -112,14 +110,14 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
               style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 5,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: primarySave),
+                style: ElevatedButton.styleFrom(backgroundColor: primarySave),
                 onPressed: isSaved
                     ? null
                     : () {
@@ -130,7 +128,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                       },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.save,
                       size: 50,
@@ -140,7 +138,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Center(
@@ -149,17 +147,17 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
               style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height / 5,
                   width: MediaQuery.of(context).size.width / 3,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: primaryUpload),
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryUpload),
                     onPressed: !isSaved
                         ? null
 
@@ -188,7 +186,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                           },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.upload_rounded,
                           size: 50,
@@ -198,11 +196,11 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height / 5,
                   width: MediaQuery.of(context).size.width / 3,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: primaryUpload),
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryUpload),
                     onPressed: !isSaved
                         ? null
                         : () {
@@ -217,7 +215,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                         .ref()
                                         .child("images");
                                     String myImageUrl = await refImages
-                                        .child("${author}/${title}.jpg")
+                                        .child("$author/$title.jpg")
                                         .getDownloadURL();
 
                                     UploadUtil(storiesCollection).uploadStory(
@@ -238,7 +236,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                           },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.upload_rounded,
                           size: 50,
@@ -250,17 +248,17 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Visibility(
                 visible: isSaved,
-                child: Container(
+                child: SizedBox(
                   height: MediaQuery.of(context).size.height / 13,
                   width: MediaQuery.of(context).size.width / 2,
                   child: ElevatedButton(
                       style: elevatedButtonDefaultStyle(),
-                      child: Text("Continue"),
+                      child: const Text("Continue"),
                       onPressed: () {
                         Navigator.push(
                             context,

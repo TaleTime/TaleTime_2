@@ -3,13 +3,10 @@
 ///You can record a specific time or a complete story.
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:taletime/storyteller/utils/record_class.dart';
 
 class SoundRecorder extends FlutterSoundRecorder {
   /// FlutterSoundRecorder Object
@@ -22,6 +19,7 @@ class SoundRecorder extends FlutterSoundRecorder {
   bool _isRecorderInitialised = false;
 
   /// return true if the recorder is currently recording
+  @override
   bool get isRecording => _audioRecorder!.isRecording;
 
   /// initializes the Sound-Recorder and aks for microphone permission if it wasn't granted already from the user
@@ -38,10 +36,7 @@ class SoundRecorder extends FlutterSoundRecorder {
       await Permission.storage.request();
     } else {
       Directory directory = await getApplicationDocumentsDirectory();
-      String filepath = directory.path +
-          '/' +
-          DateTime.now().microsecondsSinceEpoch.toString() +
-          '.aac';
+      String filepath = '${directory.path}/${DateTime.now().microsecondsSinceEpoch}.aac';
 
       await _audioRecorder!.openRecorder();
       _path = filepath;
@@ -68,7 +63,7 @@ class SoundRecorder extends FlutterSoundRecorder {
   }
 
   Future<void> stop() async {
-    if (!_isRecorderInitialised) ;
+    if (!_isRecorderInitialised) {}
 
     await _audioRecorder!.stopRecorder();
   }

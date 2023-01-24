@@ -1,9 +1,3 @@
-///The [Setting] class offers many functions for the user.
-///The user can change the language (German, English, Arabic).
-///The user can change the mode (light, dark).
-///The user can change the password
-///you can change the profiles
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +17,7 @@ class SettingsPage extends StatefulWidget {
 
   @override
   State<SettingsPage> createState() =>
-      _SettingsPageState(this.profile, this.profiles);
+      _SettingsPageState(profile, profiles);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
@@ -68,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(AppLocalizations.of(context)!.settings),
         automaticallyImplyLeading: false,
         actions: [
-          Icon(Icons.settings),
+          const Icon(Icons.settings),
           Container(padding: const EdgeInsets.all(16.0))
         ],
       ),
@@ -87,8 +81,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         (locale) {
                           final flag = L10n.getCountryFlag(locale.languageCode);
                           return DropdownMenuItem(
-                            child: Text(flag,
-                                style: const TextStyle(fontSize: 32)),
                             value: locale,
                             onTap: () {
                               final provider = Provider.of<LocaleProvider>(
@@ -96,6 +88,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                   listen: false);
                               provider.setLocale(locale);
                             },
+                            child: Text(flag,
+                                style: const TextStyle(fontSize: 32)),
                           );
                         },
                       ).toList(),
@@ -106,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         });
                       })),
             )),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -129,13 +123,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
               child: Card(
                 child: ListTile(
-                  leading: Icon(Icons.password),
+                  leading: const Icon(Icons.password),
                   title: Text(AppLocalizations.of(context)!.changePassword),
                   onTap: () {
                     Navigator.of(context)
@@ -146,12 +140,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Card(
                 child: ListTile(
-              leading: Icon(Icons.person),
+              leading: const Icon(Icons.person),
               title: Text(AppLocalizations.of(context)!.changeProfile),
               onTap: () {
                 Navigator.of(context)

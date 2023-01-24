@@ -11,7 +11,7 @@ class ProfileColumn extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfileColumnState(this.profile, this.profiles);
+    return _ProfileColumnState(profile, profiles);
   }
 }
 
@@ -51,10 +51,6 @@ class _ProfileColumnState extends State<ProfileColumn> {
                     Text(AppLocalizations.of(context)!.confirmProfileDeletion),
                 actions: [
                   TextButton(
-                    child: Text(
-                      AppLocalizations.of(context)!.yes,
-                      style: const TextStyle(color: Colors.white),
-                    ),
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(kPrimaryColor)),
@@ -64,18 +60,22 @@ class _ProfileColumnState extends State<ProfileColumn> {
                         Navigator.of(context).pop();
                       });
                     },
-                  ),
-                  TextButton(
                     child: Text(
-                      AppLocalizations.of(context)!.no,
+                      AppLocalizations.of(context)!.yes,
                       style: const TextStyle(color: Colors.white),
                     ),
+                  ),
+                  TextButton(
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
+                    child: Text(
+                      AppLocalizations.of(context)!.no,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               );
@@ -95,7 +95,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
               value: 0,
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.edit,
                   ),
                   const SizedBox(width: 8),
@@ -109,7 +109,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
               value: 1,
               child: Row(
                 children: [
-                  Icon(Icons.delete),
+                  const Icon(Icons.delete),
                   const SizedBox(width: 8),
                   Text(AppLocalizations.of(context)!.delete),
                 ],

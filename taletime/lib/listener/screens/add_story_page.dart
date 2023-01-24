@@ -16,7 +16,7 @@ class AddStory extends StatefulWidget {
 
   @override
   State<AddStory> createState() => _AddStoryState(
-      this.storiesCollectionReference, this.allStoriesCollectionReference);
+      storiesCollectionReference, allStoriesCollectionReference);
 }
 
 class _AddStoryState extends State<AddStory> {
@@ -78,10 +78,10 @@ class _AddStoryState extends State<AddStory> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
-                      Container(
+                      SizedBox(
                         height: 42,
                         child: TextField(
                           onChanged: (value) {
@@ -103,8 +103,8 @@ class _AddStoryState extends State<AddStory> {
                             ),
                             hintText: "Search stories...",
                             hintStyle:
-                                TextStyle(color: Colors.grey, fontSize: 18),
-                            suffixIcon: Icon(
+                                const TextStyle(color: Colors.grey, fontSize: 18),
+                            suffixIcon: const Icon(
                               Icons.search,
                               color: Colors.grey,
                             ),
@@ -121,7 +121,7 @@ class _AddStoryState extends State<AddStory> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: screenHeight * 0.8,
                         child: ListView.builder(
                             primary: false,
@@ -131,14 +131,14 @@ class _AddStoryState extends State<AddStory> {
                                 onTap: () {},
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
+                                    SizedBox(
                                       height: 85,
                                       child: Column(
                                         children: [
                                           Container(
                                             height: 75,
-                                            margin: EdgeInsets.only(bottom: 9),
-                                            padding: EdgeInsets.only(
+                                            margin: const EdgeInsets.only(bottom: 9),
+                                            padding: const EdgeInsets.only(
                                                 top: 8, left: 8, bottom: 8),
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -164,7 +164,7 @@ class _AddStoryState extends State<AddStory> {
                                                           : storiesDocumentSnapshot[
                                                               i]["image"]),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 20,
                                                 ),
                                                 Padding(
@@ -191,14 +191,14 @@ class _AddStoryState extends State<AddStory> {
                                                           const SizedBox(
                                                             width: 5,
                                                           ),
-                                                          Icon(
+                                                          const Icon(
                                                             Icons.star,
                                                             color: Colors.white,
                                                             size: 14,
                                                           ),
                                                         ],
                                                       ),
-                                                      Container(
+                                                      SizedBox(
                                                         width:
                                                             screenWidth * 0.4,
                                                         child: Text(
@@ -213,7 +213,7 @@ class _AddStoryState extends State<AddStory> {
                                                           ),
                                                         ),
                                                       ),
-                                                      Container(
+                                                      SizedBox(
                                                         width:
                                                             screenWidth * 0.4,
                                                         child: Text(
@@ -272,7 +272,7 @@ class _AddStoryState extends State<AddStory> {
               ],
             ));
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

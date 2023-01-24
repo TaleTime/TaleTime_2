@@ -17,7 +17,7 @@ class MyListViewListener extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _MyListViewListenerState(
-        this.stories, this.storiesCollection, this.profile, this.profiles);
+        stories, storiesCollection, profile, profiles);
   }
 }
 
@@ -109,7 +109,7 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                     Text(
                       stories[i]["rating"],
                     ),
-                    Icon(
+                    const Icon(
                       Icons.star,
                       size: 15,
                     )
@@ -125,11 +125,11 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                   children: [
                     IconButton(
                       icon: hasLiked
-                          ? Icon(
+                          ? const Icon(
                               Icons.favorite,
                               color: Colors.white,
                             )
-                          : Icon(
+                          : const Icon(
                               Icons.favorite_border,
                               color: Colors.white,
                             ),

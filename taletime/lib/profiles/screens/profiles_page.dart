@@ -15,7 +15,7 @@ class ProfilesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfilesPageState(this.UID);
+    return _ProfilesPageState(UID);
   }
 }
 
@@ -41,7 +41,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.logout,
             ),
             onPressed: () {
@@ -63,7 +63,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
             }),
         title: Text(
           AppLocalizations.of(context)!.myProfiles,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         elevation: 0.0,
         centerTitle: true,
@@ -75,7 +75,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => AddProfile(UID)));
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person_add,
                 ),
               )),

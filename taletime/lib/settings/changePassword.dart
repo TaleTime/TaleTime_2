@@ -38,7 +38,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Form(
                 key: _formKey,
                 child: Column(
@@ -50,7 +50,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: TextFormFieldUtil().enterOldPasswordForm(
                           context, _oldPasswordController),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
@@ -59,7 +59,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ///Enter new password
                         child: TextFormFieldUtil()
                             .enterPasswordForm(context, _passwordController)),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
@@ -68,7 +68,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormFieldUtil().confirmPasswordForm(context,
                             _passwordController, _confirmPasswordController)),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
 

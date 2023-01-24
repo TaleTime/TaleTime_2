@@ -32,7 +32,7 @@ class Decorations {
       filled: true,
       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide()),
+          borderRadius: BorderRadius.circular(100.0), borderSide: const BorderSide()),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
           borderSide: BorderSide(color: kPrimaryColor)),
@@ -95,7 +95,7 @@ class Decorations {
             children: [
               Text(
                 text,
-                style: TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 13),
               ),
             ],
           ));
@@ -108,7 +108,7 @@ class Decorations {
           children: [
             Text(
               text,
-              style: TextStyle(fontSize: 13),
+              style: const TextStyle(fontSize: 13),
             ),
           ],
         ));
@@ -136,13 +136,13 @@ class Decorations {
           },
         ),
         TextButton(
-          child: Text(
-            AppLocalizations.of(context)!.no,
-          ),
-          style: ButtonStyle(),
+          style: const ButtonStyle(),
           onPressed: () {
             Navigator.of(context).pop();
           },
+          child: Text(
+            AppLocalizations.of(context)!.no,
+          ),
         ),
       ],
     );

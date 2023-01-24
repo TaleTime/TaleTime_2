@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/listener/utils/my_list_view_listener.dart';
-import '../../common utils/decoration_util.dart';
-import '../utils/list_view_listener.dart';
-import '../utils/search-bar-util.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/listener/utils/my_list_view_listener.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+
+import "package:taletime/listener/utils/search-bar-util.dart";
 
 class FavoritePage extends StatefulWidget {
   final profile;
@@ -15,7 +15,7 @@ class FavoritePage extends StatefulWidget {
 
   @override
   State<FavoritePage> createState() =>
-      _FavoritePageState(this.profile, this.profiles, this.favorites);
+      _FavoritePageState(profile, profiles, favorites);
 }
 
 class _FavoritePageState extends State<FavoritePage> {
@@ -75,10 +75,10 @@ class _FavoritePageState extends State<FavoritePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-                    Container(
+                    SizedBox(
                       height: 42,
                       child: TextField(
                         onChanged: (value) {
@@ -100,8 +100,8 @@ class _FavoritePageState extends State<FavoritePage> {
                           ),
                           hintText: "Search stories...",
                           hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 18),
-                          suffixIcon: Icon(
+                              const TextStyle(color: Colors.grey, fontSize: 18),
+                          suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
                           ),
@@ -118,9 +118,9 @@ class _FavoritePageState extends State<FavoritePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: screenHeight * 0.8,
-                      child: documentSnapshot.length == 0
+                      child: documentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
                               "No stories yet. \nplease add some stories to your story library",
                               "")
@@ -139,7 +139,7 @@ class _FavoritePageState extends State<FavoritePage> {
             ],
           ));
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

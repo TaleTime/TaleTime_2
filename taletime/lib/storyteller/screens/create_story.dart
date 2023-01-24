@@ -19,12 +19,12 @@ class CreateStory extends StatefulWidget {
   final profile;
   final CollectionReference storiesCollection;
 
-  CreateStory(this.profile, this.storiesCollection, {Key? key})
+  const CreateStory(this.profile, this.storiesCollection, {Key? key})
       : super(key: key);
 
   @override
   State<CreateStory> createState() =>
-      _CreateStoryState(this.profile, this.storiesCollection);
+      _CreateStoryState(profile, storiesCollection);
 }
 
 class _CreateStoryState extends State<CreateStory> {
@@ -86,35 +86,36 @@ class _CreateStoryState extends State<CreateStory> {
       appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: Text(
+          title: const Text(
             "Create Story",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: SingleChildScrollView(
         child: Column(children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+            padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
                   Container(
                     ///enter the title the Story
+                    decoration: Decorations().inputBoxDecorationShaddow(),
+                    ///enter the title the Story
                     child: TextFormField(
                       controller: _titleController,
                       decoration: Decorations().textInputDecoration(
                         "Title",
                         "Enter the Title for your Story",
-                        Icon(Icons.title),
+                        const Icon(Icons.title),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (title) =>
                           ValidationUtil().validateTitle(title, context),
                     ),
-                    decoration: Decorations().inputBoxDecorationShaddow(),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   Container(
                     ///enter the Tags the Story
                     child: TextFormField(
@@ -122,7 +123,7 @@ class _CreateStoryState extends State<CreateStory> {
                       decoration: Decorations().textInputDecoration(
                           "Tag",
                           "Enter a Tag (Optional)",
-                          Icon(Icons.tag),
+                          const Icon(Icons.tag),
                           IconButton(
                               onPressed: () {
                                 if (_tagController.text.isNotEmpty) {
@@ -134,14 +135,14 @@ class _CreateStoryState extends State<CreateStory> {
                                   });
                                 }
                               },
-                              icon: Icon(Icons.arrow_circle_right_sharp))),
+                              icon: const Icon(Icons.arrow_circle_right_sharp))),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Wrap(
             spacing: 10,
             children: _chipList
@@ -154,10 +155,10 @@ class _CreateStoryState extends State<CreateStory> {
                     ))
                 .toList(),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 14,
               child: ElevatedButton(
@@ -166,18 +167,18 @@ class _CreateStoryState extends State<CreateStory> {
                   getImageFromGallery();
                 },
                 //here is the photo from the Gallery
-                child: Text("Upload Image",
+                child: const Text("Upload Image",
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 200,
             width: 200,
             child: Image(image: image!.image),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Align(
@@ -189,9 +190,9 @@ class _CreateStoryState extends State<CreateStory> {
                     style: elevatedButtonDefaultStyle(),
                     onPressed: () {
                       final isValidForm = _formKey.currentState!.validate();
-                      _chipList.forEach((element) {
+                      for (var element in _chipList) {
                         print(element.name);
-                      });
+                      }
                       if (isValidForm) {
                         List<String> tags = ["test"];
                         final myStory =
@@ -204,7 +205,7 @@ class _CreateStoryState extends State<CreateStory> {
                         );
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Continue",
                       style: TextStyle(fontSize: 24),
                     )),

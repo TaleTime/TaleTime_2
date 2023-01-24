@@ -26,7 +26,7 @@ const List profileImages = [
 /// Sets the Text-Color of an Elevated Button to white and the Button-Color to [kPrimaryColor]
 ButtonStyle elevatedButtonDefaultStyle() {
   return ElevatedButton.styleFrom(
-      primary: kPrimaryColor, onPrimary: Colors.white);
+      foregroundColor: Colors.white, backgroundColor: kPrimaryColor);
 }
 
 /// Prints the Duration of a recording or play of a story in the format 00:00

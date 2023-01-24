@@ -17,7 +17,7 @@ class IconContextDialog extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _IconContextDialogState(
-        this.title, this.subtitle, this.icon, this.id, this.stories);
+        title, subtitle, icon, id, stories);
   }
 }
 
@@ -51,10 +51,6 @@ class _IconContextDialogState extends State<IconContextDialog> {
             content: Text(subtitle),
             actions: [
               TextButton(
-                child: Text(
-                  AppLocalizations.of(context)!.yes,
-                  style: const TextStyle(color: Colors.white),
-                ),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
@@ -63,17 +59,21 @@ class _IconContextDialogState extends State<IconContextDialog> {
                     Navigator.of(context).pop();
                   });
                 },
-              ),
-              TextButton(
                 child: Text(
-                  AppLocalizations.of(context)!.no,
+                  AppLocalizations.of(context)!.yes,
                   style: const TextStyle(color: Colors.white),
                 ),
+              ),
+              TextButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                child: Text(
+                  AppLocalizations.of(context)!.no,
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ],
           );

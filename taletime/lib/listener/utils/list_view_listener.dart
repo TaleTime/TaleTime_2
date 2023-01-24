@@ -17,7 +17,7 @@ class MyListView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _MyListViewState(
-        this.stories, this.storiesCollection, this.profile, this.profiles);
+        stories, storiesCollection, profile, profiles);
   }
 }
 
@@ -102,14 +102,14 @@ class _MyListViewState extends State<MyListView> {
             },
             child: Column(
               children: <Widget>[
-                Container(
+                SizedBox(
                   height: 85,
                   child: Column(
                     children: [
                       Container(
                         height: 75,
-                        margin: EdgeInsets.only(bottom: 9),
-                        padding: EdgeInsets.only(top: 8, left: 8, bottom: 8),
+                        margin: const EdgeInsets.only(bottom: 9),
+                        padding: const EdgeInsets.only(top: 8, left: 8, bottom: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(11),
                           color: Colors.teal.shade600,
@@ -129,7 +129,7 @@ class _MyListViewState extends State<MyListView> {
                                       : stories[i]["image"],
                                   fit: BoxFit.fill),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Padding(
@@ -148,14 +148,14 @@ class _MyListViewState extends State<MyListView> {
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.star,
                                         color: Colors.white,
                                         size: 14,
                                       ),
                                     ],
                                   ),
-                                  Container(
+                                  SizedBox(
                                     width: screenWidth * 0.4,
                                     child: Text(
                                       stories[i]["title"],
@@ -166,7 +166,7 @@ class _MyListViewState extends State<MyListView> {
                                       ),
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     width: screenWidth * 0.4,
                                     child: Text(
                                       "By ${stories[i]["author"]}",

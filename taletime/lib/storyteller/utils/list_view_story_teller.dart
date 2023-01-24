@@ -23,7 +23,7 @@ class ListViewStoryTeller extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _ListViewStoryTellerState(
-        this.stories, this.storiesCollection, this.profile, this.profiles);
+        stories, storiesCollection, profile, profiles);
   }
 }
 
@@ -64,11 +64,11 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                 title: Text(
                   stories[index]["title"],
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 subtitle: Text(stories[index]["author"],
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white)),
+                    style: const TextStyle(color: Colors.white)),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -180,15 +180,10 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                       "Delete Story...",
                                       style: TextStyle(color: kPrimaryColor),
                                     ),
-                                    content: Text(
+                                    content: const Text(
                                         "Do you really want to delete this story?"),
                                     actions: [
                                       TextButton(
-                                        child: Text(
-                                          "Yes",
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
                                         style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStateProperty.all(
@@ -201,13 +196,13 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                             Navigator.of(context).pop();
                                           });
                                         },
-                                      ),
-                                      TextButton(
-                                        child: Text(
-                                          "No",
-                                          style: const TextStyle(
+                                        child: const Text(
+                                          "Yes",
+                                          style: TextStyle(
                                               color: Colors.white),
                                         ),
+                                      ),
+                                      TextButton(
                                         style: ButtonStyle(
                                             backgroundColor:
                                                 MaterialStateProperty.all(
@@ -215,6 +210,11 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
+                                        child: const Text(
+                                          "No",
+                                          style: TextStyle(
+                                              color: Colors.white),
+                                        ),
                                       ),
                                     ],
                                   );

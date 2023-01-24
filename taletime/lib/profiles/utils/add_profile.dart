@@ -18,7 +18,7 @@ class AddProfile extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _AddProfileState(this.UID);
+    return _AddProfileState(UID);
   }
 }
 
@@ -85,7 +85,7 @@ class _AddProfileState extends State<AddProfile> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
           ),
           onPressed: () async {
@@ -95,7 +95,7 @@ class _AddProfileState extends State<AddProfile> {
         ),
         title: Text(
           AppLocalizations.of(context)!.newProfile,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -106,8 +106,8 @@ class _AddProfileState extends State<AddProfile> {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(25, 50, 25, 30),
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(25, 50, 25, 30),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               alignment: Alignment.center,
               child: Column(
                 children: [
@@ -119,14 +119,14 @@ class _AddProfileState extends State<AddProfile> {
                           child: Stack(
                             children: [
                               Container(
-                                padding: EdgeInsets.all(3),
+                                padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(200),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black12,
                                       blurRadius: 20,
-                                      offset: const Offset(5, 5),
+                                      offset: Offset(5, 5),
                                     ),
                                   ],
                                 ),
@@ -135,10 +135,10 @@ class _AddProfileState extends State<AddProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Container(
+                        SizedBox(
                           height: 120,
                           child: Stack(
                             children: [
@@ -146,7 +146,7 @@ class _AddProfileState extends State<AddProfile> {
                                 top: 0,
                                 left: -210,
                                 right: 0,
-                                child: Container(
+                                child: SizedBox(
                                   height: 80,
                                   child: PageView.builder(
                                       controller:
@@ -169,10 +169,11 @@ class _AddProfileState extends State<AddProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         Container(
+                          decoration: Decorations().inputBoxDecorationShaddow(),
                           child: TextFormField(
                             autocorrect: false,
                             keyboardType: TextInputType.visiblePassword,
@@ -183,9 +184,8 @@ class _AddProfileState extends State<AddProfile> {
                             validator: (val) =>
                                 ValidationUtil().validateUserName(val, context),
                           ),
-                          decoration: Decorations().inputBoxDecorationShaddow(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Container(
@@ -222,7 +222,7 @@ class _AddProfileState extends State<AddProfile> {
                                     selectedItem = item;
                                   })),
                         )),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         MaterialButton(
                           minWidth: double.infinity,
                           height: MediaQuery.of(context).size.height / 15,
