@@ -119,34 +119,32 @@ class _MyPlayStoryState extends State<MyPlayStory> {
           top: 360,
           left: 0,
           right: 0,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 7, left: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    width: screenWidth * 0.8,
-                    child: Text(
-                      story["title"],
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Colors.teal, fontSize: 21.0, fontWeight: FontWeight.bold),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 7, left: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  width: screenWidth * 0.8,
+                  child: Text(
+                    story["title"],
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Colors.teal, fontSize: 21.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth * 0.8,
+                  child: Text(
+                    story["author"],
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.teal,
+                      fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(
-                    width: screenWidth * 0.8,
-                    child: Text(
-                      story["author"],
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.teal,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

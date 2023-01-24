@@ -91,9 +91,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
 
   @override
   Widget build(BuildContext context) {
-    String UID = auth.currentUser!.uid;
+    String uId = auth.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    CollectionReference profiles = users.doc(UID).collection('profiles');
+    CollectionReference profiles = users.doc(uId).collection('profiles');
     Color? primarySave = isSaved ? Colors.grey : kPrimaryColor;
     Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(

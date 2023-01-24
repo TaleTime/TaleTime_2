@@ -68,8 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            Container(
-                child: Card(
+            Card(
               child: ListTile(
                   leading: const Icon(Icons.language_outlined),
                   title: Text(AppLocalizations.of(context)!.changeLanguage),
@@ -94,43 +93,39 @@ class _SettingsPageState extends State<SettingsPage> {
                           updateLanguage(profile["id"], value.toString());
                         });
                       })),
-            )),
+            ),
             const SizedBox(
               height: 10,
             ),
-            Container(
-              child: Card(
-                child: SwitchListTile(
-                  secondary: const Icon(
-                    Icons.dark_mode_sharp,
-                  ),
-                  title: Text(AppLocalizations.of(context)!.darkMode),
-                  value: themeProvider.isDarkMode,
-                  onChanged: (value) {
-                    final provider = Provider.of<ThemeProvider>(context, listen: false);
-                    provider.toggleTheme(value);
-                    setState(() {
-                      updateTheme(profile["id"], value);
-                    });
-                  },
-                  activeTrackColor: kPrimaryColor,
+            Card(
+              child: SwitchListTile(
+                secondary: const Icon(
+                  Icons.dark_mode_sharp,
                 ),
+                title: Text(AppLocalizations.of(context)!.darkMode),
+                value: themeProvider.isDarkMode,
+                onChanged: (value) {
+                  final provider = Provider.of<ThemeProvider>(context, listen: false);
+                  provider.toggleTheme(value);
+                  setState(() {
+                    updateTheme(profile["id"], value);
+                  });
+                },
+                activeTrackColor: kPrimaryColor,
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Container(
-              child: Card(
-                child: ListTile(
-                  leading: const Icon(Icons.password),
-                  title: Text(AppLocalizations.of(context)!.changePassword),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return const ChangePassword();
-                    }));
-                  },
-                ),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.password),
+                title: Text(AppLocalizations.of(context)!.changePassword),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return const ChangePassword();
+                  }));
+                },
               ),
             ),
             const SizedBox(

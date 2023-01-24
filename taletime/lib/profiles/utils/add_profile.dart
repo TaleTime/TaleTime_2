@@ -13,20 +13,20 @@ import '../../common utils/decoration_util.dart';
 import '../../internationalization/localizations_ext.dart';
 
 class AddProfile extends StatefulWidget {
-  final String UID;
+  final String uId;
 
-  const AddProfile(this.UID, {Key? key}) : super(key: key);
+  const AddProfile(this.uId, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddProfileState(UID);
+    return _AddProfileState(uId);
   }
 }
 
 class _AddProfileState extends State<AddProfile> {
-  late String UID;
+  late String uId;
   final logger = TaleTimeLogger.getLogger();
-  _AddProfileState(this.UID);
+  _AddProfileState(this.uId);
 
   late final String name;
   late final String image;
@@ -50,7 +50,7 @@ class _AddProfileState extends State<AddProfile> {
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    CollectionReference profiles = users.doc(UID).collection("profiles");
+    CollectionReference profiles = users.doc(uId).collection("profiles");
 
     String updateImageProfile(int index) {
       var image = profileImages[index];
@@ -90,7 +90,7 @@ class _AddProfileState extends State<AddProfile> {
           ),
           onPressed: () async {
             await Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilesPage(UID)));
+                context, MaterialPageRoute(builder: (context) => ProfilesPage(uId)));
           },
         ),
         title: Text(
@@ -186,8 +186,7 @@ class _AddProfileState extends State<AddProfile> {
                         const SizedBox(
                           height: 30,
                         ),
-                        Container(
-                            child: SizedBox(
+                        SizedBox(
                           width: 420,
                           child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
@@ -213,7 +212,7 @@ class _AddProfileState extends State<AddProfile> {
                               onChanged: (item) => setState(() {
                                     selectedItem = item;
                                   })),
-                        )),
+                        ),
                         const SizedBox(height: 50),
                         MaterialButton(
                           minWidth: double.infinity,
@@ -228,7 +227,7 @@ class _AddProfileState extends State<AddProfile> {
                             language = languageProvider.locale.toString();
                             addUser(image, name, title, language, theme);
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ProfilesPage(UID)));
+                                MaterialPageRoute(builder: (context) => ProfilesPage(uId)));
                           },
                           color: kPrimaryColor,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),

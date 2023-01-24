@@ -163,8 +163,7 @@ class _EditProfileState extends State<EditProfile> {
                         const SizedBox(
                           height: 30,
                         ),
-                        Container(
-                            child: SizedBox(
+                        SizedBox(
                           width: 420,
                           child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
@@ -192,7 +191,7 @@ class _EditProfileState extends State<EditProfile> {
                               onChanged: (item) => setState(() {
                                     selectedItem = item;
                                   })),
-                        )),
+                        ),
                         const SizedBox(height: 50),
                         SizedBox(
                             height: MediaQuery.of(context).size.height / 15,

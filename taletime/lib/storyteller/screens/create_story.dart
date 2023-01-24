@@ -116,26 +116,25 @@ class _CreateStoryState extends State<CreateStory> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  Container(
-                    ///enter the Tags the Story
-                    child: TextFormField(
-                      controller: _tagController,
-                      decoration: Decorations().textInputDecoration(
-                          "Tag",
-                          "Enter a Tag (Optional)",
-                          const Icon(Icons.tag),
-                          IconButton(
-                              onPressed: () {
-                                if (_tagController.text.isNotEmpty) {
-                                  setState(() {
-                                    _chipList.add(ChipModel(
-                                        id: DateTime.now().toString(), name: _tagController.text));
-                                    _tagController.text = '';
-                                  });
-                                }
-                              },
-                              icon: const Icon(Icons.arrow_circle_right_sharp))),
-                    ),
+
+                  ///enter the Tags the Story
+                  TextFormField(
+                    controller: _tagController,
+                    decoration: Decorations().textInputDecoration(
+                        "Tag",
+                        "Enter a Tag (Optional)",
+                        const Icon(Icons.tag),
+                        IconButton(
+                            onPressed: () {
+                              if (_tagController.text.isNotEmpty) {
+                                setState(() {
+                                  _chipList.add(ChipModel(
+                                      id: DateTime.now().toString(), name: _tagController.text));
+                                  _tagController.text = '';
+                                });
+                              }
+                            },
+                            icon: const Icon(Icons.arrow_circle_right_sharp))),
                   ),
                 ],
               ),

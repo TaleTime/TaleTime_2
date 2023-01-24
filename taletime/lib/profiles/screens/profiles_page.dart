@@ -9,20 +9,20 @@ import '../utils/profile_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilesPage extends StatefulWidget {
-  final String UID;
+  final String uId;
 
-  const ProfilesPage(this.UID, {Key? key}) : super(key: key);
+  const ProfilesPage(this.uId, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfilesPageState(UID);
+    return _ProfilesPageState(uId);
   }
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
-  late String UID;
+  late String uId;
 
-  _ProfilesPageState(this.UID);
+  _ProfilesPageState(this.uId);
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -36,7 +36,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference profiles = users.doc(UID).collection('profiles');
+    CollectionReference profiles = users.doc(uId).collection('profiles');
 
     return Scaffold(
       appBar: AppBar(
@@ -48,15 +48,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Decorations().confirmationDialog(
-                      AppLocalizations.of(context)!.loggingOut,
-                      AppLocalizations.of(context)!.confirmLogout,
-                      context, () async {
+                  return Decorations().confirmationDialog(AppLocalizations.of(context)!.loggingOut,
+                      AppLocalizations.of(context)!.confirmLogout, context, () async {
                     AuthentificationUtil(auth: auth).signOut();
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const WelcomePage()));
+                        context, MaterialPageRoute(builder: (context) => const WelcomePage()));
                   });
                 },
               );
@@ -72,8 +68,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => AddProfile(UID)));
+                  Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(builder: (context) => AddProfile(uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -89,14 +85,12 @@ class _ProfilesPageState extends State<ProfilesPage> {
               flex: cflex,
               child: StreamBuilder(
                 stream: profiles.snapshots(),
-                builder:
-                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
                     return ListView.builder(
                       itemCount: streamSnapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot =
-                            streamSnapshot.data!.docs[index];
+                        final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
                         return ProfileList(documentSnapshot, profiles);
                       },
                     );

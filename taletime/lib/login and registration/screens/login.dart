@@ -39,9 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: Decorations().appBarDecoration(
-            title: AppLocalizations.of(context)!.login,
-            context: context,
-            automaticArrow: true),
+            title: AppLocalizations.of(context)!.login, context: context, automaticArrow: true),
         body: SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -55,8 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
                           child: Text(
                             AppLocalizations.of(context)!.loginToAccount,
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -78,32 +75,25 @@ class _LoginPageState extends State<LoginPage> {
                                   /// TextField that catches the user input for the email-adress
                                   Container(
                                       width: double.infinity,
-                                      decoration: Decorations()
-                                          .inputBoxDecorationShaddow(),
-                                      child: TextFormFieldUtil().enterEmailForm(
-                                          context, _emailController)),
+                                      decoration: Decorations().inputBoxDecorationShaddow(),
+                                      child: TextFormFieldUtil()
+                                          .enterEmailForm(context, _emailController)),
                                   const SizedBox(
                                     height: 20,
                                   ),
 
                                   /// TextField that catches the user input for the password
                                   Container(
-                                    decoration: Decorations()
-                                        .inputBoxDecorationShaddow(),
+                                    decoration: Decorations().inputBoxDecorationShaddow(),
                                     child: TextFormFieldUtil()
-                                        .enterPasswordForm(
-                                            context, _passwordController),
+                                        .enterPasswordForm(context, _passwordController),
                                   ),
                                   Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 2, 5, 15),
+                                    margin: const EdgeInsets.fromLTRB(10, 2, 5, 15),
                                     alignment: Alignment.topRight,
                                     child: TextButton(
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .forgotPassword,
-                                            style: TextStyle(
-                                                color: kPrimaryColor)),
+                                        child: Text(AppLocalizations.of(context)!.forgotPassword,
+                                            style: TextStyle(color: kPrimaryColor)),
                                         onPressed: () {
                                           Navigator.push(
                                               context,
@@ -118,56 +108,41 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          child: SizedBox(
-                              height: MediaQuery.of(context).size.height / 14,
-                              width: double.infinity,
-                              //Button for the Login
-                              child: ElevatedButton(
-                                style: elevatedButtonDefaultStyle(),
+                        child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 14,
+                            width: double.infinity,
+                            //Button for the Login
+                            child: ElevatedButton(
+                              style: elevatedButtonDefaultStyle(),
 
-                                /// logs in the user with the entered email and password
-                                /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
-                                onPressed: () async {
-                                  final String email = _emailController.text
-                                      .trim()
-                                      .toLowerCase();
-                                  final String password =
-                                      _passwordController.text.trim();
-                                  final isValidForm =
-                                      _formKey.currentState!.validate();
-                                  if (isValidForm) {
-                                    AuthentificationUtil(auth: auth)
-                                        .loginUsingEmailAndPassword(
-                                            email: email,
-                                            password: password,
-                                            context: context);
-                                  }
-                                },
-                                child: Text(
-                                  AppLocalizations.of(context)!.loginVerb,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              )),
-                        ),
+                              /// logs in the user with the entered email and password
+                              /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
+                              onPressed: () async {
+                                final String email = _emailController.text.trim().toLowerCase();
+                                final String password = _passwordController.text.trim();
+                                final isValidForm = _formKey.currentState!.validate();
+                                if (isValidForm) {
+                                  AuthentificationUtil(auth: auth).loginUsingEmailAndPassword(
+                                      email: email, password: password, context: context);
+                                }
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!.loginVerb,
+                                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                              ),
+                            )),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(AppLocalizations.of(context)!.dontHaveAccount),
                           TextButton(
-                              child: Text(
-                                  AppLocalizations.of(context)!.registerVerb),
+                              child: Text(AppLocalizations.of(context)!.registerVerb),
 
                               /// redirects the user to the SignupPage
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignupPage()));
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => const SignupPage()));
                               }),
                         ],
                       ),

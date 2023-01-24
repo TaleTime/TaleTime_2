@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 
 import '../utils/add_icon_context_dialog.dart';
 import '../../common utils/constants.dart';
-import '../utils/search-bar-util.dart';
+import '../utils/search_bar_util.dart';
 
 class AddStory extends StatefulWidget {
   final CollectionReference storiesCollectionReference;
   final CollectionReference allStoriesCollectionReference;
 
-  const AddStory(
-      this.storiesCollectionReference, this.allStoriesCollectionReference,
-      {Key? key})
+  const AddStory(this.storiesCollectionReference, this.allStoriesCollectionReference, {Key? key})
       : super(key: key);
 
   @override
-  State<AddStory> createState() => _AddStoryState(
-      storiesCollectionReference, allStoriesCollectionReference);
+  State<AddStory> createState() =>
+      _AddStoryState(storiesCollectionReference, allStoriesCollectionReference);
 }
 
 class _AddStoryState extends State<AddStory> {
@@ -25,8 +23,7 @@ class _AddStoryState extends State<AddStory> {
 
   List matchStoryList = [];
 
-  _AddStoryState(
-      this.storiesCollectionReference, this.allStoriesCollectionReference);
+  _AddStoryState(this.storiesCollectionReference, this.allStoriesCollectionReference);
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +34,7 @@ class _AddStoryState extends State<AddStory> {
         stream: allStoriesCollectionReference.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
-            final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
-                streamSnapshot.data!.docs;
+            final List<QueryDocumentSnapshot> storiesDocumentSnapshot = streamSnapshot.data!.docs;
             return Scaffold(
                 body: Stack(
               children: [
@@ -86,11 +82,10 @@ class _AddStoryState extends State<AddStory> {
                         child: TextField(
                           onChanged: (value) {
                             setState(() {
-                              matchStoryList = SearchBarUtil()
-                                  .searchStory(storiesDocumentSnapshot, value);
+                              matchStoryList =
+                                  SearchBarUtil().searchStory(storiesDocumentSnapshot, value);
                             });
-                            SearchBarUtil()
-                                .isStoryListEmpty(matchStoryList, value);
+                            SearchBarUtil().isStoryListEmpty(matchStoryList, value);
                           },
                           style: TextStyle(color: kPrimaryColor),
                           decoration: InputDecoration(
@@ -102,8 +97,7 @@ class _AddStoryState extends State<AddStory> {
                               borderSide: BorderSide.none,
                             ),
                             hintText: "Search stories...",
-                            hintStyle:
-                                const TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(
                               Icons.search,
                               color: Colors.grey,
@@ -138,55 +132,40 @@ class _AddStoryState extends State<AddStory> {
                                           Container(
                                             height: 75,
                                             margin: const EdgeInsets.only(bottom: 9),
-                                            padding: const EdgeInsets.only(
-                                                top: 8, left: 8, bottom: 8),
+                                            padding:
+                                                const EdgeInsets.only(top: 8, left: 8, bottom: 8),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(11),
+                                              borderRadius: BorderRadius.circular(11),
                                               color: Colors.teal.shade600,
                                             ),
                                             child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
+                                                    borderRadius: BorderRadius.circular(15),
                                                     color: Colors.transparent,
                                                   ),
                                                   child: Image.network(
-                                                      storiesDocumentSnapshot[i]
-                                                                  ["image"] ==
-                                                              ""
+                                                      storiesDocumentSnapshot[i]["image"] == ""
                                                           ? storyImagePlaceholder
-                                                          : storiesDocumentSnapshot[
-                                                              i]["image"]),
+                                                          : storiesDocumentSnapshot[i]["image"]),
                                                 ),
                                                 const SizedBox(
                                                   width: 20,
                                                 ),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 2),
+                                                  padding: const EdgeInsets.only(top: 2),
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: <Widget>[
                                                       Row(
                                                         children: [
                                                           Text(
-                                                            storiesDocumentSnapshot[
-                                                                i]["rating"],
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        12.0),
+                                                            storiesDocumentSnapshot[i]["rating"],
+                                                            style: const TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize: 12.0),
                                                           ),
                                                           const SizedBox(
                                                             width: 5,
@@ -199,29 +178,22 @@ class _AddStoryState extends State<AddStory> {
                                                         ],
                                                       ),
                                                       SizedBox(
-                                                        width:
-                                                            screenWidth * 0.4,
+                                                        width: screenWidth * 0.4,
                                                         child: Text(
-                                                          storiesDocumentSnapshot[
-                                                              i]["title"],
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
+                                                          storiesDocumentSnapshot[i]["title"],
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 15.0,
                                                           ),
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width:
-                                                            screenWidth * 0.4,
+                                                        width: screenWidth * 0.4,
                                                         child: Text(
                                                           "By ${storiesDocumentSnapshot[i]["author"]}",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 13.0,
                                                           ),
@@ -239,11 +211,9 @@ class _AddStoryState extends State<AddStory> {
                                                     AddIconContextDialog(
                                                         "Add Story...",
                                                         "Do you really want to add this story?",
-                                                        Icons
-                                                            .playlist_add_outlined,
+                                                        Icons.playlist_add_outlined,
                                                         storiesCollectionReference,
-                                                        storiesDocumentSnapshot[
-                                                            i]),
+                                                        storiesDocumentSnapshot[i]),
                                                     const SizedBox(
                                                       width: 1,
                                                     ),

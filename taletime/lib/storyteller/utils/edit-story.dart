@@ -130,13 +130,13 @@ class _EditStoryState extends State<EditStory> {
                     child: Column(
                       children: [
                         Container(
-                            child: Container(
-                                width: 170.0,
-                                height: 170.0,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image:
-                                        DecorationImage(fit: BoxFit.fill, image: myImage!.image)))),
+                          width: 170.0,
+                          height: 170.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(fit: BoxFit.fill, image: myImage!.image),
+                          ),
+                        ),
                         const SizedBox(
                           height: 30,
                         ),
