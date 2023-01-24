@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
@@ -20,11 +21,11 @@ class MyRecordStory extends StatefulWidget {
   const MyRecordStory(this.myStory, this.profile, this.storiesCollection);
 
   @override
-  State<MyRecordStory> createState() =>
-      _MyRecordStoryState(myStory, profile, storiesCollection);
+  State<MyRecordStory> createState() => _MyRecordStoryState(myStory, profile, storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
+  final logger = TaleTimeLogger.getLogger();
   final Story? myStory;
   final profile;
   final CollectionReference storiesCollection;
@@ -106,16 +107,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// and passes it on to the save or upload page
   void saveRecording() {
     File newAudio = File(recorder.getPath);
-    print("this is the path of the recorded audio ${recorder.getPath}");
-    print("this is the recorded audio $newAudio");
+    logger.v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
     setState(() {});
     Record record = Record(newAudio.path);
     RecordedStory recordedStory = RecordedStory(myStory!, record);
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(
-                recordedStory, profile, storiesCollection, false)));
+            builder: (context) =>
+                SaveOrUploadStory(recordedStory, profile, storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -127,7 +127,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(175, 50), backgroundColor: backgroundColor,
+        minimumSize: const Size(175, 50),
+        backgroundColor: backgroundColor,
       ),
       icon: Icon(icon, color: Colors.white),
       label: Text(
@@ -157,8 +158,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildPlay() {
     final icon = isPlaying ? Icons.stop : Icons.play_arrow;
     final text = isPlaying ? "Stop playing" : "Start Playing";
-    final backgroundColor =
-        playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
@@ -212,20 +212,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
             children: [
               const Text(
                 "TaleTime",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
                 printDuration(recordingTime),
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
@@ -242,11 +237,11 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   }
 
   Widget buildSave() {
-    final backgroundColor =
-        playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
     return ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size(150, 40), backgroundColor: backgroundColor,
+          minimumSize: const Size(150, 40),
+          backgroundColor: backgroundColor,
         ),
         icon: const Icon(Icons.save_alt, color: Colors.white),
         label: const Text(
@@ -259,7 +254,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildDiscard() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black, backgroundColor: kPrimaryColor,
+          foregroundColor: Colors.black,
+          backgroundColor: kPrimaryColor,
           minimumSize: const Size(150, 40)),
       icon: const Icon(Icons.delete_forever, color: Colors.white),
       label: const Text(

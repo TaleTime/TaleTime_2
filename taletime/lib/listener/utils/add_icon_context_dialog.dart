@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import '../../internationalization/localizations_ext.dart';
 import '../../common utils/constants.dart';
 
@@ -9,19 +10,20 @@ class AddIconContextDialog extends StatefulWidget {
   final storiesCollectionReference;
   final allStories;
 
-  const AddIconContextDialog(this.title, this.subtitle, this.icon,
-      this.storiesCollectionReference, this.allStories,
+  const AddIconContextDialog(
+      this.title, this.subtitle, this.icon, this.storiesCollectionReference, this.allStories,
       {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddIconContextDialogState(title, subtitle, icon,
-        storiesCollectionReference, allStories);
+    return _AddIconContextDialogState(
+        title, subtitle, icon, storiesCollectionReference, allStories);
   }
 }
 
 class _AddIconContextDialogState extends State<AddIconContextDialog> {
+  final logger = TaleTimeLogger.getLogger();
   final String title;
   final String subtitle;
   final IconData icon;
@@ -35,19 +37,19 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
   late final String newAuthor;
   late final String newRating;
 
-  _AddIconContextDialogState(this.title, this.subtitle, this.icon,
-      this.storiesCollectionReference, this.allStories);
+  _AddIconContextDialogState(
+      this.title, this.subtitle, this.icon, this.storiesCollectionReference, this.allStories);
 
   Future<void> updateStoryList(String storyId) {
     return storiesCollectionReference
         .doc(storyId)
         .update({'id': storyId})
-        .then((value) => print("List Updated"))
-        .catchError((error) => print("Failed to update List: $error"));
+        .then((value) => logger.v("List Updated"))
+        .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
-  Future<void> addStory(String audio, String author, String image, String title,
-      String rating, bool isLiked) {
+  Future<void> addStory(
+      String audio, String author, String image, String title, String rating, bool isLiked) {
     return storiesCollectionReference.add({
       'id': "",
       'image': image,
@@ -57,10 +59,9 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
       'author': author,
       'isLiked': isLiked
     }).then((value) {
-      print("Story Added to story list");
+      logger.v("Story Added to story list");
       updateStoryList(value.id);
-    }).catchError(
-        (error) => print("Failed to add story to story list: $error"));
+    }).catchError((error) => logger.e("Failed to add story to story list: $error"));
   }
 
   void onSelected(BuildContext context, String title, String subtitle) {
@@ -75,8 +76,7 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
             content: Text(subtitle),
             actions: [
               TextButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   setState(() {
                     newAudio = allStories["audio"];
@@ -85,8 +85,7 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
                     newIsLiked = false;
                     newAuthor = allStories["author"];
                     newRating = allStories["rating"];
-                    addStory(newAudio, newAuthor, newImage, newTitle, newRating,
-                        newIsLiked);
+                    addStory(newAudio, newAuthor, newImage, newTitle, newRating, newIsLiked);
                     Navigator.of(context).pop();
                   });
                 },
@@ -96,8 +95,7 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
                 ),
               ),
               TextButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

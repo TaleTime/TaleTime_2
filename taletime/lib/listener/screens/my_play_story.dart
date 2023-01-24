@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 
 class MyPlayStory extends StatefulWidget {
   final story;
@@ -13,6 +14,7 @@ class MyPlayStory extends StatefulWidget {
 }
 
 class _MyPlayStoryState extends State<MyPlayStory> {
+  final logger = TaleTimeLogger.getLogger();
   final story;
 
   _MyPlayStoryState(this.story);
@@ -106,9 +108,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.transparent,
                   ),
-                  child: Image.network(story["image"] == ""
-                      ? storyImagePlaceholder
-                      : story["image"]),
+                  child:
+                      Image.network(story["image"] == "" ? storyImagePlaceholder : story["image"]),
                 ),
               ],
             ),
@@ -130,9 +131,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       story["title"],
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          color: Colors.teal,
-                          fontSize: 21.0,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.teal, fontSize: 21.0, fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
@@ -174,7 +173,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       onChangeEnd: (double value) async {
                         setState(() {
                           _currentValue = value;
-                          print(_currentValue);
+                          logger.d('Current Slider value: $_currentValue');
                         });
                         player.pause();
                         await player.seek(Duration(seconds: value.toInt()));
@@ -190,14 +189,11 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     Text(
                       "${displayDoubleDigits((_currentValue / 60).floor())}:${displayDoubleDigits((_currentValue % 60).floor())}",
                       style: TextStyle(
-                          fontSize: 14,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 14, color: kPrimaryColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "/",
-                      style: TextStyle(
-                          color: kPrimaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${displayDoubleDigits(duration!.inMinutes)}:${displayDoubleDigits(duration!.inSeconds % 60)}",

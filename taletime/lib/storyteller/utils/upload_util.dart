@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 
 class UploadUtil {
+  final logger = TaleTimeLogger.getLogger();
   late final CollectionReference storiesCollection;
   UploadUtil(CollectionReference storiesCollection) {
     this.storiesCollection = storiesCollection;
   }
 
-  CollectionReference allStories =
-      FirebaseFirestore.instance.collection('allStories');
-  Future<void> uploadStory(String audio, String author, String image,
-      String title, String rating, bool isLiked) {
+  CollectionReference allStories = FirebaseFirestore.instance.collection('allStories');
+  Future<void> uploadStory(
+      String audio, String author, String image, String title, String rating, bool isLiked) {
     return allStories.add({
       'id': "",
       'image': image,
@@ -19,24 +20,24 @@ class UploadUtil {
       'author': author,
       'isLiked': isLiked
     }).then((value) {
-      print("Story uploaded succesfully");
+      logger.d("Story uploaded succesfully");
       updateList(value.id);
-    }).catchError((error) => print("Failed to upload story: $error"));
+    }).catchError((error) => logger.e("Failed to upload story: $error"));
   }
 
   Future<void> updateList(String storyId) {
     return allStories
         .doc(storyId)
         .update({'id': storyId})
-        .then((value) => print("List Updated"))
-        .catchError((error) => print("Failed to update List: $error"));
+        .then((value) => logger.v("List Updated"))
+        .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
   Future<void> deleteStory(String storyId) {
     return storiesCollection
         .doc(storyId)
         .delete()
-        .then((value) => print("story Deleted"))
-        .catchError((error) => print("Failed to delete story: $error"));
+        .then((value) => logger.v("story Deleted"))
+        .catchError((error) => logger.e("Failed to delete story: $error"));
   }
 }

@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import 'package:taletime/storyteller/utils/navbar_widget_storyteller.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/storyteller/utils/upload_util.dart';
@@ -19,21 +20,20 @@ class SaveOrUploadStory extends StatefulWidget {
   final profile;
   final storiesCollection;
   bool isSaved;
-  SaveOrUploadStory(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+  SaveOrUploadStory(this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
 
   @override
-  State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState(
-      myRecordedStory, profile, storiesCollection, isSaved);
+  State<SaveOrUploadStory> createState() =>
+      _SaveOrUploadStoryState(myRecordedStory, profile, storiesCollection, isSaved);
 }
 
 class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
+  final logger = TaleTimeLogger.getLogger();
   final RecordedStory myRecordedStory;
   final profile;
   final storiesCollection;
   bool isSaved;
-  _SaveOrUploadStoryState(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+  _SaveOrUploadStoryState(this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -59,8 +59,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     File audioFile = File(myRecordedStory.recording.getAudioPath());
     String filePath = myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
-    String fileString =
-        filePath.substring(filePath.lastIndexOf('/'), filePath.length);
+    String fileString = filePath.substring(filePath.lastIndexOf('/'), filePath.length);
     await refImages.child(imagePath).putFile(image);
     await refAudios.child(fileString).putFile(audioFile);
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
@@ -76,9 +75,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
         "isLiked": false,
         "id": ""
       }).then((value) {
-        print("Story Added to RecordedStories");
+        logger.v("Story Added to RecordedStories");
         updateList(value.id, storiesCollection);
-      }).catchError((error) => print("Failed to add story: $error"));
+      }).catchError((error) => logger.e("Failed to add story: $error"));
     });
   }
 
@@ -86,8 +85,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     return stories
         .doc(storyId)
         .update({'id': storyId})
-        .then((value) => print("List Updated"))
-        .catchError((error) => print("Failed to update List: $error"));
+        .then((value) => logger.v("List Updated"))
+        .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
   @override
@@ -98,8 +97,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     Color? primarySave = isSaved ? Colors.grey : kPrimaryColor;
     Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(
-      appBar: Decorations().appBarDecoration(
-          title: "Save/Upload Story", context: context, automaticArrow: true),
+      appBar: Decorations()
+          .appBarDecoration(title: "Save/Upload Story", context: context, automaticArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -107,8 +106,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             Center(
                 child: Text(
               "Save",
-              style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
             const SizedBox(
               height: 15,
@@ -144,8 +142,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             Center(
                 child: Text(
               "Upload Story",
-              style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
             const SizedBox(
               height: 15,
@@ -178,8 +175,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NavBarSpeaker(
-                                                      profile, profiles)));
+                                                  NavBarSpeaker(profile, profiles)));
                                     },
                                   );
                                 });
@@ -211,26 +207,19 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                       "Uploading Story...",
                                       "Do you really want to share the story with every user?",
                                       context, () async {
-                                    var refImages = FirebaseStorage.instance
-                                        .ref()
-                                        .child("images");
+                                    var refImages = FirebaseStorage.instance.ref().child("images");
                                     String myImageUrl = await refImages
                                         .child("$author/$title.jpg")
                                         .getDownloadURL();
 
                                     UploadUtil(storiesCollection).uploadStory(
-                                        audioPath,
-                                        author,
-                                        myImageUrl,
-                                        title,
-                                        '2.5',
-                                        false);
+                                        audioPath, author, myImageUrl, title, '2.5', false);
                                     Navigator.of(context).pop();
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => NavBarSpeaker(
-                                                profile, profiles)));
+                                            builder: (context) =>
+                                                NavBarSpeaker(profile, profiles)));
                                   });
                                 });
                           },
@@ -263,8 +252,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    NavBarSpeaker(profile, profiles)));
+                                builder: (context) => NavBarSpeaker(profile, profiles)));
                       }),
                 )),
           ],

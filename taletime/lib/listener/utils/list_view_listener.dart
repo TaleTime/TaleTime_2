@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import '../../common utils/constants.dart';
 import '../screens/my_play_story.dart';
 import 'icon_context_dialog.dart';
@@ -9,19 +10,17 @@ class MyListView extends StatefulWidget {
   final CollectionReference storiesCollection;
   final profile;
   final profiles;
-  const MyListView(
-      this.stories, this.storiesCollection, this.profile, this.profiles,
-      {Key? key})
+  const MyListView(this.stories, this.storiesCollection, this.profile, this.profiles, {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewState(
-        stories, storiesCollection, profile, profiles);
+    return _MyListViewState(stories, storiesCollection, profile, profiles);
   }
 }
 
 class _MyListViewState extends State<MyListView> {
+  final logger = TaleTimeLogger.getLogger();
   final List stories;
   final CollectionReference storiesCollection;
   final profile;
@@ -35,8 +34,7 @@ class _MyListViewState extends State<MyListView> {
   late final String newRating;
   late final String newId;
 
-  _MyListViewState(
-      this.stories, this.storiesCollection, this.profile, this.profiles);
+  _MyListViewState(this.stories, this.storiesCollection, this.profile, this.profiles);
 
   final List<IconData> _icons = [
     Icons.favorite,
@@ -46,23 +44,22 @@ class _MyListViewState extends State<MyListView> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    CollectionReference favorites =
-        profiles.doc(profile["id"]).collection('favoriteList');
+    CollectionReference favorites = profiles.doc(profile["id"]).collection('favoriteList');
 
     Future<void> updateStory(String storyId, bool isLiked) {
       return storiesCollection
           .doc(storyId)
           .update({'isLiked': isLiked})
-          .then((value) => print("Story liked/disliked"))
-          .catchError((error) => print("Failed to update user: $error"));
+          .then((value) => logger.v("Story liked/disliked"))
+          .catchError((error) => logger.e("Failed to update user: $error"));
     }
 
     Future<void> updateFavoriteList(String storyId) {
       return favorites
           .doc(storyId)
           .update({'id': storyId})
-          .then((value) => print("List Updated"))
-          .catchError((error) => print("Failed to update List: $error"));
+          .then((value) => logger.v("List Updated"))
+          .catchError((error) => logger.e("Failed to update List: $error"));
     }
 
     Future<void> addStory(
@@ -83,10 +80,9 @@ class _MyListViewState extends State<MyListView> {
         'author': author,
         'isLiked': isLiked
       }).then((value) {
-        print("Story Added to favorites");
+        logger.v("Story Added to favorites");
         updateFavoriteList(value.id);
-      }).catchError(
-          (error) => print("Failed to add story to favorites: $error"));
+      }).catchError((error) => logger.e("Failed to add story to favorites: $error"));
     }
 
     return ListView.builder(
@@ -141,9 +137,7 @@ class _MyListViewState extends State<MyListView> {
                                     children: [
                                       Text(
                                         stories[i]["rating"],
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12.0),
+                                        style: const TextStyle(color: Colors.white, fontSize: 12.0),
                                       ),
                                       const SizedBox(
                                         width: 5,
@@ -210,12 +204,7 @@ class _MyListViewState extends State<MyListView> {
                                         newAuthor = stories[i]["author"];
                                         newRating = stories[i]["rating"];
                                         //newId = stories[i]["id"];
-                                        addStory(
-                                            newAudio,
-                                            newAuthor,
-                                            newImage,
-                                            newTitle,
-                                            newRating,
+                                        addStory(newAudio, newAuthor, newImage, newTitle, newRating,
                                             newIsLiked /*,newId*/);
                                       });
                                     } else {
@@ -225,10 +214,9 @@ class _MyListViewState extends State<MyListView> {
                                         favorites
                                             .doc(stories[i]["id"])
                                             .delete()
-                                            .then((value) =>
-                                                print("story Deleted"))
-                                            .catchError((error) => print(
-                                                "Failed to delete story: $error"));
+                                            .then((value) => logger.v("story Deleted"))
+                                            .catchError((error) =>
+                                                logger.e("Failed to delete story: $error"));
                                       });
                                     }
                                   },

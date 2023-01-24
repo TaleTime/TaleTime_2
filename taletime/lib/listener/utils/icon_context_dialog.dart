@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import '../../internationalization/localizations_ext.dart';
 import '../../common utils/constants.dart';
 
@@ -9,34 +10,31 @@ class IconContextDialog extends StatefulWidget {
   final String id;
   final stories;
 
-  const IconContextDialog(
-      this.title, this.subtitle, this.icon, this.id, this.stories,
-      {Key? key})
+  const IconContextDialog(this.title, this.subtitle, this.icon, this.id, this.stories, {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _IconContextDialogState(
-        title, subtitle, icon, id, stories);
+    return _IconContextDialogState(title, subtitle, icon, id, stories);
   }
 }
 
 class _IconContextDialogState extends State<IconContextDialog> {
+  final logger = TaleTimeLogger.getLogger();
   final String title;
   final String subtitle;
   final IconData icon;
   final String id;
   final stories;
 
-  _IconContextDialogState(
-      this.title, this.subtitle, this.icon, this.id, this.stories);
+  _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
 
   Future<void> deleteUser(String id) {
     return stories
         .doc(id)
         .delete()
-        .then((value) => print("User Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
+        .then((value) => logger.v("User Deleted"))
+        .catchError((error) => logger.e("Failed to delete user: $error"));
   }
 
   void onSelected(BuildContext context, String title, String subtitle) {
@@ -51,8 +49,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
             content: Text(subtitle),
             actions: [
               TextButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   setState(() {
                     deleteUser(id);
@@ -65,8 +62,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
                 ),
               ),
               TextButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
