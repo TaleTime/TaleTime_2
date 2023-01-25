@@ -2,18 +2,18 @@
 ///to either save the story to storage in firebase or share the story with specific listeners or all listeners.
 ///It contains three functions save ,load,load all
 
-import 'dart:io';
+import "dart:io";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import 'package:taletime/storyteller/utils/navbar_widget_storyteller.dart';
-import 'package:taletime/storyteller/utils/record_class.dart';
-import 'package:taletime/storyteller/utils/upload_util.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
+import "package:taletime/storyteller/utils/record_class.dart";
+import "package:taletime/storyteller/utils/upload_util.dart";
 
 class SaveOrUploadStory extends StatefulWidget {
   final RecordedStory myRecordedStory;
@@ -59,7 +59,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     File audioFile = File(myRecordedStory.recording.getAudioPath());
     String filePath = myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
-    String fileString = filePath.substring(filePath.lastIndexOf('/'), filePath.length);
+    String fileString = filePath.substring(filePath.lastIndexOf("/"), filePath.length);
     await refImages.child(imagePath).putFile(image);
     await refAudios.child(fileString).putFile(audioFile);
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
@@ -84,7 +84,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   Future<void> updateList(String storyId, stories) {
     return stories
         .doc(storyId)
-        .update({'id': storyId})
+        .update({"id": storyId})
         .then((value) => logger.v("List Updated"))
         .catchError((error) => logger.e("Failed to update List: $error"));
   }
@@ -92,8 +92,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   @override
   Widget build(BuildContext context) {
     String uId = auth.currentUser!.uid;
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    CollectionReference profiles = users.doc(uId).collection('profiles');
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    CollectionReference profiles = users.doc(uId).collection("profiles");
     Color? primarySave = isSaved ? Colors.grey : kPrimaryColor;
     Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(
@@ -213,7 +213,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                         .getDownloadURL();
 
                                     UploadUtil(storiesCollection).uploadStory(
-                                        audioPath, author, myImageUrl, title, '2.5', false);
+                                        audioPath, author, myImageUrl, title, "2.5", false);
                                     Navigator.of(context).pop();
                                     Navigator.push(
                                         context,
