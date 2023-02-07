@@ -13,6 +13,8 @@ import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/list_view_story_teller.dart';
 import '../../common utils/decoration_util.dart';
 import '../../listener/screens/my_play_story.dart';
+import '../../onboarding/onboarding_main.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
@@ -64,7 +66,48 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   elevation: 0.0,
                   actions: <Widget>[
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Help'),
+                                content: new Container(
+                                    child: SizedBox(
+                                  width: 420,
+                                  child: ElevatedButton(
+                                    style: elevatedButtonDefaultStyle(),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const OnboardingMain()));
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.onboarding,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                )),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
+                                    ),
+                                    child: const Text('Close Help'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       icon: Icon(
                         Icons.menu,
                         size: 33,

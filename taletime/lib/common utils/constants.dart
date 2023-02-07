@@ -23,6 +23,10 @@ const List profileImages = [
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_standard.png?alt=media&token=a5af1ee4-3d77-4354-9db3-4413e6234f7e"
 ];
 
+//Onboarding
+
+const String welcomePage = "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2FwelcomePage.png?alt=media&token=6ad30c48-603f-4111-bfc8-0611302e6d65";
+
 /// Sets the Text-Color of an Elevated Button to white and the Button-Color to [kPrimaryColor]
 ButtonStyle elevatedButtonDefaultStyle() {
   return ElevatedButton.styleFrom(

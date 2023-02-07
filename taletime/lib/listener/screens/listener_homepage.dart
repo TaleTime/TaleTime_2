@@ -5,8 +5,10 @@ import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/listener/screens/my_play_story.dart';
 import 'package:taletime/listener/utils/my_list_view_listener.dart';
 import '../../common utils/decoration_util.dart';
+import '../../onboarding/onboarding_main.dart';
 import '../utils/list_view_listener.dart';
 import '../utils/search-bar-util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListenerHomePage extends StatefulWidget {
   final DocumentSnapshot profile;
@@ -58,14 +60,53 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
                   elevation: 0.0,
-                  actions: <Widget>[
+                  actions: [
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.menu,
-                        size: 33,
-                        color: kPrimaryColor,
-                      ),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Help'),
+                                content: new Container(
+                                    child: SizedBox(
+                                  width: 420,
+                                  child: ElevatedButton(
+                                    style: elevatedButtonDefaultStyle(),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const OnboardingMain()));
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.onboarding,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                )),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
+                                    ),
+                                    child: const Text('Close Help'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: Icon(Icons.menu,
+                          size: 33, color: kPrimaryColor //kPrimaryColor
+                          ),
                     )
                   ],
                 ),
