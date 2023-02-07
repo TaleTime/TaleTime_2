@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/constants.dart';
-
 import '../../common utils/decoration_util.dart';
 import '../../storyteller/utils/list_view_story_teller.dart';
 
@@ -16,7 +15,7 @@ class AllStories extends StatefulWidget {
 
   @override
   State<AllStories> createState() => _AllStoriesState(
-      this.profile, this.profiles, this.recordedStoriesCollection);
+      profile, profiles, recordedStoriesCollection);
 }
 
 class _AllStoriesState extends State<AllStories> {
@@ -43,7 +42,7 @@ class _AllStoriesState extends State<AllStories> {
                   child: AppBar(
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "All Stories",
+                      AppLocalizations.of(context)!.allStories_pageTitle,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
@@ -80,9 +79,9 @@ class _AllStoriesState extends State<AllStories> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 800,
-                        child: recordedStoriesDocumentSnapshot.length == 0
+                        child: recordedStoriesDocumentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
                                 AppLocalizations.of(context)!
                                     .allStories_noStoriesAvailableError,

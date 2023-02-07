@@ -4,7 +4,7 @@ import 'package:taletime/login%20and%20registration/utils/authentification_util.
 import 'package:taletime/login%20and%20registration/screens/login.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/text_form_field_util.dart';
 
 /// The Signup class is used to create a new account in the app
@@ -68,7 +68,7 @@ class _SignupPageState extends State<SignupPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height / 7,
                     child: Image.network(assetLogo),
                   ),
@@ -85,37 +85,39 @@ class _SignupPageState extends State<SignupPage> {
                           child: Column(children: <Widget>[
                             /// TextField that catches the user input for the username
                             Container(
-                                child: TextFormFieldUtil().enterUserNameForm(
-                                    context, _nameController),
                                 decoration:
-                                    Decorations().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow(),
+                                child: TextFormFieldUtil().enterUserNameForm(
+                                    context, _nameController)),
                             const SizedBox(height: 25),
 
                             /// TextField that catches the user input for the email-adress
                             Container(
-                                child: TextFormFieldUtil()
-                                    .enterEmailForm(context, _emailController),
                                 decoration:
-                                    Decorations().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow(),
+                                child: TextFormFieldUtil()
+                                    .enterEmailForm(context, _emailController)),
                             const SizedBox(height: 20),
                             Container(
 
                                 /// TextField that catches the user input for the password
-                                child: TextFormFieldUtil().enterPasswordForm(
-                                    context, _passwordController),
                                 decoration:
-                                    Decorations().inputBoxDecorationShaddow()),
+                                    Decorations().inputBoxDecorationShaddow(),
+
+                                /// TextField that catches the user input for the password
+                                child: TextFormFieldUtil().enterPasswordForm(
+                                    context, _passwordController)),
                             const SizedBox(height: 25),
 
                             /// TextField that catches the user input for the confirm password
                             Container(
                                 height: MediaQuery.of(context).size.height / 13,
+                                decoration:
+                                    Decorations().inputBoxDecorationShaddow(),
                                 child: TextFormFieldUtil().confirmPasswordForm(
                                     context,
                                     _passwordController,
-                                    _confirmPasswordController),
-                                decoration:
-                                    Decorations().inputBoxDecorationShaddow())
+                                    _confirmPasswordController))
                           ]))
                     ],
                   ))
@@ -133,24 +135,24 @@ class _SignupPageState extends State<SignupPage> {
                         /// creates a new user with the input from the user
                         /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                         onPressed: () async {
-                          final String _userName = _nameController.text;
-                          final String _email =
+                          final String userName = _nameController.text;
+                          final String email =
                               _emailController.text.trim().toLowerCase();
-                          final String _password =
+                          final String password =
                               _passwordController.text.trim();
                           final isValidForm = _formKey.currentState!.validate();
                           if (isValidForm) {
                             AuthentificationUtil(auth: auth)
                                 .registerWithEmailAndPassword(
-                                    userName: _userName,
-                                    email: _email,
-                                    password: _password,
+                                    userName: userName,
+                                    email: email,
+                                    password: password,
                                     context: context);
                           }
                         },
                         child: Text(
                           AppLocalizations.of(context)!.registerVerb,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       ))),

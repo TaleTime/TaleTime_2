@@ -14,7 +14,7 @@ class NavBarSpeaker extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _NavBarSpeakerState(this.profile, this.profiles);
+    return _NavBarSpeakerState(profile, profiles);
   }
 }
 

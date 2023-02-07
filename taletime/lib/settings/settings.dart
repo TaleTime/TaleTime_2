@@ -1,18 +1,13 @@
-///The [Setting] class offers many functions for the user.
-///The user can change the language (German, English, Arabic).
-///The user can change the mode (light, dark).
-///The user can change the password
-///you can change the profiles
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import 'package:taletime/internationalization/l10n.dart';
 import 'package:taletime/internationalization/locale_provider.dart';
 import 'package:taletime/profiles/screens/profiles_page.dart';
 import 'package:taletime/settings/changePassword.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -22,11 +17,11 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() =>
-      _SettingsPageState(this.profile, this.profiles);
+  State<SettingsPage> createState() => _SettingsPageState(profile, profiles);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final logger = TaleTimeLogger.getLogger();
   final profile;
   final profiles;
 
@@ -38,16 +33,16 @@ class _SettingsPageState extends State<SettingsPage> {
       return profiles
           .doc(profileId)
           .update({'language': language})
-          .then((value) => print("profile Updated"))
-          .catchError((error) => print("Failed to update profile: $error"));
+          .then((value) => logger.v("profile Updated"))
+          .catchError((error) => logger.e("Failed to update profile: $error"));
     }
 
     Future<void> updateTheme(String profileId, bool theme) {
       return profiles
           .doc(profileId)
           .update({'theme': theme})
-          .then((value) => print("profile Updated"))
-          .catchError((error) => print("Failed to update profile: $error"));
+          .then((value) => logger.v("profile Updated"))
+          .catchError((error) => logger.e("Failed to update profile: $error"));
     }
 
     final languageProvider = Provider.of<LocaleProvider>(context);
@@ -67,17 +62,13 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
         automaticallyImplyLeading: false,
-        actions: [
-          Icon(Icons.settings),
-          Container(padding: const EdgeInsets.all(16.0))
-        ],
+        actions: [const Icon(Icons.settings), Container(padding: const EdgeInsets.all(16.0))],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            Container(
-                child: Card(
+            Card(
               child: ListTile(
                   leading: const Icon(Icons.language_outlined),
                   title: Text(AppLocalizations.of(context)!.changeLanguage),
@@ -87,15 +78,12 @@ class _SettingsPageState extends State<SettingsPage> {
                         (locale) {
                           final flag = L10n.getCountryFlag(locale.languageCode);
                           return DropdownMenuItem(
-                            child: Text(flag,
-                                style: const TextStyle(fontSize: 32)),
                             value: locale,
                             onTap: () {
-                              final provider = Provider.of<LocaleProvider>(
-                                  context,
-                                  listen: false);
+                              final provider = Provider.of<LocaleProvider>(context, listen: false);
                               provider.setLocale(locale);
                             },
+                            child: Text(flag, style: const TextStyle(fontSize: 32)),
                           );
                         },
                       ).toList(),
@@ -105,57 +93,50 @@ class _SettingsPageState extends State<SettingsPage> {
                           updateLanguage(profile["id"], value.toString());
                         });
                       })),
-            )),
-            SizedBox(
+            ),
+            const SizedBox(
               height: 10,
             ),
-            Container(
-              child: Card(
-                child: SwitchListTile(
-                  secondary: const Icon(
-                    Icons.dark_mode_sharp,
-                  ),
-                  title: Text(AppLocalizations.of(context)!.darkMode),
-                  value: themeProvider.isDarkMode,
-                  onChanged: (value) {
-                    final provider =
-                        Provider.of<ThemeProvider>(context, listen: false);
-                    provider.toggleTheme(value);
-                    setState(() {
-                      updateTheme(profile["id"], value);
-                    });
-                  },
-                  activeTrackColor: kPrimaryColor,
+            Card(
+              child: SwitchListTile(
+                secondary: const Icon(
+                  Icons.dark_mode_sharp,
                 ),
+                title: Text(AppLocalizations.of(context)!.darkMode),
+                value: themeProvider.isDarkMode,
+                onChanged: (value) {
+                  final provider = Provider.of<ThemeProvider>(context, listen: false);
+                  provider.toggleTheme(value);
+                  setState(() {
+                    updateTheme(profile["id"], value);
+                  });
+                },
+                activeTrackColor: kPrimaryColor,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Container(
-              child: Card(
-                child: ListTile(
-                  leading: Icon(Icons.password),
-                  title: Text(AppLocalizations.of(context)!.changePassword),
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return const ChangePassword();
-                    }));
-                  },
-                ),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.password),
+                title: Text(AppLocalizations.of(context)!.changePassword),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return const ChangePassword();
+                  }));
+                },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Card(
                 child: ListTile(
-              leading: Icon(Icons.person),
+              leading: const Icon(Icons.person),
               title: Text(AppLocalizations.of(context)!.changeProfile),
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return ProfilesPage(auth.currentUser!.uid);
                 }));
               },

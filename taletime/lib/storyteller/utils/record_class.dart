@@ -1,6 +1,4 @@
-import 'dart:io';
 
-import 'package:taletime/storyteller/screens/create_story.dart';
 
 class Story {
   /// Instanzvariablen
@@ -15,11 +13,11 @@ class Story {
   }
 
   String getTitle() {
-    return this.title;
+    return title;
   }
 
   String getImagePath() {
-    return this.imagePath;
+    return imagePath;
   }
 }
 
@@ -31,7 +29,7 @@ class Record {
   }
 
   String getAudioPath() {
-    return this.audio;
+    return audio;
   }
 }
 

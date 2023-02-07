@@ -1,21 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/listener/utils/my_list_view_listener.dart';
-import '../../common utils/decoration_util.dart';
-import '../utils/list_view_listener.dart';
-import '../utils/search-bar-util.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/listener/utils/my_list_view_listener.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+
+import 'package:taletime/listener/utils/search_bar_util.dart';
 
 class FavoritePage extends StatefulWidget {
   final profile;
   final profiles;
   final favorites;
-  const FavoritePage(this.profile, this.profiles, this.favorites, {Key? key})
-      : super(key: key);
+  const FavoritePage(this.profile, this.profiles, this.favorites, {Key? key}) : super(key: key);
 
   @override
-  State<FavoritePage> createState() =>
-      _FavoritePageState(this.profile, this.profiles, this.favorites);
+  State<FavoritePage> createState() => _FavoritePageState(profile, profiles, favorites);
 }
 
 class _FavoritePageState extends State<FavoritePage> {
@@ -34,8 +32,7 @@ class _FavoritePageState extends State<FavoritePage> {
       stream: favorites.snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
         if (streamSnapshot.hasData) {
-          final List<QueryDocumentSnapshot> documentSnapshot =
-              streamSnapshot.data!.docs;
+          final List<QueryDocumentSnapshot> documentSnapshot = streamSnapshot.data!.docs;
           return Scaffold(
               body: Stack(
             children: [
@@ -75,19 +72,17 @@ class _FavoritePageState extends State<FavoritePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-                    Container(
+                    SizedBox(
                       height: 42,
                       child: TextField(
                         onChanged: (value) {
                           setState(() {
-                            matchStoryList = SearchBarUtil()
-                                .searchStory(documentSnapshot, value);
+                            matchStoryList = SearchBarUtil().searchStory(documentSnapshot, value);
                           });
-                          SearchBarUtil()
-                              .isStoryListEmpty(matchStoryList, value);
+                          SearchBarUtil().isStoryListEmpty(matchStoryList, value);
                         },
                         style: TextStyle(color: kPrimaryColor),
                         decoration: InputDecoration(
@@ -99,9 +94,8 @@ class _FavoritePageState extends State<FavoritePage> {
                             borderSide: BorderSide.none,
                           ),
                           hintText: "Search stories...",
-                          hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 18),
-                          suffixIcon: Icon(
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
+                          suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
                           ),
@@ -118,14 +112,12 @@ class _FavoritePageState extends State<FavoritePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: screenHeight * 0.8,
-                      child: documentSnapshot.length == 0
+                      child: documentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
-                              "No stories yet. \nplease add some stories to your story library",
-                              "")
-                          : MyListViewListener(
-                              documentSnapshot, favorites, profile, profiles),
+                              "No stories yet. \nplease add some stories to your story library", "")
+                          : MyListViewListener(documentSnapshot, favorites, profile, profiles),
                     )
                   ],
                 ),
@@ -139,7 +131,7 @@ class _FavoritePageState extends State<FavoritePage> {
             ],
           ));
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

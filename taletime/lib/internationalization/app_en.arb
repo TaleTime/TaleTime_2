@@ -287,5 +287,6 @@
     "@enterOldPassword": {
         "description": "Geben Sie Ihr altes Passwort ein"
     },
+    "allStories_pageTitle":"All Stories",
     "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library"
 }

@@ -3,7 +3,7 @@ import 'package:taletime/login%20and%20registration/screens/login.dart';
 import 'package:taletime/onboarding/onboarding.dart';
 import 'package:taletime/login%20and%20registration/screens/signup.dart';
 import 'package:taletime/common%20utils/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 
 import '../../onboarding/onboarding_main.dart';
 
@@ -43,13 +43,13 @@ class WelcomePage extends StatelessWidget {
                   Text(
                     AppLocalizations.of(context)!.descriptionWelcome,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                     ),
                   )
                 ],
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height / 3,
                 child: Image.network(assetLogo),
               ),
@@ -76,7 +76,7 @@ class WelcomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   /// Signup Button
                   SizedBox(
@@ -94,7 +94,7 @@ class WelcomePage extends StatelessWidget {
                         },
                         child: Text(
                           AppLocalizations.of(context)!.register,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       )),

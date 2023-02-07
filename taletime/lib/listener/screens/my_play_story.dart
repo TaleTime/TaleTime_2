@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 
 class MyPlayStory extends StatefulWidget {
   final story;
@@ -8,11 +9,12 @@ class MyPlayStory extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MyPlayStoryState(this.story);
+    return _MyPlayStoryState(story);
   }
 }
 
 class _MyPlayStoryState extends State<MyPlayStory> {
+  final logger = TaleTimeLogger.getLogger();
   final story;
 
   _MyPlayStoryState(this.story);
@@ -24,7 +26,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   double changeVoice = 0.0;
   double _currentValue = 0;
 
-  Duration? duration = Duration(seconds: 0);
+  Duration? duration = const Duration(seconds: 0);
 
   void initPlayer() async {
     await player.setSource(UrlSource(story["audio"]));
@@ -39,9 +41,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   displayDoubleDigits(int digit) {
     if (digit < 10) {
-      return "0${digit}";
+      return "0$digit";
     } else {
-      return "${digit}";
+      return "$digit";
     }
   }
 
@@ -96,7 +98,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
           top: 110,
           left: 10,
           right: 10,
-          child: Container(
+          child: SizedBox(
             height: 300,
             child: Column(
               children: [
@@ -106,9 +108,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.transparent,
                   ),
-                  child: Image.network(story["image"] == ""
-                      ? storyImagePlaceholder
-                      : story["image"]),
+                  child:
+                      Image.network(story["image"] == "" ? storyImagePlaceholder : story["image"]),
                 ),
               ],
             ),
@@ -118,36 +119,32 @@ class _MyPlayStoryState extends State<MyPlayStory> {
           top: 360,
           left: 0,
           right: 0,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 7, left: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: screenWidth * 0.8,
-                    child: Text(
-                      story["title"],
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.teal,
-                          fontSize: 21.0,
-                          fontWeight: FontWeight.bold),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 7, left: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  width: screenWidth * 0.8,
+                  child: Text(
+                    story["title"],
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Colors.teal, fontSize: 21.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth * 0.8,
+                  child: Text(
+                    story["author"],
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.teal,
+                      fontSize: 16.0,
                     ),
                   ),
-                  Container(
-                    width: screenWidth * 0.8,
-                    child: Text(
-                      story["author"],
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.teal,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -162,7 +159,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             ),
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   width: 300,
                   child: Slider.adaptive(
                       activeColor: kPrimaryColor,
@@ -174,7 +171,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       onChangeEnd: (double value) async {
                         setState(() {
                           _currentValue = value;
-                          print(_currentValue);
+                          logger.d('Current Slider value: $_currentValue');
                         });
                         player.pause();
                         await player.seek(Duration(seconds: value.toInt()));
@@ -190,14 +187,11 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     Text(
                       "${displayDoubleDigits((_currentValue / 60).floor())}:${displayDoubleDigits((_currentValue % 60).floor())}",
                       style: TextStyle(
-                          fontSize: 14,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 14, color: kPrimaryColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "/",
-                      style: TextStyle(
-                          color: kPrimaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${displayDoubleDigits(duration!.inMinutes)}:${displayDoubleDigits(duration!.inSeconds % 60)}",
@@ -208,7 +202,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
+                SizedBox(
                   width: 200,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

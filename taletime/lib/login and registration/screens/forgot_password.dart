@@ -5,7 +5,7 @@ import 'package:taletime/login%20and%20registration/screens/login.dart';
 import 'package:taletime/login%20and%20registration/utils/authentification_util.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/text_form_field_util.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -66,9 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Text(
-                                AppLocalizations.of(context)!
-                                    .enterAssociatedEmail,
+                            Text(AppLocalizations.of(context)!.enterAssociatedEmail,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
@@ -89,51 +87,42 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           children: <Widget>[
                             /// TextField that catches the user input for the email-adress
                             Container(
-                              child: TextFormFieldUtil()
-                                  .enterEmailForm(context, _emailController),
-                              decoration:
-                                  Decorations().inputBoxDecorationShaddow(),
+                              decoration: Decorations().inputBoxDecorationShaddow(),
+                              child: TextFormFieldUtil().enterEmailForm(context, _emailController),
                             ),
                             const SizedBox(height: 40.0),
                           ],
                         ),
                       ),
-                      Container(
-                        child: ElevatedButton(
-                          style: elevatedButtonDefaultStyle(),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                            child: Text(
-                              AppLocalizations.of(context)!.resetPassword,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      ElevatedButton(
+                        style: elevatedButtonDefaultStyle(),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                          child: Text(
+                            AppLocalizations.of(context)!.resetPassword,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-
-                          /// send the user an email to reset his password
-                          /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
-                          onPressed: () async {
-                            final String email =
-                                _emailController.text.trim().toLowerCase();
-                            final isValidForm =
-                                _formKey.currentState!.validate();
-                            if (isValidForm) {
-                              AuthentificationUtil(auth: auth)
-                                  .resetPasswordWithEmail(
-                                      email: email, context: context);
-                            }
-                          },
                         ),
+
+                        /// send the user an email to reset his password
+                        /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
+                        onPressed: () async {
+                          final String email = _emailController.text.trim().toLowerCase();
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            AuthentificationUtil(auth: auth)
+                                .resetPasswordWithEmail(email: email, context: context);
+                          }
+                        },
                       ),
                       const SizedBox(height: 30.0),
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
-                                text: AppLocalizations.of(context)!
-                                    .rememberPassword),
+                            TextSpan(text: AppLocalizations.of(context)!.rememberPassword),
                             TextSpan(
                               text: AppLocalizations.of(context)!.loginVerb,
 
@@ -142,9 +131,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 ..onTap = () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()),
+                                    MaterialPageRoute(builder: (context) => const LoginPage()),
                                   );
                                 },
                               style: TextStyle(color: kPrimaryColor),
