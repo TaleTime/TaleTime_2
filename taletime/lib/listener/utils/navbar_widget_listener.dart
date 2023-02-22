@@ -75,7 +75,7 @@ class _NavBarListenerState extends State<NavBarListener> {
           ),
           navBarItems(Icons.favorite_sharp, "Favorites"),
           navBarItems(Icons.playlist_add_sharp, "Add Story"),
-          navBarItems(Icons.settings, "Settings"),
+          //navBarItems(Icons.settings, "Settings"),
         ],
       ),
     );

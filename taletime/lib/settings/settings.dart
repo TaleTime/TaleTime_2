@@ -10,6 +10,8 @@ import 'package:taletime/common%20utils/constants.dart';
 import '../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/theme_provider.dart';
 
+import '../onboarding/onboarding_main.dart';
+
 class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
   final profile;
@@ -139,6 +141,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return ProfilesPage(auth.currentUser!.uid);
                 }));
+              },
+            )),
+            
+            Card(
+                child: ListTile(
+              leading: const Icon(Icons.help),
+              title: Text(AppLocalizations.of(context)!.onboarding),
+              onTap: () {
+                Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OnboardingMain()));
+                
               },
             ))
           ],

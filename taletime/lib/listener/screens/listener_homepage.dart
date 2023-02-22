@@ -6,6 +6,7 @@ import 'package:taletime/listener/screens/my_play_story.dart';
 import 'package:taletime/listener/utils/my_list_view_listener.dart';
 import '../../common utils/decoration_util.dart';
 import '../../onboarding/onboarding_main.dart';
+import '../../settings/settings.dart';
 import '../utils/list_view_listener.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils/search_bar_util.dart';
@@ -15,13 +16,15 @@ class ListenerHomePage extends StatefulWidget {
   final profiles;
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
-  const ListenerHomePage(this.profile, this.profiles, this.storiesCollection, this.recentCollection,
+  const ListenerHomePage(this.profile, this.profiles, this.storiesCollection,
+      this.recentCollection,
       {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState(profile, profiles, storiesCollection, recentCollection);
+    return _ListenerHomePageState(
+        profile, profiles, storiesCollection, recentCollection);
   }
 }
 
@@ -33,8 +36,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
 
-  _ListenerHomePageState(
-      this.profile, this.profiles, this.storiesCollection, this.recentCollection);
+  _ListenerHomePageState(this.profile, this.profiles, this.storiesCollection,
+      this.recentCollection);
 
   List matchStoryList = [];
 
@@ -46,7 +49,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         stream: storiesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
-            final List<QueryDocumentSnapshot> storiesDocumentSnapshot = streamSnapshot.data!.docs;
+            final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
+                streamSnapshot.data!.docs;
             return Scaffold(
                 body: Stack(children: [
               Positioned(
@@ -60,46 +64,11 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Help'),
-                                content: new Container(
-                                    child: SizedBox(
-                                  width: 420,
-                                  child: ElevatedButton(
-                                    style: elevatedButtonDefaultStyle(),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const OnboardingMain()));
-                                    },
-                                    child: Text(
-                                      AppLocalizations.of(context)!.onboarding,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18),
-                                    ),
-                                  ),
-                                )),
-                                actions: <Widget>[
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge,
-                                    ),
-                                    child: const Text('Close Help'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SettingsPage(profile, profiles)));
                       },
                       icon: Icon(Icons.menu,
                           size: 33, color: kPrimaryColor //kPrimaryColor
@@ -118,12 +87,15 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   children: [
                     Text(
                       "Hello,",
-                      style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
+                      style:
+                          TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
                     Text(
                       profile["name"],
                       style: TextStyle(
-                          color: kPrimaryColor, fontSize: 25, fontWeight: FontWeight.bold),
+                          color: kPrimaryColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 40,
@@ -133,10 +105,11 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       child: TextField(
                         onChanged: (value) {
                           setState(() {
-                            matchStoryList =
-                                SearchBarUtil().searchStory(storiesDocumentSnapshot, value);
+                            matchStoryList = SearchBarUtil()
+                                .searchStory(storiesDocumentSnapshot, value);
                           });
-                          SearchBarUtil().isStoryListEmpty(matchStoryList, value);
+                          SearchBarUtil()
+                              .isStoryListEmpty(matchStoryList, value);
                         },
                         style: TextStyle(color: kPrimaryColor),
                         decoration: InputDecoration(
@@ -148,7 +121,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             borderSide: BorderSide.none,
                           ),
                           hintText: "Search stories...",
-                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
@@ -174,7 +148,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               ),
               StreamBuilder(
                   stream: storiesCollection.snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                  builder:
+                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
                       final List<QueryDocumentSnapshot> documentSnapshot =
                           streamSnapshot.data!.docs;
@@ -194,39 +169,58 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                         _selectedIndex = index;
                                       });
                                     },
-                                    controller: PageController(viewportFraction: 0.4),
-                                    itemCount:
-                                        documentSnapshot == null ? 0 : documentSnapshot.length,
+                                    controller:
+                                        PageController(viewportFraction: 0.4),
+                                    itemCount: documentSnapshot == null
+                                        ? 0
+                                        : documentSnapshot.length,
                                     itemBuilder: (_, i) {
-                                      var scale = _selectedIndex == i ? 1.0 : 0.8;
+                                      var scale =
+                                          _selectedIndex == i ? 1.0 : 0.8;
                                       return TweenAnimationBuilder(
-                                          duration: const Duration(microseconds: 350),
-                                          tween: Tween(begin: scale, end: scale),
+                                          duration:
+                                              const Duration(microseconds: 350),
+                                          tween:
+                                              Tween(begin: scale, end: scale),
                                           curve: Curves.ease,
                                           child: GestureDetector(
                                               onTap: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(builder: (context) {
-                                                  return MyPlayStory(documentSnapshot[i]);
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return MyPlayStory(
+                                                      documentSnapshot[i]);
                                                 }));
                                               },
                                               child: Container(
-                                                margin: const EdgeInsets.only(right: 30),
+                                                margin: const EdgeInsets.only(
+                                                    right: 30),
                                                 height: 180,
                                                 width: 85,
                                                 padding: const EdgeInsets.only(
-                                                    top: 15, left: 15, right: 10),
+                                                    top: 15,
+                                                    left: 15,
+                                                    right: 10),
                                                 decoration: BoxDecoration(
                                                     color: Colors.grey,
-                                                    borderRadius: BorderRadius.circular(18),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          documentSnapshot[i]["image"] == ""
+                                                          documentSnapshot[i][
+                                                                      "image"] ==
+                                                                  ""
                                                               ? storyImagePlaceholder
-                                                              : documentSnapshot[i]["image"]),
-                                                      colorFilter: ColorFilter.mode(
-                                                          Colors.black.withOpacity(0.6),
-                                                          BlendMode.dstATop),
+                                                              : documentSnapshot[
+                                                                  i]["image"]),
+                                                      colorFilter:
+                                                          ColorFilter.mode(
+                                                              Colors.black
+                                                                  .withOpacity(
+                                                                      0.6),
+                                                              BlendMode
+                                                                  .dstATop),
                                                       fit: BoxFit.cover,
                                                     )),
                                                 child: Stack(
@@ -237,16 +231,23 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                       right: 20,
                                                       child: Container(
                                                         height: 30,
-                                                        color: Colors.transparent,
+                                                        color:
+                                                            Colors.transparent,
                                                         child: Marquee(
-                                                          text: documentSnapshot[i]["title"],
+                                                          text:
+                                                              documentSnapshot[
+                                                                  i]["title"],
                                                           blankSpace: 30,
                                                           style: const TextStyle(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               fontSize: 16,
-                                                              fontWeight: FontWeight.bold),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                           pauseAfterRound:
-                                                              const Duration(seconds: 2),
+                                                              const Duration(
+                                                                  seconds: 2),
                                                         ),
                                                       ),
                                                     ),
@@ -256,17 +257,22 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                       right: 45,
                                                       child: Container(
                                                         height: 30,
-                                                        color: Colors.transparent,
+                                                        color:
+                                                            Colors.transparent,
                                                         child: Marquee(
                                                           text:
                                                               "By ${documentSnapshot[i]["author"]}",
                                                           blankSpace: 20,
                                                           style: const TextStyle(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               fontSize: 12,
-                                                              fontWeight: FontWeight.bold),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                           pauseAfterRound:
-                                                              const Duration(seconds: 2),
+                                                              const Duration(
+                                                                  seconds: 2),
                                                         ),
                                                       ),
                                                     ),
@@ -277,12 +283,16 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                       child: Container(
                                                         height: 45,
                                                         width: 15,
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Colors.white,
-                                                          borderRadius: BorderRadius.circular(8),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
                                                         ),
                                                         child: Icon(
-                                                          Icons.play_arrow_rounded,
+                                                          Icons
+                                                              .play_arrow_rounded,
                                                           size: 35,
                                                           color: kPrimaryColor,
                                                         ),
@@ -340,13 +350,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       height: 260,
                       child: StreamBuilder(
                         stream: storiesCollection.snapshots(),
-                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
                           return storiesDocumentSnapshot.isEmpty
                               ? Decorations().noRecentContent(
                                   "No stories yet. \nplease add some stories to your story library",
                                   "")
-                              : MyListViewListener(
-                                  storiesDocumentSnapshot, storiesCollection, profile, profiles);
+                              : MyListViewListener(storiesDocumentSnapshot,
+                                  storiesCollection, profile, profiles);
                         },
                       ),
                     ),
