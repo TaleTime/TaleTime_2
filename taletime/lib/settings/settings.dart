@@ -47,16 +47,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    Locale currentLanguage = Locale(profile["language"]);
 
     Locale? selectedLanguage = languageProvider.locale;
-
-    Locale getSelecetedLanguage(Locale language) {
-      setState(() {
-        languageProvider.setLocale(language);
-      });
-      return languageProvider.locale;
-    }
 
     return Scaffold(
       appBar: AppBar(
