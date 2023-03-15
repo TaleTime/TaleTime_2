@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
+import "package:flutter/foundation.dart";
+import "package:logger/logger.dart";
 
 class TaleTimeLogger {
   static Logger getLogger() {

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../internationalization/localizations_ext.dart';
-import 'package:taletime/profiles/utils/edit_profile.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../internationalization/localizations_ext.dart";
+import "package:taletime/profiles/utils/edit_profile.dart";
 
 class ProfileColumn extends StatefulWidget {
   final profile;

@@ -1,14 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import 'package:taletime/internationalization/l10n.dart';
-import 'package:taletime/internationalization/locale_provider.dart';
-import 'package:taletime/profiles/screens/profiles_page.dart';
-import 'package:taletime/settings/changePassword.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import '../internationalization/localizations_ext.dart';
-import 'package:taletime/common%20utils/theme_provider.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/l10n.dart";
+import "package:taletime/internationalization/locale_provider.dart";
+import "package:taletime/profiles/screens/profiles_page.dart";
+import "package:taletime/settings/changePassword.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "../internationalization/localizations_ext.dart";
+import "package:taletime/common%20utils/theme_provider.dart";
 
 class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
@@ -32,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<void> updateLanguage(String profileId, String language) {
       return profiles
           .doc(profileId)
-          .update({'language': language})
+          .update({"language": language})
           .then((value) => logger.v("profile Updated"))
           .catchError((error) => logger.e("Failed to update profile: $error"));
     }
@@ -40,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<void> updateTheme(String profileId, bool theme) {
       return profiles
           .doc(profileId)
-          .update({'theme': theme})
+          .update({"theme": theme})
           .then((value) => logger.v("profile Updated"))
           .catchError((error) => logger.e("Failed to update profile: $error"));
     }

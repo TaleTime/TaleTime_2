@@ -1,13 +1,13 @@
-import 'dart:io';
-import 'dart:typed_data';
+import "dart:io";
+import "dart:typed_data";
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../common utils/constants.dart';
-import '../../common utils/decoration_util.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:file_picker/file_picker.dart";
+import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../common utils/constants.dart";
+import "../../common utils/decoration_util.dart";
 
 class EditStory extends StatefulWidget {
   final CollectionReference storiesCollection;
@@ -62,7 +62,7 @@ class _EditStoryState extends State<EditStory> {
       setState(() {
         storiesCollection
             .doc(story["id"])
-            .update({'image': myUrl})
+            .update({"image": myUrl})
             .then((value) => logger.v("story Updated"))
             .catchError((error) => logger.e("Failed to update story: $error"));
         myImage = Image.file(file);
@@ -85,7 +85,7 @@ class _EditStoryState extends State<EditStory> {
     Future<void> updateStory(String storyId, String author, String image, String title) {
       return storiesCollection
           .doc(storyId)
-          .update({'author': author, 'title': title})
+          .update({"author": author, "title": title})
           .then((value) => logger.v("story Updated"))
           .catchError((error) => logger.e("Failed to update story: $error"));
     }

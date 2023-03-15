@@ -1,17 +1,17 @@
 ///The class [sound_recorder] allows the user to record the story.
 ///It also offers the possibility to delete the recorded story.
 ///You can record a specific time or a complete story.
-import 'dart:async';
-import 'dart:io';
+import "dart:async";
+import "dart:io";
 
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+import "package:flutter_sound/flutter_sound.dart";
+import "package:path_provider/path_provider.dart";
+import "package:permission_handler/permission_handler.dart";
 
 class SoundRecorder extends FlutterSoundRecorder {
   /// FlutterSoundRecorder Object
   FlutterSoundRecorder? _audioRecorder = FlutterSoundRecorder();
-  String _path = '';
+  String _path = "";
 
   String get getPath => _path;
 
@@ -28,7 +28,7 @@ class SoundRecorder extends FlutterSoundRecorder {
     final status = await Permission.microphone.request();
 
     if (status != PermissionStatus.granted) {
-      throw RecordingPermissionException('Microphone permission not granted');
+      throw RecordingPermissionException("Microphone permission not granted");
     }
 
     final statusStorage = await Permission.storage.status;
@@ -36,7 +36,7 @@ class SoundRecorder extends FlutterSoundRecorder {
       await Permission.storage.request();
     } else {
       Directory directory = await getApplicationDocumentsDirectory();
-      String filepath = '${directory.path}/${DateTime.now().microsecondsSinceEpoch}.aac';
+      String filepath = "${directory.path}/${DateTime.now().microsecondsSinceEpoch}.aac";
 
       await _audioRecorder!.openRecorder();
       _path = filepath;

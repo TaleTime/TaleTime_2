@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import '../internationalization/localizations_ext.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "../internationalization/localizations_ext.dart";
 
 class Decorations {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -34,8 +34,7 @@ class Decorations {
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0), borderSide: const BorderSide()),
       enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100.0),
-          borderSide: BorderSide(color: kPrimaryColor)),
+          borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: kPrimaryColor)),
       errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
           borderSide: const BorderSide(color: Colors.red, width: 2.0)),
@@ -53,9 +52,7 @@ class Decorations {
   ///
   /// if [automaticArrow] is true then there will be a IconButton to return to the last page
   AppBar appBarDecoration(
-      {required String? title,
-      required BuildContext context,
-      required bool automaticArrow}) {
+      {required String? title, required BuildContext context, required bool automaticArrow}) {
     AppBar appBar = AppBar(
         elevation: 0,
         automaticallyImplyLeading: automaticArrow,

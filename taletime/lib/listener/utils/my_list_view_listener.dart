@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../common utils/constants.dart';
-import '../screens/my_play_story.dart';
-import 'icon_context_dialog.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../common utils/constants.dart";
+import "../screens/my_play_story.dart";
+import "icon_context_dialog.dart";
 
 class MyListViewListener extends StatefulWidget {
   final List stories;
@@ -39,12 +39,12 @@ class _MyListViewListenerState extends State<MyListViewListener> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites = profiles.doc(profile["id"]).collection('favoriteList');
+    CollectionReference favorites = profiles.doc(profile["id"]).collection("favoriteList");
 
     Future<void> updateStory(String storyId, bool isLiked) {
       return storiesCollection
           .doc(storyId)
-          .update({'isLiked': isLiked})
+          .update({"isLiked": isLiked})
           .then((value) => isLiked ? logger.v("Story liked") : logger.v("Story disliked"))
           .catchError((error) => logger.e("Failed to update user: $error"));
     }
@@ -52,7 +52,7 @@ class _MyListViewListenerState extends State<MyListViewListener> {
     Future<void> updateFavoriteList(String storyId) {
       return favorites
           .doc(storyId)
-          .update({'id': storyId})
+          .update({"id": storyId})
           .then((value) => logger.v("List Updated"))
           .catchError((error) => logger.e("Failed to update List: $error"));
     }
@@ -66,13 +66,13 @@ class _MyListViewListenerState extends State<MyListViewListener> {
       bool isLiked,
     ) {
       return favorites.add({
-        'id': "",
-        'image': image,
-        'audio': audio,
-        'title': title,
-        'rating': rating,
-        'author': author,
-        'isLiked': isLiked
+        "id": "",
+        "image": image,
+        "audio": audio,
+        "title": title,
+        "rating": rating,
+        "author": author,
+        "isLiked": isLiked
       }).then((value) {
         logger.v("Story Added to favorites");
         updateFavoriteList(value.id);

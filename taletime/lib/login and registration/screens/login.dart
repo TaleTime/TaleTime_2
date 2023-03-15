@@ -1,12 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/login%20and%20registration/utils/authentification_util.dart';
-import 'package:taletime/login%20and%20registration/screens/forgot_password.dart';
-import 'package:taletime/login%20and%20registration/screens/signup.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/decoration_util.dart';
-import '../../internationalization/localizations_ext.dart';
-import 'package:taletime/common%20utils/text_form_field_util.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
+import "package:taletime/login%20and%20registration/screens/forgot_password.dart";
+import "package:taletime/login%20and%20registration/screens/signup.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+import "../../internationalization/localizations_ext.dart";
+import "package:taletime/common%20utils/text_form_field_util.dart";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

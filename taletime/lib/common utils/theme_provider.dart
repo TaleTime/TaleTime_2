@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 
 /// This class is used to change the current ThemeMode
 class ThemeProvider extends ChangeNotifier {
@@ -52,9 +52,7 @@ class MyThemes {
     textTheme: Typography().white,
     colorScheme: const ColorScheme.dark(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey,
-        hoverColor: kPrimaryColor),
+        foregroundColor: Colors.black, backgroundColor: Colors.grey, hoverColor: kPrimaryColor),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(kPrimaryColor),
@@ -89,9 +87,7 @@ class MyThemes {
     appBarTheme: AppBarTheme(color: kPrimaryColor),
     colorScheme: const ColorScheme.light(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.white,
-        backgroundColor: kPrimaryColor,
-        hoverColor: Colors.grey),
+        foregroundColor: Colors.white, backgroundColor: kPrimaryColor, hoverColor: Colors.grey),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(kPrimaryColor),

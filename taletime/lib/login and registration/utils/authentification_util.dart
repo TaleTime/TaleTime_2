@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import 'package:taletime/login%20and%20registration/screens/login.dart';
-import 'package:taletime/profiles/screens/profiles_page.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import '../../internationalization/localizations_ext.dart';
-import 'package:taletime/login%20and%20registration/utils/error_util.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/login%20and%20registration/screens/login.dart";
+import "package:taletime/profiles/screens/profiles_page.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "../../internationalization/localizations_ext.dart";
+import "package:taletime/login%20and%20registration/utils/error_util.dart";
 
 /// Contains methods to authenticate with Firebase
 class AuthentificationUtil {
@@ -130,10 +130,10 @@ class AuthentificationUtil {
         //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
       });
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        logger.w('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        logger.w('Wrong password provided for that user.');
+      if (e.code == "user-not-found") {
+        logger.w("No user found for that email.");
+      } else if (e.code == "wrong-password") {
+        logger.w("Wrong password provided for that user.");
       }
     }
   }
@@ -144,7 +144,7 @@ class AuthentificationUtil {
       logger.v("signing out");
       return await auth.signOut();
     } catch (error) {
-      logger.e('Sign out error: $error');
+      logger.e("Sign out error: $error");
       return null;
     }
   }

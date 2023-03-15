@@ -4,7 +4,7 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/listener/utils/my_list_view_listener.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 
-import 'package:taletime/listener/utils/search_bar_util.dart';
+import "package:taletime/listener/utils/search_bar_util.dart";
 
 class FavoritePage extends StatefulWidget {
   final profile;

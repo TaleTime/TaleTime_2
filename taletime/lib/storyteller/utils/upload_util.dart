@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
 
 class UploadUtil {
   final logger = TaleTimeLogger.getLogger();
@@ -8,17 +8,17 @@ class UploadUtil {
     this.storiesCollection = storiesCollection;
   }
 
-  CollectionReference allStories = FirebaseFirestore.instance.collection('allStories');
+  CollectionReference allStories = FirebaseFirestore.instance.collection("allStories");
   Future<void> uploadStory(
       String audio, String author, String image, String title, String rating, bool isLiked) {
     return allStories.add({
-      'id': "",
-      'image': image,
-      'audio': audio,
-      'title': title,
-      'rating': rating,
-      'author': author,
-      'isLiked': isLiked
+      "id": "",
+      "image": image,
+      "audio": audio,
+      "title": title,
+      "rating": rating,
+      "author": author,
+      "isLiked": isLiked
     }).then((value) {
       logger.d("Story uploaded succesfully");
       updateList(value.id);
@@ -28,7 +28,7 @@ class UploadUtil {
   Future<void> updateList(String storyId) {
     return allStories
         .doc(storyId)
-        .update({'id': storyId})
+        .update({"id": storyId})
         .then((value) => logger.v("List Updated"))
         .catchError((error) => logger.e("Failed to update List: $error"));
   }

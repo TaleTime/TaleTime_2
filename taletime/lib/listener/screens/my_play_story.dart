@@ -1,7 +1,7 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
+import "package:audioplayers/audioplayers.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
 
 class MyPlayStory extends StatefulWidget {
   final story;
@@ -171,7 +171,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       onChangeEnd: (double value) async {
                         setState(() {
                           _currentValue = value;
-                          logger.d('Current Slider value: $_currentValue');
+                          logger.d("Current Slider value: $_currentValue");
                         });
                         player.pause();
                         await player.seek(Duration(seconds: value.toInt()));

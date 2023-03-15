@@ -6,13 +6,13 @@
 /// the class still shows the list [My Recorded Stories] , which contains all recorded stories.
 ///the class offers the user to search for a specific story with title or tags
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/storyteller/utils/list_view_story_teller.dart';
-import '../../common utils/decoration_util.dart';
-import '../../listener/screens/my_play_story.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:marquee/marquee.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/storyteller/utils/list_view_story_teller.dart";
+import "../../common utils/decoration_util.dart";
+import "../../listener/screens/my_play_story.dart";
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;

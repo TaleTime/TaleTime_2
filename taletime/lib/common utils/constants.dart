@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 /// Main color of the App
 Color kPrimaryColor = Colors.teal.shade600;
@@ -25,8 +25,7 @@ const List profileImages = [
 
 /// Sets the Text-Color of an Elevated Button to white and the Button-Color to [kPrimaryColor]
 ButtonStyle elevatedButtonDefaultStyle() {
-  return ElevatedButton.styleFrom(
-      foregroundColor: Colors.white, backgroundColor: kPrimaryColor);
+  return ElevatedButton.styleFrom(foregroundColor: Colors.white, backgroundColor: kPrimaryColor);
 }
 
 /// Prints the Duration of a recording or play of a story in the format 00:00

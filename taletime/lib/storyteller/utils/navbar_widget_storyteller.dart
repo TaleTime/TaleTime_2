@@ -1,16 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/listener/screens/all_stories.dart';
-import 'package:taletime/storyteller/screens/create_story.dart';
-import 'package:taletime/storyteller/screens/speaker_homepage.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:taletime/listener/screens/all_stories.dart";
+import "package:taletime/storyteller/screens/create_story.dart";
+import "package:taletime/storyteller/screens/speaker_homepage.dart";
 
-import '../../settings/settings.dart';
+import "../../settings/settings.dart";
 
 class NavBarSpeaker extends StatefulWidget {
   final profile;
   final profiles;
-  const NavBarSpeaker(this.profile, this.profiles, {Key? key})
-      : super(key: key);
+  const NavBarSpeaker(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -37,10 +36,9 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference lastRecorded =
-        profiles.doc(profile["id"]).collection('lastRecordedList');
+    CollectionReference lastRecorded = profiles.doc(profile["id"]).collection("lastRecordedList");
     CollectionReference recordedStories =
-        profiles.doc(profile["id"]).collection('recordedStoriesList');
+        profiles.doc(profile["id"]).collection("recordedStoriesList");
 
     return Scaffold(
       body: IndexedStack(
