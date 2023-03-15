@@ -68,6 +68,19 @@
     "enterProfile": "Geben Sie einen Profil-Namen ein",
     "oldPassword": "Altes Passwort",
     "enterOldPassword": "Geben Sie Ihr altes Passwort ein",
-    "allStories_pageTitle":"Alle Geschichten",
-    "allStories_noStoriesAvailableError": "Keine Geschichten vorhanden. \nBitte fügen sie Geschichten zu ihrer Bibliothek hinzu"
+    "allStories_pageTitle": "Alle Geschichten",
+    "allStories_noStoriesAvailableError": "Keine Geschichten vorhanden. \nBitte fügen Sie Geschichten  ihrer Bibliothek hinzu.",
+    "addStory_pageTitle": "Geschichte hinzufügen",
+    "addStory_searchbarHint": "Geschichten durchsuchen...",
+    "addStory_addStoryDialogTitle": "Geschichte hinzufügen...",
+    "addStory_addStoryDialogText": "Möchten Sie diese Geschichte wirklich hinzufügen?",
+    "favorites_pageTitle": "Favoriten",
+    "favorites_searchbarHint": "Geschichten durchsuchen...",
+    "favorites_noStories": "Sie haben bisher keine Geschichten hinzugefügt. \nFügen Sie zuerst Geschichten ihrer Bibliothek hinzu.",
+    "listener_home_welcomeText": "Hallo,",
+    "listener_home_searchbarHint": "Geschichten durchsuchen...",
+    "listener_home_recentlyPlayed": "Zuletzt abgespielt",
+    "listener_home_recentlyPlayedEmptyHint": "Sie haben bisher keine Geschichten abgespielt.",
+    "listener_home_myStories": "Meine Geschichten",
+    "listener_home_myStoriesEmptyHint": "Sie haben bisher noch keine Geschichten hinzugefügt."
 }

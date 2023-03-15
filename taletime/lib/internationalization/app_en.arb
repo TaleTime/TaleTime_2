@@ -275,6 +275,19 @@
     "@enterOldPassword": {
         "description": "Geben Sie Ihr altes Passwort ein"
     },
-    "allStories_pageTitle":"All Stories",
-    "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library"
+    "allStories_pageTitle": "All Stories",
+    "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library",
+    "addStory_pageTitle": "Add Story",
+    "addStory_searchbarHint": "Search stories...",
+    "addStory_addStoryDialogTitle": "Add Story...",
+    "addStory_addStoryDialogText": "Do you really want to add this story?",
+    "favorites_pageTitle": "Favorites",
+    "favorites_searchbarHint": "Search stories...",
+    "favorites_noStories": "No stories yet. \nplease add some stories to your story library",
+    "listener_home_welcomeText": "Hello,",
+    "listener_home_searchbarHint": "Search stories...",
+    "listener_home_recentlyPlayed": "Recently Played",
+    "listener_home_recentlyPlayedEmptyHint": "Nothing to show yet. \nplease add some stories to your story library",
+    "listener_home_myStories": "My Stories",
+    "listener_home_myStoriesEmptyHint": "No stories yet. \nplease add some stories to your story library"
 }

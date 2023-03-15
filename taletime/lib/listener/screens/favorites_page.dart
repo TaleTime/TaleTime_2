@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/utils/my_list_view_listener.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 
@@ -44,7 +45,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
                   title: Text(
-                    "Favorites",
+                    AppLocalizations.of(context)!.favorites_pageTitle,
                     style: TextStyle(
                       color: kPrimaryColor,
                       fontWeight: FontWeight.bold,
@@ -93,7 +94,7 @@ class _FavoritePageState extends State<FavoritePage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "Search stories...",
+                          hintText: AppLocalizations.of(context)!.favorites_searchbarHint,
                           hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
                             Icons.search,
@@ -116,7 +117,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       height: screenHeight * 0.8,
                       child: documentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
-                              "No stories yet. \nplease add some stories to your story library", "")
+                              AppLocalizations.of(context)!.favorites_noStories, "")
                           : MyListViewListener(documentSnapshot, favorites, profile, profiles),
                     )
                   ],

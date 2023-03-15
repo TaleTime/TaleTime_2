@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
 import "../utils/add_icon_context_dialog.dart";
 import "../../common utils/constants.dart";
@@ -46,7 +47,7 @@ class _AddStoryState extends State<AddStory> {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "Add Story",
+                      AppLocalizations.of(context)!.addStory_pageTitle,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
@@ -67,7 +68,7 @@ class _AddStoryState extends State<AddStory> {
                   ),
                 ),
                 Positioned(
-                  top: 80,
+                  top: 120,
                   left: 22,
                   right: 28,
                   height: screenHeight * 0.34,
@@ -96,7 +97,7 @@ class _AddStoryState extends State<AddStory> {
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
                             ),
-                            hintText: "Search stories...",
+                            hintText: AppLocalizations.of(context)!.addStory_searchbarHint,
                             hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(
                               Icons.search,
@@ -209,8 +210,10 @@ class _AddStoryState extends State<AddStory> {
                                                 Row(
                                                   children: [
                                                     AddIconContextDialog(
-                                                        "Add Story...",
-                                                        "Do you really want to add this story?",
+                                                        AppLocalizations.of(context)!
+                                                            .addStory_addStoryDialogTitle,
+                                                        AppLocalizations.of(context)!
+                                                            .addStory_addStoryDialogText,
                                                         Icons.playlist_add_outlined,
                                                         storiesCollectionReference,
                                                         storiesDocumentSnapshot[i]),
@@ -234,7 +237,7 @@ class _AddStoryState extends State<AddStory> {
                   ),
                 ),
                 Positioned(
-                  top: 115,
+                  top: 170,
                   left: 0,
                   right: 0,
                   child: SearchBarUtil().searchBarContainer(matchStoryList),

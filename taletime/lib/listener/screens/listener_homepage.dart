@@ -2,6 +2,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
 import "package:taletime/listener/utils/my_list_view_listener.dart";
 import "../../common utils/decoration_util.dart";
@@ -75,7 +76,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Hello,",
+                      AppLocalizations.of(context)!.listener_home_welcomeText,
                       style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
                     Text(
@@ -105,7 +106,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "Search stories...",
+                          hintText: AppLocalizations.of(context)!.listener_home_searchbarHint,
                           hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
                             Icons.search,
@@ -120,7 +121,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     Container(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Recently Played",
+                        AppLocalizations.of(context)!.listener_home_recentlyPlayed,
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 18,
@@ -142,7 +143,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         right: 0,
                         child: documentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
-                                "Nothing to show yet. \nplease add some stories to your story library",
+                                AppLocalizations.of(context)!.listener_home_recentlyPlayedEmptyHint,
                                 "recentStories")
                             : SizedBox(
                                 height: 190,
@@ -278,7 +279,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "My Stories",
+                      AppLocalizations.of(context)!.listener_home_myStories,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: 18,
@@ -301,7 +302,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                           return storiesDocumentSnapshot.isEmpty
                               ? Decorations().noRecentContent(
-                                  "No stories yet. \nplease add some stories to your story library",
+                                  AppLocalizations.of(context)!.listener_home_myStoriesEmptyHint,
                                   "")
                               : MyListViewListener(
                                   storiesDocumentSnapshot, storiesCollection, profile, profiles);
