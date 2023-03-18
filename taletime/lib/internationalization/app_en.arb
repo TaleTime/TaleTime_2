@@ -15,7 +15,19 @@
     "@registerVerb": {
         "description": "Registrieren"
     },
-    "loginVerb" : "Sign In",
+    "onboarding": "Onboarding",
+    "@onboarding": {
+        "description": "Onboarding"
+    },
+    "skip": "Skip",
+    "@skip": {
+        "description": "Skip"
+    },
+    "finish": "Finish",
+    "@finish": {
+        "description": "Finish"
+    },
+    "loginVerb": "Sign In",
     "@loginVerb": {
         "description": "Anmelden"
     },
@@ -39,11 +51,11 @@
     "@password": {
         "description": "Passwort"
     },
-    "enterPassword" : "Enter your password",
+    "enterPassword": "Enter your password",
     "@enterPassword": {
         "description": "Geben Sie Ihr Passwort ein"
-    }, 
-    "forgotPassword" : "Forgot Password?",
+    },
+    "forgotPassword": "Forgot Password?",
     "@forgotPassword": {
         "description": "Passwort vergessen?"
     },
@@ -106,7 +118,7 @@
     "enterValidEmail": "Enter a valid email adress",
     "@enterValidEmail": {
         "description": "Geben Sie eine gültige Email-Adresse ein"
-    },   
+    },
     "passwordRequired": "Password is required",
     "@passwordRequired": {
         "description": "Passwort ist erforderlich"
@@ -275,10 +287,6 @@
     "@enterOldPassword": {
         "description": "Geben Sie Ihr altes Passwort ein"
     },
-
-
-
-    "@": {
-        "description": ""
-    }
+    "allStories_pageTitle":"All Stories",
+    "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library"
 }

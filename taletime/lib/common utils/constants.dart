@@ -23,10 +23,14 @@ const List profileImages = [
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_standard.png?alt=media&token=a5af1ee4-3d77-4354-9db3-4413e6234f7e"
 ];
 
+//Onboarding
+
+const String welcomePage = "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2FwelcomePage.png?alt=media&token=6ad30c48-603f-4111-bfc8-0611302e6d65";
+
 /// Sets the Text-Color of an Elevated Button to white and the Button-Color to [kPrimaryColor]
 ButtonStyle elevatedButtonDefaultStyle() {
   return ElevatedButton.styleFrom(
-      primary: kPrimaryColor, onPrimary: Colors.white);
+      foregroundColor: Colors.white, backgroundColor: kPrimaryColor);
 }
 
 /// Prints the Duration of a recording or play of a story in the format 00:00
@@ -36,3 +40,27 @@ String printDuration(Duration duration) {
   String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
   return "$twoDigitMinutes:$twoDigitSeconds";
 }
+
+//---------Animation Duration-----------
+
+const animationDuration = Duration(milliseconds: 200);
+
+//---------Onboarding------------
+const background = Color.fromARGB(255, 255, 255, 255);
+const footerPadding = EdgeInsets.only(left: 45.0, right: 45.0, bottom: 45.0);
+const pageContentPadding = EdgeInsets.only(top: 45.0, left: 45.0, right: 45.0);
+const pageTitleStyle = TextStyle(
+  fontSize: 23.0,
+  wordSpacing: 1,
+  letterSpacing: 1.2,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+);
+const pageInfoStyle = TextStyle(
+  color: Colors.black,
+  letterSpacing: 0.7,
+  height: 1.5,
+);
+const titleAndInfoPadding = EdgeInsets.only(bottom: 45);
+
+const arrows = Color.fromRGBO(0, 137, 123, 1);

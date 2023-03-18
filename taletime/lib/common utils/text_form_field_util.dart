@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../internationalization/localizations_ext.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
 import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
 
@@ -15,7 +15,7 @@ class TextFormFieldUtil {
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.username,
             AppLocalizations.of(context)!.enterUsername,
-            Icon(Icons.person)),
+            const Icon(Icons.person)),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (name) => ValidationUtil().validateUserName(name, context));
   }
@@ -30,7 +30,7 @@ class TextFormFieldUtil {
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.email,
           AppLocalizations.of(context)!.enterEmail,
-          Icon(Icons.mail),
+          const Icon(Icons.mail),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (email) => ValidationUtil().validateEmail(email, context));
@@ -47,7 +47,7 @@ class TextFormFieldUtil {
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.oldPassword,
           AppLocalizations.of(context)!.enterOldPassword,
-          Icon(Icons.lock),
+          const Icon(Icons.lock),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (password) =>
@@ -65,7 +65,7 @@ class TextFormFieldUtil {
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.password,
           AppLocalizations.of(context)!.enterPassword,
-          Icon(Icons.lock),
+          const Icon(Icons.lock),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (password) =>
@@ -85,7 +85,7 @@ class TextFormFieldUtil {
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.confirmPassword,
             AppLocalizations.of(context)!.confirmYourPassword,
-            Icon(Icons.lock)),
+            const Icon(Icons.lock)),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (password) {
           if (passwordController.text.trim() != password) {

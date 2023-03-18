@@ -15,7 +15,7 @@ class NavBarListener extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _NavBarListenerState(this.profile, this.profiles);
+    return _NavBarListenerState(profile, profiles);
   }
 }
 
@@ -75,7 +75,6 @@ class _NavBarListenerState extends State<NavBarListener> {
           ),
           navBarItems(Icons.favorite_sharp, "Favorites"),
           navBarItems(Icons.playlist_add_sharp, "Add Story"),
-          navBarItems(Icons.settings, "Settings"),
         ],
       ),
     );

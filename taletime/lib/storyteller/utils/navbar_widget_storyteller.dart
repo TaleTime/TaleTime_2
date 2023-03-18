@@ -14,7 +14,7 @@ class NavBarSpeaker extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _NavBarSpeakerState(this.profile, this.profiles);
+    return _NavBarSpeakerState(profile, profiles);
   }
 }
 
@@ -65,7 +65,6 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
           navBarItems(Icons.home, "Home"),
           navBarItems(Icons.book, "All Stories"),
           navBarItems(Icons.playlist_add_sharp, "Record Story"),
-          navBarItems(Icons.settings, "Settings"),
         ],
       ),
     );

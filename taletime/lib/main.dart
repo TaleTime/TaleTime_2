@@ -9,7 +9,7 @@ import 'package:taletime/login%20and%20registration/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:taletime/common%20utils/theme_provider.dart';
 import 'firebase/firebase_options.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../internationalization/localizations_ext.dart';
 
 /// Main-Class of the TaleTime-App
 

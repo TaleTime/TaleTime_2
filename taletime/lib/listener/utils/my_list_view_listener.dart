@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import '../../common utils/constants.dart';
 import '../screens/my_play_story.dart';
 import 'icon_context_dialog.dart';
@@ -9,19 +10,18 @@ class MyListViewListener extends StatefulWidget {
   final CollectionReference storiesCollection;
   final profile;
   final profiles;
-  const MyListViewListener(
-      this.stories, this.storiesCollection, this.profile, this.profiles,
+  const MyListViewListener(this.stories, this.storiesCollection, this.profile, this.profiles,
       {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewListenerState(
-        this.stories, this.storiesCollection, this.profile, this.profiles);
+    return _MyListViewListenerState(stories, storiesCollection, profile, profiles);
   }
 }
 
 class _MyListViewListenerState extends State<MyListViewListener> {
+  final logger = TaleTimeLogger.getLogger();
   final List stories;
   final CollectionReference storiesCollection;
   final profile;
@@ -35,29 +35,26 @@ class _MyListViewListenerState extends State<MyListViewListener> {
   late final String newRating;
   late final String newId;
 
-  _MyListViewListenerState(
-      this.stories, this.storiesCollection, this.profile, this.profiles);
+  _MyListViewListenerState(this.stories, this.storiesCollection, this.profile, this.profiles);
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites =
-        profiles.doc(profile["id"]).collection('favoriteList');
+    CollectionReference favorites = profiles.doc(profile["id"]).collection('favoriteList');
 
     Future<void> updateStory(String storyId, bool isLiked) {
       return storiesCollection
           .doc(storyId)
           .update({'isLiked': isLiked})
-          .then((value) =>
-              isLiked ? print("Story liked") : print("Story disliked"))
-          .catchError((error) => print("Failed to update user: $error"));
+          .then((value) => isLiked ? logger.v("Story liked") : logger.v("Story disliked"))
+          .catchError((error) => logger.e("Failed to update user: $error"));
     }
 
     Future<void> updateFavoriteList(String storyId) {
       return favorites
           .doc(storyId)
           .update({'id': storyId})
-          .then((value) => print("List Updated"))
-          .catchError((error) => print("Failed to update List: $error"));
+          .then((value) => logger.v("List Updated"))
+          .catchError((error) => logger.e("Failed to update List: $error"));
     }
 
     Future<void> addStory(
@@ -77,10 +74,9 @@ class _MyListViewListenerState extends State<MyListViewListener> {
         'author': author,
         'isLiked': isLiked
       }).then((value) {
-        print("Story Added to favorites");
+        logger.v("Story Added to favorites");
         updateFavoriteList(value.id);
-      }).catchError(
-          (error) => print("Failed to add story to favorites: $error"));
+      }).catchError((error) => logger.e("Failed to add story to favorites: $error"));
     }
 
     return ListView.builder(
@@ -92,13 +88,11 @@ class _MyListViewListenerState extends State<MyListViewListener> {
             alignment: Alignment.center,
             height: 100,
             child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               color: kPrimaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                     return MyPlayStory(stories[i]);
                   }));
                 },
@@ -109,7 +103,7 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                     Text(
                       stories[i]["rating"],
                     ),
-                    Icon(
+                    const Icon(
                       Icons.star,
                       size: 15,
                     )
@@ -125,11 +119,11 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                   children: [
                     IconButton(
                       icon: hasLiked
-                          ? Icon(
+                          ? const Icon(
                               Icons.favorite,
                               color: Colors.white,
                             )
-                          : Icon(
+                          : const Icon(
                               Icons.favorite_border,
                               color: Colors.white,
                             ),
@@ -143,8 +137,7 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                           newIsLiked = true;
                           newAuthor = stories[i]["author"];
                           newRating = stories[i]["rating"];
-                          addStory(newAudio, newAuthor, newImage, newTitle,
-                              newRating, newIsLiked);
+                          addStory(newAudio, newAuthor, newImage, newTitle, newRating, newIsLiked);
                         } else {
                           setState(() {
                             hasLiked = false;
@@ -152,19 +145,14 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                             favorites
                                 .doc(stories[i]["id"])
                                 .delete()
-                                .then((value) => print("Story Deleted"))
-                                .catchError((error) =>
-                                    print("Failed to delete story: $error"));
+                                .then((value) => logger.v("Story Deleted"))
+                                .catchError((error) => logger.e("Failed to delete story: $error"));
                           });
                         }
                       },
                     ),
-                    IconContextDialog(
-                        "Delete Story...",
-                        "Do you really want to delete this story?",
-                        Icons.delete,
-                        stories[i]["id"],
-                        storiesCollection),
+                    IconContextDialog("Delete Story...", "Do you really want to delete this story?",
+                        Icons.delete, stories[i]["id"], storiesCollection),
                   ],
                 ),
               ),

@@ -5,11 +5,11 @@ import 'package:taletime/common%20utils/constants.dart';
 
 class LVRecentStoryTeller extends StatefulWidget {
   final List stories;
-  LVRecentStoryTeller(this.stories, {Key? key}) : super(key: key);
+  const LVRecentStoryTeller(this.stories, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _LVRecentStoryTellerState(this.stories);
+    return _LVRecentStoryTellerState(stories);
   }
 }
 

@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/decoration_util.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
@@ -17,14 +18,14 @@ class MyRecordStory extends StatefulWidget {
   final Story myStory;
   final profile;
   final CollectionReference storiesCollection;
-  MyRecordStory(this.myStory, this.profile, this.storiesCollection);
+  const MyRecordStory(this.myStory, this.profile, this.storiesCollection);
 
   @override
-  State<MyRecordStory> createState() =>
-      _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
+  State<MyRecordStory> createState() => _MyRecordStoryState(myStory, profile, storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
+  final logger = TaleTimeLogger.getLogger();
   final Story? myStory;
   final profile;
   final CollectionReference storiesCollection;
@@ -106,16 +107,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// and passes it on to the save or upload page
   void saveRecording() {
     File newAudio = File(recorder.getPath);
-    print("this is the path of the recorded audio ${recorder.getPath}");
-    print("this is the recorded audio ${newAudio}");
+    logger.v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
     setState(() {});
-    Record record = new Record(newAudio.path);
-    RecordedStory recordedStory = new RecordedStory(myStory!, record);
+    Record record = Record(newAudio.path);
+    RecordedStory recordedStory = RecordedStory(myStory!, record);
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(
-                recordedStory, profile, storiesCollection, false)));
+            builder: (context) =>
+                SaveOrUploadStory(recordedStory, profile, storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -127,13 +127,13 @@ class _MyRecordStoryState extends State<MyRecordStory> {
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(175, 50),
-        primary: backgroundColor,
+        minimumSize: const Size(175, 50),
+        backgroundColor: backgroundColor,
       ),
       icon: Icon(icon, color: Colors.white),
       label: Text(
         text,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       onPressed: playbackReady
           ? null
@@ -158,16 +158,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildPlay() {
     final icon = isPlaying ? Icons.stop : Icons.play_arrow;
     final text = isPlaying ? "Stop playing" : "Start Playing";
-    final backgroundColor =
-        playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          primary: backgroundColor, minimumSize: Size(175, 50)),
+          backgroundColor: backgroundColor, minimumSize: const Size(175, 50)),
       icon: Icon(icon, color: Colors.white),
       label: Text(
         text,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       onPressed: playbackReady
           ? () {
@@ -201,7 +200,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     return AvatarGlow(
       endRadius: 140,
       animate: animate,
-      repeatPauseDuration: Duration(milliseconds: 100),
+      repeatPauseDuration: const Duration(milliseconds: 100),
       child: CircleAvatar(
         radius: 100,
         backgroundColor: Colors.teal.shade100,
@@ -211,29 +210,24 @@ class _MyRecordStoryState extends State<MyRecordStory> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "TaleTime",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 printDuration(recordingTime),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 text,
-                style: TextStyle(color: Colors.white, fontSize: 12),
+                style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
             ],
           ),
@@ -243,15 +237,14 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   }
 
   Widget buildSave() {
-    final backgroundColor =
-        playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
     return ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 40),
-          primary: backgroundColor,
+          minimumSize: const Size(150, 40),
+          backgroundColor: backgroundColor,
         ),
-        icon: Icon(Icons.save_alt, color: Colors.white),
-        label: Text(
+        icon: const Icon(Icons.save_alt, color: Colors.white),
+        label: const Text(
           "SAVE",
           style: TextStyle(color: Colors.white),
         ),
@@ -261,11 +254,11 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildDiscard() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-          onPrimary: Colors.black,
-          primary: kPrimaryColor,
-          minimumSize: Size(150, 40)),
-      icon: Icon(Icons.delete_forever, color: Colors.white),
-      label: Text(
+          foregroundColor: Colors.black,
+          backgroundColor: kPrimaryColor,
+          minimumSize: const Size(150, 40)),
+      icon: const Icon(Icons.delete_forever, color: Colors.white),
+      label: const Text(
         "DISCARD",
         style: TextStyle(color: Colors.white),
       ),
@@ -278,33 +271,33 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "Story Recorder",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: Center(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 75,
             ),
             buildPlayer(),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             buildStart(),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             buildPlay(),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildDiscard(),
-                SizedBox(
+                const SizedBox(
                   width: 35,
                 ),
                 buildSave()

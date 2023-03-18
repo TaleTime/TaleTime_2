@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:taletime/common%20utils/constants.dart';
+import 'package:taletime/common%20utils/tale_time_logger.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
 import '../../common utils/decoration_util.dart';
@@ -19,15 +20,14 @@ class CreateStory extends StatefulWidget {
   final profile;
   final CollectionReference storiesCollection;
 
-  CreateStory(this.profile, this.storiesCollection, {Key? key})
-      : super(key: key);
+  const CreateStory(this.profile, this.storiesCollection, {Key? key}) : super(key: key);
 
   @override
-  State<CreateStory> createState() =>
-      _CreateStoryState(this.profile, this.storiesCollection);
+  State<CreateStory> createState() => _CreateStoryState(profile, storiesCollection);
 }
 
 class _CreateStoryState extends State<CreateStory> {
+  final logger = TaleTimeLogger.getLogger();
   final profile;
   final CollectionReference storiesCollection;
 
@@ -86,78 +86,76 @@ class _CreateStoryState extends State<CreateStory> {
       appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: Text(
+          title: const Text(
             "Create Story",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: SingleChildScrollView(
         child: Column(children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+            padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
                   Container(
                     ///enter the title the Story
+                    decoration: Decorations().inputBoxDecorationShaddow(),
+
+                    ///enter the title the Story
                     child: TextFormField(
                       controller: _titleController,
                       decoration: Decorations().textInputDecoration(
                         "Title",
                         "Enter the Title for your Story",
-                        Icon(Icons.title),
+                        const Icon(Icons.title),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (title) =>
-                          ValidationUtil().validateTitle(title, context),
+                      validator: (title) => ValidationUtil().validateTitle(title, context),
                     ),
-                    decoration: Decorations().inputBoxDecorationShaddow(),
                   ),
-                  SizedBox(height: 25),
-                  Container(
-                    ///enter the Tags the Story
-                    child: TextFormField(
-                      controller: _tagController,
-                      decoration: Decorations().textInputDecoration(
-                          "Tag",
-                          "Enter a Tag (Optional)",
-                          Icon(Icons.tag),
-                          IconButton(
-                              onPressed: () {
-                                if (_tagController.text.isNotEmpty) {
-                                  setState(() {
-                                    _chipList.add(ChipModel(
-                                        id: DateTime.now().toString(),
-                                        name: _tagController.text));
-                                    _tagController.text = '';
-                                  });
-                                }
-                              },
-                              icon: Icon(Icons.arrow_circle_right_sharp))),
-                    ),
+                  const SizedBox(height: 25),
+
+                  ///enter the Tags the Story
+                  TextFormField(
+                    controller: _tagController,
+                    decoration: Decorations().textInputDecoration(
+                        "Tag",
+                        "Enter a Tag (Optional)",
+                        const Icon(Icons.tag),
+                        IconButton(
+                            onPressed: () {
+                              if (_tagController.text.isNotEmpty) {
+                                setState(() {
+                                  _chipList.add(ChipModel(
+                                      id: DateTime.now().toString(), name: _tagController.text));
+                                  _tagController.text = '';
+                                });
+                              }
+                            },
+                            icon: const Icon(Icons.arrow_circle_right_sharp))),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Wrap(
             spacing: 10,
             children: _chipList
                 .map((chip) => Chip(
                       label: Text(chip.name),
-                      backgroundColor: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)],
-                      onDeleted: () => _deleteChip(chip
-                          .id), // call delete function by passing click chip id
+                      backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                      onDeleted: () =>
+                          _deleteChip(chip.id), // call delete function by passing click chip id
                     ))
                 .toList(),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 14,
               child: ElevatedButton(
@@ -166,18 +164,17 @@ class _CreateStoryState extends State<CreateStory> {
                   getImageFromGallery();
                 },
                 //here is the photo from the Gallery
-                child: Text("Upload Image",
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                child: const Text("Upload Image",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 200,
             width: 200,
             child: Image(image: image!.image),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Align(
@@ -189,22 +186,21 @@ class _CreateStoryState extends State<CreateStory> {
                     style: elevatedButtonDefaultStyle(),
                     onPressed: () {
                       final isValidForm = _formKey.currentState!.validate();
-                      _chipList.forEach((element) {
-                        print(element.name);
-                      });
+                      for (var element in _chipList) {
+                        logger.v(element.name);
+                      }
                       if (isValidForm) {
                         List<String> tags = ["test"];
-                        final myStory =
-                            Story(_titleController.text, tags, imageFile.path);
+                        final myStory = Story(_titleController.text, tags, imageFile.path);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyRecordStory(
-                                  myStory, profile, storiesCollection)),
+                              builder: (context) =>
+                                  MyRecordStory(myStory, profile, storiesCollection)),
                         );
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "Continue",
                       style: TextStyle(fontSize: 24),
                     )),

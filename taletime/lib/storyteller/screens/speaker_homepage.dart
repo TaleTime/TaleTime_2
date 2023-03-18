@@ -13,6 +13,10 @@ import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/storyteller/utils/list_view_story_teller.dart';
 import '../../common utils/decoration_util.dart';
 import '../../listener/screens/my_play_story.dart';
+import '../../onboarding/onboarding_main.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../settings/settings.dart';
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
@@ -26,8 +30,8 @@ class SpeakerHomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _SpeakerHomePageState(this.profile, this.profiles,
-        this.storiesCollection, this.lastRecordedCollection);
+    return _SpeakerHomePageState(
+        profile, profiles, storiesCollection, lastRecordedCollection);
   }
 }
 
@@ -64,7 +68,13 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   elevation: 0.0,
                   actions: <Widget>[
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SettingsPage(profile, profiles)));
+                      },
                       icon: Icon(
                         Icons.menu,
                         size: 33,
@@ -94,12 +104,12 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
 
                     ///Search function to search a story by title and tags in the story list.
-                    Container(
+                    SizedBox(
                       height: 42,
                       child: TextField(
                         onChanged: (value) {
@@ -125,28 +135,27 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           ),
                           hintText: "Search stories...",
                           hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 18),
-                          suffixIcon: Icon(
+                              const TextStyle(color: Colors.grey, fontSize: 18),
+                          suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
 
                     ///  last Recorded list. the five recorded stories are shown here.
-                    Container(
-                      child: Text(
-                        "Last Recorded",
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 18,
-                        ),
+
+                    Text(
+                      "Last Recorded",
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: 18,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -162,11 +171,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         top: 270,
                         left: -90,
                         right: 0,
-                        child: lastRecordedDocumentSnapshot.length == 0
+                        child: lastRecordedDocumentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
                                 "Nothing to show yet. \nplease add some stories to your story library",
                                 "recentStories")
-                            : Container(
+                            : SizedBox(
                                 height: 190,
                                 child: PageView.builder(
                                     onPageChanged: (index) {
@@ -181,13 +190,13 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                         ? 0
                                         : lastRecordedDocumentSnapshot.length,
                                     itemBuilder: (_, i) {
-                                      var _scale =
+                                      var scale =
                                           _selecetedIndex == i ? 1.0 : 0.8;
                                       return TweenAnimationBuilder(
                                           duration:
                                               const Duration(microseconds: 350),
                                           tween:
-                                              Tween(begin: _scale, end: _scale),
+                                              Tween(begin: scale, end: scale),
                                           curve: Curves.ease,
                                           child: GestureDetector(
                                               onTap: () {
@@ -200,11 +209,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                 }));
                                               },
                                               child: Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 30),
+                                                margin: const EdgeInsets.only(
+                                                    right: 30),
                                                 height: 180,
                                                 width: 85,
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     top: 15,
                                                     left: 15,
                                                     right: 10),
@@ -246,7 +255,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                               lastRecordedDocumentSnapshot[
                                                                   i]["title"],
                                                           blankSpace: 30,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontSize: 16,
@@ -254,7 +263,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                                   FontWeight
                                                                       .bold),
                                                           pauseAfterRound:
-                                                              Duration(
+                                                              const Duration(
                                                                   seconds: 2),
                                                         ),
                                                       ),
@@ -271,7 +280,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                           text:
                                                               "By ${lastRecordedDocumentSnapshot[i]["author"]}",
                                                           blankSpace: 20,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontSize: 12,
@@ -279,7 +288,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                                   FontWeight
                                                                       .bold),
                                                           pauseAfterRound:
-                                                              Duration(
+                                                              const Duration(
                                                                   seconds: 2),
                                                         ),
                                                       ),
@@ -311,7 +320,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                               )),
                                           builder: (_, value, child) {
                                             return Transform.scale(
-                                              scale: _scale,
+                                              scale: scale,
                                               child: child,
                                             );
                                           });
@@ -319,7 +328,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                               ),
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
@@ -329,7 +338,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 left: 0,
                 right: 0,
                 child: Container(
-                  margin: EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15),
                   height: matchStoryList.isNotEmpty
                       ? (matchStoryList.length >= 4
                           ? (63.0 * 4.5)
@@ -358,12 +367,12 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         child: ListTile(
                           title: Text(
                             resultTitle,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                             overflow: TextOverflow.ellipsis,
                           ),
                           subtitle: Text(
                             resultAuthor,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                             overflow: TextOverflow.ellipsis,
                           ),
                           leading: Image.network(resultImage),
@@ -380,13 +389,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: Text(
-                        "My Recorded Stories",
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 18,
-                        ),
+                    Text(
+                      "My Recorded Stories",
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: 18,
                       ),
                     ),
                   ],
@@ -399,9 +406,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 260,
-                      child: storiesDocumentSnapshot.length == 0
+                      child: storiesDocumentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
                               "No stories yet. \nplease add some stories to your story library",
                               "")
