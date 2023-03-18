@@ -35,9 +35,9 @@ class _OnboardingMainState extends State<OnboardingMain> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 45.0,
-                  vertical: 0.0,
+                  vertical: 90.0,
                 ),
-                child: Image.network(welcomePage),
+                child: Image.network(assetLogo),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
@@ -197,9 +197,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
 
           /// move to last step
           onPressed: () {
-           /*  Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const WelcomePage())); */
-                Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
           child: Text(
             AppLocalizations.of(context)!.finish,

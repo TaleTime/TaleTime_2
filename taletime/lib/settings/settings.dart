@@ -157,6 +157,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 }));
               },
             )),
+             const SizedBox(
+              height: 10,
+            ),
             Card(
                 child: ListTile(
               leading: const Icon(Icons.help),
