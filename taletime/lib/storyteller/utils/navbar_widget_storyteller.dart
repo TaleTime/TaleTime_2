@@ -65,7 +65,6 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
           navBarItems(Icons.home, "Home"),
           navBarItems(Icons.book, "All Stories"),
           navBarItems(Icons.playlist_add_sharp, "Record Story"),
-          navBarItems(Icons.settings, "Settings"),
         ],
       ),
     );

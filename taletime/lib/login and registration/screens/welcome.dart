@@ -98,28 +98,6 @@ class WelcomePage extends StatelessWidget {
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       )),
-                  SizedBox(height: 20),
-                  //Onboarding Button
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height / 15,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: elevatedButtonDefaultStyle(),
-
-                        /// redirects the user to the Onboarding
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OnboardingMain()));
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.onboarding,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 18),
-                        ),
-                      ))
                 ],
               ),
             ],
