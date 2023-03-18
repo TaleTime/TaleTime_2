@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +12,6 @@ import 'package:taletime/onboarding/views/page.dart';
 
 import 'models/page_model.dart';
 
-
 typedef T FooterBuilder<T>(
   BuildContext context,
   double netDragDistance,
@@ -23,7 +21,7 @@ typedef T FooterBuilder<T>(
 
 class Onboarding extends StatefulWidget {
   ///Add pages that are displayed
-  final List <PageModel> pages;
+  final List<PageModel> pages;
 
   ///Callback function on page transition which allows you to take actions based on the current page
   final Function(int pageIndex)? onPageChange;
