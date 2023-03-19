@@ -1,12 +1,13 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/utils/add_profile.dart";
-import "package:taletime/common%20utils/decoration_util.dart";
+
 import "../../internationalization/localizations_ext.dart";
 import "../../login and registration/utils/authentification_util.dart";
 import "../utils/profile_list.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
 
 class ProfilesPage extends StatefulWidget {
   final String uId;
@@ -14,16 +15,10 @@ class ProfilesPage extends StatefulWidget {
   const ProfilesPage(this.uId, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _ProfilesPageState(uId);
-  }
+  State<StatefulWidget> createState() => _ProfilesPageState();
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
-  late String uId;
-
-  _ProfilesPageState(this.uId);
-
   CollectionReference users = FirebaseFirestore.instance.collection("users");
   final FirebaseAuth auth = FirebaseAuth.instance;
   int cflex = 7;
@@ -36,7 +31,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference profiles = users.doc(uId).collection("profiles");
+    CollectionReference profiles = users.doc(widget.uId).collection("profiles");
 
     return Scaffold(
       appBar: AppBar(
@@ -48,11 +43,15 @@ class _ProfilesPageState extends State<ProfilesPage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Decorations().confirmationDialog(AppLocalizations.of(context)!.loggingOut,
-                      AppLocalizations.of(context)!.confirmLogout, context, () async {
+                  return Decorations().confirmationDialog(
+                      AppLocalizations.of(context)!.loggingOut,
+                      AppLocalizations.of(context)!.confirmLogout,
+                      context, () async {
                     AuthentificationUtil(auth: auth).signOut();
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => const WelcomePage()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WelcomePage()));
                   });
                 },
               );
@@ -68,8 +67,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: (context) => AddProfile(uId)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => AddProfile(widget.uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -85,12 +84,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
               flex: cflex,
               child: StreamBuilder(
                 stream: profiles.snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                builder:
+                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
                     return ListView.builder(
                       itemCount: streamSnapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                        final DocumentSnapshot documentSnapshot =
+                            streamSnapshot.data!.docs[index];
                         return ProfileList(documentSnapshot, profiles);
                       },
                     );

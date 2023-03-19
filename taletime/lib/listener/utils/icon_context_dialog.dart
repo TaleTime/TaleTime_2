@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "../../internationalization/localizations_ext.dart";
+
 import "../../common utils/constants.dart";
+import "../../internationalization/localizations_ext.dart";
 
 class IconContextDialog extends StatefulWidget {
   final String title;
@@ -10,27 +11,22 @@ class IconContextDialog extends StatefulWidget {
   final String id;
   final stories;
 
-  const IconContextDialog(this.title, this.subtitle, this.icon, this.id, this.stories, {Key? key})
+  const IconContextDialog(
+      this.title, this.subtitle, this.icon, this.id, this.stories,
+      {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _IconContextDialogState(title, subtitle, icon, id, stories);
+    return _IconContextDialogState();
   }
 }
 
 class _IconContextDialogState extends State<IconContextDialog> {
   final logger = TaleTimeLogger.getLogger();
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final String id;
-  final stories;
-
-  _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
 
   Future<void> deleteUser(String id) {
-    return stories
+    return widget.stories
         .doc(id)
         .delete()
         .then((value) => logger.v("User Deleted"))
@@ -49,10 +45,11 @@ class _IconContextDialogState extends State<IconContextDialog> {
             content: Text(subtitle),
             actions: [
               TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   setState(() {
-                    deleteUser(id);
+                    deleteUser(widget.id);
                     Navigator.of(context).pop();
                   });
                 },
@@ -62,7 +59,8 @@ class _IconContextDialogState extends State<IconContextDialog> {
                 ),
               ),
               TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -80,12 +78,12 @@ class _IconContextDialogState extends State<IconContextDialog> {
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(
-        icon,
+        widget.icon,
         color: Colors.white,
         size: 21,
       ),
       onPressed: () {
-        onSelected(context, title, subtitle);
+        onSelected(context, widget.title, widget.subtitle);
       },
     );
   }

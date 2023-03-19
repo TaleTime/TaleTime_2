@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+
 import "../../common utils/constants.dart";
 import "../screens/my_play_story.dart";
 import "icon_context_dialog.dart";
@@ -10,22 +11,19 @@ class MyListViewListener extends StatefulWidget {
   final CollectionReference storiesCollection;
   final profile;
   final profiles;
-  const MyListViewListener(this.stories, this.storiesCollection, this.profile, this.profiles,
+  const MyListViewListener(
+      this.stories, this.storiesCollection, this.profile, this.profiles,
       {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewListenerState(stories, storiesCollection, profile, profiles);
+    return _MyListViewListenerState();
   }
 }
 
 class _MyListViewListenerState extends State<MyListViewListener> {
   final logger = TaleTimeLogger.getLogger();
-  final List stories;
-  final CollectionReference storiesCollection;
-  final profile;
-  final profiles;
 
   late final String newAudio;
   late final String newImage;
@@ -35,17 +33,17 @@ class _MyListViewListenerState extends State<MyListViewListener> {
   late final String newRating;
   late final String newId;
 
-  _MyListViewListenerState(this.stories, this.storiesCollection, this.profile, this.profiles);
-
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites = profiles.doc(profile["id"]).collection("favoriteList");
+    CollectionReference favorites =
+        widget.profiles.doc(widget.profile["id"]).collection("favoriteList");
 
     Future<void> updateStory(String storyId, bool isLiked) {
-      return storiesCollection
+      return widget.storiesCollection
           .doc(storyId)
           .update({"isLiked": isLiked})
-          .then((value) => isLiked ? logger.v("Story liked") : logger.v("Story disliked"))
+          .then((value) =>
+              isLiked ? logger.v("Story liked") : logger.v("Story disliked"))
           .catchError((error) => logger.e("Failed to update user: $error"));
     }
 
@@ -76,32 +74,38 @@ class _MyListViewListenerState extends State<MyListViewListener> {
       }).then((value) {
         logger.v("Story Added to favorites");
         updateFavoriteList(value.id);
-      }).catchError((error) => logger.e("Failed to add story to favorites: $error"));
+      }).catchError((error) async {
+        logger.e("Failed to add story to favorites: $error");
+        return null;
+      });
     }
 
     return ListView.builder(
         primary: false,
-        itemCount: stories.length,
+        itemCount: widget.stories.length,
         itemBuilder: (_, i) {
-          bool hasLiked = stories[i]["isLiked"];
+          bool hasLiked = widget.stories[i]["isLiked"];
           return Container(
             alignment: Alignment.center,
             height: 100,
             child: Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
               color: kPrimaryColor,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                    return MyPlayStory(stories[i]);
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return MyPlayStory(widget.stories[i]);
                   }));
                 },
-                leading: Image.network(stories[i]["image"], fit: BoxFit.fill),
+                leading:
+                    Image.network(widget.stories[i]["image"], fit: BoxFit.fill),
                 title: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      stories[i]["rating"],
+                      widget.stories[i]["rating"],
                     ),
                     const Icon(
                       Icons.star,
@@ -111,7 +115,7 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                 ),
                 isThreeLine: true,
                 subtitle: Text(
-                  "${stories[i]["title"]}\nBy ${stories[i]["author"]}",
+                  "${widget.stories[i]["title"]}\nBy ${widget.stories[i]["author"]}",
                   overflow: TextOverflow.ellipsis,
                 ),
                 trailing: Row(
@@ -130,29 +134,35 @@ class _MyListViewListenerState extends State<MyListViewListener> {
                       onPressed: () {
                         if (!hasLiked) {
                           hasLiked = true;
-                          updateStory(stories[i]["id"], true);
-                          newAudio = stories[i]["audio"];
-                          newImage = stories[i]["image"];
-                          newTitle = stories[i]["title"];
+                          updateStory(widget.stories[i]["id"], true);
+                          newAudio = widget.stories[i]["audio"];
+                          newImage = widget.stories[i]["image"];
+                          newTitle = widget.stories[i]["title"];
                           newIsLiked = true;
-                          newAuthor = stories[i]["author"];
-                          newRating = stories[i]["rating"];
-                          addStory(newAudio, newAuthor, newImage, newTitle, newRating, newIsLiked);
+                          newAuthor = widget.stories[i]["author"];
+                          newRating = widget.stories[i]["rating"];
+                          addStory(newAudio, newAuthor, newImage, newTitle,
+                              newRating, newIsLiked);
                         } else {
                           setState(() {
                             hasLiked = false;
-                            updateStory(stories[i]["id"], false);
+                            updateStory(widget.stories[i]["id"], false);
                             favorites
-                                .doc(stories[i]["id"])
+                                .doc(widget.stories[i]["id"])
                                 .delete()
                                 .then((value) => logger.v("Story Deleted"))
-                                .catchError((error) => logger.e("Failed to delete story: $error"));
+                                .catchError((error) =>
+                                    logger.e("Failed to delete story: $error"));
                           });
                         }
                       },
                     ),
-                    IconContextDialog("Delete Story...", "Do you really want to delete this story?",
-                        Icons.delete, stories[i]["id"], storiesCollection),
+                    IconContextDialog(
+                        "Delete Story...",
+                        "Do you really want to delete this story?",
+                        Icons.delete,
+                        widget.stories[i]["id"],
+                        widget.storiesCollection),
                   ],
                 ),
               ),

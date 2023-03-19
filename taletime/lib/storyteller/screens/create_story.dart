@@ -6,13 +6,15 @@
 
 import "dart:io";
 import "dart:math";
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
+import "package:taletime/storyteller/utils/record_class.dart";
+
 import "../../common utils/decoration_util.dart";
 import "my_record_story.dart";
 
@@ -20,22 +22,19 @@ class CreateStory extends StatefulWidget {
   final profile;
   final CollectionReference storiesCollection;
 
-  const CreateStory(this.profile, this.storiesCollection, {Key? key}) : super(key: key);
+  const CreateStory(this.profile, this.storiesCollection, {Key? key})
+      : super(key: key);
 
   @override
-  State<CreateStory> createState() => _CreateStoryState(profile, storiesCollection);
+  State<CreateStory> createState() => _CreateStoryState();
 }
 
 class _CreateStoryState extends State<CreateStory> {
   final logger = TaleTimeLogger.getLogger();
-  final profile;
-  final CollectionReference storiesCollection;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _tagController = TextEditingController();
-
-  _CreateStoryState(this.profile, this.storiesCollection);
 
   String? title;
   final List<ChipModel> _chipList = [];
@@ -112,7 +111,8 @@ class _CreateStoryState extends State<CreateStory> {
                         const Icon(Icons.title),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (title) => ValidationUtil().validateTitle(title, context),
+                      validator: (title) =>
+                          ValidationUtil().validateTitle(title, context),
                     ),
                   ),
                   const SizedBox(height: 25),
@@ -129,7 +129,8 @@ class _CreateStoryState extends State<CreateStory> {
                               if (_tagController.text.isNotEmpty) {
                                 setState(() {
                                   _chipList.add(ChipModel(
-                                      id: DateTime.now().toString(), name: _tagController.text));
+                                      id: DateTime.now().toString(),
+                                      name: _tagController.text));
                                   _tagController.text = "";
                                 });
                               }
@@ -146,9 +147,10 @@ class _CreateStoryState extends State<CreateStory> {
             children: _chipList
                 .map((chip) => Chip(
                       label: Text(chip.name),
-                      backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-                      onDeleted: () =>
-                          _deleteChip(chip.id), // call delete function by passing click chip id
+                      backgroundColor: Colors
+                          .primaries[Random().nextInt(Colors.primaries.length)],
+                      onDeleted: () => _deleteChip(chip
+                          .id), // call delete function by passing click chip id
                     ))
                 .toList(),
           ),
@@ -165,7 +167,8 @@ class _CreateStoryState extends State<CreateStory> {
                 },
                 //here is the photo from the Gallery
                 child: const Text("Upload Image",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
@@ -191,12 +194,13 @@ class _CreateStoryState extends State<CreateStory> {
                       }
                       if (isValidForm) {
                         List<String> tags = ["test"];
-                        final myStory = Story(_titleController.text, tags, imageFile.path);
+                        final myStory =
+                            Story(_titleController.text, tags, imageFile.path);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  MyRecordStory(myStory, profile, storiesCollection)),
+                              builder: (context) => MyRecordStory(myStory,
+                                  widget.profile, widget.storiesCollection)),
                         );
                       }
                     },

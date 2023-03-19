@@ -21,7 +21,6 @@ class MyThemes {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade900,
     hintColor: Colors.white,
-    errorColor: Colors.red,
     focusColor: Colors.grey,
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -50,9 +49,10 @@ class MyThemes {
     appBarTheme: const AppBarTheme(color: Colors.black),
     primaryTextTheme: Typography().white,
     textTheme: Typography().white,
-    colorScheme: const ColorScheme.dark(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.black, backgroundColor: Colors.grey, hoverColor: kPrimaryColor),
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.grey,
+        hoverColor: kPrimaryColor),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(kPrimaryColor),
@@ -62,13 +62,13 @@ class MyThemes {
       ),
     ),
     sliderTheme: SliderThemeData(thumbColor: kPrimaryColor),
+    colorScheme: const ColorScheme.dark().copyWith(error: Colors.red),
   );
 
   /// Lightmode
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     hintColor: kPrimaryColor,
-    errorColor: Colors.red,
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
       shadowColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -85,9 +85,10 @@ class MyThemes {
         labelStyle: TextStyle(color: kPrimaryColor)),
     iconTheme: IconThemeData(color: kPrimaryColor, opacity: 0.8),
     appBarTheme: AppBarTheme(color: kPrimaryColor),
-    colorScheme: const ColorScheme.light(),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.white, backgroundColor: kPrimaryColor, hoverColor: Colors.grey),
+        foregroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
+        hoverColor: Colors.grey),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(kPrimaryColor),
@@ -95,5 +96,6 @@ class MyThemes {
       ),
     ),
     sliderTheme: SliderThemeData(thumbColor: kPrimaryColor),
+    colorScheme: const ColorScheme.light().copyWith(error: Colors.red),
   );
 }

@@ -1,31 +1,28 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
-import "../../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/constants.dart";
+
 import "../../common utils/decoration_util.dart";
+import "../../internationalization/localizations_ext.dart";
 import "../../storyteller/utils/list_view_story_teller.dart";
 
 class AllStories extends StatefulWidget {
   final CollectionReference recordedStoriesCollection;
   final profile;
   final profiles;
-  const AllStories(this.profile, this.profiles, this.recordedStoriesCollection, {Key? key})
+  const AllStories(this.profile, this.profiles, this.recordedStoriesCollection,
+      {Key? key})
       : super(key: key);
 
   @override
-  State<AllStories> createState() => _AllStoriesState(profile, profiles, recordedStoriesCollection);
+  State<AllStories> createState() => _AllStoriesState();
 }
 
 class _AllStoriesState extends State<AllStories> {
-  final CollectionReference recordedStoriesCollection;
-  final profile;
-  final profiles;
-  _AllStoriesState(this.profile, this.profiles, this.recordedStoriesCollection);
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: recordedStoriesCollection.snapshots(),
+        stream: widget.recordedStoriesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> recordedStoriesDocumentSnapshot =
@@ -81,10 +78,14 @@ class _AllStoriesState extends State<AllStories> {
                         height: 800,
                         child: recordedStoriesDocumentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
-                                AppLocalizations.of(context)!.allStories_noStoriesAvailableError,
+                                AppLocalizations.of(context)!
+                                    .allStories_noStoriesAvailableError,
                                 "")
-                            : ListViewStoryTeller(recordedStoriesDocumentSnapshot,
-                                recordedStoriesCollection, profile, profiles),
+                            : ListViewStoryTeller(
+                                recordedStoriesDocumentSnapshot,
+                                widget.recordedStoriesCollection,
+                                widget.profile,
+                                widget.profiles),
                       ),
                     ],
                   ),

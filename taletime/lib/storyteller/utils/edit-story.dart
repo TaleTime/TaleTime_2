@@ -6,6 +6,7 @@ import "package:file_picker/file_picker.dart";
 import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 
@@ -13,12 +14,11 @@ class EditStory extends StatefulWidget {
   final CollectionReference storiesCollection;
   final DocumentSnapshot story;
 
-  const EditStory(this.storiesCollection, this.story, {Key? key}) : super(key: key);
+  const EditStory(this.storiesCollection, this.story, {Key? key})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _EditStoryState(storiesCollection, story);
-  }
+  State<StatefulWidget> createState() => _EditStoryState();
 }
 
 class _EditStoryState extends State<EditStory> {
@@ -26,10 +26,6 @@ class _EditStoryState extends State<EditStory> {
   late final String author;
   late final String image;
   late final String title;
-  final CollectionReference storiesCollection;
-  final story;
-
-  _EditStoryState(this.storiesCollection, this.story);
 
   final textEditingControllerAuthor = TextEditingController();
   final textEditingControllerTitle = TextEditingController();
@@ -44,8 +40,9 @@ class _EditStoryState extends State<EditStory> {
   @override
   void initState() {
     super.initState();
-    myImage =
-        story["image"] == "" ? Image.network(storyImagePlaceholder) : Image.network(story["image"]);
+    myImage = widget.story["image"] == ""
+        ? Image.network(storyImagePlaceholder)
+        : Image.network(widget.story["image"]);
     url = "";
   }
 
@@ -60,8 +57,8 @@ class _EditStoryState extends State<EditStory> {
       await ref.child(name).putFile(file);
       String myUrl = await ref.child(name).getDownloadURL();
       setState(() {
-        storiesCollection
-            .doc(story["id"])
+        widget.storiesCollection
+            .doc(widget.story["id"])
             .update({"image": myUrl})
             .then((value) => logger.v("story Updated"))
             .catchError((error) => logger.e("Failed to update story: $error"));
@@ -76,14 +73,17 @@ class _EditStoryState extends State<EditStory> {
 
     //storyImage = story["image"] == "" ? storyImagePlaceholder : story["image"];
 
-    textEditingControllerAuthor.text =
-        textEditingControllerAuthor.text == "" ? story["author"] : textEditingControllerAuthor.text;
+    textEditingControllerAuthor.text = textEditingControllerAuthor.text == ""
+        ? widget.story["author"]
+        : textEditingControllerAuthor.text;
 
-    textEditingControllerTitle.text =
-        textEditingControllerTitle.text == "" ? story["title"] : textEditingControllerTitle.text;
+    textEditingControllerTitle.text = textEditingControllerTitle.text == ""
+        ? widget.story["title"]
+        : textEditingControllerTitle.text;
 
-    Future<void> updateStory(String storyId, String author, String image, String title) {
-      return storiesCollection
+    Future<void> updateStory(
+        String storyId, String author, String image, String title) {
+      return widget.storiesCollection
           .doc(storyId)
           .update({"author": author, "title": title})
           .then((value) => logger.v("story Updated"))
@@ -134,7 +134,8 @@ class _EditStoryState extends State<EditStory> {
                           height: 170.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image: DecorationImage(fit: BoxFit.fill, image: myImage!.image),
+                            image: DecorationImage(
+                                fit: BoxFit.fill, image: myImage!.image),
                           ),
                         ),
                         const SizedBox(
@@ -147,7 +148,9 @@ class _EditStoryState extends State<EditStory> {
                               Container(
                                 alignment: Alignment.center,
                                 child: const Text("Update Image",
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
                               ),
                               const SizedBox(
                                 height: 10,
@@ -176,8 +179,8 @@ class _EditStoryState extends State<EditStory> {
                           decoration: Decorations().inputBoxDecorationShaddow(),
                           child: TextFormField(
                             controller: textEditingControllerAuthor,
-                            decoration: Decorations()
-                                .textInputDecoration("Author's name", "Type in new name"),
+                            decoration: Decorations().textInputDecoration(
+                                "Author's name", "Type in new name"),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return "Please fill in the blank space";
@@ -190,11 +193,12 @@ class _EditStoryState extends State<EditStory> {
                           height: 30,
                         ),
                         Container(
-                            decoration: Decorations().inputBoxDecorationShaddow(),
+                            decoration:
+                                Decorations().inputBoxDecorationShaddow(),
                             child: TextFormField(
                               controller: textEditingControllerTitle,
-                              decoration: Decorations()
-                                  .textInputDecoration("Story's Title", "Type in new title"),
+                              decoration: Decorations().textInputDecoration(
+                                  "Story's Title", "Type in new title"),
                               validator: (val) {
                                 if (val!.isEmpty) {
                                   return "Please fill in the blank space";
@@ -212,12 +216,14 @@ class _EditStoryState extends State<EditStory> {
                                 author = textEditingControllerAuthor.text;
                                 image = url!;
                                 title = textEditingControllerTitle.text;
-                                updateStory(story["id"], author, image, title);
+                                updateStory(
+                                    widget.story["id"], author, image, title);
                                 reset();
                               },
                               child: const Text(
                                 "Update Story",
-                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             )),
                       ],

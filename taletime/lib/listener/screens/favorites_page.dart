@@ -1,39 +1,35 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/utils/my_list_view_listener.dart";
-import "package:taletime/common%20utils/decoration_util.dart";
-
 import "package:taletime/listener/utils/search_bar_util.dart";
 
 class FavoritePage extends StatefulWidget {
   final profile;
   final profiles;
   final favorites;
-  const FavoritePage(this.profile, this.profiles, this.favorites, {Key? key}) : super(key: key);
+  const FavoritePage(this.profile, this.profiles, this.favorites, {Key? key})
+      : super(key: key);
 
   @override
-  State<FavoritePage> createState() => _FavoritePageState(profile, profiles, favorites);
+  State<FavoritePage> createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  final profile;
-  final profiles;
-  final favorites;
   List matchStoryList = [];
-
-  _FavoritePageState(this.profile, this.profiles, this.favorites);
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return StreamBuilder(
-      stream: favorites.snapshots(),
+      stream: widget.favorites.snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
         if (streamSnapshot.hasData) {
-          final List<QueryDocumentSnapshot> documentSnapshot = streamSnapshot.data!.docs;
+          final List<QueryDocumentSnapshot> documentSnapshot =
+              streamSnapshot.data!.docs;
           return Scaffold(
               body: Stack(
             children: [
@@ -81,9 +77,11 @@ class _FavoritePageState extends State<FavoritePage> {
                       child: TextField(
                         onChanged: (value) {
                           setState(() {
-                            matchStoryList = SearchBarUtil().searchStory(documentSnapshot, value);
+                            matchStoryList = SearchBarUtil()
+                                .searchStory(documentSnapshot, value);
                           });
-                          SearchBarUtil().isStoryListEmpty(matchStoryList, value);
+                          SearchBarUtil()
+                              .isStoryListEmpty(matchStoryList, value);
                         },
                         style: TextStyle(color: kPrimaryColor),
                         decoration: InputDecoration(
@@ -94,8 +92,10 @@ class _FavoritePageState extends State<FavoritePage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: AppLocalizations.of(context)!.favorites_searchbarHint,
-                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
+                          hintText: AppLocalizations.of(context)!
+                              .favorites_searchbarHint,
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
@@ -117,8 +117,13 @@ class _FavoritePageState extends State<FavoritePage> {
                       height: screenHeight * 0.8,
                       child: documentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
-                              AppLocalizations.of(context)!.favorites_noStories, "")
-                          : MyListViewListener(documentSnapshot, favorites, profile, profiles),
+                              AppLocalizations.of(context)!.favorites_noStories,
+                              "")
+                          : MyListViewListener(
+                              documentSnapshot,
+                              widget.favorites,
+                              widget.profile,
+                              widget.profiles),
                     )
                   ],
                 ),

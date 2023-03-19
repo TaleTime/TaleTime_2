@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+
 import "../../common utils/constants.dart";
 import "../screens/my_play_story.dart";
 import "icon_context_dialog.dart";
@@ -10,21 +11,19 @@ class MyListView extends StatefulWidget {
   final CollectionReference storiesCollection;
   final profile;
   final profiles;
-  const MyListView(this.stories, this.storiesCollection, this.profile, this.profiles, {Key? key})
+  const MyListView(
+      this.stories, this.storiesCollection, this.profile, this.profiles,
+      {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyListViewState(stories, storiesCollection, profile, profiles);
+    return _MyListViewState();
   }
 }
 
 class _MyListViewState extends State<MyListView> {
   final logger = TaleTimeLogger.getLogger();
-  final List stories;
-  final CollectionReference storiesCollection;
-  final profile;
-  final profiles;
 
   late final String newAudio;
   late final String newImage;
@@ -34,8 +33,6 @@ class _MyListViewState extends State<MyListView> {
   late final String newRating;
   late final String newId;
 
-  _MyListViewState(this.stories, this.storiesCollection, this.profile, this.profiles);
-
   final List<IconData> _icons = [
     Icons.favorite,
     Icons.favorite_border,
@@ -44,10 +41,11 @@ class _MyListViewState extends State<MyListView> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    CollectionReference favorites = profiles.doc(profile["id"]).collection("favoriteList");
+    CollectionReference favorites =
+        widget.profiles.doc(widget.profile["id"]).collection("favoriteList");
 
     Future<void> updateStory(String storyId, bool isLiked) {
-      return storiesCollection
+      return widget.storiesCollection
           .doc(storyId)
           .update({"isLiked": isLiked})
           .then((value) => logger.v("Story liked/disliked"))
@@ -82,18 +80,19 @@ class _MyListViewState extends State<MyListView> {
       }).then((value) {
         logger.v("Story Added to favorites");
         updateFavoriteList(value.id);
-      }).catchError((error) => logger.e("Failed to add story to favorites: $error"));
+      }).catchError(
+          (error) => logger.e("Failed to add story to favorites: $error"));
     }
 
     return ListView.builder(
         primary: false,
-        itemCount: stories.length,
+        itemCount: widget.stories.length,
         itemBuilder: (_, i) {
-          bool hasLiked = stories[i]["isLiked"];
+          bool hasLiked = widget.stories[i]["isLiked"];
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return MyPlayStory(stories[i]);
+                return MyPlayStory(widget.stories[i]);
               }));
             },
             child: Column(
@@ -105,7 +104,8 @@ class _MyListViewState extends State<MyListView> {
                       Container(
                         height: 75,
                         margin: const EdgeInsets.only(bottom: 9),
-                        padding: const EdgeInsets.only(top: 8, left: 8, bottom: 8),
+                        padding:
+                            const EdgeInsets.only(top: 8, left: 8, bottom: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(11),
                           color: Colors.teal.shade600,
@@ -120,9 +120,9 @@ class _MyListViewState extends State<MyListView> {
                                 color: Colors.transparent,
                               ),
                               child: Image.network(
-                                  stories[i]["image"] == ""
+                                  widget.stories[i]["image"] == ""
                                       ? storyImagePlaceholder
-                                      : stories[i]["image"],
+                                      : widget.stories[i]["image"],
                                   fit: BoxFit.fill),
                             ),
                             const SizedBox(
@@ -136,8 +136,10 @@ class _MyListViewState extends State<MyListView> {
                                   Row(
                                     children: [
                                       Text(
-                                        stories[i]["rating"],
-                                        style: const TextStyle(color: Colors.white, fontSize: 12.0),
+                                        widget.stories[i]["rating"],
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12.0),
                                       ),
                                       const SizedBox(
                                         width: 5,
@@ -152,7 +154,7 @@ class _MyListViewState extends State<MyListView> {
                                   SizedBox(
                                     width: screenWidth * 0.4,
                                     child: Text(
-                                      stories[i]["title"],
+                                      widget.stories[i]["title"],
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         color: Colors.white,
@@ -163,7 +165,7 @@ class _MyListViewState extends State<MyListView> {
                                   SizedBox(
                                     width: screenWidth * 0.4,
                                     child: Text(
-                                      "By ${stories[i]["author"]}",
+                                      "By ${widget.stories[i]["author"]}",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         color: Colors.white,
@@ -196,27 +198,35 @@ class _MyListViewState extends State<MyListView> {
                                     if (!hasLiked) {
                                       setState(() {
                                         hasLiked = true;
-                                        updateStory(stories[i]["id"], true);
-                                        newAudio = stories[i]["audio"];
-                                        newImage = stories[i]["image"];
-                                        newTitle = stories[i]["title"];
+                                        updateStory(
+                                            widget.stories[i]["id"], true);
+                                        newAudio = widget.stories[i]["audio"];
+                                        newImage = widget.stories[i]["image"];
+                                        newTitle = widget.stories[i]["title"];
                                         newIsLiked = true;
-                                        newAuthor = stories[i]["author"];
-                                        newRating = stories[i]["rating"];
+                                        newAuthor = widget.stories[i]["author"];
+                                        newRating = widget.stories[i]["rating"];
                                         //newId = stories[i]["id"];
-                                        addStory(newAudio, newAuthor, newImage, newTitle, newRating,
+                                        addStory(
+                                            newAudio,
+                                            newAuthor,
+                                            newImage,
+                                            newTitle,
+                                            newRating,
                                             newIsLiked /*,newId*/);
                                       });
                                     } else {
                                       setState(() {
                                         hasLiked = false;
-                                        updateStory(stories[i]["id"], false);
+                                        updateStory(
+                                            widget.stories[i]["id"], false);
                                         favorites
-                                            .doc(stories[i]["id"])
+                                            .doc(widget.stories[i]["id"])
                                             .delete()
-                                            .then((value) => logger.v("story Deleted"))
-                                            .catchError((error) =>
-                                                logger.e("Failed to delete story: $error"));
+                                            .then((value) =>
+                                                logger.v("story Deleted"))
+                                            .catchError((error) => logger.e(
+                                                "Failed to delete story: $error"));
                                       });
                                     }
                                   },
@@ -228,8 +238,8 @@ class _MyListViewState extends State<MyListView> {
                                     "Delete Story...",
                                     "Do you really want to delete this story?",
                                     Icons.delete,
-                                    stories[i]["id"],
-                                    storiesCollection),
+                                    widget.stories[i]["id"],
+                                    widget.storiesCollection),
                                 const SizedBox(
                                   width: 1,
                                 ),

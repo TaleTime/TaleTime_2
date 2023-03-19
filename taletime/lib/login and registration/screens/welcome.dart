@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/login%20and%20registration/screens/login.dart";
 import "package:taletime/login%20and%20registration/screens/signup.dart";
-import "package:taletime/common%20utils/constants.dart";
+
 import "../../internationalization/localizations_ext.dart";
 
 /// First Screen that appears if you open the app
@@ -62,11 +63,14 @@ class WelcomePage extends StatelessWidget {
                       /// redirects the user to the LoginPage
                       onPressed: () {
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()));
                       },
                       child: Text(
                         AppLocalizations.of(context)!.loginVerb,
-                        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
                       ),
                     ),
                   ),
@@ -82,11 +86,14 @@ class WelcomePage extends StatelessWidget {
                         /// redirects the user to the SignupPage
                         onPressed: () {
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => const SignupPage()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignupPage()));
                         },
                         child: Text(
                           AppLocalizations.of(context)!.register,
-                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       ))
                 ],

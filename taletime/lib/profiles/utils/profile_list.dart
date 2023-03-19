@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/profiles/utils/profile_column_widget.dart";
+import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 
 import "../../listener/utils/navbar_widget_listener.dart";
 
@@ -8,7 +8,7 @@ class ProfileList extends StatelessWidget {
   final profile;
   final profiles;
 
-  const ProfileList(this.profile, this.profiles);
+  const ProfileList(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,14 @@ class ProfileList extends StatelessWidget {
       onTap: () async {
         if (profile["title"] == "Listener") {
           await Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NavBarListener(profile, profiles)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NavBarListener(profile, profiles)));
         } else {
           await Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NavBarSpeaker(profile, profiles)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NavBarSpeaker(profile, profiles)));
         }
       },
       child: Column(
@@ -63,7 +67,8 @@ class ProfileList extends StatelessWidget {
                                   fontSize: 20.0,
                                 ),
                               ),
-                              const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+                              const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 2.0)),
                               Row(
                                 children: [
                                   Icon(

@@ -9,21 +9,15 @@ import "../../settings/settings.dart";
 class NavBarSpeaker extends StatefulWidget {
   final profile;
   final profiles;
-  const NavBarSpeaker(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const NavBarSpeaker(this.profile, this.profiles, {Key? key})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _NavBarSpeakerState(profile, profiles);
-  }
+  State<StatefulWidget> createState() => _NavBarSpeakerState();
 }
 
 class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
-
-  final profile;
-  final profiles;
-
-  _NavBarSpeakerState(this.profile, this.profiles);
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -36,18 +30,22 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference lastRecorded = profiles.doc(profile["id"]).collection("lastRecordedList");
-    CollectionReference recordedStories =
-        profiles.doc(profile["id"]).collection("recordedStoriesList");
+    CollectionReference lastRecorded = widget.profiles
+        .doc(widget.profile["id"])
+        .collection("lastRecordedList");
+    CollectionReference recordedStories = widget.profiles
+        .doc(widget.profile["id"])
+        .collection("recordedStoriesList");
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          SpeakerHomePage(profile, profiles, recordedStories, lastRecorded),
-          AllStories(profile, profiles, recordedStories),
-          CreateStory(profile, recordedStories),
-          SettingsPage(profile, profiles),
+          SpeakerHomePage(
+              widget.profile, widget.profiles, recordedStories, lastRecorded),
+          AllStories(widget.profile, widget.profiles, recordedStories),
+          CreateStory(widget.profile, recordedStories),
+          SettingsPage(widget.profile, widget.profiles),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

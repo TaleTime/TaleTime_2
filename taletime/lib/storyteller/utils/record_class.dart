@@ -1,5 +1,3 @@
-
-
 class Story {
   /// Instanzvariablen
   late String title;

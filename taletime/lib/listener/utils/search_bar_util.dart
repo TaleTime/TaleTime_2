@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
+
 import "../../common utils/constants.dart";
 
 class SearchBarUtil {
   List searchStory(List stories, value) {
     return stories
-        .where((story) => story["title"].toLowerCase().contains(value.toLowerCase()))
+        .where((story) =>
+            story["title"].toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
 
@@ -18,7 +20,9 @@ class SearchBarUtil {
   Container searchBarContainer(List story) {
     return Container(
       margin: const EdgeInsets.all(15),
-      height: story.isNotEmpty ? (story.length >= 4 ? (63.0 * 4.5) : 63.0 * story.length) : 0.0,
+      height: story.isNotEmpty
+          ? (story.length >= 4 ? (63.0 * 4.5) : 63.0 * story.length)
+          : 0.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.teal.shade600,
@@ -29,8 +33,9 @@ class SearchBarUtil {
         itemBuilder: (context, index) {
           var resultTitle = story[index]["title"];
           var resultAuthor = story[index]["author"];
-          var resultImage =
-              story[index]["image"] == "" ? storyImagePlaceholder : story[index]["image"];
+          var resultImage = story[index]["image"] == ""
+              ? storyImagePlaceholder
+              : story[index]["image"];
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {

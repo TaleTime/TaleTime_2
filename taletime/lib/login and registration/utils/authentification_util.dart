@@ -1,12 +1,13 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/login%20and%20registration/screens/login.dart";
-import "package:taletime/profiles/screens/profiles_page.dart";
-import "package:taletime/common%20utils/constants.dart";
-import "../../internationalization/localizations_ext.dart";
 import "package:taletime/login%20and%20registration/utils/error_util.dart";
+import "package:taletime/profiles/screens/profiles_page.dart";
+
+import "../../internationalization/localizations_ext.dart";
 
 /// Contains methods to authenticate with Firebase
 class AuthentificationUtil {
@@ -24,19 +25,21 @@ class AuthentificationUtil {
   ///
   /// if the login was successful then the user receives a confirmation that the registration was successful and redirects the user to the profile page.
   Future<void> loginUsingEmailAndPassword(
-      {required String email, required String password, required BuildContext context}) async {
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     try {
       User? user;
-      UserCredential userCredential =
-          await auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
       user = userCredential.user;
       if (user != null) {
         final SnackBar signinSuccesful = SnackBar(
             content: Text(AppLocalizations.of(context)!.signInSuccesful),
             backgroundColor: kPrimaryColor);
         ScaffoldMessenger.of(context).showSnackBar(signinSuccesful);
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ProfilesPage(auth.currentUser!.uid)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ProfilesPage(auth.currentUser!.uid)));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showLoginError(e, context);
@@ -55,8 +58,8 @@ class AuthentificationUtil {
       required String password,
       required BuildContext context}) async {
     try {
-      UserCredential userData =
-          await auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userData = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       User? user = userData.user;
       user?.updateDisplayName(userName);
 
@@ -75,8 +78,8 @@ class AuthentificationUtil {
 
         addUserInfoToDB(auth.currentUser!.uid, userInfoMap);
 
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ProfilesPage(auth.currentUser!.uid)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ProfilesPage(auth.currentUser!.uid)));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showRegisterError(e, context);
@@ -85,7 +88,10 @@ class AuthentificationUtil {
   }
 
   Future addUserInfoToDB(String userId, Map<String, dynamic> userInfoMap) {
-    return FirebaseFirestore.instance.collection("users").doc(userId).set(userInfoMap);
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .set(userInfoMap);
   }
 
   Future<DocumentSnapshot> getUserFromDB(String userId) {
@@ -102,9 +108,11 @@ class AuthentificationUtil {
     try {
       await auth.sendPasswordResetEmail(email: email);
       SnackBar resetSuccesful = SnackBar(
-          content: Text(AppLocalizations.of(context)!.emailSent), backgroundColor: kPrimaryColor);
+          content: Text(AppLocalizations.of(context)!.emailSent),
+          backgroundColor: kPrimaryColor);
       ScaffoldMessenger.of(context).showSnackBar(resetSuccesful);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
     } on FirebaseAuthException catch (e) {
       SnackBar snackBar = ErrorUtil().showResetPasswordError(e, context);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -112,7 +120,8 @@ class AuthentificationUtil {
   }
 
   /// Allows the user to change his [oldPassword] to a [newPassword]
-  void changePassword(BuildContext context, String oldPassword, String newPassword) async {
+  void changePassword(
+      BuildContext context, String oldPassword, String newPassword) async {
     String? email = user!.email;
     if (email == null) {
       return;

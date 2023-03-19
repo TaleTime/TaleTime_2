@@ -6,9 +6,10 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
-import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/text_form_field_util.dart";
+import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
+
 import "../internationalization/localizations_ext.dart";
 
 class ChangePassword extends StatefulWidget {
@@ -47,8 +48,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       padding: const EdgeInsets.all(8.0),
 
                       /// Enter old password
-                      child:
-                          TextFormFieldUtil().enterOldPasswordForm(context, _oldPasswordController),
+                      child: TextFormFieldUtil().enterOldPasswordForm(
+                          context, _oldPasswordController),
                     ),
                     const SizedBox(
                       height: 10,
@@ -57,7 +58,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         padding: const EdgeInsets.all(8.0),
 
                         ///Enter new password
-                        child: TextFormFieldUtil().enterPasswordForm(context, _passwordController)),
+                        child: TextFormFieldUtil()
+                            .enterPasswordForm(context, _passwordController)),
                     const SizedBox(
                       height: 10,
                     ),
@@ -65,8 +67,8 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                         /// enter the confirm the password and one compares between the new and confirmed
                         padding: const EdgeInsets.all(8.0),
-                        child: TextFormFieldUtil().confirmPasswordForm(
-                            context, _passwordController, _confirmPasswordController)),
+                        child: TextFormFieldUtil().confirmPasswordForm(context,
+                            _passwordController, _confirmPasswordController)),
                     const SizedBox(
                       height: 25,
                     ),
@@ -79,7 +81,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         child: ElevatedButton(
                           style: elevatedButtonDefaultStyle(),
                           onPressed: () {
-                            final isValidForm = _formKey.currentState!.validate();
+                            final isValidForm =
+                                _formKey.currentState!.validate();
                             if (isValidForm) {
                               AuthentificationUtil(auth: auth).changePassword(
                                   context,
@@ -89,7 +92,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                           },
 
                           ///the password has been changed
-                          child: Text(AppLocalizations.of(context)!.changePassword),
+                          child: Text(
+                              AppLocalizations.of(context)!.changePassword),
                         ),
                       ),
                     )

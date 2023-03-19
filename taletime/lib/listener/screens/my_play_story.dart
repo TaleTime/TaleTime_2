@@ -8,16 +8,11 @@ class MyPlayStory extends StatefulWidget {
   const MyPlayStory(this.story, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _MyPlayStoryState(story);
-  }
+  State<StatefulWidget> createState() => _MyPlayStoryState();
 }
 
 class _MyPlayStoryState extends State<MyPlayStory> {
   final logger = TaleTimeLogger.getLogger();
-  final story;
-
-  _MyPlayStoryState(this.story);
 
   bool isPlaying = false;
 
@@ -29,7 +24,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   Duration? duration = const Duration(seconds: 0);
 
   void initPlayer() async {
-    await player.setSource(UrlSource(story["audio"]));
+    await player.setSource(UrlSource(widget.story["audio"]));
     duration = await player.getDuration();
   }
 
@@ -74,7 +69,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             actions: <Widget>[
               IconButton(
                 onPressed: () {},
-                icon: story["isLiked"]
+                icon: widget.story["isLiked"]
                     ? Icon(
                         Icons.favorite,
                         color: Colors.teal.shade600,
@@ -108,8 +103,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.transparent,
                   ),
-                  child:
-                      Image.network(story["image"] == "" ? storyImagePlaceholder : story["image"]),
+                  child: Image.network(widget.story["image"] == ""
+                      ? storyImagePlaceholder
+                      : widget.story["image"]),
                 ),
               ],
             ),
@@ -127,16 +123,18 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 SizedBox(
                   width: screenWidth * 0.8,
                   child: Text(
-                    story["title"],
+                    widget.story["title"],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        color: Colors.teal, fontSize: 21.0, fontWeight: FontWeight.bold),
+                        color: Colors.teal,
+                        fontSize: 21.0,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
                   width: screenWidth * 0.8,
                   child: Text(
-                    story["author"],
+                    widget.story["author"],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.teal,
@@ -187,11 +185,14 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     Text(
                       "${displayDoubleDigits((_currentValue / 60).floor())}:${displayDoubleDigits((_currentValue % 60).floor())}",
                       style: TextStyle(
-                          fontSize: 14, color: kPrimaryColor, fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "/",
-                      style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: kPrimaryColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${displayDoubleDigits(duration!.inMinutes)}:${displayDoubleDigits(duration!.inSeconds % 60)}",

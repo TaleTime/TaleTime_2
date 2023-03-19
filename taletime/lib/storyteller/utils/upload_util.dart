@@ -8,9 +8,10 @@ class UploadUtil {
     this.storiesCollection = storiesCollection;
   }
 
-  CollectionReference allStories = FirebaseFirestore.instance.collection("allStories");
-  Future<void> uploadStory(
-      String audio, String author, String image, String title, String rating, bool isLiked) {
+  CollectionReference allStories =
+      FirebaseFirestore.instance.collection("allStories");
+  Future<void> uploadStory(String audio, String author, String image,
+      String title, String rating, bool isLiked) {
     return allStories.add({
       "id": "",
       "image": image,
@@ -22,7 +23,9 @@ class UploadUtil {
     }).then((value) {
       logger.d("Story uploaded succesfully");
       updateList(value.id);
-    }).catchError((error) => logger.e("Failed to upload story: $error"));
+    }).catchError((error) {
+      logger.e("Failed to upload story: $error");
+    });
   }
 
   Future<void> updateList(String storyId) {

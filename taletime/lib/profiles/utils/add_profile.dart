@@ -6,11 +6,12 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
-import "../../internationalization/locale_provider.dart";
-import "../screens/profiles_page.dart";
+
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
+import "../../internationalization/locale_provider.dart";
 import "../../internationalization/localizations_ext.dart";
+import "../screens/profiles_page.dart";
 
 class AddProfile extends StatefulWidget {
   final String uId;
@@ -18,15 +19,11 @@ class AddProfile extends StatefulWidget {
   const AddProfile(this.uId, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _AddProfileState(uId);
-  }
+  State<StatefulWidget> createState() => _AddProfileState();
 }
 
 class _AddProfileState extends State<AddProfile> {
-  late String uId;
   final logger = TaleTimeLogger.getLogger();
-  _AddProfileState(this.uId);
 
   late final String name;
   late final String image;
@@ -50,7 +47,7 @@ class _AddProfileState extends State<AddProfile> {
 
     CollectionReference users = FirebaseFirestore.instance.collection("users");
 
-    CollectionReference profiles = users.doc(uId).collection("profiles");
+    CollectionReference profiles = users.doc(widget.uId).collection("profiles");
 
     String updateImageProfile(int index) {
       var image = profileImages[index];
@@ -68,7 +65,8 @@ class _AddProfileState extends State<AddProfile> {
           .catchError((error) => logger.e("Failed to update user: $error"));
     }
 
-    Future<void> addUser(String image, String name, String title, String language, bool theme) {
+    Future<void> addUser(
+        String image, String name, String title, String language, bool theme) {
       return profiles.add({
         "id": "",
         "image": image,
@@ -79,7 +77,9 @@ class _AddProfileState extends State<AddProfile> {
       }).then((value) {
         logger.d("User Added");
         updateUser(value.id);
-      }).catchError((error) => logger.e("Failed to set Id: $error"));
+      }).catchError((error) {
+        logger.e("Failed to set Id: $error");
+      });
     }
 
     return Scaffold(
@@ -90,7 +90,9 @@ class _AddProfileState extends State<AddProfile> {
           ),
           onPressed: () async {
             await Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilesPage(uId)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfilesPage(widget.uId)));
           },
         ),
         title: Text(
@@ -149,7 +151,8 @@ class _AddProfileState extends State<AddProfile> {
                                 child: SizedBox(
                                   height: 80,
                                   child: PageView.builder(
-                                      controller: PageController(viewportFraction: 0.2),
+                                      controller:
+                                          PageController(viewportFraction: 0.2),
                                       itemCount: profileImages.length,
                                       itemBuilder: (_, i) {
                                         return GestureDetector(
@@ -180,7 +183,8 @@ class _AddProfileState extends State<AddProfile> {
                             decoration: Decorations().textInputDecoration(
                                 AppLocalizations.of(context)!.profileName,
                                 AppLocalizations.of(context)!.enterProfile),
-                            validator: (val) => ValidationUtil().validateUserName(val, context),
+                            validator: (val) =>
+                                ValidationUtil().validateUserName(val, context),
                           ),
                         ),
                         const SizedBox(
@@ -191,21 +195,27 @@ class _AddProfileState extends State<AddProfile> {
                           child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
                                 filled: true,
-                                contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(20, 10, 20, 10),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
+                                    borderSide:
+                                        BorderSide(color: kPrimaryColor)),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
+                                    borderSide:
+                                        BorderSide(color: kPrimaryColor)),
                               ),
-                              value: selectedItem != "" ? selectedItem : items[0],
+                              value:
+                                  selectedItem != "" ? selectedItem : items[0],
                               items: items
                                   .map((item) => DropdownMenuItem<String>(
                                         value: item,
                                         child: Text(
                                           item,
-                                          style: TextStyle(fontSize: 18, color: kPrimaryColor),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: kPrimaryColor),
                                         ),
                                       ))
                                   .toList(),
@@ -226,14 +236,19 @@ class _AddProfileState extends State<AddProfile> {
                             theme = !themeProvider.isDarkMode;
                             language = languageProvider.locale.toString();
                             addUser(image, name, title, language, theme);
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ProfilesPage(uId)));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfilesPage(widget.uId)));
                           },
                           color: kPrimaryColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
                           child: Text(
                             AppLocalizations.of(context)!.addProfile,
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                         ),
                       ],

@@ -32,11 +32,14 @@ class SoundRecorder extends FlutterSoundRecorder {
     }
 
     final statusStorage = await Permission.storage.status;
-    if (!statusStorage.isGranted) {
+    if (Platform.isIOS && statusStorage != PermissionStatus.granted) {
+      // Storage permission for android is external storage,
+      //for ios its implicity grnated but someone might have denied it manually
       await Permission.storage.request();
     } else {
       Directory directory = await getApplicationDocumentsDirectory();
-      String filepath = "${directory.path}/${DateTime.now().microsecondsSinceEpoch}.aac";
+      String filepath =
+          "${directory.path}/${DateTime.now().microsecondsSinceEpoch}.aac";
 
       await _audioRecorder!.openRecorder();
       _path = filepath;

@@ -8,15 +8,10 @@ class LVRecentStoryTeller extends StatefulWidget {
   const LVRecentStoryTeller(this.stories, {Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _LVRecentStoryTellerState(stories);
-  }
+  State<StatefulWidget> createState() => _LVRecentStoryTellerState();
 }
 
 class _LVRecentStoryTellerState extends State<LVRecentStoryTeller> {
-  late final List stories;
-  _LVRecentStoryTellerState(this.stories);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,18 +19,18 @@ class _LVRecentStoryTellerState extends State<LVRecentStoryTeller> {
       body: ListView.builder(
         primary: false,
         scrollDirection: Axis.horizontal,
-        itemCount: stories.length,
+        itemCount: widget.stories.length,
         itemBuilder: (_, index) {
           return Card(
             child: SizedBox(
               height: 150,
               width: 150,
               child: ListTile(
-                leading: Image.network(stories[index]["image"] == ""
+                leading: Image.network(widget.stories[index]["image"] == ""
                     ? storyImagePlaceholder
-                    : stories[index]["image"]),
-                title: Text(stories[index]["title"]),
-                subtitle: Text(stories[index]["author"]),
+                    : widget.stories[index]["image"]),
+                title: Text(widget.stories[index]["title"]),
+                subtitle: Text(widget.stories[index]["author"]),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

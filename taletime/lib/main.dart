@@ -1,15 +1,16 @@
 import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:provider/provider.dart";
+import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
-import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
-import "package:firebase_core/firebase_core.dart";
-import "package:taletime/common%20utils/theme_provider.dart";
-import "firebase/firebase_options.dart";
+import "package:taletime/profiles/screens/profiles_page.dart";
+
 import "../internationalization/localizations_ext.dart";
+import "firebase/firebase_options.dart";
 
 /// Main-Class of the TaleTime-App
 
@@ -25,7 +26,7 @@ Future<void> main() async {
 class TaleTimeApp extends StatefulWidget {
   const TaleTimeApp({Key? key}) : super(key: key);
   @override
-  _TaleTimeState createState() => _TaleTimeState();
+  State<TaleTimeApp> createState() => _TaleTimeState();
 }
 
 class _TaleTimeState extends State<TaleTimeApp> {
@@ -36,7 +37,8 @@ class _TaleTimeState extends State<TaleTimeApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider<LocaleProvider>(create: (context) => LocaleProvider()),
+      ChangeNotifierProvider<LocaleProvider>(
+          create: (context) => LocaleProvider()),
       ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider())
     ], child: const Providers());
   }
@@ -83,7 +85,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+          future: Firebase.initializeApp(
+              options: DefaultFirebaseOptions.currentPlatform),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               User? user = _auth.currentUser;

@@ -2,15 +2,16 @@
 /// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
 import "dart:async";
 import "dart:io";
+
 import "package:audioplayers/audioplayers.dart";
 import "package:avatar_glow/avatar_glow.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/storyteller/screens/save_or_upload_story.dart";
-import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/sound_recorder.dart";
 
@@ -18,19 +19,16 @@ class MyRecordStory extends StatefulWidget {
   final Story myStory;
   final profile;
   final CollectionReference storiesCollection;
-  const MyRecordStory(this.myStory, this.profile, this.storiesCollection);
+  const MyRecordStory(this.myStory, this.profile, this.storiesCollection,
+      {Key? key})
+      : super(key: key);
 
   @override
-  State<MyRecordStory> createState() => _MyRecordStoryState(myStory, profile, storiesCollection);
+  State<MyRecordStory> createState() => _MyRecordStoryState();
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
   final logger = TaleTimeLogger.getLogger();
-  final Story? myStory;
-  final profile;
-  final CollectionReference storiesCollection;
-
-  _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
 
   SoundRecorder recorder = SoundRecorder();
   final AudioPlayer player = AudioPlayer();
@@ -107,15 +105,16 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// and passes it on to the save or upload page
   void saveRecording() {
     File newAudio = File(recorder.getPath);
-    logger.v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
+    logger
+        .v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
     setState(() {});
     Record record = Record(newAudio.path);
-    RecordedStory recordedStory = RecordedStory(myStory!, record);
+    RecordedStory recordedStory = RecordedStory(widget.myStory, record);
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                SaveOrUploadStory(recordedStory, profile, storiesCollection, false)));
+            builder: (context) => SaveOrUploadStory(recordedStory,
+                widget.profile, widget.storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -158,7 +157,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildPlay() {
     final icon = isPlaying ? Icons.stop : Icons.play_arrow;
     final text = isPlaying ? "Stop playing" : "Start Playing";
-    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor =
+        playbackReady ? kPrimaryColor : Colors.grey.shade100;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
@@ -212,15 +212,20 @@ class _MyRecordStoryState extends State<MyRecordStory> {
             children: [
               const Text(
                 "TaleTime",
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
                 printDuration(recordingTime),
-                style:
-                    const TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
@@ -237,7 +242,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   }
 
   Widget buildSave() {
-    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor =
+        playbackReady ? kPrimaryColor : Colors.grey.shade100;
     return ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(150, 40),

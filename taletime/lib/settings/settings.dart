@@ -1,14 +1,15 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/settings/changePassword.dart";
-import "package:taletime/common%20utils/constants.dart";
+
 import "../internationalization/localizations_ext.dart";
-import "package:taletime/common%20utils/theme_provider.dart";
 
 class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
@@ -17,20 +18,17 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage(this.profile, this.profiles, {Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState(profile, profiles);
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
   final logger = TaleTimeLogger.getLogger();
-  final profile;
-  final profiles;
 
-  _SettingsPageState(this.profile, this.profiles);
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     Future<void> updateLanguage(String profileId, String language) {
-      return profiles
+      return widget.profiles
           .doc(profileId)
           .update({"language": language})
           .then((value) => logger.v("profile Updated"))
@@ -38,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
 
     Future<void> updateTheme(String profileId, bool theme) {
-      return profiles
+      return widget.profiles
           .doc(profileId)
           .update({"theme": theme})
           .then((value) => logger.v("profile Updated"))
@@ -54,7 +52,10 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
         automaticallyImplyLeading: false,
-        actions: [const Icon(Icons.settings), Container(padding: const EdgeInsets.all(16.0))],
+        actions: [
+          const Icon(Icons.settings),
+          Container(padding: const EdgeInsets.all(16.0))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -72,17 +73,21 @@ class _SettingsPageState extends State<SettingsPage> {
                           return DropdownMenuItem(
                             value: locale,
                             onTap: () {
-                              final provider = Provider.of<LocaleProvider>(context, listen: false);
+                              final provider = Provider.of<LocaleProvider>(
+                                  context,
+                                  listen: false);
                               provider.setLocale(locale);
                             },
-                            child: Text(flag, style: const TextStyle(fontSize: 32)),
+                            child: Text(flag,
+                                style: const TextStyle(fontSize: 32)),
                           );
                         },
                       ).toList(),
                       onChanged: (value) {
                         setState(() {
                           selectedLanguage = value;
-                          updateLanguage(profile["id"], value.toString());
+                          updateLanguage(
+                              widget.profile["id"], value.toString());
                         });
                       })),
             ),
@@ -97,10 +102,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context)!.darkMode),
                 value: themeProvider.isDarkMode,
                 onChanged: (value) {
-                  final provider = Provider.of<ThemeProvider>(context, listen: false);
+                  final provider =
+                      Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(value);
                   setState(() {
-                    updateTheme(profile["id"], value);
+                    updateTheme(widget.profile["id"], value);
                   });
                 },
                 activeTrackColor: kPrimaryColor,
@@ -114,7 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.password),
                 title: Text(AppLocalizations.of(context)!.changePassword),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
                     return const ChangePassword();
                   }));
                 },
@@ -128,7 +135,8 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: const Icon(Icons.person),
               title: Text(AppLocalizations.of(context)!.changeProfile),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
                   return ProfilesPage(auth.currentUser!.uid);
                 }));
               },
