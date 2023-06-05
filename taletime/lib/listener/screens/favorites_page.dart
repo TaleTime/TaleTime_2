@@ -1,10 +1,9 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
-import "package:taletime/listener/utils/my_list_view_listener.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
-
-import 'package:taletime/listener/utils/search_bar_util.dart';
+import "package:taletime/listener/utils/search_bar_util.dart";
+import "package:taletime/listener/utils/list_view.dart";
 
 class FavoritePage extends StatefulWidget {
   final profile;
@@ -54,7 +53,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   elevation: 0.0,
                   actions: <Widget>[
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {}, //3 dots button in fav page TODO
                       icon: Icon(
                         Icons.more_vert,
                         size: 23,
@@ -116,8 +115,16 @@ class _FavoritePageState extends State<FavoritePage> {
                       height: screenHeight * 0.8,
                       child: documentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
-                              "No stories yet. \nplease add some stories to your story library", "")
-                          : MyListViewListener(documentSnapshot, favorites, profile, profiles),
+                              //if no fav stories
+                              "No stories yet. \nplease add some stories to your story library",
+                              "")
+                          : ListViewData(
+                              //list of favorite stroies
+                              documentSnapshot,
+                              favorites,
+                              profile,
+                              profiles,
+                              "favList"),
                     )
                   ],
                 ),

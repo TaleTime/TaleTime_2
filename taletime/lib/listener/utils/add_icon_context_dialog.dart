@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../internationalization/localizations_ext.dart';
-import '../../common utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../internationalization/localizations_ext.dart";
+import "../../common utils/constants.dart";
 
 class AddIconContextDialog extends StatefulWidget {
   final String title;
@@ -37,30 +37,35 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
   late final String newAuthor;
   late final String newRating;
 
+  bool updateForce = false;
+
   _AddIconContextDialogState(
       this.title, this.subtitle, this.icon, this.storiesCollectionReference, this.allStories);
 
   Future<void> updateStoryList(String storyId) {
     return storiesCollectionReference
         .doc(storyId)
-        .update({'id': storyId})
+        .update({"id": storyId})
         .then((value) => logger.v("List Updated"))
         .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
   Future<void> addStory(
-      String audio, String author, String image, String title, String rating, bool isLiked) {
-    return storiesCollectionReference.add({
-      'id': "",
-      'image': image,
-      'audio': audio,
-      'title': title,
-      'rating': rating,
-      'author': author,
-      'isLiked': isLiked
+      String audio, String author, String image, String title, String rating, bool isLiked) async {
+    await storiesCollectionReference.add({
+      "id": "",
+      "image": image,
+      "audio": audio,
+      "title": title,
+      "rating": rating,
+      "author": author,
+      "isLiked": isLiked
     }).then((value) {
       logger.v("Story Added to story list");
       updateStoryList(value.id);
+      setState(() {
+        updateForce = true;
+      });
     }).catchError((error) => logger.e("Failed to add story to story list: $error"));
   }
 
@@ -77,7 +82,7 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
             actions: [
               TextButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     newAudio = allStories["audio"];
                     newImage = allStories["image"];
@@ -86,6 +91,7 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
                     newAuthor = allStories["author"];
                     newRating = allStories["rating"];
                     addStory(newAudio, newAuthor, newImage, newTitle, newRating, newIsLiked);
+                    updateForce = false;
                     Navigator.of(context).pop();
                   });
                 },
