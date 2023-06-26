@@ -21,10 +21,10 @@ class Story {
   }
 }
 
-class Record {
+class MyRecord {
   late String audio;
 
-  Record(String audio) {
+  MyRecord(String audio) {
     this.audio = audio;
   }
 
@@ -35,9 +35,9 @@ class Record {
 
 class RecordedStory {
   late Story story;
-  late Record recording;
+  late MyRecord recording;
 
-  RecordedStory(Story story, Record recording) {
+  RecordedStory(Story story, MyRecord recording) {
     this.story = story;
     this.recording = recording;
   }
