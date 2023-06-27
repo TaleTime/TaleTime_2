@@ -38,15 +38,15 @@ class SoundRecorder extends Record {
     Logger logger = Logger();
     logger.v(status);
 
-    if (status != PermissionStatus.granted) {
+    if (status !=true) {
       throw Exception('Microphone permission not granted');
     }
 
     final statusStorage = await Permission.storage.status;
-    print(statusStorage) ;
     if (statusStorage.isDenied) {
-     await Permission.storage.request();
+       await Permission.storage.request();
     }
+
       Directory directory = await getApplicationDocumentsDirectory();
       String filepath = '${directory.path}/${DateTime.now().microsecondsSinceEpoch}.aac';
       _path = filepath;
