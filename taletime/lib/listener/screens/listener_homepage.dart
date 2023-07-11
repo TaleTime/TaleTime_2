@@ -31,8 +31,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   final DocumentSnapshot profile;
   final profiles;
-  final CollectionReference
-      favoritescollection; //use favorites collection in the listener homepage to be able to remove and add stories to the favorites by clicking the heart button
+  final CollectionReference favoritescollection;
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
 
@@ -307,22 +306,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     SizedBox(
                       height: 260,
                       child: StreamBuilder(
-                        //When you use a StreamBuilder with a stream, it automatically listens to the stream for new data or update
-                        stream: storiesCollection
-                            .snapshots(), //we listen to the data stored in the storiesCollection with snapshots and see whenever data changes for rebuilding the widgets
+                        stream: storiesCollection.snapshots(),
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                          return storiesDocumentSnapshot
-                                  .isEmpty //check the state of snapshots to know what to display on the screen and here if the case is empty do the following
+                          return storiesDocumentSnapshot.isEmpty
                               ? Decorations().noRecentContent(
                                   "No stories yet. \nplease add some stories to your story library",
                                   "")
-                              : ListViewData(
-                                  storiesDocumentSnapshot,
-                                  storiesCollection,
-                                  profile, //if the collection is not empty then display this
-                                  profiles,
-                                  "userStroiesList",
-                                  favoritescollection);
+                              : ListViewData(storiesDocumentSnapshot, storiesCollection, profile,
+                                  profiles, "userStroiesList", favoritescollection);
                         },
                       ),
                     ),

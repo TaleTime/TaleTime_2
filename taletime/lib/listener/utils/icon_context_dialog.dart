@@ -31,14 +31,6 @@ class _IconContextDialogState extends State<IconContextDialog> {
 
   bool isStoryDeleted = false;
 
-  /*Future<void> deleteUser(String id) {
-    return stories
-        .doc(id) //create document with custom id
-        .delete()
-        .then((value) => logger.v("User Deleted"))
-        .catchError((error) => logger.e("Failed to delete user: $error"));
-  }*/
-
   Future<void> deleteUser(String id) async {
     await stories.doc(id).delete().then((value) {
       setState(() {
@@ -62,7 +54,6 @@ class _IconContextDialogState extends State<IconContextDialog> {
               TextButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () async {
-                  //story delete action
                   await deleteUser(id);
                   Navigator.of(context).pop();
                   setState(() {
@@ -88,20 +79,6 @@ class _IconContextDialogState extends State<IconContextDialog> {
           );
         });
   }
-
-  /*@override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        icon,
-        color: Colors.white,
-        size: 21,
-      ),
-      onPressed: () {
-        onSelected(context, title, subtitle);
-      },
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {

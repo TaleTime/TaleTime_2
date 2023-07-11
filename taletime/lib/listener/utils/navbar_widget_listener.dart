@@ -7,7 +7,6 @@ import "../screens/listener_homepage.dart";
 import "../../settings/settings.dart";
 
 class NavBarListener extends StatefulWidget {
-  //final DocumentSnapshot profile;
   final profile;
   final profiles;
   const NavBarListener(this.profile, this.profiles, {Key? key}) : super(key: key);
@@ -21,14 +20,12 @@ class NavBarListener extends StatefulWidget {
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
 
-  //late final DocumentSnapshot profile;
   final profile;
   final profiles;
 
   _NavBarListenerState(this.profile, this.profiles);
 
-  CollectionReference allStories = FirebaseFirestore.instance
-      .collection("allStories"); //collection of all stories in the firestore
+  CollectionReference allStories = FirebaseFirestore.instance.collection("allStories");
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -41,8 +38,7 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites = profiles.doc(profile["id"]).collection(
-        "favoriteList"); //Collections as subcollections in the profiles collection in firestore for each user profile we create these 3 subcollections
+    CollectionReference favorites = profiles.doc(profile["id"]).collection("favoriteList");
     CollectionReference recent = profiles.doc(profile["id"]).collection("recentList");
     CollectionReference stories = profiles.doc(profile["id"]).collection("storiesList");
 
@@ -67,7 +63,6 @@ class _NavBarListenerState extends State<NavBarListener> {
         elevation: 0.0,
         items: [
           navBarItems(
-            //listener bottom buttons
             Icons.home,
             "Home",
           ),

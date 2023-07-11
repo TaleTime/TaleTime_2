@@ -13,16 +13,11 @@ class MyPlayStory extends StatefulWidget {
   final story;
   final stories;
 
-  //final CollectionReference storiesCollection;
-  //final List<Map<String, dynamic>> stories;
-
-  //const MyPlayStory(this.story, this.storiesCollection, this.stories, {Key? key}) : super(key: key);
   const MyPlayStory(this.story, this.stories, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return _MyPlayStoryState(story, stories);
-    // return _MyPlayStoryState(story, storiesCollection, stories);
   }
 }
 
@@ -31,12 +26,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   final story;
   final stories;
 
-  //final CollectionReference storiesCollection;
-  //final List<Map<String, dynamic>> stories;
-
-  //_MyPlayStoryState(this.story, this.storiesCollection, this.stories);
   _MyPlayStoryState(this.story, this.stories);
-  //_MyPlayStoryState(this.story, this.storiesCollection, this.stories);
 
   bool isPlaying = false;
   bool isFavorite = false;
@@ -93,7 +83,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       await file.writeAsBytes(bytes);
 
       Fluttertoast.showToast(
-        //checker if story downloaded or not
         msg: "Story downloaded",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
@@ -127,7 +116,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     final file = File("$localPath/story_$storyId.mp3");
 
     if (file.existsSync()) {
-      // Open the file with the default app
       await OpenFile.open(file.path);
     } else {
       Fluttertoast.showToast(
@@ -205,18 +193,16 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // Return a dialog to enter the comment
         return AlertDialog(
           title: const Text("Add Comment"),
           content: const TextField(
-            // Customize the text field for comment input
             decoration: InputDecoration(hintText: "Enter your comment"),
           ),
           actions: [
             TextButton(
                 child: const Text("Cancel"),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cancel the comment
+                  Navigator.of(context).pop();
                 }),
             TextButton(
               child: const Text("Add"),
@@ -241,15 +227,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   Future<void> toggleFavoriteStatus() async {
     setState(() {
       story["isLiked"] = !story["isLiked"];
-      checkFavoriteStatus(); //Check isFavorites Var again after changes
+      checkFavoriteStatus();
     });
   }
-
-  // void shareStory() {
-  //   final String text =
-  //       'Check out this story: ${story['title']}\n\n${story['author']}\n\n${story['image']}\n\n${story['audio']}';
-  //   Share.share(text); //share functionality method
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +266,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                         .then((value) => logger.v("List updated"))
                         .catchError((error) => logger.e("Failed to update list: $error"));
                   });
-                }, //TODO Monzr BUG FIX (after changing the favorite status the changes are not commited in homepage and favPage)
+                },
                 icon: isFavorite
                     ? Icon(
                         Icons.favorite,
@@ -299,8 +279,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
               ),
               IconButton(
                 onPressed: () {
-                  showOptionsDialog(); //I DID THIS
-                }, //TODO Monzr
+                  showOptionsDialog();
+                },
                 icon: Icon(
                   Icons.more_vert,
                   color: Colors.teal.shade600,
