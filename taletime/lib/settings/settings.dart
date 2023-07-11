@@ -1,16 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import 'package:taletime/internationalization/l10n.dart';
-import 'package:taletime/internationalization/locale_provider.dart';
-import 'package:taletime/profiles/screens/profiles_page.dart';
-import 'package:taletime/settings/changePassword.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import '../internationalization/localizations_ext.dart';
-import 'package:taletime/common%20utils/theme_provider.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/l10n.dart";
+import "package:taletime/internationalization/locale_provider.dart";
+import "package:taletime/profiles/screens/profiles_page.dart";
+import "package:taletime/settings/changePassword.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "../internationalization/localizations_ext.dart";
+import "package:taletime/common%20utils/theme_provider.dart";
 
-import '../onboarding/onboarding_main.dart';
+import "../onboarding/onboarding_main.dart";
 
 class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
@@ -34,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<void> updateLanguage(String profileId, String language) {
       return profiles
           .doc(profileId)
-          .update({'language': language})
+          .update({"language": language})
           .then((value) => logger.v("profile Updated"))
           .catchError((error) => logger.e("Failed to update profile: $error"));
     }
@@ -42,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<void> updateTheme(String profileId, bool theme) {
       return profiles
           .doc(profileId)
-          .update({'theme': theme})
+          .update({"theme": theme})
           .then((value) => logger.v("profile Updated"))
           .catchError((error) => logger.e("Failed to update profile: $error"));
     }
@@ -69,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.arrow_circle_left_outlined, size: 33),
+            icon: const Icon(Icons.arrow_circle_left_outlined, size: 33),
           ),
           Container(padding: const EdgeInsets.all(16.0))
         ],
@@ -90,13 +90,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           return DropdownMenuItem(
                             value: locale,
                             onTap: () {
-                              final provider = Provider.of<LocaleProvider>(
-                                  context,
-                                  listen: false);
+                              final provider = Provider.of<LocaleProvider>(context, listen: false);
                               provider.setLocale(locale);
                             },
-                            child: Text(flag,
-                                style: const TextStyle(fontSize: 32)),
+                            child: Text(flag, style: const TextStyle(fontSize: 32)),
                           );
                         },
                       ).toList(),
@@ -118,8 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context)!.darkMode),
                 value: themeProvider.isDarkMode,
                 onChanged: (value) {
-                  final provider =
-                      Provider.of<ThemeProvider>(context, listen: false);
+                  final provider = Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(value);
                   setState(() {
                     updateTheme(profile["id"], value);
@@ -136,8 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.password),
                 title: Text(AppLocalizations.of(context)!.changePassword),
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                     return const ChangePassword();
                   }));
                 },
@@ -151,13 +146,12 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: const Icon(Icons.person),
               title: Text(AppLocalizations.of(context)!.changeProfile),
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return ProfilesPage(auth.currentUser!.uid);
                 }));
               },
             )),
-             const SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Card(
@@ -166,9 +160,7 @@ class _SettingsPageState extends State<SettingsPage> {
               title: Text(AppLocalizations.of(context)!.onboarding),
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OnboardingMain()));
+                    context, MaterialPageRoute(builder: (context) => const OnboardingMain()));
               },
             ))
           ],

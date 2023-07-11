@@ -27,7 +27,8 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   _NavBarListenerState(this.profile, this.profiles);
 
-  CollectionReference allStories = FirebaseFirestore.instance.collection("allStories");
+  CollectionReference allStories = FirebaseFirestore.instance
+      .collection("allStories"); //collection of all stories in the firestore
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -40,7 +41,8 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites = profiles.doc(profile["id"]).collection("favoriteList");
+    CollectionReference favorites = profiles.doc(profile["id"]).collection(
+        "favoriteList"); //Collections as subcollections in the profiles collection in firestore for each user profile we create these 3 subcollections
     CollectionReference recent = profiles.doc(profile["id"]).collection("recentList");
     CollectionReference stories = profiles.doc(profile["id"]).collection("storiesList");
 
@@ -48,8 +50,8 @@ class _NavBarListenerState extends State<NavBarListener> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(profile, profiles, stories, recent),
-          FavoritePage(profile, profiles, favorites),
+          ListenerHomePage(profile, profiles, stories, recent, favorites),
+          FavoritePage(profile, profiles, favorites, stories),
           AddStory(stories, allStories),
           SettingsPage(profile, profiles),
         ],

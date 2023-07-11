@@ -34,7 +34,7 @@ class SearchBarUtil {
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return MyPlayStory(story[index]);
+                return MyPlayStory(story[index], story);
               }));
             },
             child: ListTile(

@@ -1,25 +1,45 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
+import "package:audioplayers/audioplayers.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:share/share.dart";
+import "dart:io";
+import "package:http/http.dart" as http;
+import "package:path_provider/path_provider.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:open_file/open_file.dart";
 
 class MyPlayStory extends StatefulWidget {
   final story;
-  const MyPlayStory(this.story, {Key? key}) : super(key: key);
+  final stories;
+
+  //final CollectionReference storiesCollection;
+  //final List<Map<String, dynamic>> stories;
+
+  //const MyPlayStory(this.story, this.storiesCollection, this.stories, {Key? key}) : super(key: key);
+  const MyPlayStory(this.story, this.stories, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyPlayStoryState(story);
+    return _MyPlayStoryState(story, stories);
+    // return _MyPlayStoryState(story, storiesCollection, stories);
   }
 }
 
 class _MyPlayStoryState extends State<MyPlayStory> {
   final logger = TaleTimeLogger.getLogger();
   final story;
+  final stories;
 
-  _MyPlayStoryState(this.story);
+  //final CollectionReference storiesCollection;
+  //final List<Map<String, dynamic>> stories;
+
+  //_MyPlayStoryState(this.story, this.storiesCollection, this.stories);
+  _MyPlayStoryState(this.story, this.stories);
+  //_MyPlayStoryState(this.story, this.storiesCollection, this.stories);
 
   bool isPlaying = false;
+  bool isFavorite = false;
 
   final AudioPlayer player = AudioPlayer();
 
@@ -37,6 +57,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   void initState() {
     super.initState();
     initPlayer();
+    checkFavoriteStatus();
   }
 
   displayDoubleDigits(int digit) {
@@ -46,6 +67,189 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       return "$digit";
     }
   }
+
+  Future<void> deleteStory(String storyId) {
+    return stories.doc(storyId).delete().then((value) {
+      logger.v("Story deleted");
+      Navigator.of(context).pop();
+      setState(() {});
+    }).catchError((error) => logger.e("Failed to delete story: $error"));
+  }
+
+  Future<String> getLocalPath() async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  Future<void> downloadStory(String storyId, String audioUrl) async {
+    try {
+      final httpClient = http.Client();
+      final response = await httpClient.get(Uri.parse(audioUrl));
+      final bytes = response.bodyBytes;
+
+      final localPath = await getLocalPath();
+      final file = File("$localPath/story_$storyId.mp3");
+
+      await file.writeAsBytes(bytes);
+
+      Fluttertoast.showToast(
+        //checker if story downloaded or not
+        msg: "Story downloaded",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } catch (error) {
+      print("Failed to download story: $error");
+    }
+  }
+
+  void shareStory() async {
+    try {
+      final localPath = await getLocalPath();
+      final file = File('$localPath/story_${story['id']}.mp3');
+      final text = 'Check out this story: ${story['title']}\n\n${story['author']}';
+      await file.writeAsString(text, flush: true);
+
+      Share.shareFiles([(file.path)], text: text);
+    } catch (error) {
+      logger.e("Failed to share story: $error");
+    }
+  }
+
+  bool _isStoryDownloaded(String storyId) {
+    final localPath = getLocalPath().toString();
+    final file = File("$localPath/story_$storyId.mp3");
+    return file.existsSync();
+  }
+
+  void openDownloadedStory(String storyId) async {
+    final localPath = await getLocalPath();
+    final file = File("$localPath/story_$storyId.mp3");
+
+    if (file.existsSync()) {
+      // Open the file with the default app
+      await OpenFile.open(file.path);
+    } else {
+      Fluttertoast.showToast(
+        msg: "Story not downloaded yet",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+  }
+
+  void showOptionsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Options"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                  leading: const Icon(Icons.delete),
+                  title: const Text("Delete Story"),
+                  onTap: () {
+                    //deleteStory(story["id"]).then((_) {
+                    deleteStory(story["id"]).then((_) {
+                      Navigator.of(context).pop();
+                      //});
+                    });
+                  }),
+
+              ListTile(
+                leading: const Icon(Icons.file_download),
+                title: const Text("Download Story"),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  downloadStory(story["id"], story["audio"]);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.share),
+                title: const Text("Share Story"),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  shareStory();
+                },
+              ),
+              ListTile(
+                  leading: const Icon(Icons.comment),
+                  title: const Text("Add Comment"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    showAddCommentDialog();
+                  }),
+              if (_isStoryDownloaded(story["id"]))
+                ListTile(
+                  leading: const Icon(Icons.open_in_new),
+                  title: const Text("Open Downloaded Story"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    openDownloadedStory(story["id"]);
+                  },
+                ),
+
+              // If more options needed
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  final TextEditingController _commentController = TextEditingController();
+
+  void showAddCommentDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // Return a dialog to enter the comment
+        return AlertDialog(
+          title: const Text("Add Comment"),
+          content: const TextField(
+            // Customize the text field for comment input
+            decoration: InputDecoration(hintText: "Enter your comment"),
+          ),
+          actions: [
+            TextButton(
+                child: const Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cancel the comment
+                }),
+            TextButton(
+              child: const Text("Add"),
+              onPressed: () {
+                final String commentText = _commentController.text;
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> checkFavoriteStatus() async {
+    final favoriteSnapshot = await stories.doc(story["id"]).get();
+    setState(() {
+      isFavorite = story["isLiked"];
+    });
+  }
+
+  Future<void> toggleFavoriteStatus() async {
+    setState(() {
+      story["isLiked"] = !story["isLiked"];
+      checkFavoriteStatus(); //Check isFavorites Var again after changes
+    });
+  }
+
+  // void shareStory() {
+  //   final String text =
+  //       'Check out this story: ${story['title']}\n\n${story['author']}\n\n${story['image']}\n\n${story['audio']}';
+  //   Share.share(text); //share functionality method
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +277,17 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             elevation: 0.0,
             actions: <Widget>[
               IconButton(
-                onPressed: () {}, //TODO Monzr
-                icon: story["isLiked"]
+                onPressed: () {
+                  toggleFavoriteStatus();
+                  setState(() {
+                    stories
+                        .doc(story["id"])
+                        .update({"isLiked": isFavorite})
+                        .then((value) => logger.v("List updated"))
+                        .catchError((error) => logger.e("Failed to update list: $error"));
+                  });
+                }, //TODO Monzr BUG FIX (after changing the favorite status the changes are not commited in homepage and favPage)
+                icon: isFavorite
                     ? Icon(
                         Icons.favorite,
                         color: Colors.teal.shade600,
@@ -85,7 +298,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       ),
               ),
               IconButton(
-                onPressed: () {}, //TODO Monzr
+                onPressed: () {
+                  showOptionsDialog(); //I DID THIS
+                }, //TODO Monzr
                 icon: Icon(
                   Icons.more_vert,
                   color: Colors.teal.shade600,
@@ -171,7 +386,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       onChangeEnd: (double value) async {
                         setState(() {
                           _currentValue = value;
-                          logger.d('Current Slider value: $_currentValue');
+                          logger.d("Current Slider value: $_currentValue");
                         });
                         player.pause();
                         await player.seek(Duration(seconds: value.toInt()));
@@ -209,18 +424,19 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        padding: const EdgeInsets.only(top: 4),
-                        icon: Icon(
-                          Icons.skip_previous,
-                          size: 30,
-                          color: kPrimaryColor,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _currentValue = 0;
-                          });
-                        },
-                      ),
+                          padding: const EdgeInsets.only(top: 4),
+                          icon: Icon(
+                            Icons.skip_previous,
+                            size: 30,
+                            color: kPrimaryColor,
+                          ),
+                          onPressed: () {} //playPreviousStory
+                          //() {
+                          // setState(() {
+                          //   _currentValue = 0;
+                          // });
+                          //},
+                          ),
                       IconButton(
                         padding: const EdgeInsets.only(bottom: 10),
                         icon: isPlaying == false
@@ -255,14 +471,14 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                         },
                       ),
                       IconButton(
-                        padding: const EdgeInsets.only(top: 4),
-                        icon: Icon(
-                          Icons.skip_next,
-                          size: 30,
-                          color: kPrimaryColor,
-                        ),
-                        onPressed: () {},
-                      ),
+                          padding: const EdgeInsets.only(top: 4),
+                          icon: Icon(
+                            Icons.skip_next,
+                            size: 30,
+                            color: kPrimaryColor,
+                          ),
+                          onPressed: () {} //playNextStory,
+                          ),
                     ],
                   ),
                 ),
@@ -296,7 +512,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                         size: 22,
                         color: kPrimaryColor,
                       ),
-                      onPressed: () {},
+                      onPressed: shareStory,
                     ),
                     IconButton(
                       padding: const EdgeInsets.only(top: 7),

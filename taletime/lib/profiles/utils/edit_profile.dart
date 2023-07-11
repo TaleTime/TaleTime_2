@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../common utils/constants.dart';
-import '../../common utils/decoration_util.dart';
-import '../../internationalization/localizations_ext.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../common utils/constants.dart";
+import "../../common utils/decoration_util.dart";
+import "../../internationalization/localizations_ext.dart";
 
 class EditProfile extends StatefulWidget {
   final CollectionReference profiles;
@@ -52,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
     Future<void> updateprofile(String profileId, String name, String image, String title) {
       return profiles
           .doc(profileId)
-          .update({'image': image, 'name': name, 'title': title})
+          .update({"image": image, "name": name, "title": title})
           .then((value) => logger.v("Profile Updated"))
           .catchError((error) => logger.e("Failed to update profile: $error"));
     }

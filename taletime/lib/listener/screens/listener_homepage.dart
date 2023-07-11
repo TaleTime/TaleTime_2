@@ -11,15 +11,18 @@ import "package:taletime/listener/utils/list_view.dart";
 class ListenerHomePage extends StatefulWidget {
   final DocumentSnapshot profile;
   final profiles;
+  final CollectionReference favoritesCollection;
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
   const ListenerHomePage(this.profile, this.profiles, this.storiesCollection, this.recentCollection,
+      this.favoritesCollection,
       {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState(profile, profiles, storiesCollection, recentCollection);
+    return _ListenerHomePageState(
+        profile, profiles, storiesCollection, recentCollection, favoritesCollection);
   }
 }
 
@@ -28,11 +31,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   final DocumentSnapshot profile;
   final profiles;
+  final CollectionReference
+      favoritescollection; //use favorites collection in the listener homepage to be able to remove and add stories to the favorites by clicking the heart button
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
 
-  _ListenerHomePageState(
-      this.profile, this.profiles, this.storiesCollection, this.recentCollection);
+  _ListenerHomePageState(this.profile, this.profiles, this.storiesCollection, this.recentCollection,
+      this.favoritescollection);
 
   List matchStoryList = [];
 
@@ -168,7 +173,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                               onTap: () {
                                                 Navigator.of(context)
                                                     .push(MaterialPageRoute(builder: (context) {
-                                                  return MyPlayStory(documentSnapshot[i]);
+                                                  return MyPlayStory(
+                                                      documentSnapshot[i], storiesCollection);
                                                 }));
                                               },
                                               child: Container(
@@ -315,7 +321,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                   storiesCollection,
                                   profile, //if the collection is not empty then display this
                                   profiles,
-                                  "userStroiesList");
+                                  "userStroiesList",
+                                  favoritescollection);
                         },
                       ),
                     ),
