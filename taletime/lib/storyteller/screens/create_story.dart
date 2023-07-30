@@ -9,12 +9,14 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import "package:logger/logger.dart";
 import 'package:taletime/common%20utils/constants.dart';
 import 'package:taletime/common%20utils/tale_time_logger.dart';
 import 'package:taletime/storyteller/utils/record_class.dart';
 import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
 import '../../common utils/decoration_util.dart';
 import 'my_record_story.dart';
+import 'package:path/path.dart' as path ;
 
 class CreateStory extends StatefulWidget {
   final profile;
@@ -72,7 +74,15 @@ class _CreateStoryState extends State<CreateStory> {
     FilePickerResult? filePickerResult = await FilePicker.platform.pickFiles();
     if (filePickerResult != null) {
       String? name = filePickerResult.files.single.path;
-      File file = File(name!);
+        String currentDirectory = path.current;
+        String absolutePath = path.join(currentDirectory, name);
+
+
+
+      Logger loger = Logger() ;
+      loger.v(path.normalize(absolutePath)) ;
+     // File file = File(name!);
+      File file = File(path.normalize(absolutePath));
       setState(() {
         image = Image.file(file);
         imageFile = file;

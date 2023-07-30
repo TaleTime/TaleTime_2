@@ -61,9 +61,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     String imagePath = "$author/$title.jpg";
     String fileString = filePath.substring(filePath.lastIndexOf("/"), filePath.length);
     await refImages.child(imagePath).putFile(image);
-    await refAudios.child(fileString).putFile(audioFile);
+    await refAudios.child(fileString).putFile(audio);
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
-    String myAudioUrl = await refAudios.child(fileString).getDownloadURL();
+    String myAudioUrl ="";// await refAudios.child(fileString).getDownloadURL();
 
     setState(() {
       storiesCollection.add({
