@@ -31,7 +31,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   final DocumentSnapshot profile;
   final profiles;
-  final CollectionReference favoritescollection;
+  final CollectionReference
+      favoritescollection; 
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
 
@@ -296,7 +297,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 ),
               ),
               Positioned(
-                //list on delete real time updates should be fixed here
+            
                 top: 528,
                 left: 30,
                 right: 15,
@@ -306,14 +307,22 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     SizedBox(
                       height: 260,
                       child: StreamBuilder(
-                        stream: storiesCollection.snapshots(),
+                        
+                        stream: storiesCollection
+                            .snapshots(), 
                         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                          return storiesDocumentSnapshot.isEmpty
+                          return storiesDocumentSnapshot
+                                  .isEmpty 
                               ? Decorations().noRecentContent(
                                   "No stories yet. \nplease add some stories to your story library",
                                   "")
-                              : ListViewData(storiesDocumentSnapshot, storiesCollection, profile,
-                                  profiles, "userStroiesList", favoritescollection);
+                              : ListViewData(
+                                  storiesDocumentSnapshot,
+                                  storiesCollection,
+                                  profile, 
+                                  profiles,
+                                  "userStroiesList",
+                                  favoritescollection);
                         },
                       ),
                     ),

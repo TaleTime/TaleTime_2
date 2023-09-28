@@ -4,10 +4,13 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:share/share.dart";
 import "dart:io";
-import "package:http/http.dart" as http;
 import "package:path_provider/path_provider.dart";
 import "package:fluttertoast/fluttertoast.dart";
-import "package:open_file/open_file.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
+import "dart:math";
+import "package:path/path.dart" as path;
+import "package:http/http.dart" as http;
+import "package:taletime/settings/downloads.dart";
 
 class MyPlayStory extends StatefulWidget {
   final story;
@@ -21,6 +24,8 @@ class MyPlayStory extends StatefulWidget {
   }
 }
 
+enum PlaybackMode { sequential, random, repeat }
+
 class _MyPlayStoryState extends State<MyPlayStory> {
   final logger = TaleTimeLogger.getLogger();
   final story;
@@ -30,24 +35,32 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   bool isPlaying = false;
   bool isFavorite = false;
+  List<Map<String, dynamic>> storiesList = [];
 
   final AudioPlayer player = AudioPlayer();
 
   double changeVoice = 0.0;
   double _currentValue = 0;
-
   Duration? duration = const Duration(seconds: 0);
 
-  void initPlayer() async {
-    await player.setSource(UrlSource(story["audio"]));
-    duration = await player.getDuration();
+  final TextEditingController _commentController = TextEditingController();
+
+  Future<void> checkFavoriteStatus() async {
+    final favoriteSnapshot = await stories.doc(story["id"]).get();
+    setState(() {
+      isFavorite = story["isLiked"];
+    });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initPlayer();
-    checkFavoriteStatus();
+  void fetchStories() async {
+    try {
+      final QuerySnapshot snapshot = await stories.get();
+      setState(() {
+        storiesList = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      });
+    } catch (error) {
+      logger.e("Failed to fetch stories: $error");
+    }
   }
 
   displayDoubleDigits(int digit) {
@@ -71,25 +84,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     return directory.path;
   }
 
-  Future<void> downloadStory(String storyId, String audioUrl) async {
-    try {
-      final httpClient = http.Client();
-      final response = await httpClient.get(Uri.parse(audioUrl));
-      final bytes = response.bodyBytes;
-
-      final localPath = await getLocalPath();
-      final file = File("$localPath/story_$storyId.mp3");
-
-      await file.writeAsBytes(bytes);
-
-      Fluttertoast.showToast(
-        msg: "Story downloaded",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-    } catch (error) {
-      print("Failed to download story: $error");
-    }
+  bool isContextValid(BuildContext context) {
+    final NavigatorState? navigator = context.findAncestorStateOfType<NavigatorState>();
+    return navigator != null && navigator.mounted;
   }
 
   void shareStory() async {
@@ -105,89 +102,94 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     }
   }
 
-  bool _isStoryDownloaded(String storyId) {
-    final localPath = getLocalPath().toString();
-    final file = File("$localPath/story_$storyId.mp3");
-    return file.existsSync();
-  }
+  Future<void> downloadStory() async {
+    String fileName = "${story['title']} - ${story['author']}.mp3";
+    String downloadUrl = story["audio"];
 
-  void openDownloadedStory(String storyId) async {
     final localPath = await getLocalPath();
-    final file = File("$localPath/story_$storyId.mp3");
+    final filePath = path.join(localPath, fileName);
 
-    if (file.existsSync()) {
-      await OpenFile.open(file.path);
+    if (await File(filePath).exists()) {
+      showSuccessDialog(filePath);
     } else {
-      Fluttertoast.showToast(
-        msg: "Story not downloaded yet",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
+      try {
+        final response = await http.get(Uri.parse(downloadUrl));
+        if (response.statusCode == 200) {
+          final totalBytes = response.bodyBytes.length;
+          int downloadedBytes = 0;
+
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Downloading..."),
+                content: StatefulBuilder(
+                  builder: (context, setState) {
+                    final progress = (downloadedBytes / totalBytes).clamp(0.0, 1.0);
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LinearProgressIndicator(value: progress),
+                        Text("${(progress * 100).toStringAsFixed(2)}%"),
+                      ],
+                    );
+                  },
+                ),
+              );
+            },
+          );
+
+          await File(filePath).writeAsBytes(response.bodyBytes, flush: true);
+
+          Navigator.of(context).pop();
+          showSuccessDialog(filePath);
+        } else {
+          Fluttertoast.showToast(
+            msg: "Failed to download story",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
+      } catch (error) {
+        Fluttertoast.showToast(
+          msg: "Failed to download story: $error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
     }
   }
 
-  void showOptionsDialog() {
+  void showSuccessDialog(String filePath) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Options"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                  leading: const Icon(Icons.delete),
-                  title: const Text("Delete Story"),
-                  onTap: () {
-                    //deleteStory(story["id"]).then((_) {
-                    deleteStory(story["id"]).then((_) {
-                      Navigator.of(context).pop();
-                      //});
-                    });
-                  }),
-
-              ListTile(
-                leading: const Icon(Icons.file_download),
-                title: const Text("Download Story"),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  downloadStory(story["id"], story["audio"]);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.share),
-                title: const Text("Share Story"),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  shareStory();
-                },
-              ),
-              ListTile(
-                  leading: const Icon(Icons.comment),
-                  title: const Text("Add Comment"),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    showAddCommentDialog();
-                  }),
-              if (_isStoryDownloaded(story["id"]))
-                ListTile(
-                  leading: const Icon(Icons.open_in_new),
-                  title: const Text("Open Downloaded Story"),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    openDownloadedStory(story["id"]);
-                  },
-                ),
-
-              // If more options needed
-            ],
-          ),
+          title: const Text("Download Success"),
+          content: const Text("The story has been downloaded successfully."),
+          actions: [
+            TextButton(
+              child: const Text("View Downloads"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DownloadsPage()),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
   }
-
-  final TextEditingController _commentController = TextEditingController();
 
   void showAddCommentDialog() {
     showDialog(
@@ -217,24 +219,215 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     );
   }
 
-  Future<void> checkFavoriteStatus() async {
-    final favoriteSnapshot = await stories.doc(story["id"]).get();
-    setState(() {
-      isFavorite = story["isLiked"];
-    });
+  void showOptionsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Options"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                ListTile(
+                    leading: const Icon(Icons.delete),
+                    title: const Text("Delete Story"),
+                    onTap: () {
+                      deleteStory(story["id"]).then((_) {
+                        Navigator.of(context).pop();
+                      });
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.file_download),
+                  title: const Text("Download Story"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+
+                    downloadStory();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.share),
+                  title: const Text("Share Story"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    shareStory();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.comment),
+                  title: const Text("Add Comment"),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    showAddCommentDialog();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Future<void> toggleFavoriteStatus() async {
+    bool newStatus = !story["isLiked"];
+    await stories.doc(story["id"]).update({"isLiked": newStatus}).then((value) {
+      logger.v("List updated");
+      setState(() {
+        story["isLiked"] = newStatus;
+        checkFavoriteStatus();
+      });
+    }).catchError((error) => logger.e("Failed to update list: $error"));
+  }
+
+  int getCurrentStoryIndex() {
+    return storiesList.indexWhere((s) => s["id"] == story["id"]);
+  }
+
+  void playNextStory() {
+    int currentIndex = getCurrentStoryIndex();
+    int nextIndex = currentIndex + 1;
+
+    if (nextIndex < storiesList.length) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyPlayStory(storiesList[nextIndex], stories),
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "No more stories",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+  }
+
+  void playPreviousStory() {
+    int currentIndex = getCurrentStoryIndex();
+    int previousIndex = currentIndex - 1;
+
+    if (previousIndex >= 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyPlayStory(storiesList[previousIndex], stories),
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "No previous stories",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+  }
+
+  void skipForward() async {
+    int skipAmountInSeconds = 10;
+    Duration? currentPosition = await player.getCurrentPosition();
+    int audioDurationInSeconds = duration?.inSeconds ?? 0;
+
+    int newPosition = (currentPosition?.inSeconds ?? 0) + skipAmountInSeconds;
+
+    if (newPosition > audioDurationInSeconds) {
+      newPosition = audioDurationInSeconds;
+    }
+
+    await player.seek(Duration(seconds: newPosition));
     setState(() {
-      story["isLiked"] = !story["isLiked"];
-      checkFavoriteStatus();
+      _currentValue = newPosition.toDouble();
     });
+  }
+
+  void skipBackward() async {
+    int skipAmountInSeconds = 10;
+    Duration? currentPosition = await player.getCurrentPosition();
+    int newPosition = (currentPosition?.inSeconds ?? 0) - skipAmountInSeconds;
+
+    if (newPosition < 0) {
+      newPosition = 0;
+    }
+    await player.seek(Duration(seconds: newPosition));
+    setState(() {
+      _currentValue = newPosition.toDouble();
+    });
+  }
+
+  PlaybackMode playbackMode = PlaybackMode.sequential;
+
+  void changePlaybackMode() {
+    setState(() {
+      switch (playbackMode) {
+        case PlaybackMode.sequential:
+          playbackMode = PlaybackMode.random;
+          break;
+        case PlaybackMode.random:
+          playbackMode = PlaybackMode.repeat;
+          break;
+        case PlaybackMode.repeat:
+          playbackMode = PlaybackMode.sequential;
+          break;
+      }
+    });
+  }
+
+  void playNext(BuildContext context) {
+    int currentIndex = getCurrentStoryIndex();
+    if (playbackMode == PlaybackMode.sequential) {
+      currentIndex++;
+      if (currentIndex >= storiesList.length) {
+        currentIndex = 0;
+      }
+    } else if (playbackMode == PlaybackMode.random) {
+      currentIndex = Random().nextInt(storiesList.length);
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyPlayStory(storiesList[currentIndex], stories),
+      ),
+    );
+  }
+
+  void initPlayer() async {
+    await player.setSource(UrlSource(story["audio"]));
+    duration = await player.getDuration();
+    player.onPlayerComplete.listen((event) async {
+      if (playbackMode == PlaybackMode.repeat) {
+        await player.setSource(UrlSource(story["audio"]));
+        setState(() {
+          isPlaying = true;
+          _currentValue = 0;
+        });
+        await player.resume();
+      } else {
+        playNext(context);
+      }
+    });
+
+    player.onPositionChanged.listen((Duration newPosition) {
+      setState(() {
+        _currentValue = newPosition.inSeconds.toDouble();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchStories();
+    initPlayer();
+    checkFavoriteStatus();
+    _currentValue = 0;
+    duration = const Duration(seconds: 0);
   }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
         body: Stack(
       children: [
@@ -257,16 +450,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             elevation: 0.0,
             actions: <Widget>[
               IconButton(
-                onPressed: () {
-                  toggleFavoriteStatus();
-                  setState(() {
-                    stories
-                        .doc(story["id"])
-                        .update({"isLiked": isFavorite})
-                        .then((value) => logger.v("List updated"))
-                        .catchError((error) => logger.e("Failed to update list: $error"));
-                  });
-                },
+                onPressed: toggleFavoriteStatus,
                 icon: isFavorite
                     ? Icon(
                         Icons.favorite,
@@ -280,7 +464,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
               IconButton(
                 onPressed: () {
                   showOptionsDialog();
-                },
+                }, //TODO Monzr
                 icon: Icon(
                   Icons.more_vert,
                   color: Colors.teal.shade600,
@@ -410,12 +594,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                             size: 30,
                             color: kPrimaryColor,
                           ),
-                          onPressed: () {} //playPreviousStory
-                          //() {
-                          // setState(() {
-                          //   _currentValue = 0;
-                          // });
-                          //},
+                          onPressed: playPreviousStory //playPreviousStory
                           ),
                       IconButton(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -457,7 +636,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                             size: 30,
                             color: kPrimaryColor,
                           ),
-                          onPressed: () {} //playNextStory,
+                          onPressed: playNextStory //playNextStory,
                           ),
                     ],
                   ),
@@ -476,15 +655,17 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                         size: 22,
                         color: kPrimaryColor,
                       ),
-                      onPressed: () {},
+                      onPressed: skipBackward,
                     ),
                     IconButton(
                       icon: Icon(
-                        Icons.queue_music_outlined,
+                        playbackMode == PlaybackMode.sequential
+                            ? Icons.queue_music_outlined
+                            : (playbackMode == PlaybackMode.random ? Icons.shuffle : Icons.repeat),
                         size: 22,
                         color: kPrimaryColor,
                       ),
-                      onPressed: () {},
+                      onPressed: changePlaybackMode,
                     ),
                     IconButton(
                       icon: Icon(
@@ -501,7 +682,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                         size: 22,
                         color: kPrimaryColor,
                       ),
-                      onPressed: () {},
+                      onPressed: skipForward,
                     ),
                   ],
                 ),

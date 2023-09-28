@@ -1,3 +1,4 @@
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -57,7 +58,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     elevation: 0.0,
                     actions: <Widget>[
                       IconButton(
-                        onPressed: () {}, //3 dots button in fav page TODO
+                        onPressed: () {},
                         icon: Icon(
                           Icons.more_vert,
                           size: 23,

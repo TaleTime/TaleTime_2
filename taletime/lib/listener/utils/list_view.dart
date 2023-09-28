@@ -1,3 +1,4 @@
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
@@ -63,6 +64,7 @@ class _ListViewDataState extends State<ListViewData> {
   Widget build(context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
+
     Future<void> updateStory(String storyId, bool isLiked, String listTyp) {
       if (storyId.isEmpty) {
         logger.e("Invalid storyId");
@@ -86,6 +88,7 @@ class _ListViewDataState extends State<ListViewData> {
         }
       }).catchError((error) => logger.e("Failed to fetch story: $error"));
     }
+
 
     Future<void> addStoryToFavoriteList(
       String id,
@@ -159,6 +162,23 @@ class _ListViewDataState extends State<ListViewData> {
                 itemCount: stories.length,
                 itemBuilder: (_, i) {
                   bool hasLiked = stories[i]["isLiked"];
+
+                  for (var story in stories) {
+                   
+                    if (story["isLiked"] == true) {
+                      addStoryToFavoriteList(
+                        story["id"],
+                        story["audio"],
+                        story["author"],
+                        story["image"],
+                        story["title"],
+                        story["rating"],
+                        true,
+                      );
+                    } else {
+                      removeFromFavoriteList(story["id"]);
+                    }
+                  }
 
                   return GestureDetector(
                     onTap: () {
@@ -364,10 +384,11 @@ class _ListViewDataState extends State<ListViewData> {
                               onPressed: () {
                                 setState(() {
                                   hasLiked = !hasLiked;
-                                  //updateStory(favStories[i]["id"], hasLiked, "favList");
+                                  
                                   if (!hasLiked) {
-                                    //print(stories[i]["id"]);
-                                    updateStory(favStories[i]["id"], false, "favList");
+                                   
+                                    updateStory(favStories[i]["id"], false,
+                                        "favList"); 
                                     removeFromFavoriteList(favStories[i]["id"]);
                                   }
                                 });

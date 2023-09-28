@@ -54,6 +54,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
               TextButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () async {
+                  //story delete action
                   await deleteUser(id);
                   Navigator.of(context).pop();
                   setState(() {
