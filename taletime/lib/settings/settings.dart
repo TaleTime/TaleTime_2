@@ -9,8 +9,8 @@ import "package:taletime/settings/changePassword.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/theme_provider.dart";
-
 import "../onboarding/onboarding_main.dart";
+import "package:taletime/settings/downloads.dart";
 
 class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
@@ -151,6 +151,21 @@ class _SettingsPageState extends State<SettingsPage> {
                 }));
               },
             )),
+            const SizedBox(
+              height: 10,
+            ),
+            Card(
+              //Added new Downloads Section to find the downloaded stories
+              child: ListTile(
+                leading: const Icon(Icons.download_rounded),
+                title: const Text("Downloads"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return DownloadsPage();
+                  }));
+                },
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
