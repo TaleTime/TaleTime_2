@@ -41,23 +41,8 @@ jobs:
       - name: 📱 Build Android
         run: flutter build apk
         working-directory: ./taletime
-  build-ios:
-    name: Build iOS
-    runs-on: macos-latest
-    steps:
-      - name: ⬇️ Checkout repository
-        uses: actions/checkout@v3
-      - name: ⚙️ Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: 📦 Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-            channel: 'stable'
-            cache: true
-      - name: 📦 Get dependencies
-        run: flutter pub get
-        working-directory: ./taletime
-      - name: 🧪 Run tests
-        run: flutter test
-        working-directory: ./taletime
-      - name: 📱 Build iOS
-        run: flutter build ios
-        working-directory: ./taletime
+          name: app-release.apk
+          path: ./taletime/build/app/outputs/flutter-apk/app-release.apk
