@@ -1,6 +1,5 @@
-package com.example.taletime
+package de.htwsaar.taletime
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity() {
-}
+class MainActivity : FlutterActivity() {}

@@ -6,32 +6,31 @@
 /// the class still shows the list [My Recorded Stories] , which contains all recorded stories.
 ///the class offers the user to search for a specific story with title or tags
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/storyteller/utils/list_view_story_teller.dart';
-import '../../common utils/decoration_util.dart';
-import '../../listener/screens/my_play_story.dart';
-import '../../onboarding/onboarding_main.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:marquee/marquee.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/storyteller/utils/list_view_story_teller.dart";
+import "../../common utils/decoration_util.dart";
+import "../../listener/screens/my_play_story.dart";
+import "../../onboarding/onboarding_main.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
-import '../../settings/settings.dart';
+import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
   final profile;
   final CollectionReference storiesCollection;
   final CollectionReference lastRecordedCollection;
   final profiles;
-  const SpeakerHomePage(this.profile, this.profiles, this.storiesCollection,
-      this.lastRecordedCollection,
+  const SpeakerHomePage(
+      this.profile, this.profiles, this.storiesCollection, this.lastRecordedCollection,
       {Key? key})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _SpeakerHomePageState(
-        profile, profiles, storiesCollection, lastRecordedCollection);
+    return _SpeakerHomePageState(profile, profiles, storiesCollection, lastRecordedCollection);
   }
 }
 
@@ -44,8 +43,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
   final profiles;
   List matchStoryList = [];
 
-  _SpeakerHomePageState(this.profile, this.profiles, this.storiesCollection,
-      this.lastRecordedCollection);
+  _SpeakerHomePageState(
+      this.profile, this.profiles, this.storiesCollection, this.lastRecordedCollection);
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +53,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
         stream: storiesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
-            final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
-                streamSnapshot.data!.docs;
+            final List<QueryDocumentSnapshot> storiesDocumentSnapshot = streamSnapshot.data!.docs;
             return Scaffold(
                 body: Stack(children: [
               Positioned(
@@ -72,8 +70,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SettingsPage(profile, profiles)));
+                                builder: (context) => SettingsPage(profile, profiles)));
                       },
                       icon: Icon(
                         Icons.menu,
@@ -94,15 +91,12 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   children: [
                     Text(
                       "Hello,",
-                      style:
-                          TextStyle(color: Colors.brown.shade600, fontSize: 15),
+                      style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
                     Text(
                       profile["name"],
                       style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
+                          color: kPrimaryColor, fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 40,
@@ -115,9 +109,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         onChanged: (value) {
                           setState(() {
                             matchStoryList = storiesDocumentSnapshot
-                                .where((story) => story["title"]
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()))
+                                .where((story) =>
+                                    story["title"].toLowerCase().contains(value.toLowerCase()))
                                 .toList();
                           });
                           if (value == "") {
@@ -134,8 +127,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                             borderSide: BorderSide.none,
                           ),
                           hintText: "Search stories...",
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 18),
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
                             Icons.search,
                             color: Colors.grey,
@@ -161,11 +153,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
               ),
               StreamBuilder(
                   stream: storiesCollection.snapshots(),
-                  builder:
-                      (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                  builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
-                      final List<QueryDocumentSnapshot>
-                          lastRecordedDocumentSnapshot =
+                      final List<QueryDocumentSnapshot> lastRecordedDocumentSnapshot =
                           streamSnapshot.data!.docs;
                       return Positioned(
                         top: 270,
@@ -183,61 +173,45 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                         _selecetedIndex = index;
                                       });
                                     },
-                                    controller:
-                                        PageController(viewportFraction: 0.4),
-                                    itemCount: lastRecordedDocumentSnapshot ==
-                                            null
+                                    controller: PageController(viewportFraction: 0.4),
+                                    itemCount: lastRecordedDocumentSnapshot == null
                                         ? 0
                                         : lastRecordedDocumentSnapshot.length,
                                     itemBuilder: (_, i) {
-                                      var scale =
-                                          _selecetedIndex == i ? 1.0 : 0.8;
+                                      var scale = _selecetedIndex == i ? 1.0 : 0.8;
                                       return TweenAnimationBuilder(
-                                          duration:
-                                              const Duration(microseconds: 350),
-                                          tween:
-                                              Tween(begin: scale, end: scale),
+                                          duration: const Duration(microseconds: 350),
+                                          tween: Tween(begin: scale, end: scale),
                                           curve: Curves.ease,
                                           child: GestureDetector(
                                               onTap: () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
+                                                Navigator.of(context)
+                                                    .push(MaterialPageRoute(builder: (context) {
                                                   return MyPlayStory(
-                                                      lastRecordedDocumentSnapshot[
-                                                          i]);
+                                                      lastRecordedDocumentSnapshot[i],
+                                                      storiesCollection);
                                                 }));
                                               },
                                               child: Container(
-                                                margin: const EdgeInsets.only(
-                                                    right: 30),
+                                                margin: const EdgeInsets.only(right: 30),
                                                 height: 180,
                                                 width: 85,
                                                 padding: const EdgeInsets.only(
-                                                    top: 15,
-                                                    left: 15,
-                                                    right: 10),
+                                                    top: 15, left: 15, right: 10),
                                                 decoration: BoxDecoration(
                                                     color: Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            18),
+                                                    borderRadius: BorderRadius.circular(18),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          lastRecordedDocumentSnapshot[
-                                                                          i][
-                                                                      "image"] ==
+                                                          lastRecordedDocumentSnapshot[i]
+                                                                      ["image"] ==
                                                                   ""
                                                               ? storyImagePlaceholder
-                                                              : lastRecordedDocumentSnapshot[
-                                                                  i]["image"]),
-                                                      colorFilter:
-                                                          ColorFilter.mode(
-                                                              Colors.black
-                                                                  .withOpacity(
-                                                                      0.6),
-                                                              BlendMode
-                                                                  .dstATop),
+                                                              : lastRecordedDocumentSnapshot[i]
+                                                                  ["image"]),
+                                                      colorFilter: ColorFilter.mode(
+                                                          Colors.black.withOpacity(0.6),
+                                                          BlendMode.dstATop),
                                                       fit: BoxFit.cover,
                                                     )),
                                                 child: Stack(
@@ -248,23 +222,17 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                       right: 20,
                                                       child: Container(
                                                         height: 30,
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.transparent,
                                                         child: Marquee(
-                                                          text:
-                                                              lastRecordedDocumentSnapshot[
-                                                                  i]["title"],
+                                                          text: lastRecordedDocumentSnapshot[i]
+                                                              ["title"],
                                                           blankSpace: 30,
                                                           style: const TextStyle(
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Colors.white,
                                                               fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                              fontWeight: FontWeight.bold),
                                                           pauseAfterRound:
-                                                              const Duration(
-                                                                  seconds: 2),
+                                                              const Duration(seconds: 2),
                                                         ),
                                                       ),
                                                     ),
@@ -274,22 +242,17 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                       right: 45,
                                                       child: Container(
                                                         height: 30,
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.transparent,
                                                         child: Marquee(
                                                           text:
                                                               "By ${lastRecordedDocumentSnapshot[i]["author"]}",
                                                           blankSpace: 20,
                                                           style: const TextStyle(
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Colors.white,
                                                               fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                              fontWeight: FontWeight.bold),
                                                           pauseAfterRound:
-                                                              const Duration(
-                                                                  seconds: 2),
+                                                              const Duration(seconds: 2),
                                                         ),
                                                       ),
                                                     ),
@@ -300,16 +263,12 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                       child: Container(
                                                         height: 45,
                                                         width: 15,
-                                                        decoration:
-                                                            BoxDecoration(
+                                                        decoration: BoxDecoration(
                                                           color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
+                                                          borderRadius: BorderRadius.circular(8),
                                                         ),
                                                         child: Icon(
-                                                          Icons
-                                                              .play_arrow_rounded,
+                                                          Icons.play_arrow_rounded,
                                                           size: 35,
                                                           color: kPrimaryColor,
                                                         ),
@@ -340,9 +299,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 child: Container(
                   margin: const EdgeInsets.all(15),
                   height: matchStoryList.isNotEmpty
-                      ? (matchStoryList.length >= 4
-                          ? (63.0 * 4.5)
-                          : 63.0 * matchStoryList.length)
+                      ? (matchStoryList.length >= 4 ? (63.0 * 4.5) : 63.0 * matchStoryList.length)
                       : 0.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -359,9 +316,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           : matchStoryList[index]["image"];
                       return GestureDetector(
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return MyPlayStory(matchStoryList[index]);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                            return MyPlayStory(matchStoryList[index], storiesCollection);
                           }));
                         },
                         child: ListTile(
@@ -410,10 +366,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                       height: 260,
                       child: storiesDocumentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
-                              "No stories yet. \nplease add some stories to your story library",
-                              "")
-                          : ListViewStoryTeller(storiesDocumentSnapshot,
-                              storiesCollection, profile, profiles),
+                              "No stories yet. \nplease add some stories to your story library", "")
+                          : ListViewStoryTeller(
+                              storiesDocumentSnapshot, storiesCollection, profile, profiles),
                     ),
                   ],
                 ),

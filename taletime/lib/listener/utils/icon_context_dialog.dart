@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../internationalization/localizations_ext.dart';
-import '../../common utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../internationalization/localizations_ext.dart";
+import "../../common utils/constants.dart";
 
 class IconContextDialog extends StatefulWidget {
   final String title;
@@ -29,12 +29,15 @@ class _IconContextDialogState extends State<IconContextDialog> {
 
   _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
 
-  Future<void> deleteUser(String id) {
-    return stories
-        .doc(id)
-        .delete()
-        .then((value) => logger.v("User Deleted"))
-        .catchError((error) => logger.e("Failed to delete user: $error"));
+  bool isStoryDeleted = false;
+
+  Future<void> deleteUser(String id) async {
+    await stories.doc(id).delete().then((value) {
+      setState(() {
+        isStoryDeleted = true;
+      });
+      logger.v("Story Deleted!");
+    }).catchError((error) => logger.e("Failed to delete story: $error"));
   }
 
   void onSelected(BuildContext context, String title, String subtitle) {
@@ -50,10 +53,12 @@ class _IconContextDialogState extends State<IconContextDialog> {
             actions: [
               TextButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
-                onPressed: () {
+                onPressed: () async {
+                  //story delete action
+                  await deleteUser(id);
+                  Navigator.of(context).pop();
                   setState(() {
-                    deleteUser(id);
-                    Navigator.of(context).pop();
+                    isStoryDeleted = false;
                   });
                 },
                 child: Text(
@@ -78,15 +83,19 @@ class _IconContextDialogState extends State<IconContextDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        icon,
-        color: Colors.white,
-        size: 21,
-      ),
-      onPressed: () {
-        onSelected(context, title, subtitle);
-      },
-    );
+    if (isStoryDeleted) {
+      return const Text("Story Deleted");
+    } else {
+      return IconButton(
+        icon: Icon(
+          icon,
+          color: Colors.white,
+          size: 21,
+        ),
+        onPressed: () {
+          onSelected(context, title, subtitle);
+        },
+      );
+    }
   }
 }
