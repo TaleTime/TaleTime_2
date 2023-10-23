@@ -1,0 +1,48 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.md'
+      - 'doc/**'
+      - '.git/'
+      - '.vscode/'
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.md'
+      - 'doc/**'
+      - '.git/'
+      - '.vscode/'
+jobs:
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v3
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+            channel: 'stable'
+            cache: true
+      - name: 📦 Get dependencies
+        run: flutter pub get
+        working-directory: ./taletime
+      - name: 🧪 Run tests
+        run: flutter test
+        working-directory: ./taletime
+      - name: 📱 Build Android
+        run: flutter build apk
+        working-directory: ./taletime
+      - name: 📦 Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: ./taletime/build/app/outputs/flutter-apk/app-release.apk

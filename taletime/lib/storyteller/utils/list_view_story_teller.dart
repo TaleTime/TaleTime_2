@@ -78,7 +78,8 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                           List<String> tags = ["test"];
                           String imagePath = stories[index]["image"];
                           Story story = Story(title, tags, imagePath);
-                          Record record = Record(stories[index]["audio"]);
+
+                          MyRecord record = MyRecord(stories[index]["audio"]);
 
                           RecordedStory recording =
                               RecordedStory(story, record);

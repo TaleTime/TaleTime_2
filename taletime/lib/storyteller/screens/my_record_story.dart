@@ -1,18 +1,19 @@
 /// the class [my_record]enables the user, to play back (listen to)
 /// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
-import 'dart:async';
-import 'dart:io';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:avatar_glow/avatar_glow.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/storyteller/utils/record_class.dart';
-import 'package:taletime/storyteller/utils/sound_recorder.dart';
+import "dart:async";
+import "dart:core";
+import "dart:io";
+import "package:audioplayers/audioplayers.dart";
+import "package:avatar_glow/avatar_glow.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/storyteller/screens/save_or_upload_story.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/storyteller/utils/record_class.dart";
+import "package:taletime/storyteller/utils/sound_recorder.dart";
 
 class MyRecordStory extends StatefulWidget {
   final Story myStory;
@@ -109,13 +110,15 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     File newAudio = File(recorder.getPath);
     logger.v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
     setState(() {});
-    Record record = Record(newAudio.path);
+
+    MyRecord record = MyRecord(newAudio.path);
     RecordedStory recordedStory = RecordedStory(myStory!, record);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
                 SaveOrUploadStory(recordedStory, profile, storiesCollection, false)));
+
   }
 
   Widget buildStart() {
