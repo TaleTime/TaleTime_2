@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 
 /// This class is used to change the current ThemeMode
 class ThemeProvider extends ChangeNotifier {

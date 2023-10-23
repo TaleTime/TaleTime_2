@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import '../models/page_model.dart';
+import "package:flutter/material.dart";
+import "../models/page_model.dart";
 
 class OnboardPage extends StatelessWidget {
   final PageModel pageModel;

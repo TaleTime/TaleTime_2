@@ -24,7 +24,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   _ProfilesPageState(this.uId);
 
-  CollectionReference users = FirebaseFirestore.instance.collection("users"); // users collection
+  CollectionReference users =
+      FirebaseFirestore.instance.collection("users"); // users collection
   final FirebaseAuth auth = FirebaseAuth.instance;
   int cflex = 7;
 
@@ -36,8 +37,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference profiles =
-        users.doc(uId).collection("profiles"); //profiles of the created user as subcollection
+    CollectionReference profiles = users
+        .doc(uId)
+        .collection("profiles"); //profiles of the created user as subcollection
 
     return Scaffold(
       appBar: AppBar(
@@ -49,11 +51,15 @@ class _ProfilesPageState extends State<ProfilesPage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Decorations().confirmationDialog(AppLocalizations.of(context)!.loggingOut,
-                      AppLocalizations.of(context)!.confirmLogout, context, () async {
+                  return Decorations().confirmationDialog(
+                      AppLocalizations.of(context)!.loggingOut,
+                      AppLocalizations.of(context)!.confirmLogout,
+                      context, () async {
                     AuthentificationUtil(auth: auth).signOut();
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => const WelcomePage()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WelcomePage()));
                   });
                 },
               );
@@ -69,8 +75,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: (context) => AddProfile(uId)));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => AddProfile(uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -86,12 +92,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
               flex: cflex,
               child: StreamBuilder(
                 stream: profiles.snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                builder:
+                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
                     return ListView.builder(
                       itemCount: streamSnapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[
+                        final DocumentSnapshot documentSnapshot = streamSnapshot
+                                .data!.docs[
                             index]; //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
                         return ProfileList(documentSnapshot, profiles);
                       },

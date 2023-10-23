@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import '../../common utils/painter_util.dart';
-import '../models/footer_model.dart';
+import "../../common utils/painter_util.dart";
+import "../models/footer_model.dart";
 
 enum IndicatorPosition {
   left,

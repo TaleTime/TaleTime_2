@@ -10,8 +10,8 @@ class AddIconContextDialog extends StatefulWidget {
   final storiesCollectionReference;
   final allStories;
 
-  const AddIconContextDialog(
-      this.title, this.subtitle, this.icon, this.storiesCollectionReference, this.allStories,
+  const AddIconContextDialog(this.title, this.subtitle, this.icon,
+      this.storiesCollectionReference, this.allStories,
       {Key? key})
       : super(key: key);
 
@@ -39,8 +39,8 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
 
   bool updateForce = false;
 
-  _AddIconContextDialogState(
-      this.title, this.subtitle, this.icon, this.storiesCollectionReference, this.allStories);
+  _AddIconContextDialogState(this.title, this.subtitle, this.icon,
+      this.storiesCollectionReference, this.allStories);
 
   Future<void> updateStoryList(String storyId) {
     return storiesCollectionReference
@@ -50,8 +50,8 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
         .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
-  Future<void> addStory(
-      String audio, String author, String image, String title, String rating, bool isLiked) async {
+  Future<void> addStory(String audio, String author, String image, String title,
+      String rating, bool isLiked) async {
     await storiesCollectionReference.add({
       "id": "",
       "image": image,
@@ -66,7 +66,8 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
       setState(() {
         updateForce = true;
       });
-    }).catchError((error) => logger.e("Failed to add story to story list: $error"));
+    }).catchError(
+        (error) => logger.e("Failed to add story to story list: $error"));
   }
 
   void onSelected(BuildContext context, String title, String subtitle) {
@@ -81,7 +82,8 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
             content: Text(subtitle),
             actions: [
               TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () async {
                   setState(() {
                     newAudio = allStories["audio"];
@@ -90,7 +92,8 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
                     newIsLiked = false;
                     newAuthor = allStories["author"];
                     newRating = allStories["rating"];
-                    addStory(newAudio, newAuthor, newImage, newTitle, newRating, newIsLiked);
+                    addStory(newAudio, newAuthor, newImage, newTitle, newRating,
+                        newIsLiked);
                     updateForce = false;
                     Navigator.of(context).pop();
                   });
@@ -101,7 +104,8 @@ class _AddIconContextDialogState extends State<AddIconContextDialog> {
                 ),
               ),
               TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

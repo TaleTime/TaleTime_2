@@ -1,8 +1,7 @@
-import 'dart:math' as math;
+import "dart:math" as math;
 
-import 'package:flutter/material.dart';
-import '../onboarding/models/footer_model.dart';
-
+import "package:flutter/material.dart";
+import "../onboarding/models/footer_model.dart";
 
 class ShapePainter extends CustomPainter {
   final double netDragPercent;

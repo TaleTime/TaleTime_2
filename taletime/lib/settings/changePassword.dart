@@ -3,13 +3,13 @@
 
 ///   At the end the act is confirmed with a button
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/login%20and%20registration/utils/authentification_util.dart';
-import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:taletime/common%20utils/text_form_field_util.dart';
-import '../internationalization/localizations_ext.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+import "package:taletime/common%20utils/text_form_field_util.dart";
+import "../internationalization/localizations_ext.dart";
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);

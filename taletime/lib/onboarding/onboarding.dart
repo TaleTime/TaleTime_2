@@ -1,16 +1,10 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/login%20and%20registration/utils/authentification_util.dart';
-import 'package:taletime/login%20and%20registration/screens/login.dart';
-import 'package:taletime/common%20utils/constants.dart' as util;
-import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taletime/common%20utils/text_form_field_util.dart';
-import 'package:taletime/onboarding/views/page.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart" as util;
+import "package:taletime/onboarding/views/page.dart";
 
-import 'models/page_model.dart';
+import "models/page_model.dart";
 
 typedef T FooterBuilder<T>(
   BuildContext context,

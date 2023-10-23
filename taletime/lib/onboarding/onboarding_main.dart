@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import '../common utils/constants.dart';
-import '../login and registration/screens/welcome.dart';
-import 'models/footer_model.dart';
-import 'models/page_model.dart';
-import 'onboarding.dart';
-import 'views/footer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "../common utils/constants.dart";
+import "models/footer_model.dart";
+import "models/page_model.dart";
+import "onboarding.dart";
+import "views/footer.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class OnboardingMain extends StatefulWidget {
   const OnboardingMain({Key? key}) : super(key: key);
@@ -44,7 +43,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Welcome to Tale Time!',
+                    "Welcome to Tale Time!",
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -55,7 +54,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -91,7 +90,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'STEP 1',
+                    "STEP 1",
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -102,7 +101,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -138,7 +137,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'STEP 2',
+                    "STEP 2",
                     style: pageTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -149,7 +148,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                     style: pageInfoStyle,
                     textAlign: TextAlign.left,
                   ),

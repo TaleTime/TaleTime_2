@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import '../internationalization/localizations_ext.dart';
-import 'package:taletime/common%20utils/decoration_util.dart';
-import 'package:taletime/login%20and%20registration/utils/validation_util.dart';
+import "package:flutter/material.dart";
+import "../internationalization/localizations_ext.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
+import "package:taletime/login%20and%20registration/utils/validation_util.dart";
 
 /// contains TextFormFields with the belonging validation
 class TextFormFieldUtil {

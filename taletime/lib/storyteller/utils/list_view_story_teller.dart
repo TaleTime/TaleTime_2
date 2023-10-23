@@ -1,14 +1,14 @@
 ///The [list_view] class allows the user to view the list of all stories.
 ///You can search for a specific story (by title or tags) in the list using the search function and then find it.
 ///it will show the list of all history of a registered person .
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/storyteller/screens/save_or_upload_story.dart';
-import 'package:taletime/storyteller/utils/record_class.dart';
-import 'package:taletime/storyteller/utils/upload_util.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/storyteller/screens/save_or_upload_story.dart";
+import "package:taletime/storyteller/utils/record_class.dart";
+import "package:taletime/storyteller/utils/upload_util.dart";
 
-import 'edit-story.dart';
+import "edit-story.dart";
 
 class ListViewStoryTeller extends StatefulWidget {
   final List stories;
@@ -44,7 +44,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
       this.stories, this.storiesCollection, this.profile, this.profiles);
 
   CollectionReference allStories =
-      FirebaseFirestore.instance.collection('allStories');
+      FirebaseFirestore.instance.collection("allStories");
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +199,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                         },
                                         child: const Text(
                                           "Yes",
-                                          style: TextStyle(
-                                              color: Colors.white),
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       TextButton(
@@ -213,8 +212,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                         },
                                         child: const Text(
                                           "No",
-                                          style: TextStyle(
-                                              color: Colors.white),
+                                          style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                     ],

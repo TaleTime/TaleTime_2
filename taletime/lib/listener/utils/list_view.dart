@@ -1,4 +1,3 @@
-
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
@@ -64,7 +63,6 @@ class _ListViewDataState extends State<ListViewData> {
   Widget build(context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
-
     Future<void> updateStory(String storyId, bool isLiked, String listTyp) {
       if (storyId.isEmpty) {
         logger.e("Invalid storyId");
@@ -89,7 +87,6 @@ class _ListViewDataState extends State<ListViewData> {
       }).catchError((error) => logger.e("Failed to fetch story: $error"));
     }
 
-
     Future<void> addStoryToFavoriteList(
       String id,
       String audio,
@@ -111,7 +108,8 @@ class _ListViewDataState extends State<ListViewData> {
             "isLiked": isLiked,
           })
           .then((value) => logger.v("Story added to favorites"))
-          .catchError((error) => logger.e("Failed to add story to favorites: $error"));
+          .catchError(
+              (error) => logger.e("Failed to add story to favorites: $error"));
     }
 
     Future<void> removeFromFavoriteList(String storyId) {
@@ -123,7 +121,8 @@ class _ListViewDataState extends State<ListViewData> {
           .doc(storyId)
           .delete()
           .then((value) => logger.v("Story removed from favorites"))
-          .catchError((error) => logger.e("Failed to remove story from favorites: $error"));
+          .catchError((error) =>
+              logger.e("Failed to remove story from favorites: $error"));
     }
 
     return StreamBuilder<QuerySnapshot>(
@@ -137,12 +136,15 @@ class _ListViewDataState extends State<ListViewData> {
           return const CircularProgressIndicator();
         }
 
-        List<Map<String, dynamic>> stories =
-            snapshot.data?.docs.map((doc) => doc.data() as Map<String, dynamic>).toList() ?? [];
+        List<Map<String, dynamic>> stories = snapshot.data?.docs
+                .map((doc) => doc.data() as Map<String, dynamic>)
+                .toList() ??
+            [];
 
         return StreamBuilder<QuerySnapshot>(
           stream: favoritesCollection.snapshots(),
-          builder: (BuildContext innerContext, AsyncSnapshot<QuerySnapshot> innerSnapshot) {
+          builder: (BuildContext innerContext,
+              AsyncSnapshot<QuerySnapshot> innerSnapshot) {
             if (innerSnapshot.hasError) {
               return Text("Inner Error: ${innerSnapshot.error}");
             }
@@ -164,7 +166,6 @@ class _ListViewDataState extends State<ListViewData> {
                   bool hasLiked = stories[i]["isLiked"];
 
                   for (var story in stories) {
-                   
                     if (story["isLiked"] == true) {
                       addStoryToFavoriteList(
                         story["id"],
@@ -182,7 +183,8 @@ class _ListViewDataState extends State<ListViewData> {
 
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
                         return MyPlayStory(stories[i], storiesCollection);
                       }));
                     },
@@ -195,7 +197,8 @@ class _ListViewDataState extends State<ListViewData> {
                               Container(
                                 height: 75,
                                 margin: const EdgeInsets.only(bottom: 9),
-                                padding: const EdgeInsets.only(top: 8, left: 8, bottom: 8),
+                                padding: const EdgeInsets.only(
+                                    top: 8, left: 8, bottom: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(11),
                                   color: Colors.teal.shade600,
@@ -221,7 +224,8 @@ class _ListViewDataState extends State<ListViewData> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 2),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Row(
                                             children: [
@@ -288,8 +292,8 @@ class _ListViewDataState extends State<ListViewData> {
                                           onPressed: () {
                                             setState(() {
                                               hasLiked = !hasLiked;
-                                              updateStory(
-                                                  stories[i]["id"], hasLiked, "userStroiesList");
+                                              updateStory(stories[i]["id"],
+                                                  hasLiked, "userStroiesList");
                                               if (hasLiked) {
                                                 addStoryToFavoriteList(
                                                   stories[i]["id"],
@@ -301,7 +305,8 @@ class _ListViewDataState extends State<ListViewData> {
                                                   hasLiked,
                                                 );
                                               } else {
-                                                removeFromFavoriteList(stories[i]["id"]);
+                                                removeFromFavoriteList(
+                                                    stories[i]["id"]);
                                               }
                                             });
                                           },
@@ -342,15 +347,19 @@ class _ListViewDataState extends State<ListViewData> {
                     alignment: Alignment.center,
                     height: 100,
                     child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
                       color: kPrimaryColor,
                       child: ListTile(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                            return MyPlayStory(favStories[i], favoritesCollection);
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return MyPlayStory(
+                                favStories[i], favoritesCollection);
                           }));
                         },
-                        leading: Image.network(favStories[i]["image"], fit: BoxFit.fill),
+                        leading: Image.network(favStories[i]["image"],
+                            fit: BoxFit.fill),
                         title: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -384,11 +393,10 @@ class _ListViewDataState extends State<ListViewData> {
                               onPressed: () {
                                 setState(() {
                                   hasLiked = !hasLiked;
-                                  
+
                                   if (!hasLiked) {
-                                   
-                                    updateStory(favStories[i]["id"], false,
-                                        "favList"); 
+                                    updateStory(
+                                        favStories[i]["id"], false, "favList");
                                     removeFromFavoriteList(favStories[i]["id"]);
                                   }
                                 });

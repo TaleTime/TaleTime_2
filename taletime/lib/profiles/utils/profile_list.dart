@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/storyteller/utils/navbar_widget_storyteller.dart';
-import 'package:taletime/profiles/utils/profile_column_widget.dart';
+import "package:flutter/material.dart";
+import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
+import "package:taletime/profiles/utils/profile_column_widget.dart";
 
-import '../../listener/utils/navbar_widget_listener.dart';
+import "../../listener/utils/navbar_widget_listener.dart";
 
 class ProfileList extends StatelessWidget {
   final profile;

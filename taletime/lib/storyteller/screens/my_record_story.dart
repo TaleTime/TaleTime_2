@@ -22,7 +22,8 @@ class MyRecordStory extends StatefulWidget {
   const MyRecordStory(this.myStory, this.profile, this.storiesCollection);
 
   @override
-  State<MyRecordStory> createState() => _MyRecordStoryState(myStory, profile, storiesCollection);
+  State<MyRecordStory> createState() =>
+      _MyRecordStoryState(myStory, profile, storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
@@ -108,7 +109,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   /// and passes it on to the save or upload page
   void saveRecording() {
     File newAudio = File(recorder.getPath);
-    logger.v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
+    logger
+        .v("recorded audioPath: ${recorder.getPath}, recorded audio $newAudio");
     setState(() {});
 
     MyRecord record = MyRecord(newAudio.path);
@@ -116,9 +118,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                SaveOrUploadStory(recordedStory, profile, storiesCollection, false)));
-
+            builder: (context) => SaveOrUploadStory(
+                recordedStory, profile, storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -161,7 +162,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   Widget buildPlay() {
     final icon = isPlaying ? Icons.stop : Icons.play_arrow;
     final text = isPlaying ? "Stop playing" : "Start Playing";
-    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor =
+        playbackReady ? kPrimaryColor : Colors.grey.shade100;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
@@ -215,15 +217,20 @@ class _MyRecordStoryState extends State<MyRecordStory> {
             children: [
               const Text(
                 "TaleTime",
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
                 printDuration(recordingTime),
-                style:
-                    const TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
@@ -240,7 +247,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
   }
 
   Widget buildSave() {
-    final backgroundColor = playbackReady ? kPrimaryColor : Colors.grey.shade100;
+    final backgroundColor =
+        playbackReady ? kPrimaryColor : Colors.grey.shade100;
     return ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(150, 40),
