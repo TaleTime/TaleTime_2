@@ -1,0 +1,63 @@
+name: Merge dev branch for release
+
+# Controls when the workflow will run
+on: 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release-project:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: "dev"
+      - name: Prepare Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      
+      - name: "Get next version"
+        uses: ietf-tools/semver-action@v1
+        id: get_next_version
+        with:
+          token: ${{ github.token }}
+          branch: dev
+      - name: Show the next version
+        run: |
+          echo ${{ steps.get_next_version.outputs.next }}
+
+      - name: Bump version
+        run: |
+          sed -i "s/^version:.*$/version: ${{ steps.get_next_version.outputs.nextStrict }}/g" taletime/pubspec.yaml
+          git commit -am "fix: Bumped version to ${{ steps.get_next_version.outputs.nextStrict }}"
+
+      - name: Merge into main
+        run: |
+          git checkout main
+          git merge dev --no-ff
+      - name: Create tag
+        run: git tag ${{ steps.get_next_version.outputs.nextStrict }}
+      - name: Merge back into dev
+        run: |
+          git checkout dev
+          git merge main --no-ff
+      
+      - name: Prepare next dev version
+        run: |
+          NEXT_VERSION=${{ steps.get_next_version.outputs.nextStrict }}
+          IFS=. read -r v1 v2 v3 <<< "${NEXT_VERSION}"
+          DEV_VERSION="${v1}.${v2}.$((v3 + 1))"
+          sed -i "s/^version:.*$/version: ${DEV_VERSION}-SNAPSHOT/g" taletime/pubspec.yaml
+          git commit -am "fix: Prepared next dev version: ${DEV_VERSION}-SNAPSHOT"
+
+      - name: Push everything
+        run: git push origin main dev --tags
+        
