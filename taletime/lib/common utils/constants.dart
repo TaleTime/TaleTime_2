@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 /// Main color of the App
 Color kPrimaryColor = Colors.teal.shade600;
@@ -25,7 +25,8 @@ const List profileImages = [
 
 //Onboarding
 
-const String welcomePage = "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2FwelcomePage.png?alt=media&token=6ad30c48-603f-4111-bfc8-0611302e6d65";
+const String welcomePage =
+    "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2FwelcomePage.png?alt=media&token=6ad30c48-603f-4111-bfc8-0611302e6d65";
 
 /// Sets the Text-Color of an Elevated Button to white and the Button-Color to [kPrimaryColor]
 ButtonStyle elevatedButtonDefaultStyle() {

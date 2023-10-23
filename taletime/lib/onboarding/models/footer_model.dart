@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 
 ///This contains [7] different kinds of indicator designs you can choose from including [polygon_diamond, polygon_arrow, polygon_pentagon, polygon_square, polygon_circle, line_uniform, line_nonuniform]
 enum DesignType {

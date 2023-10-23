@@ -1,7 +1,7 @@
 ///the class [recent_stories] shows the list horizontally.
 
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 
 class LVRecentStoryTeller extends StatefulWidget {
   final List stories;

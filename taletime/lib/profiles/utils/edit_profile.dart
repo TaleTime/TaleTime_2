@@ -38,8 +38,9 @@ class _EditProfileState extends State<EditProfile> {
     List<String> items = ["Listener", "Story-teller"];
     final formKey = GlobalKey<FormState>();
 
-    textEditingController.text =
-        textEditingController.text == "" ? profile["name"] : textEditingController.text;
+    textEditingController.text = textEditingController.text == ""
+        ? profile["name"]
+        : textEditingController.text;
 
     String updateProfile(int index) {
       var image = profileImages[index];
@@ -49,7 +50,8 @@ class _EditProfileState extends State<EditProfile> {
       return profileImage;
     }
 
-    Future<void> updateprofile(String profileId, String name, String image, String title) {
+    Future<void> updateprofile(
+        String profileId, String name, String image, String title) {
       return profiles
           .doc(profileId)
           .update({"image": image, "name": name, "title": title})
@@ -123,7 +125,8 @@ class _EditProfileState extends State<EditProfile> {
                                 child: SizedBox(
                                   height: 80,
                                   child: PageView.builder(
-                                      controller: PageController(viewportFraction: 0.2),
+                                      controller:
+                                          PageController(viewportFraction: 0.2),
                                       itemCount: profileImages.length,
                                       itemBuilder: (_, i) {
                                         return GestureDetector(
@@ -168,13 +171,16 @@ class _EditProfileState extends State<EditProfile> {
                           child: DropdownButtonFormField<String>(
                               decoration: InputDecoration(
                                 filled: true,
-                                contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(20, 10, 20, 10),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
+                                    borderSide:
+                                        BorderSide(color: kPrimaryColor)),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(100.0),
-                                    borderSide: BorderSide(color: kPrimaryColor)),
+                                    borderSide:
+                                        BorderSide(color: kPrimaryColor)),
                               ),
                               value: selectedItem,
                               items: items
@@ -202,14 +208,16 @@ class _EditProfileState extends State<EditProfile> {
                                 name = textEditingController.text;
                                 image = profileImage;
                                 title = selectedItem.toString();
-                                updateprofile(profile["id"], name, image, title);
+                                updateprofile(
+                                    profile["id"], name, image, title);
                                 reset();
                                 Navigator.of(context).pop();
                               },
                               child: const Text(
                                 //AppLocalizations.of(context)!.addProfile,
                                 "Update Profile",
-                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             )),
                       ],

@@ -1,4 +1,3 @@
-
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -10,7 +9,9 @@ class FavoritePage extends StatefulWidget {
   final profiles;
   final favorites;
   final storiesColl;
-  const FavoritePage(this.profile, this.profiles, this.favorites, this.storiesColl, {Key? key})
+  const FavoritePage(
+      this.profile, this.profiles, this.favorites, this.storiesColl,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -25,7 +26,8 @@ class _FavoritePageState extends State<FavoritePage> {
   final storiesColl;
   List matchStoryList = [];
 
-  _FavoritePageState(this.profile, this.profiles, this.favorites, this.storiesColl);
+  _FavoritePageState(
+      this.profile, this.profiles, this.favorites, this.storiesColl);
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +35,11 @@ class _FavoritePageState extends State<FavoritePage> {
 
     return StreamBuilder<QuerySnapshot>(
       stream: favorites.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
         if (streamSnapshot.hasData) {
-          final List<QueryDocumentSnapshot> documentSnapshot = streamSnapshot.data!.docs;
+          final List<QueryDocumentSnapshot> documentSnapshot =
+              streamSnapshot.data!.docs;
 
           return Scaffold(
             body: Stack(
@@ -84,9 +88,11 @@ class _FavoritePageState extends State<FavoritePage> {
                         child: TextField(
                           onChanged: (value) {
                             setState(() {
-                              matchStoryList = SearchBarUtil().searchStory(documentSnapshot, value);
+                              matchStoryList = SearchBarUtil()
+                                  .searchStory(documentSnapshot, value);
                             });
-                            SearchBarUtil().isStoryListEmpty(matchStoryList, value);
+                            SearchBarUtil()
+                                .isStoryListEmpty(matchStoryList, value);
                           },
                           style: TextStyle(color: kPrimaryColor),
                           decoration: InputDecoration(
@@ -98,7 +104,8 @@ class _FavoritePageState extends State<FavoritePage> {
                               borderSide: BorderSide.none,
                             ),
                             hintText: "Search stories...",
-                            hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: const TextStyle(
+                                color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(
                               Icons.search,
                               color: Colors.grey,
@@ -118,8 +125,8 @@ class _FavoritePageState extends State<FavoritePage> {
                     children: [
                       SizedBox(
                         height: screenHeight * 0.8,
-                        child: ListViewData(
-                            documentSnapshot, storiesColl, profile, profiles, "favList", favorites),
+                        child: ListViewData(documentSnapshot, storiesColl,
+                            profile, profiles, "favList", favorites),
                       ),
                     ],
                   ),

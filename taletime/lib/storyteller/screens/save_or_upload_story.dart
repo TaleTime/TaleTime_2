@@ -20,11 +20,12 @@ class SaveOrUploadStory extends StatefulWidget {
   final profile;
   final storiesCollection;
   bool isSaved;
-  SaveOrUploadStory(this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+  SaveOrUploadStory(
+      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
 
   @override
-  State<SaveOrUploadStory> createState() =>
-      _SaveOrUploadStoryState(myRecordedStory, profile, storiesCollection, isSaved);
+  State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState(
+      myRecordedStory, profile, storiesCollection, isSaved);
 }
 
 class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
@@ -33,7 +34,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   final profile;
   final storiesCollection;
   bool isSaved;
-  _SaveOrUploadStoryState(this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+  _SaveOrUploadStoryState(
+      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -59,11 +61,13 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     File audioFile = File(myRecordedStory.recording.getAudioPath());
     String filePath = myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
-    String fileString = filePath.substring(filePath.lastIndexOf("/"), filePath.length);
+    String fileString =
+        filePath.substring(filePath.lastIndexOf("/"), filePath.length);
     await refImages.child(imagePath).putFile(image);
     await refAudios.child(fileString).putFile(audio);
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
-    String myAudioUrl ="";// await refAudios.child(fileString).getDownloadURL();
+    String myAudioUrl =
+        ""; // await refAudios.child(fileString).getDownloadURL();
 
     setState(() {
       storiesCollection.add({
@@ -97,8 +101,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     Color? primarySave = isSaved ? Colors.grey : kPrimaryColor;
     Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(
-      appBar: Decorations()
-          .appBarDecoration(title: "Save/Upload Story", context: context, automaticArrow: true),
+      appBar: Decorations().appBarDecoration(
+          title: "Save/Upload Story", context: context, automaticArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -106,7 +110,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             Center(
                 child: Text(
               "Save",
-              style: TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
             const SizedBox(
               height: 15,
@@ -142,7 +147,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             Center(
                 child: Text(
               "Upload Story",
-              style: TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
             const SizedBox(
               height: 15,
@@ -154,7 +160,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                   height: MediaQuery.of(context).size.height / 5,
                   width: MediaQuery.of(context).size.width / 3,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: primaryUpload),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryUpload),
                     onPressed: !isSaved
                         ? null
 
@@ -175,7 +182,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NavBarSpeaker(profile, profiles)));
+                                                  NavBarSpeaker(
+                                                      profile, profiles)));
                                     },
                                   );
                                 });
@@ -196,7 +204,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                   height: MediaQuery.of(context).size.height / 5,
                   width: MediaQuery.of(context).size.width / 3,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: primaryUpload),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryUpload),
                     onPressed: !isSaved
                         ? null
                         : () {
@@ -207,19 +216,26 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                       "Uploading Story...",
                                       "Do you really want to share the story with every user?",
                                       context, () async {
-                                    var refImages = FirebaseStorage.instance.ref().child("images");
+                                    var refImages = FirebaseStorage.instance
+                                        .ref()
+                                        .child("images");
                                     String myImageUrl = await refImages
                                         .child("$author/$title.jpg")
                                         .getDownloadURL();
 
                                     UploadUtil(storiesCollection).uploadStory(
-                                        audioPath, author, myImageUrl, title, "2.5", false);
+                                        audioPath,
+                                        author,
+                                        myImageUrl,
+                                        title,
+                                        "2.5",
+                                        false);
                                     Navigator.of(context).pop();
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                NavBarSpeaker(profile, profiles)));
+                                            builder: (context) => NavBarSpeaker(
+                                                profile, profiles)));
                                   });
                                 });
                           },
@@ -252,7 +268,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NavBarSpeaker(profile, profiles)));
+                                builder: (context) =>
+                                    NavBarSpeaker(profile, profiles)));
                       }),
                 )),
           ],

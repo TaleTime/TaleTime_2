@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import '../internationalization/localizations_ext.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "../internationalization/localizations_ext.dart";
 
 class Decorations {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -32,7 +32,8 @@ class Decorations {
       filled: true,
       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100.0), borderSide: const BorderSide()),
+          borderRadius: BorderRadius.circular(100.0),
+          borderSide: const BorderSide()),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100.0),
           borderSide: BorderSide(color: kPrimaryColor)),

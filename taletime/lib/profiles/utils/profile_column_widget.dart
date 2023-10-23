@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:taletime/common%20utils/constants.dart';
-import 'package:taletime/common%20utils/tale_time_logger.dart';
-import '../../internationalization/localizations_ext.dart';
-import 'package:taletime/profiles/utils/edit_profile.dart';
+import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common%20utils/tale_time_logger.dart";
+import "../../internationalization/localizations_ext.dart";
+import "package:taletime/profiles/utils/edit_profile.dart";
 
 class ProfileColumn extends StatefulWidget {
   final profile;
   final profiles;
-  const ProfileColumn(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const ProfileColumn(this.profile, this.profiles, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -35,7 +36,9 @@ class _ProfileColumnState extends State<ProfileColumn> {
     switch (item) {
       case 0:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => EditProfile(profiles, profile)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditProfile(profiles, profile)));
         break;
       case 1:
         showDialog(
@@ -46,10 +49,13 @@ class _ProfileColumnState extends State<ProfileColumn> {
                   AppLocalizations.of(context)!.deleteProfile,
                   style: TextStyle(color: kPrimaryColor),
                 ),
-                content: Text(AppLocalizations.of(context)!.confirmProfileDeletion),
+                content:
+                    Text(AppLocalizations.of(context)!.confirmProfileDeletion),
                 actions: [
                   TextButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState(() {
                         deleteUser(profile["id"]);
@@ -62,7 +68,9 @@ class _ProfileColumnState extends State<ProfileColumn> {
                     ),
                   ),
                   TextButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

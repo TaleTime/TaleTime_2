@@ -7,10 +7,10 @@ import "../screens/listener_homepage.dart";
 import "../../settings/settings.dart";
 
 class NavBarListener extends StatefulWidget {
- 
   final profile;
   final profiles;
-  const NavBarListener(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const NavBarListener(this.profile, this.profiles, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,14 +21,13 @@ class NavBarListener extends StatefulWidget {
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
 
-  
   final profile;
   final profiles;
 
   _NavBarListenerState(this.profile, this.profiles);
 
-  CollectionReference allStories = FirebaseFirestore.instance
-      .collection("allStories"); 
+  CollectionReference allStories =
+      FirebaseFirestore.instance.collection("allStories");
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -41,10 +40,12 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites = profiles.doc(profile["id"]).collection(
-        "favoriteList"); 
-    CollectionReference recent = profiles.doc(profile["id"]).collection("recentList");
-    CollectionReference stories = profiles.doc(profile["id"]).collection("storiesList");
+    CollectionReference favorites =
+        profiles.doc(profile["id"]).collection("favoriteList");
+    CollectionReference recent =
+        profiles.doc(profile["id"]).collection("recentList");
+    CollectionReference stories =
+        profiles.doc(profile["id"]).collection("storiesList");
 
     return Scaffold(
       body: IndexedStack(
@@ -67,7 +68,6 @@ class _NavBarListenerState extends State<NavBarListener> {
         elevation: 0.0,
         items: [
           navBarItems(
-            
             Icons.home,
             "Home",
           ),

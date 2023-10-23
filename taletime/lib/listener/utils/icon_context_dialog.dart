@@ -10,7 +10,9 @@ class IconContextDialog extends StatefulWidget {
   final String id;
   final stories;
 
-  const IconContextDialog(this.title, this.subtitle, this.icon, this.id, this.stories, {Key? key})
+  const IconContextDialog(
+      this.title, this.subtitle, this.icon, this.id, this.stories,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -27,7 +29,8 @@ class _IconContextDialogState extends State<IconContextDialog> {
   final String id;
   final stories;
 
-  _IconContextDialogState(this.title, this.subtitle, this.icon, this.id, this.stories);
+  _IconContextDialogState(
+      this.title, this.subtitle, this.icon, this.id, this.stories);
 
   bool isStoryDeleted = false;
 
@@ -52,7 +55,8 @@ class _IconContextDialogState extends State<IconContextDialog> {
             content: Text(subtitle),
             actions: [
               TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () async {
                   //story delete action
                   await deleteUser(id);
@@ -67,7 +71,8 @@ class _IconContextDialogState extends State<IconContextDialog> {
                 ),
               ),
               TextButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

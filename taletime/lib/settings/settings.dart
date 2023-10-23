@@ -90,10 +90,13 @@ class _SettingsPageState extends State<SettingsPage> {
                           return DropdownMenuItem(
                             value: locale,
                             onTap: () {
-                              final provider = Provider.of<LocaleProvider>(context, listen: false);
+                              final provider = Provider.of<LocaleProvider>(
+                                  context,
+                                  listen: false);
                               provider.setLocale(locale);
                             },
-                            child: Text(flag, style: const TextStyle(fontSize: 32)),
+                            child: Text(flag,
+                                style: const TextStyle(fontSize: 32)),
                           );
                         },
                       ).toList(),
@@ -115,7 +118,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context)!.darkMode),
                 value: themeProvider.isDarkMode,
                 onChanged: (value) {
-                  final provider = Provider.of<ThemeProvider>(context, listen: false);
+                  final provider =
+                      Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(value);
                   setState(() {
                     updateTheme(profile["id"], value);
@@ -132,7 +136,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.password),
                 title: Text(AppLocalizations.of(context)!.changePassword),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
                     return const ChangePassword();
                   }));
                 },
@@ -146,7 +151,8 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: const Icon(Icons.person),
               title: Text(AppLocalizations.of(context)!.changeProfile),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
                   return ProfilesPage(auth.currentUser!.uid);
                 }));
               },
@@ -160,7 +166,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.download_rounded),
                 title: const Text("Downloads"),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
                     return DownloadsPage();
                   }));
                 },
@@ -175,7 +182,9 @@ class _SettingsPageState extends State<SettingsPage> {
               title: Text(AppLocalizations.of(context)!.onboarding),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const OnboardingMain()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OnboardingMain()));
               },
             ))
           ],

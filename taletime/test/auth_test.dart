@@ -15,15 +15,9 @@ void main() {
   // ignore: unused_local_variable
   final AuthentificationUtil auth = AuthentificationUtil(auth: mockAuth);
 
-  test("register with email and password", () async {
-    
-  });
+  test("register with email and password", () async {});
 
-  test("login using email and password", () async {
-    
-  });
+  test("login using email and password", () async {});
 
-  test("reset password with email", () async {
-    
-  });
+  test("reset password with email", () async {});
 }

@@ -56,7 +56,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     try {
       final QuerySnapshot snapshot = await stories.get();
       setState(() {
-        storiesList = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+        storiesList = snapshot.docs
+            .map((doc) => doc.data() as Map<String, dynamic>)
+            .toList();
       });
     } catch (error) {
       logger.e("Failed to fetch stories: $error");
@@ -85,7 +87,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   bool isContextValid(BuildContext context) {
-    final NavigatorState? navigator = context.findAncestorStateOfType<NavigatorState>();
+    final NavigatorState? navigator =
+        context.findAncestorStateOfType<NavigatorState>();
     return navigator != null && navigator.mounted;
   }
 
@@ -93,7 +96,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     try {
       final localPath = await getLocalPath();
       final file = File('$localPath/story_${story['id']}.mp3');
-      final text = 'Check out this story: ${story['title']}\n\n${story['author']}';
+      final text =
+          'Check out this story: ${story['title']}\n\n${story['author']}';
       await file.writeAsString(text, flush: true);
 
       Share.shareFiles([(file.path)], text: text);
@@ -126,7 +130,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 title: const Text("Downloading..."),
                 content: StatefulBuilder(
                   builder: (context, setState) {
-                    final progress = (downloadedBytes / totalBytes).clamp(0.0, 1.0);
+                    final progress =
+                        (downloadedBytes / totalBytes).clamp(0.0, 1.0);
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -175,7 +180,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 Navigator.of(context).pop();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DownloadsPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const DownloadsPage()),
                 );
               },
             ),
@@ -312,7 +318,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPlayStory(storiesList[previousIndex], stories),
+          builder: (context) =>
+              MyPlayStory(storiesList[previousIndex], stories),
         ),
       );
     } else {
@@ -487,8 +494,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.transparent,
                   ),
-                  child:
-                      Image.network(story["image"] == "" ? storyImagePlaceholder : story["image"]),
+                  child: Image.network(story["image"] == ""
+                      ? storyImagePlaceholder
+                      : story["image"]),
                 ),
               ],
             ),
@@ -509,7 +517,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     story["title"],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        color: Colors.teal, fontSize: 21.0, fontWeight: FontWeight.bold),
+                        color: Colors.teal,
+                        fontSize: 21.0,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
@@ -566,11 +576,14 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     Text(
                       "${displayDoubleDigits((_currentValue / 60).floor())}:${displayDoubleDigits((_currentValue % 60).floor())}",
                       style: TextStyle(
-                          fontSize: 14, color: kPrimaryColor, fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "/",
-                      style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: kPrimaryColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${displayDoubleDigits(duration!.inMinutes)}:${displayDoubleDigits(duration!.inSeconds % 60)}",
@@ -661,7 +674,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                       icon: Icon(
                         playbackMode == PlaybackMode.sequential
                             ? Icons.queue_music_outlined
-                            : (playbackMode == PlaybackMode.random ? Icons.shuffle : Icons.repeat),
+                            : (playbackMode == PlaybackMode.random
+                                ? Icons.shuffle
+                                : Icons.repeat),
                         size: 22,
                         color: kPrimaryColor,
                       ),
