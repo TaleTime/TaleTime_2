@@ -2,7 +2,7 @@ import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "package:share/share.dart";
+import "package:share_plus/share_plus.dart";
 import "dart:io";
 import "package:path_provider/path_provider.dart";
 import "package:fluttertoast/fluttertoast.dart";
@@ -43,10 +43,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   double _currentValue = 0;
   Duration? duration = const Duration(seconds: 0);
 
-  final TextEditingController _commentController = TextEditingController();
-
   Future<void> checkFavoriteStatus() async {
-    final favoriteSnapshot = await stories.doc(story["id"]).get();
     setState(() {
       isFavorite = story["isLiked"];
     });
@@ -215,7 +212,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             TextButton(
               child: const Text("Add"),
               onPressed: () {
-                final String commentText = _commentController.text;
                 Navigator.of(context).pop();
               },
             ),
