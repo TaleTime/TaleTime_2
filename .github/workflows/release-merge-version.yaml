@@ -15,39 +15,56 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: "dev"
-      - name: Prepare Git
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - name: ⚙️ Prepare Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: 📦 Get dependencies
+        run: flutter pub get
+        working-directory: ./taletime
       
-      - name: "Get next version"
+      - name:  Get next version
         uses: ietf-tools/semver-action@v1
         id: get_next_version
         with:
           token: ${{ github.token }}
           branch: dev
 
-      - name: Bump version
+      - name: ⏩ Bump version
         run: |
           sed -i "s/^version:.*$/version: ${{ steps.get_next_version.outputs.nextStrict }}/g" taletime/pubspec.yaml
           git commit -am "fix: Bumped version to ${{ steps.get_next_version.outputs.nextStrict }}"
 
-      - name: Merge into main
+      - name: 🔹 Merge into main
         run: |
           git checkout main
           git merge dev --no-ff
-      - name: Create tag
+      - name: 🏷️ Create tag
         run: git tag ${{ steps.get_next_version.outputs.next }}
-      - name: Merge back into dev
+
+      - name: 🧪 Run tests
+        run: flutter test
+        working-directory: ./taletime
+      - name: 📱 Build Android app
+        run: flutter build apk
+        working-directory: ./taletime
+
+      - name: 🔹 Merge back into dev
         run: |
           git checkout dev
           git merge main --no-ff
       
-      - name: Prepare next dev version
+      - name: ⏩ Prepare next dev version
         run: |
           NEXT_VERSION=${{ steps.get_next_version.outputs.nextStrict }}
           IFS=. read -r v1 v2 v3 <<< "${NEXT_VERSION}"
@@ -55,6 +72,15 @@ jobs:
           sed -i "s/^version:.*$/version: ${DEV_VERSION}-SNAPSHOT/g" taletime/pubspec.yaml
           git commit -am "fix: Prepared next dev version: ${DEV_VERSION}-SNAPSHOT"
 
-      - name: Push everything
+      - name: ⬆️ Push everything
         run: git push origin main dev --tags
+
+      - name: 📦 Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.get_next_version.outputs.next }}
+          generate_release_notes: true
+          files: |
+            ./taletime/build/app/outputs/flutter-apk/app-release.apk
         
