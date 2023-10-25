@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
+import "../../profiles/models/profile_model.dart";
 import "../screens/favorites_page.dart";
 import "../screens/add_story_page.dart";
 import "../screens/listener_homepage.dart";
@@ -20,7 +21,7 @@ class NavBarListener extends StatefulWidget {
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
 
-  final profile;
+  final Profile profile;
   final profiles;
 
   _NavBarListenerState(this.profile, this.profiles);
@@ -40,11 +41,11 @@ class _NavBarListenerState extends State<NavBarListener> {
   @override
   Widget build(BuildContext context) {
     CollectionReference favorites =
-        profiles.doc(profile["id"]).collection("favoriteList");
+        profiles.doc(profile.id).collection("favoriteList");
     CollectionReference recent =
-        profiles.doc(profile["id"]).collection("recentList");
+        profiles.doc(profile.id).collection("recentList");
     CollectionReference stories =
-        profiles.doc(profile["id"]).collection("storiesList");
+        profiles.doc(profile.id).collection("storiesList");
 
     return Scaffold(
       body: IndexedStack(

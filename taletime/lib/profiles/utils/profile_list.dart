@@ -1,12 +1,13 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/profiles/utils/profile_column_widget.dart";
-
 import "../../listener/utils/navbar_widget_listener.dart";
+import "../models/profile_model.dart";
 
 class ProfileList extends StatelessWidget {
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
 
   const ProfileList(this.profile, this.profiles, {super.key});
 
@@ -14,7 +15,7 @@ class ProfileList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (profile["title"] == "Listener") {
+        if (profile.title == "Listener") {
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -50,7 +51,7 @@ class ProfileList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.transparent,
                           ),
-                          child: Image.network(profile["image"]),
+                          child: Image.network(profile.image),
                         ),
                       ),
                       Expanded(
@@ -61,7 +62,7 @@ class ProfileList extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                profile["name"],
+                                profile.name,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20.0,
@@ -79,26 +80,26 @@ class ProfileList extends StatelessWidget {
                                     width: 10,
                                   ),
                                   Text(
-                                    profile["title"],
+                                    profile.title,
                                   )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                                ]
+                              )
+                            ]
+                          )
+                        )
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 7),
                         child: ProfileColumn(profile, profiles),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                      )
+                    ]
+                  )
+                )
+              ]
+            )
+          )
+        ]
+      )
     );
   }
 }

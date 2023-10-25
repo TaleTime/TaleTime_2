@@ -1,12 +1,15 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "../../internationalization/localizations_ext.dart";
 import "package:taletime/profiles/utils/edit_profile.dart";
 
+import "../models/profile_model.dart";
+
 class ProfileColumn extends StatefulWidget {
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
   const ProfileColumn(this.profile, this.profiles, {super.key});
 
   @override
@@ -17,9 +20,8 @@ class ProfileColumn extends StatefulWidget {
 
 class _ProfileColumnState extends State<ProfileColumn> {
   final logger = TaleTimeLogger.getLogger();
-  //late final DocumentSnapshot profile;
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
 
   _ProfileColumnState(this.profile, this.profiles);
 
@@ -27,8 +29,8 @@ class _ProfileColumnState extends State<ProfileColumn> {
     return profiles
         .doc(id)
         .delete()
-        .then((value) => logger.d("User Deleted"))
-        .catchError((error) => logger.e("Failed to delete user: $error"));
+        .then((value) => logger.d("Profile Deleted"))
+        .catchError((error) => logger.e("Failed to delete profile: $error"));
   }
 
   void onSelected(BuildContext context, int item) {
@@ -57,7 +59,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState(() {
-                        deleteUser(profile["id"]);
+                        deleteUser(profile.id);
                         Navigator.of(context).pop();
                       });
                     },

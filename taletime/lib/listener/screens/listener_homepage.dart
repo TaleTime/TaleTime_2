@@ -3,13 +3,14 @@ import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "../../common utils/decoration_util.dart";
 import "../../settings/settings.dart";
 import "../utils/search_bar_util.dart";
 import "package:taletime/listener/utils/list_view.dart";
 
 class ListenerHomePage extends StatefulWidget {
-  final DocumentSnapshot profile;
+  final Profile profile;
   final profiles;
   final CollectionReference favoritesCollection;
   final CollectionReference storiesCollection;
@@ -28,7 +29,7 @@ class ListenerHomePage extends StatefulWidget {
 class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selectedIndex = 0;
 
-  final DocumentSnapshot profile;
+  final Profile profile;
   final profiles;
   final CollectionReference favoritescollection;
   final CollectionReference storiesCollection;
@@ -89,7 +90,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                           TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
                     Text(
-                      profile["name"],
+                      profile.name,
                       style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 25,

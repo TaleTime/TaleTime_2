@@ -1,12 +1,13 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/add_profile.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "../../internationalization/localizations_ext.dart";
 import "../../login and registration/utils/authentification_util.dart";
-import "../utils/profile_list.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
+import "../utils/profile_list.dart";
 
 class ProfilesPage extends StatefulWidget {
   final String uId;
@@ -37,7 +38,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference profiles = users
+    CollectionReference<Object?> profiles = users
         .doc(uId)
         .collection("profiles"); //profiles of the created user as subcollection
 
@@ -98,9 +99,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     return ListView.builder(
                       itemCount: streamSnapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot = streamSnapshot
-                                .data!.docs[
-                            index]; //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
+                        final Profile documentSnapshot = Profile.fromQueryDocumentSnapshot(streamSnapshot
+                                .data!.docs[index]); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
                         return ProfileList(documentSnapshot, profiles);
                       },
                     );
