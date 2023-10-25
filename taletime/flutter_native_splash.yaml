@@ -2,11 +2,11 @@ flutter_native_splash:
   image: ./assets/logo.png
   android: true
   ios: true
-  fullscreen: true
+  fullscreen: false
   android_gravity: center
   ios_content_mode: center
   color: "#ffffff"
   color_dark: "#000000"
   image_dark: ./assets/logo.png
   branding: ./assets/title.png
-  branding_dark: ./assets/title.png
+  branding_mode: bottom
