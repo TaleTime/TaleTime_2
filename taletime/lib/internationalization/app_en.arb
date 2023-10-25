@@ -1,6 +1,6 @@
 {
-    "welcomeToTaleTime": "Welcome to TaleTime",
-    "@welcomeToTaleTime": {
+    "loginToTaleTime": "Login to TaleTime",
+    "@loginToTaleTime": {
         "description": "Willkommen bei TaleTime"
     },
     "descriptionWelcome": "The cloud-ready, storytelling audiobook app for fun with the whole family",

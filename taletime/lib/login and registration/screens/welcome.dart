@@ -7,54 +7,57 @@ import "../../internationalization/localizations_ext.dart";
 /// First Screen that appears if you open the app
 /// Here the user has the option to go to the Login or Register Page
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.welcome),
       ),
       body: SafeArea(
+        child:
+        SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+          padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Text(
-                    AppLocalizations.of(context)!.welcomeToTaleTime,
+                  children: [
+                    Padding(padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                        child: Center(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                    AppLocalizations.of(context)!.loginToTaleTime,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
+                  ))),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                  child: Text(
                     AppLocalizations.of(context)!.descriptionWelcome,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 15,
                     ),
-                  )
-                ],
+              )),
+                  SizedBox(
+                height:  200,
+                child: Image.asset("assets/logo.png"),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
-                child: Image.network(assetLogo),
-              ),
-              Column(
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
                 children: <Widget>[
+                  Padding(padding: const EdgeInsets.symmetric(vertical: 20),
+                  child:
                   /// Login Button
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 15,
+                    height: 50,
                     width: double.infinity,
                     child: ElevatedButton(
                       style: elevatedButtonDefaultStyle(),
@@ -72,14 +75,12 @@ class WelcomePage extends StatelessWidget {
                             fontWeight: FontWeight.w600, fontSize: 18),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
+                  )),
 
-                  /// Signup Button
                   SizedBox(
-                      height: MediaQuery.of(context).size.height / 15,
+                      height: 50,
                       width: double.infinity,
-                      child: ElevatedButton(
+                        child: ElevatedButton(
                         style: elevatedButtonDefaultStyle(),
 
                         /// redirects the user to the SignupPage
@@ -97,10 +98,9 @@ class WelcomePage extends StatelessWidget {
                       )),
                 ],
               ),
-            ],
-          ),
+              )]),
         ),
       ),
-    );
+    ));
   }
 }
