@@ -8,8 +8,8 @@ import "package:taletime/storyteller/screens/speaker_homepage.dart";
 import "../../settings/settings.dart";
 
 class NavBarSpeaker extends StatefulWidget {
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
   const NavBarSpeaker(this.profile, this.profiles, {super.key});
 
   @override
@@ -22,7 +22,7 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
 
   final Profile profile;
-  final profiles;
+  final CollectionReference profiles;
 
   _NavBarSpeakerState(this.profile, this.profiles);
 

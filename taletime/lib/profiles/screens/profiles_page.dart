@@ -38,7 +38,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference<Object?> profiles = users
+    CollectionReference<Object> profiles = users
         .doc(uId)
         .collection("profiles"); //profiles of the created user as subcollection
 

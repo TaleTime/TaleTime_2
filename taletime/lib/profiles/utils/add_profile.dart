@@ -247,7 +247,8 @@ class _AddProfileState extends State<AddProfile> {
                           child: Text(
                             AppLocalizations.of(context)!.addProfile,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
+                                fontWeight: FontWeight.w600, fontSize: 18,
+                                color: Colors.white),
                           ),
                         ),
                       ],
