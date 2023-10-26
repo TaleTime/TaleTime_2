@@ -57,6 +57,9 @@ dependencies:
   logger: ^1.1.0
 
   url_launcher: ^6.1.14
+  flutter_native_splash: ^2.3.4
+  flutter_launcher_icons: ^0.13.1
+
 
 dev_dependencies:
   flutter_test:
@@ -68,3 +71,7 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
