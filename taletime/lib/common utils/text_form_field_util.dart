@@ -27,6 +27,8 @@ class TextFormFieldUtil {
       BuildContext context, TextEditingController emailController) {
     return TextFormField(
         controller: emailController,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.email,
           AppLocalizations.of(context)!.enterEmail,
@@ -62,6 +64,7 @@ class TextFormFieldUtil {
     return TextFormField(
         controller: passwordController,
         obscureText: true,
+        textInputAction: TextInputAction.done,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.password,
           AppLocalizations.of(context)!.enterPassword,
