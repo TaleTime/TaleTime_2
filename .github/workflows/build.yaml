@@ -7,21 +7,12 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-    branches:
-      - 'main'
     paths-ignore:
       - '**.md'
       - 'doc/**'
       - '.git/'
       - '.vscode/'
-  push:
-    branches:
-      - 'main'
-    paths-ignore:
-      - '**.md'
-      - 'doc/**'
-      - '.git/'
-      - '.vscode/'
+
 jobs:
   build-android:
     name: Build Android
