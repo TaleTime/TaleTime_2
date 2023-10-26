@@ -25,7 +25,6 @@ Future<void> main() async {
   FlutterNativeSplash.remove();
 }
 
-
 class TaleTimeApp extends StatefulWidget {
   const TaleTimeApp({Key? key}) : super(key: key);
 
