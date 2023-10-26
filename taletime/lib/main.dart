@@ -8,7 +8,7 @@ import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
-
+import "package:flutter_native_splash/flutter_native_splash.dart";
 import "../internationalization/localizations_ext.dart";
 import "firebase/firebase_options.dart";
 
@@ -16,12 +16,15 @@ import "firebase/firebase_options.dart";
 
 /// initiliazes the Firebase Options for the App
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     const TaleTimeApp(),
   );
+  FlutterNativeSplash.remove();
 }
+
 
 class TaleTimeApp extends StatefulWidget {
   const TaleTimeApp({Key? key}) : super(key: key);

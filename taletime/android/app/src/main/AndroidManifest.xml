@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
    <application
-        android:label="taletime"
+        android:label="TaleTime"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
