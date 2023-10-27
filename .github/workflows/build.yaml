@@ -43,7 +43,7 @@ jobs:
         run: |
           VERSION=$(grep -oP '^version:\s+\K.+$' pubspec.yaml)
           flutter build apk --flavor staging --build-number $GITHUB_RUN_NUMBER --build-name $VERSION+$GITHUB_RUN_NUMBER
-          echo "versionName=$VERSION+$GITHUB_RUN_NUMBER\n" >> $GITHUB_OUTPUT
+          echo "versionName=$VERSION+$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
         working-directory: ./taletime
       - name: 📦 Upload artifact
         uses: actions/upload-artifact@v2
