@@ -42,7 +42,7 @@ jobs:
           SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
         run: |
           VERSION=$(grep -oP '^version:\s+\K.+$' pubspec.yaml)
-          flutter build apk --flavor staging --build-number $GITHUB_RUN_NUMBER --build-name $VERSION+$GITHUB_RUN_NUMBER
+          flutter build apk --flavor staging --build-name $VERSION+$GITHUB_RUN_NUMBER
           echo "versionName=$VERSION+$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
           cp build/app/outputs/flutter-apk/app-staging-release.apk build/app/outputs/flutter-apk/TaleTime-$VERSION+$GITHUB_RUN_NUMBER.apk
         working-directory: ./taletime
