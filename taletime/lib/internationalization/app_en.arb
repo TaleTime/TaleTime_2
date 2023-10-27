@@ -35,9 +35,9 @@
     "@login": {
         "description": "Anmeldung"
     },
-    "loginToAccount": "Sign In to your Account",
+    "loginToAccount": "Sign In to TaleTime",
     "@loginToAccount": {
-        "description": "Anmeldung zu Ihrem Konto"
+        "description": "Bei TaleTime anmelden"
     },
     "email": "Email adress",
     "@email": {

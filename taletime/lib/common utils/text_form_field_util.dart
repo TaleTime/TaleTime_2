@@ -14,7 +14,7 @@ class TextFormFieldUtil {
         controller: nameController,
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.username,
-            AppLocalizations.of(context)!.enterUsername,
+            "",
             const Icon(Icons.person)),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (name) => ValidationUtil().validateUserName(name, context));
@@ -31,7 +31,7 @@ class TextFormFieldUtil {
         textInputAction: TextInputAction.next,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.email,
-          AppLocalizations.of(context)!.enterEmail,
+          "",
           const Icon(Icons.mail),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -67,7 +67,7 @@ class TextFormFieldUtil {
         textInputAction: TextInputAction.done,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.password,
-          AppLocalizations.of(context)!.enterPassword,
+          "",
           const Icon(Icons.lock),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,

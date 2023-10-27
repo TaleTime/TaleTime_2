@@ -43,20 +43,20 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         automaticArrow: true,
       ),
-      body: Expanded(
+      body: SizedBox(
+        height: double.infinity,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                  child: Text(
-                    AppLocalizations.of(context)!.loginToAccount,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+                child: Text(
+                  AppLocalizations.of(context)!.loginToAccount,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -120,7 +120,6 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 14,
                     width: double.infinity,
                     //Button for the Login
                     child: ElevatedButton(
@@ -148,21 +147,24 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     )),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(AppLocalizations.of(context)!.dontHaveAccount),
-                  TextButton(
-                      child: Text(AppLocalizations.of(context)!.registerVerb),
+              Padding(
+                padding: const EdgeInsets.only(top: 40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(AppLocalizations.of(context)!.dontHaveAccount),
+                    TextButton(
+                        child: Text(AppLocalizations.of(context)!.registerVerb),
 
-                      /// redirects the user to the SignupPage
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignupPage()));
-                      }),
-                ],
+                        /// redirects the user to the SignupPage
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignupPage()));
+                        }),
+                  ],
+                ),
               ),
             ],
           ),
