@@ -31,7 +31,7 @@ jobs:
         working-directory: ./taletime
       - name: 🔑 Setup signing key
         run: |
-          echo ${{ secrets.SIGNING_KEY_KEYSTORE }} | base64 -d > taletime/android/app/keystore.jks
+          echo "${{ secrets.SIGNING_KEY_KEYSTORE }}" | base64 -d > taletime/android/app/keystore.jks
       - name: 🧪 Run tests
         run: flutter test
         working-directory: ./taletime
