@@ -12,6 +12,7 @@ on:
       - 'doc/**'
       - '.git/'
       - '.vscode/'
+  workflow_dispatch:
 
 jobs:
   build-android:
@@ -28,14 +29,24 @@ jobs:
       - name: 📦 Get dependencies
         run: flutter pub get
         working-directory: ./taletime
+      - name: 🔑 Setup signing key
+        run: |
+          echo ${{ secrets.SIGNING_KEY_KEYSTORE }} | base64 -d > taletime/android/app/keystore.jks
       - name: 🧪 Run tests
         run: flutter test
         working-directory: ./taletime
       - name: 📱 Build Android
-        run: flutter build apk
+        id: build_apk
+        env:
+          SIGNING_KEY_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_KEY_PASSWORD }}
+          SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+        run: |
+          VERSION=$(grep -oP '^version:\s+\K.+$' pubspec.yaml)
+          flutter build apk --flavor staging --build-number $GITHUB_RUN_NUMBER --build-name $VERSION+$GITHUB_RUN_NUMBER
+          echo "versionName=$VERSION+$GITHUB_RUN_NUMBER\n" >> $GITHUB_OUTPUT
         working-directory: ./taletime
       - name: 📦 Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.apk
-          path: ./taletime/build/app/outputs/flutter-apk/app-release.apk
+          name: TaleTime-${{ steps.build_apk.outputs.versionName }}.apk
+          path: ./taletime/build/app/outputs/flutter-apk/app-staging-release.apk
