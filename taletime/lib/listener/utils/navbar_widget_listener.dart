@@ -13,17 +13,15 @@ class NavBarListener extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _NavBarListenerState(profile, profiles);
+    return _NavBarListenerState();
   }
 }
 
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
 
-  final profile;
-  final profiles;
 
-  _NavBarListenerState(this.profile, this.profiles);
+  _NavBarListenerState();
 
   CollectionReference allStories =
       FirebaseFirestore.instance.collection("allStories");
@@ -40,20 +38,20 @@ class _NavBarListenerState extends State<NavBarListener> {
   @override
   Widget build(BuildContext context) {
     CollectionReference favorites =
-        profiles.doc(profile["id"]).collection("favoriteList");
+    widget.profiles.doc(widget.profile["id"]).collection("favoriteList");
     CollectionReference recent =
-        profiles.doc(profile["id"]).collection("recentList");
+    widget.profiles.doc(widget.profile["id"]).collection("recentList");
     CollectionReference stories =
-        profiles.doc(profile["id"]).collection("storiesList");
+    widget.profiles.doc(widget.profile["id"]).collection("storiesList");
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(profile, profiles, stories, recent, favorites),
-          FavoritePage(profile, profiles, favorites, stories),
+          ListenerHomePage(widget.profile, widget.profiles, stories, recent, favorites),
+          FavoritePage(widget.profile, widget.profiles, favorites, stories),
           AddStory(stories, allStories),
-          SettingsPage(profile, profiles),
+          SettingsPage(widget.profile, widget.profiles),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -13,7 +13,7 @@ class EditProfile extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EditProfileState(profiles, profile);
+    return _EditProfileState();
   }
 }
 
@@ -22,16 +22,14 @@ class _EditProfileState extends State<EditProfile> {
   late final String name;
   late final String image;
   late final String title;
-  late final profiles;
-  late final profile;
 
   final textEditingController = TextEditingController();
 
-  late String profileImage = profile["image"];
+  late String profileImage = widget.profile["image"];
 
-  late String? selectedItem = profile["title"];
+  late String? selectedItem = widget.profile["title"];
 
-  _EditProfileState(this.profiles, this.profile);
+  _EditProfileState();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class _EditProfileState extends State<EditProfile> {
     final formKey = GlobalKey<FormState>();
 
     textEditingController.text = textEditingController.text == ""
-        ? profile["name"]
+        ? widget.profile["name"]
         : textEditingController.text;
 
     String updateProfile(int index) {
@@ -52,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
 
     Future<void> updateprofile(
         String profileId, String name, String image, String title) {
-      return profiles
+      return widget.profiles
           .doc(profileId)
           .update({"image": image, "name": name, "title": title})
           .then((value) => logger.v("Profile Updated"))
@@ -209,7 +207,7 @@ class _EditProfileState extends State<EditProfile> {
                                 image = profileImage;
                                 title = selectedItem.toString();
                                 updateprofile(
-                                    profile["id"], name, image, title);
+                                    widget.profile["id"], name, image, title);
                                 reset();
                                 Navigator.of(context).pop();
                               },

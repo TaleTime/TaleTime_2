@@ -29,7 +29,7 @@ class TaleTimeApp extends StatefulWidget {
   const TaleTimeApp({super.key});
 
   @override
-  _TaleTimeState createState() => _TaleTimeState();
+  State<TaleTimeApp> createState() => _TaleTimeState();
 }
 
 class _TaleTimeState extends State<TaleTimeApp> {

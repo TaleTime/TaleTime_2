@@ -36,7 +36,7 @@ class Onboarding extends StatefulWidget {
         assert(startPageIndex >= 0);
 
   @override
-  _OnboardingState createState() => _OnboardingState();
+  State<Onboarding> createState() => _OnboardingState();
 }
 
 class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
