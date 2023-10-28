@@ -1,0 +1,40 @@
+name: Assign labels to Pull Requests
+
+on:
+  pull_request:
+    branches: [dev]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+      - labeled
+      - unlabeled
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  assign-labels:
+    runs-on: ubuntu-latest
+    name: Assign labels in pull request
+    if: github.event.pull_request.merged == false
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v3
+      - name: 🏷 Assign labels
+        uses: mauroalderete/action-assign-labels@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          conventional-commits: |
+            conventional-commits:
+              - type: 'fix'
+                nouns: ['FIX', 'Fix', 'fix', 'FIXED', 'Fixed', 'fixed']
+                labels: ['Type: Bug']
+              - type: 'feature'
+                nouns: ['FEATURE', 'Feature', 'feature', 'FEAT', 'Feat', 'feat']
+                labels: ['Type: Feature']
+              - type: 'breaking_change'
+                nouns: ['BREAKING CHANGE', 'BREAKING', 'MAJOR', 'FIX!', 'Fix!', 'fix!', 'FIXED!', 'Fixed!', 'fixed!', 'FEATURE!', 'Feature!', 'feature!', 'FEAT!', 'Feat!', 'feat!']
+                labels: ['Type: Breaking Change']
