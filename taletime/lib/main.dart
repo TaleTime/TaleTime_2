@@ -26,7 +26,7 @@ Future<void> main() async {
 }
 
 class TaleTimeApp extends StatefulWidget {
-  const TaleTimeApp({Key? key}) : super(key: key);
+  const TaleTimeApp({super.key});
 
   @override
   _TaleTimeState createState() => _TaleTimeState();
@@ -50,7 +50,7 @@ class _TaleTimeState extends State<TaleTimeApp> {
 /// initializes the LocaleProvider (locale; supportedLocales; localizationDelegates)
 /// and the ThemeProvider (theme; darkTheme)
 class Providers extends StatelessWidget {
-  const Providers({Key? key}) : super(key: key);
+  const Providers({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class Providers extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

@@ -8,12 +8,12 @@ class OnboardPage extends StatelessWidget {
   final int pagesLength;
 
   const OnboardPage({
-    Key? key,
+    super.key,
     required this.pageModel,
     required this.index,
     required this.pagesLength,
     required this.dragPercent,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     final singlePageScrollPercentage = dragPercent / (1 / pagesLength);

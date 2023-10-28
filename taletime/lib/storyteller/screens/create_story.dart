@@ -1,4 +1,5 @@
 /// The [create_story] class allows for the user to create a new story with [insert title] and [insert tags] and [add photo] .
+library;
 
 ///with the button you can create the story and put it on the page
 
@@ -22,8 +23,7 @@ class CreateStory extends StatefulWidget {
   final profile;
   final CollectionReference storiesCollection;
 
-  const CreateStory(this.profile, this.storiesCollection, {Key? key})
-      : super(key: key);
+  const CreateStory(this.profile, this.storiesCollection, {super.key});
 
   @override
   State<CreateStory> createState() =>

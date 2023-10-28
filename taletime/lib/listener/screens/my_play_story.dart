@@ -16,7 +16,7 @@ class MyPlayStory extends StatefulWidget {
   final story;
   final stories;
 
-  const MyPlayStory(this.story, this.stories, {Key? key}) : super(key: key);
+  const MyPlayStory(this.story, this.stories, {super.key});
 
   @override
   State<StatefulWidget> createState() {

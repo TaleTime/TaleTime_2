@@ -19,8 +19,8 @@ class ListViewData extends StatefulWidget {
     this.profiles,
     this.listType,
     this.favoritesCollection, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {

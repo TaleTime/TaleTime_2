@@ -1,5 +1,6 @@
 ///The class takes the old password and the new password and confirmed password from the user.
 ///The old password is compared with the password stored in the database.If the two match, the new password will be accepted.
+library;
 
 ///   At the end the act is confirmed with a button
 
@@ -12,7 +13,7 @@ import "package:taletime/common%20utils/text_form_field_util.dart";
 import "../internationalization/localizations_ext.dart";
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  const ChangePassword({super.key});
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();

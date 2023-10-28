@@ -13,8 +13,7 @@ class EditStory extends StatefulWidget {
   final CollectionReference storiesCollection;
   final DocumentSnapshot story;
 
-  const EditStory(this.storiesCollection, this.story, {Key? key})
-      : super(key: key);
+  const EditStory(this.storiesCollection, this.story, {super.key});
 
   @override
   State<StatefulWidget> createState() {

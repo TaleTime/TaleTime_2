@@ -7,8 +7,7 @@ import "package:taletime/profiles/utils/edit_profile.dart";
 class ProfileColumn extends StatefulWidget {
   final profile;
   final profiles;
-  const ProfileColumn(this.profile, this.profiles, {Key? key})
-      : super(key: key);
+  const ProfileColumn(this.profile, this.profiles, {super.key});
 
   @override
   State<StatefulWidget> createState() {

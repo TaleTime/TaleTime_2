@@ -9,7 +9,7 @@ class EditProfile extends StatefulWidget {
   final CollectionReference profiles;
   final DocumentSnapshot profile;
 
-  const EditProfile(this.profiles, this.profile, {Key? key}) : super(key: key);
+  const EditProfile(this.profiles, this.profile, {super.key});
 
   @override
   State<StatefulWidget> createState() {

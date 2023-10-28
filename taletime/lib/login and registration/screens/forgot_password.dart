@@ -9,7 +9,7 @@ import "../../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/text_form_field_util.dart";
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  const ForgotPasswordPage({super.key});
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
