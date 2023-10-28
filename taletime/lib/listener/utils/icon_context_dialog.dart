@@ -33,7 +33,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
 
   bool isStoryDeleted = false;
 
-  Future<void> deleteUser(String id) async {
+  Future<void> deleteStory(String id) async {
     await stories.doc(id).delete().then((value) {
       setState(() {
         isStoryDeleted = true;
@@ -58,7 +58,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
                     backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () async {
                   //story delete action
-                  await deleteUser(id);
+                  await deleteStory(id);
                   Navigator.of(context).pop();
                   setState(() {
                     isStoryDeleted = false;

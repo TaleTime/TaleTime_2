@@ -13,6 +13,7 @@ class ProfileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profilee = ProfileColumn(profile, profiles);
     return GestureDetector(
       onTap: () async {
         if (profile.title == "Listener") {
@@ -90,7 +91,7 @@ class ProfileList extends StatelessWidget {
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 7),
-                        child: ProfileColumn(profile, profiles),
+                        child: profilee,
                       )
                     ]
                   )

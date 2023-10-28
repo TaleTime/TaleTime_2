@@ -14,22 +14,20 @@ class ProfileColumn extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfileColumnState(profile, profiles);
+    return _ProfileColumnState();
   }
 }
 
 class _ProfileColumnState extends State<ProfileColumn> {
   final logger = TaleTimeLogger.getLogger();
-  final Profile profile;
-  final CollectionReference profiles;
 
-  _ProfileColumnState(this.profile, this.profiles);
+  _ProfileColumnState();
 
-  Future<void> deleteUser(id) {
-    return profiles
+  Future<void> deleteProfile(id) {
+    return widget.profiles
         .doc(id)
         .delete()
-        .then((value) => logger.d("Profile Deleted"))
+        .then((value) => logger.d("Profile deleted"))
         .catchError((error) => logger.e("Failed to delete profile: $error"));
   }
 
@@ -39,7 +37,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditProfile(profiles, profile)));
+                builder: (context) => EditProfile(widget.profiles, widget.profile)));
         break;
       case 1:
         showDialog(
@@ -59,7 +57,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState(() {
-                        deleteUser(profile.id);
+                        deleteProfile(widget.profile.id);
                         Navigator.of(context).pop();
                       });
                     },
