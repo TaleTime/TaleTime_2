@@ -1,4 +1,5 @@
 ///the classe [add_profile] allows users to create a profile with name,image,title,language, and theme.
+library;
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
@@ -15,7 +16,7 @@ import "../../internationalization/localizations_ext.dart";
 class AddProfile extends StatefulWidget {
   final String uId;
 
-  const AddProfile(this.uId, {Key? key}) : super(key: key);
+  const AddProfile(this.uId, {super.key});
 
   @override
   State<StatefulWidget> createState() {

@@ -10,7 +10,7 @@ import "package:taletime/common%20utils/text_form_field_util.dart";
 /// The Signup class is used to create a new account in the app
 /// All  users are stored in Firebase
 class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+  const SignupPage({super.key});
 
   @override
   _SignupPageState createState() => _SignupPageState();

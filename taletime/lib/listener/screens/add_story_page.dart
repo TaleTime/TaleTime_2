@@ -11,8 +11,7 @@ class AddStory extends StatefulWidget {
 
   const AddStory(
       this.storiesCollectionReference, this.allStoriesCollectionReference,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<AddStory> createState() =>

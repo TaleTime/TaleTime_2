@@ -18,13 +18,13 @@ class ShapePainter extends CustomPainter {
     required this.netDragPercent,
     required this.pagesLength,
   }) {
-    painter1.color = this.indicator.activeIndicator.color;
-    painter1.strokeWidth = this.indicator.activeIndicator.borderWidth;
+    painter1.color = indicator.activeIndicator.color;
+    painter1.strokeWidth = indicator.activeIndicator.borderWidth;
     painter1.strokeCap = StrokeCap.round;
     painter1.style = PaintingStyle.stroke;
     //---
-    painter2.color = this.indicator.closedIndicator.color;
-    painter2.strokeWidth = this.indicator.closedIndicator.borderWidth;
+    painter2.color = indicator.closedIndicator.color;
+    painter2.strokeWidth = indicator.closedIndicator.borderWidth;
     painter2.strokeCap = StrokeCap.round;
     painter2.style = PaintingStyle.fill;
   }
@@ -36,16 +36,16 @@ class ShapePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant ShapePainter oldDelegate) {
-    return oldDelegate.indicator != this.indicator ||
-        oldDelegate.netDragPercent != this.netDragPercent ||
-        oldDelegate.pagesLength != this.pagesLength;
+    return oldDelegate.indicator != indicator ||
+        oldDelegate.netDragPercent != netDragPercent ||
+        oldDelegate.pagesLength != pagesLength;
   }
 
   void _createUniformLine(Canvas canvas) {
     //Painter 1
-    final width = this.indicator.indicatorDesign.lineDesign!.lineWidth;
+    final width = indicator.indicatorDesign.lineDesign!.lineWidth;
     final painter1LineWidth = width * pagesLength;
-    final painter1Offset1 = Offset(0.0, 0.0);
+    const painter1Offset1 = Offset(0.0, 0.0);
     final painter1Offset2 = Offset(painter1LineWidth, 0.0);
 
     //Painter 2
@@ -58,8 +58,8 @@ class ShapePainter extends CustomPainter {
   }
 
   void _createLine(Canvas canvas, int indexer, Paint paint) {
-    var width = this.indicator.indicatorDesign.lineDesign!.lineWidth;
-    var spacer = this.indicator.indicatorDesign.lineDesign!.lineSpacer;
+    var width = indicator.indicatorDesign.lineDesign!.lineWidth;
+    var spacer = indicator.indicatorDesign.lineDesign!.lineSpacer;
     for (int i = 0; i <= indexer; i++) {
       final offset1 = Offset(i * spacer, 0.0);
       final offset2 = Offset(offset1.dx + width, 0.0);
@@ -69,8 +69,8 @@ class ShapePainter extends CustomPainter {
 
   void _createPolygon(Path path, int sides, int indexer,
       {bool rotate = false}) {
-    var radius = this.indicator.indicatorDesign.polygonDesign!.polygonRadius;
-    var spacer = this.indicator.indicatorDesign.polygonDesign!.polygonSpacer;
+    var radius = indicator.indicatorDesign.polygonDesign!.polygonRadius;
+    var spacer = indicator.indicatorDesign.polygonDesign!.polygonSpacer;
     final angle = (math.pi * 2) / sides;
     final offset2 = Offset(radius * math.cos(0.0), radius * math.sin(0.0));
     for (int m = 0; m <= indexer; m++) {
@@ -90,8 +90,8 @@ class ShapePainter extends CustomPainter {
     final pagesLengthIndexer = pagesLength - 1;
 
     final indicatorType =
-        this.indicator.indicatorDesign.polygonDesign?.polygon ??
-            this.indicator.indicatorDesign.lineDesign!.lineType;
+        indicator.indicatorDesign.polygonDesign?.polygon ??
+            indicator.indicatorDesign.lineDesign!.lineType;
 
     switch (indicatorType) {
       case DesignType.polygon_circle:
@@ -103,7 +103,7 @@ class ShapePainter extends CustomPainter {
         _createPolygon(path2, 5, indexer);
         break;
       case DesignType.polygon_square:
-        final radian = (math.pi / 180) * 315;
+        const radian = (math.pi / 180) * 315;
         canvas.rotate(radian);
         _createPolygon(path1, 4, pagesLengthIndexer, rotate: true);
         _createPolygon(path2, 4, indexer, rotate: true);

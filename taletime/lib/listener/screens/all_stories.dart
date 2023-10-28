@@ -10,8 +10,7 @@ class AllStories extends StatefulWidget {
   final profile;
   final profiles;
   const AllStories(this.profile, this.profiles, this.recordedStoriesCollection,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<AllStories> createState() =>

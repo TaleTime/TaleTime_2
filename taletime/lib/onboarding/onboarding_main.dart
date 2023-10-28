@@ -8,7 +8,7 @@ import "views/footer.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class OnboardingMain extends StatefulWidget {
-  const OnboardingMain({Key? key}) : super(key: key);
+  const OnboardingMain({super.key});
 
   @override
   State<OnboardingMain> createState() => _OnboardingMainState();
@@ -183,7 +183,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
           },
           child: Text(
             AppLocalizations.of(context)!.skip,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
         ));
   }
@@ -200,7 +200,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
           },
           child: Text(
             AppLocalizations.of(context)!.finish,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
         ));
   }
@@ -245,7 +245,7 @@ class _OnboardingMainState extends State<OnboardingMain> {
                             netDragPercent: dragDistance,
                             pagesLength: pagesLength,
                             indicator: Indicator(
-                              indicatorDesign: IndicatorDesign.polygon(
+                              indicatorDesign: const IndicatorDesign.polygon(
                                 polygonDesign: PolygonDesign(
                                   polygon: DesignType.polygon_arrow,
                                 ),

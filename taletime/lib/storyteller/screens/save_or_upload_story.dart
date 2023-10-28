@@ -1,6 +1,8 @@
 //the [save_or_upload_story] class enables the user,
 ///to either save the story to storage in firebase or share the story with specific listeners or all listeners.
 ///It contains three functions save ,load,load all
+library;
+
 
 import "dart:io";
 
@@ -21,7 +23,7 @@ class SaveOrUploadStory extends StatefulWidget {
   final storiesCollection;
   bool isSaved;
   SaveOrUploadStory(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved, {super.key});
 
   @override
   State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState(
@@ -129,9 +131,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                           isSaved = true;
                         });
                       },
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.save,
                       size: 50,
@@ -188,9 +190,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                   );
                                 });
                           },
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
+                      children: [
                         Icon(
                           Icons.upload_rounded,
                           size: 50,
@@ -239,9 +241,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                   });
                                 });
                           },
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
+                      children: [
                         Icon(
                           Icons.upload_rounded,
                           size: 50,

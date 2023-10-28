@@ -9,8 +9,7 @@ import "../../settings/settings.dart";
 class NavBarListener extends StatefulWidget {
   final profile;
   final profiles;
-  const NavBarListener(this.profile, this.profiles, {Key? key})
-      : super(key: key);
+  const NavBarListener(this.profile, this.profiles, {super.key});
 
   @override
   State<StatefulWidget> createState() {

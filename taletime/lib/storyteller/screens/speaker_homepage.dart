@@ -5,6 +5,7 @@
 ///the class still shows the list [Last Recorded] , which contains the last five recorded stories.
 /// the class still shows the list [My Recorded Stories] , which contains all recorded stories.
 ///the class offers the user to search for a specific story with title or tags
+library;
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
@@ -23,8 +24,7 @@ class SpeakerHomePage extends StatefulWidget {
   final profiles;
   const SpeakerHomePage(this.profile, this.profiles, this.storiesCollection,
       this.lastRecordedCollection,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
