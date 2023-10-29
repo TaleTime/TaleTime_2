@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/utils/search_bar_util.dart";
 import "package:taletime/listener/utils/list_view.dart";
 
@@ -51,7 +52,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "Favorites",
+                      AppLocalizations.of(context)!.favorites,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ class _FavoritePageState extends State<FavoritePage> {
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
                             ),
-                            hintText: "Search stories...",
+                            hintText: AppLocalizations.of(context)!.searchStory,
                             hintStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(

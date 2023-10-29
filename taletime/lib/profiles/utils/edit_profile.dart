@@ -76,9 +76,9 @@ class _EditProfileState extends State<EditProfile> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(
+        title:  Text(
+          AppLocalizations.of(context)!.editProfile,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -157,7 +157,7 @@ class _EditProfileState extends State<EditProfile> {
                                 AppLocalizations.of(context)!.enterProfile),
                             validator: (val) {
                               if (val!.isEmpty) {
-                                return "Please fill in the blank space";
+                                return AppLocalizations.of(context)!.fillBlankSpace;
                               }
                               return null;
                             },
@@ -213,10 +213,10 @@ class _EditProfileState extends State<EditProfile> {
                                 reset();
                                 Navigator.of(context).pop();
                               },
-                              child: const Text(
+                              child: Text(
                                 //AppLocalizations.of(context)!.addProfile,
-                                "Update Profile",
-                                style: TextStyle(
+                                AppLocalizations.of(context)!.updateProfile,
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             )),

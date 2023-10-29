@@ -255,6 +255,22 @@
     "@addProfile": {
         "description": "Profil hinzufügen"
     },
+    "addStory": "Add Story",
+    "@addStory": {
+        "description": "Geschichte hinzufügen"
+    },
+    "addStoryHint": "Add a story ...",
+    "@addStoryHint": {
+        "description": "Fügen Sie eine Geschichte hinzu ..."
+    },
+    "addStoryHintDescription": "Do you really want to add this story?",
+    "@addStoryHintDescription": {
+        "description": "Möchtest du wirklich die Geschichte hinzufügen"
+    },
+    "searchStory": "Search Story",
+    "@searchStory": {
+        "description": "Geschichte suchen"
+    },
     "listener": "Listener",
     "@listener": {
         "description": "Hörer"
@@ -288,5 +304,44 @@
         "description": "Geben Sie Ihr altes Passwort ein"
     },
     "allStories_pageTitle":"All Stories",
-    "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library"
+    "allStories_noStoriesAvailableError": "No stories yet. \nplease add some stories to your story library",
+    "hello": "Hello",
+    "recentlyPlayed": "Recently Played",
+    "noStoriesAvailable": "Nothing to show yet. \nplease add some stories to your story library",
+    "myStories": "My Stories",
+    "storyDeleted": "Story deleted",
+    "storyDeleteHint": "Delete Story...",
+    "storyDeleteHintDescription": "Do you really want to delete this story?",
+    "by": "By",
+    "editProfile": "Edit Profile",
+    "fillBlankSpace": "Please fill in the blank space",
+    "updateProfile": "Update Profile",
+    "noDownloadedStories": "No downloaded stories yet",
+    "downloads": "Downloads",
+    "createStory": "Create Story",
+    "tag": "Tag",
+    "enterTag": "Gib einen Tag an (optional)",
+    "uploadImage": "Upload Image",
+    "continueStep": "Continue",
+    "storyRecorder": "Story Recorder",
+    "save": "Save",
+    "saveUploadStory": "Save/Upload story",
+    "saveStory": "Save story",
+    "uploadStory": "Upload story",
+    "uploadingStory": "Uploading story...",
+    "uploadingStoryDescription": "Do you really want to share the story only with users from your account?",
+    "shareOnlyWithUsersFromSameAccount": "Share only with users from same account",
+    "shareWithEveryUserDescription": "Do you really want to share the story with every user?",
+    "shareWithEveryUser": "Share with every user",
+    "lastRecorded": "Last recorded",
+    "myRecordedStories": "My recorded stories",
+    "recordStory": "Record story",
+    "editStory": "Edit story",
+    "updateImage": "Update image",
+    "authorsName": "Author's name",
+    "typeInNewName": "Type in new name",
+    "storysTitle": "Story's title",
+    "typeInNewTitle": "Type in new title",
+    "updateStory": "Update story",
+    "home": "Home"
 }
