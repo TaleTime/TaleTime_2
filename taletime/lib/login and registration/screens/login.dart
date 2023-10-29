@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         /// redirects the user to the SignupPage
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const SignupPage()));
