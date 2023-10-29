@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                                       AppLocalizations.of(context)!.forgotPassword,
                                       style: TextStyle(color: kPrimaryColor)),
                                   onPressed: () {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>

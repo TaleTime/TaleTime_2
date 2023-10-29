@@ -1,5 +1,4 @@
 import "package:firebase_auth/firebase_auth.dart";
-import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
@@ -52,104 +51,112 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           title: AppLocalizations.of(context)!.resetPassword,
           context: context,
           automaticArrow: true),
-      body: SizedBox(
-        height: double.infinity,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
-                child: Text(
-                  AppLocalizations.of(context)!.problemsWithLogin,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(AppLocalizations.of(context)!.enterAssociatedEmail,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                AppLocalizations.of(context)!.sendResetLink,
-                style: const TextStyle(),
-              ),
-              const SizedBox(height: 40.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      /// TextField that catches the user input for the email-adress
-                      Container(
-                        decoration: Decorations().inputBoxDecorationShaddow(),
-                        child: TextFormFieldUtil().enterEmailForm(
-                          context,
-                          _emailController,
-                          TextInputAction.done,
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+                        child: Text(
+                          AppLocalizations.of(context)!.problemsWithLogin,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
+                      const SizedBox(height: 10),
+                      Text(AppLocalizations.of(context)!.enterAssociatedEmail,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          )),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.sendResetLink,
+                        style: const TextStyle(),
+                      ),
                       const SizedBox(height: 40.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              /// TextField that catches the user input for the email-adress
+                              Container(
+                                decoration: Decorations().inputBoxDecorationShaddow(),
+                                child: TextFormFieldUtil().enterEmailForm(
+                                  context,
+                                  _emailController,
+                                  TextInputAction.done,
+                                ),
+                              ),
+                              const SizedBox(height: 40.0),
+                            ],
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: elevatedButtonDefaultStyle(),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+                          child: Text(
+                            AppLocalizations.of(context)!.resetPassword,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+
+                        /// send the user an email to reset his password
+                        /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
+                        onPressed: () async {
+                          final String email =
+                          _emailController.text.trim().toLowerCase();
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            AuthentificationUtil(auth: auth)
+                                .resetPasswordWithEmail(email: email, context: context);
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 30.0),
                     ],
                   ),
-                ),
-              ),
-              ElevatedButton(
-                style: elevatedButtonDefaultStyle(),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                  child: Text(
-                    AppLocalizations.of(context)!.resetPassword,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(AppLocalizations.of(context)!.rememberPassword),
+                        TextButton(
+                            child: Text(AppLocalizations.of(context)!.loginVerb),
+
+                            /// redirects the user to the SignupPage
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()));
+                            }),
+                      ],
                     ),
                   ),
-                ),
-
-                /// send the user an email to reset his password
-                /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
-                onPressed: () async {
-                  final String email =
-                      _emailController.text.trim().toLowerCase();
-                  final isValidForm = _formKey.currentState!.validate();
-                  if (isValidForm) {
-                    AuthentificationUtil(auth: auth)
-                        .resetPasswordWithEmail(email: email, context: context);
-                  }
-                },
+                ],
               ),
-              const SizedBox(height: 30.0),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                        text: AppLocalizations.of(context)!.rememberPassword),
-                    TextSpan(
-                      text: AppLocalizations.of(context)!.loginVerb,
-
-                      /// redirects the user to the LoginPage
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                          );
-                        },
-                      style: TextStyle(color: kPrimaryColor),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
