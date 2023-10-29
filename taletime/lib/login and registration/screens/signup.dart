@@ -83,12 +83,13 @@ class _SignupPageState extends State<SignupPage> {
                       /// TextField that catches the user input for the username
                       Container(
                           decoration: Decorations().inputBoxDecorationShaddow(),
-                          child: TextFormFieldUtil()
-                              .enterUserNameForm(context, _nameController)),
+                          child: TextFormFieldUtil().enterUserNameForm(
+                            context,
+                            _nameController,
+                            TextInputAction.next,
+                          )),
                       SizedBox(height: 5),
-                      Text(
-                        AppLocalizations.of(context)!.usernameDescription
-                      ),
+                      Text(AppLocalizations.of(context)!.usernameDescription),
                       const SizedBox(
                         height: 20,
                       ),
@@ -96,8 +97,11 @@ class _SignupPageState extends State<SignupPage> {
                       /// TextField that catches the user input for the email-adress
                       Container(
                           decoration: Decorations().inputBoxDecorationShaddow(),
-                          child: TextFormFieldUtil()
-                              .enterEmailForm(context, _emailController)),
+                          child: TextFormFieldUtil().enterEmailForm(
+                            context,
+                            _emailController,
+                            TextInputAction.next,
+                          )),
                       const SizedBox(height: 20),
                       Container(
 
@@ -105,17 +109,23 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: Decorations().inputBoxDecorationShaddow(),
 
                           /// TextField that catches the user input for the password
-                          child: TextFormFieldUtil()
-                              .enterPasswordForm(context, _passwordController)),
+                          child: TextFormFieldUtil().enterPasswordForm(
+                            context,
+                            _passwordController,
+                            TextInputAction.next,
+                          )),
                       const SizedBox(height: 25),
 
                       /// TextField that catches the user input for the confirm password
                       Container(
-                          decoration: Decorations().inputBoxDecorationShaddow(),
-                          child: TextFormFieldUtil().confirmPasswordForm(
-                              context,
-                              _passwordController,
-                              _confirmPasswordController))
+                        decoration: Decorations().inputBoxDecorationShaddow(),
+                        child: TextFormFieldUtil().confirmPasswordForm(
+                          context,
+                          _passwordController,
+                          _confirmPasswordController,
+                          TextInputAction.done,
+                        ),
+                      )
                     ],
                   ),
                 ),

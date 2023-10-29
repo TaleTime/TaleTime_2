@@ -10,9 +10,10 @@ class TextFormFieldUtil {
   ///
   /// [nameController] --> catches the user input for the username
   TextFormField enterUserNameForm(
-      BuildContext context, TextEditingController nameController) {
+      BuildContext context, TextEditingController nameController, TextInputAction textInputAction) {
     return TextFormField(
         controller: nameController,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.username,
             "",
@@ -24,12 +25,12 @@ class TextFormFieldUtil {
   /// TextFormField to enter a email-adress
   ///
   /// [emailController] --> catches the user input for the email-adress
-  TextFormField enterEmailForm(
-      BuildContext context, TextEditingController emailController) {
+  TextFormField enterEmailForm(BuildContext context,
+      TextEditingController emailController, TextInputAction textInputAction) {
     return TextFormField(
         controller: emailController,
         keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.email,
           "",
@@ -43,10 +44,13 @@ class TextFormFieldUtil {
   ///
   /// [oldPasswordController] --> catches the user input for the old password
   TextFormField enterOldPasswordForm(
-      BuildContext context, TextEditingController oldPasswordController) {
+      BuildContext context,
+      TextEditingController oldPasswordController,
+      TextInputAction textInputAction) {
     return TextFormField(
         controller: oldPasswordController,
         obscureText: true,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.oldPassword,
           AppLocalizations.of(context)!.enterOldPassword,
@@ -61,11 +65,13 @@ class TextFormFieldUtil {
   ///
   /// [passwordController] --> catches the user input for the password
   TextFormField enterPasswordForm(
-      BuildContext context, TextEditingController passwordController) {
+      BuildContext context,
+      TextEditingController passwordController,
+      TextInputAction textInputAction) {
     return TextFormField(
         controller: passwordController,
         obscureText: true,
-        textInputAction: TextInputAction.done,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.password,
           "",
@@ -82,10 +88,12 @@ class TextFormFieldUtil {
   TextFormField confirmPasswordForm(
       BuildContext context,
       TextEditingController passwordController,
-      TextEditingController confirmPasswordController) {
+      TextEditingController confirmPasswordController,
+      TextInputAction textInputAction) {
     return TextFormField(
         controller: confirmPasswordController,
         obscureText: true,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.confirmPassword,
             AppLocalizations.of(context)!.confirmYourPassword,

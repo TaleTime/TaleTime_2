@@ -78,8 +78,11 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         width: double.infinity,
                         decoration: Decorations().inputBoxDecorationShaddow(),
-                        child: TextFormFieldUtil()
-                            .enterEmailForm(context, _emailController),
+                        child: TextFormFieldUtil().enterEmailForm(
+                          context,
+                          _emailController,
+                          TextInputAction.next,
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -88,8 +91,11 @@ class _LoginPageState extends State<LoginPage> {
                       /// TextField that catches the user input for the password
                       Container(
                         decoration: Decorations().inputBoxDecorationShaddow(),
-                        child: TextFormFieldUtil()
-                            .enterPasswordForm(context, _passwordController),
+                        child: TextFormFieldUtil().enterPasswordForm(
+                          context,
+                          _passwordController,
+                          TextInputAction.done,
+                        ),
                       ),
                       Container(
                         margin: const EdgeInsets.fromLTRB(10, 2, 5, 15),
