@@ -21,6 +21,7 @@
     "createAccount": "Erstellen Sie ein kostenloses Konto",
     "username": "Benutzername",
     "enterUsername": "Geben Sie Ihren Benutzernamen ein",
+    "usernameDescription": "Der Benutzername wird in deinen veröffentlichten Geschichten angezeigt.",
     "alreadyHaveAccount": "Sie haben bereits ein Konto?",
     "resetPassword": "Passwort zurücksetzen",
     "problemsWithLogin": "Probleme beim Anmelden?",

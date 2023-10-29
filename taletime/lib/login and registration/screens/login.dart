@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -70,51 +70,47 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: <Widget>[
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          /// TextField that catches the user input for the email-adress
-                          Container(
-                            width: double.infinity,
-                            decoration: Decorations().inputBoxDecorationShaddow(),
-                            child: TextFormFieldUtil()
-                                .enterEmailForm(context, _emailController),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-
-                          /// TextField that catches the user input for the password
-                          Container(
-                            decoration: Decorations().inputBoxDecorationShaddow(),
-                            child: TextFormFieldUtil()
-                                .enterPasswordForm(context, _passwordController),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(10, 2, 5, 15),
-                            alignment: Alignment.topRight,
-                            child: TextButton(
-                              child: Text(
-                                  AppLocalizations.of(context)!.forgotPassword,
-                                  style: TextStyle(color: kPrimaryColor)),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPasswordPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      /// TextField that catches the user input for the email-adress
+                      Container(
+                        width: double.infinity,
+                        decoration: Decorations().inputBoxDecorationShaddow(),
+                        child: TextFormFieldUtil()
+                            .enterEmailForm(context, _emailController),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      /// TextField that catches the user input for the password
+                      Container(
+                        decoration: Decorations().inputBoxDecorationShaddow(),
+                        child: TextFormFieldUtil()
+                            .enterPasswordForm(context, _passwordController),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(10, 2, 5, 15),
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                          child: Text(
+                              AppLocalizations.of(context)!.forgotPassword,
+                              style: TextStyle(color: kPrimaryColor)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgotPasswordPage(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(

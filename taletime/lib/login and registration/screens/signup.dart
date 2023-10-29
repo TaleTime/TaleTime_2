@@ -1,19 +1,20 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
-import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
-import "package:taletime/login%20and%20registration/screens/login.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
-import "../../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/text_form_field_util.dart";
+import "package:taletime/login%20and%20registration/screens/login.dart";
+import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
+
+import "../../internationalization/localizations_ext.dart";
 
 /// The Signup class is used to create a new account in the app
 /// All  users are stored in Firebase
 class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+  const SignupPage({super.key});
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
@@ -44,90 +45,86 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: Decorations().appBarDecoration(
-          title: AppLocalizations.of(context)!.register,
-          context: context,
-          automaticArrow: true),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          height: MediaQuery.of(context).size.height - 50,
-          width: double.infinity,
+        title: AppLocalizations.of(context)!.register,
+        context: context,
+        automaticArrow: true,
+      ),
+      body: SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Column(children: <Widget>[
-                SafeArea(
-                    child: Column(children: [
-                  Text(
-                    AppLocalizations.of(context)!.createAccount,
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+                child: Text(
+                  AppLocalizations.of(context)!.createAccount,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 7,
-                    child: Image.network(assetLogo),
-                  ),
-                  const SizedBox(height: 20),
-                ]))
-              ]),
-              Column(
-                children: <Widget>[
-                  SafeArea(
-                      child: Column(
-                    children: [
-                      Form(
-                          key: _formKey,
-                          child: Column(children: <Widget>[
-                            /// TextField that catches the user input for the username
-                            Container(
-                                decoration:
-                                    Decorations().inputBoxDecorationShaddow(),
-                                child: TextFormFieldUtil().enterUserNameForm(
-                                    context, _nameController)),
-                            const SizedBox(height: 25),
-
-                            /// TextField that catches the user input for the email-adress
-                            Container(
-                                decoration:
-                                    Decorations().inputBoxDecorationShaddow(),
-                                child: TextFormFieldUtil()
-                                    .enterEmailForm(context, _emailController)),
-                            const SizedBox(height: 20),
-                            Container(
-
-                                /// TextField that catches the user input for the password
-                                decoration:
-                                    Decorations().inputBoxDecorationShaddow(),
-
-                                /// TextField that catches the user input for the password
-                                child: TextFormFieldUtil().enterPasswordForm(
-                                    context, _passwordController)),
-                            const SizedBox(height: 25),
-
-                            /// TextField that catches the user input for the confirm password
-                            Container(
-                                height: MediaQuery.of(context).size.height / 13,
-                                decoration:
-                                    Decorations().inputBoxDecorationShaddow(),
-                                child: TextFormFieldUtil().confirmPasswordForm(
-                                    context,
-                                    _passwordController,
-                                    _confirmPasswordController))
-                          ]))
-                    ],
-                  ))
-                ],
+                ),
               ),
+              const SizedBox(
+                height: 5,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 6,
+                child: Image.network(assetLogo),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      /// TextField that catches the user input for the username
+                      Container(
+                          decoration: Decorations().inputBoxDecorationShaddow(),
+                          child: TextFormFieldUtil()
+                              .enterUserNameForm(context, _nameController)),
+                      SizedBox(height: 5),
+                      Text(
+                        AppLocalizations.of(context)!.usernameDescription
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      /// TextField that catches the user input for the email-adress
+                      Container(
+                          decoration: Decorations().inputBoxDecorationShaddow(),
+                          child: TextFormFieldUtil()
+                              .enterEmailForm(context, _emailController)),
+                      const SizedBox(height: 20),
+                      Container(
+
+                          /// TextField that catches the user input for the password
+                          decoration: Decorations().inputBoxDecorationShaddow(),
+
+                          /// TextField that catches the user input for the password
+                          child: TextFormFieldUtil()
+                              .enterPasswordForm(context, _passwordController)),
+                      const SizedBox(height: 25),
+
+                      /// TextField that catches the user input for the confirm password
+                      Container(
+                          decoration: Decorations().inputBoxDecorationShaddow(),
+                          child: TextFormFieldUtil().confirmPasswordForm(
+                              context,
+                              _passwordController,
+                              _confirmPasswordController))
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               //Button for the registration
-              Container(
-                  padding: const EdgeInsets.only(top: 3, left: 3),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 13,
                       width: double.infinity,
                       child: ElevatedButton(
                         style: elevatedButtonDefaultStyle(),
@@ -161,16 +158,17 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   Text(AppLocalizations.of(context)!.alreadyHaveAccount),
                   TextButton(
-                      child: Text(AppLocalizations.of(context)!.loginVerb,
-                          style: TextStyle(color: kPrimaryColor)),
+                    child: Text(AppLocalizations.of(context)!.loginVerb,
+                        style: TextStyle(color: kPrimaryColor)),
 
-                      /// redirects the user to the LoginPage
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
-                      }),
+                    /// redirects the user to the LoginPage
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                  ),
                 ],
               ),
             ],

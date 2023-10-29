@@ -87,6 +87,10 @@
     "@enterUsername": {
         "description": "Geben Sie Ihren Benutzernamen ein"
     },
+    "usernameDescription": "The username is displayed in your published stories.",
+    "@usernameDescription": {
+        "description": "A description what the username is used for."
+    },
     "alreadyHaveAccount": "Already have an account?",
     "@alreadyHaveAccount": {
         "description": "Sie haben bereits ein Konto?"

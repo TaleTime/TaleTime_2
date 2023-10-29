@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
-import "../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
+
+import "../internationalization/localizations_ext.dart";
 
 /// contains TextFormFields with the belonging validation
 class TextFormFieldUtil {
@@ -90,13 +91,7 @@ class TextFormFieldUtil {
             AppLocalizations.of(context)!.confirmYourPassword,
             const Icon(Icons.lock)),
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (password) {
-          if (passwordController.text.trim() != password) {
-            return AppLocalizations.of(context)!.passwordsDontMatch;
-          } else {
-            ValidationUtil().validatePassword(password, context);
-          }
-          return null;
-        });
+        validator: (password) => ValidationUtil().validatePasswordConfirmation(
+            password, passwordController.text, context));
   }
 }
