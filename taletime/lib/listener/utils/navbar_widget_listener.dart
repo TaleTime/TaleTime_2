@@ -1,6 +1,8 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
+import "../../profiles/models/profile_model.dart";
 import "../screens/favorites_page.dart";
 import "../screens/add_story_page.dart";
 import "../screens/listener_homepage.dart";
@@ -9,22 +11,19 @@ import "../../settings/settings.dart";
 class NavBarListener extends StatefulWidget {
   final profile;
   final profiles;
-  const NavBarListener(this.profile, this.profiles, {Key? key})
-      : super(key: key);
+  const NavBarListener(this.profile, this.profiles, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _NavBarListenerState(profile, profiles);
+    return _NavBarListenerState();
   }
 }
 
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
 
-  final profile;
-  final profiles;
 
-  _NavBarListenerState(this.profile, this.profiles);
+  _NavBarListenerState();
 
   CollectionReference allStories =
       FirebaseFirestore.instance.collection("allStories");
@@ -41,20 +40,20 @@ class _NavBarListenerState extends State<NavBarListener> {
   @override
   Widget build(BuildContext context) {
     CollectionReference favorites =
-        profiles.doc(profile["id"]).collection("favoriteList");
+    widget.profiles.doc(widget.profile.id).collection("favoriteList");
     CollectionReference recent =
-        profiles.doc(profile["id"]).collection("recentList");
+    widget.profiles.doc(widget.profile.id).collection("recentList");
     CollectionReference stories =
-        profiles.doc(profile["id"]).collection("storiesList");
+    widget.profiles.doc(widget.profile.id).collection("storiesList");
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(profile, profiles, stories, recent, favorites),
-          FavoritePage(profile, profiles, favorites, stories),
+          ListenerHomePage(widget.profile, widget.profiles, stories, recent, favorites),
+          FavoritePage(widget.profile, widget.profiles, favorites, stories),
           AddStory(stories, allStories),
-          SettingsPage(profile, profiles),
+          SettingsPage(widget.profile, widget.profiles),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -71,8 +70,8 @@ class _NavBarListenerState extends State<NavBarListener> {
             Icons.home,
             "Home",
           ),
-          navBarItems(Icons.favorite_sharp, "Favorites"),
-          navBarItems(Icons.playlist_add_sharp, "Add Story"),
+          navBarItems(Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
+          navBarItems(Icons.playlist_add_sharp, AppLocalizations.of(context)!.addStory),
         ],
       ),
     );

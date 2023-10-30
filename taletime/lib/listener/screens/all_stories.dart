@@ -10,24 +10,20 @@ class AllStories extends StatefulWidget {
   final profile;
   final profiles;
   const AllStories(this.profile, this.profiles, this.recordedStoriesCollection,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<AllStories> createState() =>
-      _AllStoriesState(profile, profiles, recordedStoriesCollection);
+      _AllStoriesState();
 }
 
 class _AllStoriesState extends State<AllStories> {
-  final CollectionReference recordedStoriesCollection;
-  final profile;
-  final profiles;
-  _AllStoriesState(this.profile, this.profiles, this.recordedStoriesCollection);
+  _AllStoriesState();
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: recordedStoriesCollection.snapshots(),
+        stream: widget.recordedStoriesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> recordedStoriesDocumentSnapshot =
@@ -88,9 +84,9 @@ class _AllStoriesState extends State<AllStories> {
                                 "")
                             : ListViewStoryTeller(
                                 recordedStoriesDocumentSnapshot,
-                                recordedStoriesCollection,
-                                profile,
-                                profiles),
+                                widget.recordedStoriesCollection,
+                                widget.profile,
+                                widget.profiles),
                       ),
                     ],
                   ),

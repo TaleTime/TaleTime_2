@@ -1,4 +1,5 @@
 ///the classe [add_profile] allows users to create a profile with name,image,title,language, and theme.
+library;
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
@@ -15,18 +16,17 @@ import "../../internationalization/localizations_ext.dart";
 class AddProfile extends StatefulWidget {
   final String uId;
 
-  const AddProfile(this.uId, {Key? key}) : super(key: key);
+  const AddProfile(this.uId, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _AddProfileState(uId);
+    return _AddProfileState();
   }
 }
 
 class _AddProfileState extends State<AddProfile> {
-  late String uId;
   final logger = TaleTimeLogger.getLogger();
-  _AddProfileState(this.uId);
+  _AddProfileState();
 
   late final String name;
   late final String image;
@@ -50,7 +50,7 @@ class _AddProfileState extends State<AddProfile> {
 
     CollectionReference users = FirebaseFirestore.instance.collection("users");
 
-    CollectionReference profiles = users.doc(uId).collection("profiles");
+    CollectionReference profiles = users.doc(widget.uId).collection("profiles");
 
     String updateImageProfile(int index) {
       var image = profileImages[index];
@@ -60,7 +60,7 @@ class _AddProfileState extends State<AddProfile> {
       return profileImage;
     }
 
-    Future<void> updateUser(String profileId) {
+    Future<void> updateProfile(String profileId) {
       return profiles
           .doc(profileId)
           .update({"id": profileId})
@@ -68,7 +68,7 @@ class _AddProfileState extends State<AddProfile> {
           .catchError((error) => logger.e("Failed to update user: $error"));
     }
 
-    Future<void> addUser(
+    Future<void> addProfile(
         String image, String name, String title, String language, bool theme) {
       return profiles.add({
         "id": "",
@@ -79,7 +79,7 @@ class _AddProfileState extends State<AddProfile> {
         "theme": theme
       }).then((value) {
         logger.d("User Added");
-        updateUser(value.id);
+        updateProfile(value.id);
       }).catchError((error) => logger.e("Failed to set Id: $error"));
     }
 
@@ -91,7 +91,7 @@ class _AddProfileState extends State<AddProfile> {
           ),
           onPressed: () async {
             await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfilesPage(uId)));
+                MaterialPageRoute(builder: (context) => ProfilesPage(widget.uId)));
           },
         ),
         title: Text(
@@ -234,11 +234,11 @@ class _AddProfileState extends State<AddProfile> {
                                 : items[0].toString();
                             theme = !themeProvider.isDarkMode;
                             language = languageProvider.locale.toString();
-                            addUser(image, name, title, language, theme);
+                            addProfile(image, name, title, language, theme);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProfilesPage(uId)));
+                                    builder: (context) => ProfilesPage(widget.uId)));
                           },
                           color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
@@ -246,7 +246,8 @@ class _AddProfileState extends State<AddProfile> {
                           child: Text(
                             AppLocalizations.of(context)!.addProfile,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
+                                fontWeight: FontWeight.w600, fontSize: 18,
+                                color: Colors.white),
                           ),
                         ),
                       ],

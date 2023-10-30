@@ -1,5 +1,6 @@
 /// the class [my_record]enables the user, to play back (listen to)
 /// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
+library;
 import "dart:async";
 import "dart:core";
 import "dart:io";
@@ -10,6 +11,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/screens/save_or_upload_story.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
@@ -19,7 +21,7 @@ class MyRecordStory extends StatefulWidget {
   final Story myStory;
   final profile;
   final CollectionReference storiesCollection;
-  const MyRecordStory(this.myStory, this.profile, this.storiesCollection);
+  const MyRecordStory(this.myStory, this.profile, this.storiesCollection, {super.key});
 
   @override
   State<MyRecordStory> createState() =>
@@ -282,9 +284,9 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            "Story Recorder",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          title: Text(
+            AppLocalizations.of(context)!.storyRecorder,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: Center(
         child: Column(

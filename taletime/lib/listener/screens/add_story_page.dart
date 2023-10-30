@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
 import "../utils/add_icon_context_dialog.dart";
 import "../../common utils/constants.dart";
@@ -11,22 +12,17 @@ class AddStory extends StatefulWidget {
 
   const AddStory(
       this.storiesCollectionReference, this.allStoriesCollectionReference,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
-  State<AddStory> createState() =>
-      _AddStoryState(storiesCollectionReference, allStoriesCollectionReference);
+  State<AddStory> createState() => _AddStoryState();
 }
 
 class _AddStoryState extends State<AddStory> {
-  final CollectionReference storiesCollectionReference;
-  final CollectionReference allStoriesCollectionReference;
 
   List matchStoryList = [];
 
-  _AddStoryState(
-      this.storiesCollectionReference, this.allStoriesCollectionReference);
+  _AddStoryState();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class _AddStoryState extends State<AddStory> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder(
-        stream: allStoriesCollectionReference.snapshots(),
+        stream: widget.allStoriesCollectionReference.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
@@ -50,7 +46,7 @@ class _AddStoryState extends State<AddStory> {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "Add Story",
+                      AppLocalizations.of(context)!.addStory,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
@@ -101,7 +97,7 @@ class _AddStoryState extends State<AddStory> {
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
                             ),
-                            hintText: "Search stories...",
+                            hintText: AppLocalizations.of(context)!.searchStory,
                             hintStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(
@@ -238,11 +234,11 @@ class _AddStoryState extends State<AddStory> {
                                                 Row(
                                                   children: [
                                                     AddIconContextDialog(
-                                                        "Add Story...",
-                                                        "Do you really want to add this story?",
+                                                        AppLocalizations.of(context)!.addStoryHint,
+                                                        AppLocalizations.of(context)!.addStoryHintDescription,
                                                         Icons
                                                             .playlist_add_outlined,
-                                                        storiesCollectionReference,
+                                                        widget.storiesCollectionReference,
                                                         storiesDocumentSnapshot[
                                                             i]),
                                                     const SizedBox(

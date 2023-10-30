@@ -1,9 +1,11 @@
 ///The [list_view] class allows the user to view the list of all stories.
 ///You can search for a specific story (by title or tags) in the list using the search function and then find it.
 ///it will show the list of all history of a registered person .
+library;
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/screens/save_or_upload_story.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
@@ -17,8 +19,7 @@ class ListViewStoryTeller extends StatefulWidget {
   final profiles;
   const ListViewStoryTeller(
       this.stories, this.storiesCollection, this.profile, this.profiles,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -178,11 +179,10 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text(
-                                      "Delete Story...",
+                                      AppLocalizations.of(context)!.storyDeleteHint,
                                       style: TextStyle(color: kPrimaryColor),
                                     ),
-                                    content: const Text(
-                                        "Do you really want to delete this story?"),
+                                    content:  Text(AppLocalizations.of(context)!.storyDeleteHintDescription),
                                     actions: [
                                       TextButton(
                                         style: ButtonStyle(
@@ -197,9 +197,9 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                             Navigator.of(context).pop();
                                           });
                                         },
-                                        child: const Text(
-                                          "Yes",
-                                          style: TextStyle(color: Colors.white),
+                                        child:  Text(
+                                          AppLocalizations.of(context)!.yes,
+                                          style: const TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       TextButton(
@@ -210,9 +210,9 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: const Text(
-                                          "No",
-                                          style: TextStyle(color: Colors.white),
+                                        child:  Text(
+                                          AppLocalizations.of(context)!.no,
+                                          style: const TextStyle(color: Colors.white),
                                         ),
                                       ),
                                     ],

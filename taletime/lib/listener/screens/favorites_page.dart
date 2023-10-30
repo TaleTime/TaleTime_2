@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/utils/search_bar_util.dart";
 import "package:taletime/listener/utils/list_view.dart";
 
@@ -11,30 +12,24 @@ class FavoritePage extends StatefulWidget {
   final storiesColl;
   const FavoritePage(
       this.profile, this.profiles, this.favorites, this.storiesColl,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<FavoritePage> createState() =>
-      _FavoritePageState(profile, profiles, favorites, storiesColl);
+      _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  final profile;
-  final profiles;
-  final favorites;
-  final storiesColl;
   List matchStoryList = [];
 
-  _FavoritePageState(
-      this.profile, this.profiles, this.favorites, this.storiesColl);
+  _FavoritePageState();
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return StreamBuilder<QuerySnapshot>(
-      stream: favorites.snapshots(),
+      stream: widget.favorites.snapshots(),
       builder:
           (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
         if (streamSnapshot.hasData) {
@@ -52,7 +47,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "Favorites",
+                      AppLocalizations.of(context)!.favorites,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
@@ -103,7 +98,7 @@ class _FavoritePageState extends State<FavoritePage> {
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
                             ),
-                            hintText: "Search stories...",
+                            hintText: AppLocalizations.of(context)!.searchStory,
                             hintStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(
@@ -125,8 +120,8 @@ class _FavoritePageState extends State<FavoritePage> {
                     children: [
                       SizedBox(
                         height: screenHeight * 0.8,
-                        child: ListViewData(documentSnapshot, storiesColl,
-                            profile, profiles, "favList", favorites),
+                        child: ListViewData(documentSnapshot, widget.storiesColl,
+                            widget.profile, widget.profiles, "favList", widget.favorites),
                       ),
                     ],
                   ),

@@ -3,13 +3,14 @@ import "package:path_provider/path_provider.dart";
 import "dart:io";
 import "package:fluttertoast/fluttertoast.dart";
 import "package:path/path.dart" as path;
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:url_launcher/url_launcher.dart";
 
 class DownloadsPage extends StatefulWidget {
-  const DownloadsPage({Key? key}) : super(key: key);
+  const DownloadsPage({super.key});
 
   @override
-  _DownloadsPageState createState() => _DownloadsPageState();
+  State<DownloadsPage> createState() => _DownloadsPageState();
 }
 
 class _DownloadsPageState extends State<DownloadsPage> {
@@ -73,7 +74,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
               },
             );
           } else {
-            return const Center(child: Text("No downloaded stories."));
+            return Center(child: Text(AppLocalizations.of(context)!.noDownloadedStories));
           }
         },
       ),

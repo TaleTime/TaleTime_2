@@ -1,4 +1,5 @@
 /// The [create_story] class allows for the user to create a new story with [insert title] and [insert tags] and [add photo] .
+library;
 
 ///with the button you can create the story and put it on the page
 
@@ -12,6 +13,7 @@ import "package:flutter/material.dart";
 import "package:logger/logger.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
 import "../../common utils/decoration_util.dart";
@@ -22,8 +24,7 @@ class CreateStory extends StatefulWidget {
   final profile;
   final CollectionReference storiesCollection;
 
-  const CreateStory(this.profile, this.storiesCollection, {Key? key})
-      : super(key: key);
+  const CreateStory(this.profile, this.storiesCollection, {super.key});
 
   @override
   State<CreateStory> createState() =>
@@ -96,9 +97,9 @@ class _CreateStoryState extends State<CreateStory> {
       appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: const Text(
-            "Create Story",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          title: Text(
+            AppLocalizations.of(context)!.createStory,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -132,8 +133,8 @@ class _CreateStoryState extends State<CreateStory> {
                   TextFormField(
                     controller: _tagController,
                     decoration: Decorations().textInputDecoration(
-                        "Tag",
-                        "Enter a Tag (Optional)",
+                        AppLocalizations.of(context)!.tag,
+                        AppLocalizations.of(context)!.enterTag,
                         const Icon(Icons.tag),
                         IconButton(
                             onPressed: () {
@@ -177,9 +178,9 @@ class _CreateStoryState extends State<CreateStory> {
                   getImageFromGallery();
                 },
                 //here is the photo from the Gallery
-                child: const Text("Upload Image",
+                child: Text(AppLocalizations.of(context)!.uploadImage,
                     style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                        const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
@@ -215,9 +216,9 @@ class _CreateStoryState extends State<CreateStory> {
                         );
                       }
                     },
-                    child: const Text(
-                      "Continue",
-                      style: TextStyle(fontSize: 24),
+                    child: Text(
+                      AppLocalizations.of(context)!.continueStep,
+                      style: const TextStyle(fontSize: 24),
                     )),
               ),
             ),

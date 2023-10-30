@@ -1,5 +1,6 @@
 import "package:email_validator/email_validator.dart";
 import "package:flutter/material.dart";
+
 import "../../internationalization/localizations_ext.dart";
 
 /// This class has methods to validate email, password, username and a title
@@ -38,6 +39,27 @@ class ValidationUtil {
       return AppLocalizations.of(context)!.passwordLength;
     }
     return null;
+  }
+
+  /// Checks if the entered [passwordConfirmation] is valid.
+  ///
+  /// [passwordConfirmation] can't be empty and must match [password].
+  ///
+  /// If this isn't the case then a String with the belonging error message is returned.
+  ///
+  /// If the [password] is valid then null is returned.
+  String? validatePasswordConfirmation(
+      String? passwordConfirmation, String? password, BuildContext context) {
+
+    if (passwordConfirmation == null || passwordConfirmation.isEmpty) {
+      return AppLocalizations.of(context)!.passwordRequired;
+    }
+
+    if (passwordConfirmation.trim() != password) {
+      return AppLocalizations.of(context)!.passwordsDontMatch;
+    } else {
+      return ValidationUtil().validatePassword(passwordConfirmation, context);
+    }
   }
 
   /// Checks if the entered [username] is valid

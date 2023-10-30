@@ -2,41 +2,34 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "../../common utils/decoration_util.dart";
 import "../../settings/settings.dart";
 import "../utils/search_bar_util.dart";
 import "package:taletime/listener/utils/list_view.dart";
 
 class ListenerHomePage extends StatefulWidget {
-  final DocumentSnapshot profile;
+  final Profile profile;
   final profiles;
   final CollectionReference favoritesCollection;
   final CollectionReference storiesCollection;
   final CollectionReference recentCollection;
   const ListenerHomePage(this.profile, this.profiles, this.storiesCollection,
       this.recentCollection, this.favoritesCollection,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ListenerHomePageState(profile, profiles, storiesCollection,
-        recentCollection, favoritesCollection);
+    return _ListenerHomePageState();
   }
 }
 
 class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selectedIndex = 0;
 
-  final DocumentSnapshot profile;
-  final profiles;
-  final CollectionReference favoritescollection;
-  final CollectionReference storiesCollection;
-  final CollectionReference recentCollection;
-
-  _ListenerHomePageState(this.profile, this.profiles, this.storiesCollection,
-      this.recentCollection, this.favoritescollection);
+  _ListenerHomePageState();
 
   List matchStoryList = [];
 
@@ -45,7 +38,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return StreamBuilder(
-        stream: storiesCollection.snapshots(),
+        stream: widget.storiesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
@@ -67,7 +60,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    SettingsPage(profile, profiles)));
+                                    SettingsPage(widget.profile, widget.profiles)));
                       },
                       icon: Icon(Icons.menu,
                           size: 33, color: kPrimaryColor //kPrimaryColor
@@ -85,12 +78,12 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Hello,",
+                      "${AppLocalizations.of(context)!.hello},",
                       style:
                           TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
                     Text(
-                      profile["name"],
+                      widget.profile.name,
                       style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 25,
@@ -120,7 +113,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "Search stories...",
+                          hintText: AppLocalizations.of(context)!.searchStory,
                           hintStyle:
                               const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
@@ -136,7 +129,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     Container(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Recently Played",
+                        AppLocalizations.of(context)!.recentlyPlayed,
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 18,
@@ -147,7 +140,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 ),
               ),
               StreamBuilder(
-                  stream: storiesCollection.snapshots(),
+                  stream: widget.storiesCollection.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
@@ -159,8 +152,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         right: 0,
                         child: documentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
-                                "Nothing to show yet. \nplease add some stories to your story library",
-                                "recentStories")
+                                AppLocalizations.of(context)!.noStoriesAvailable, "recentStories")
                             : SizedBox(
                                 height: 190,
                                 child: PageView.builder(
@@ -190,7 +182,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                                         builder: (context) {
                                                   return MyPlayStory(
                                                       documentSnapshot[i],
-                                                      storiesCollection);
+                                                      widget.storiesCollection);
                                                 }));
                                               },
                                               child: Container(
@@ -331,7 +323,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "My Stories",
+                      AppLocalizations.of(context)!.myStories,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: 18,
@@ -350,20 +342,20 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     SizedBox(
                       height: 260,
                       child: StreamBuilder(
-                        stream: storiesCollection.snapshots(),
+                        stream: widget.storiesCollection.snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
                           return storiesDocumentSnapshot.isEmpty
                               ? Decorations().noRecentContent(
-                                  "No stories yet. \nplease add some stories to your story library",
+                                  AppLocalizations.of(context)!.noStoriesAvailable,
                                   "")
                               : ListViewData(
                                   storiesDocumentSnapshot,
-                                  storiesCollection,
-                                  profile,
-                                  profiles,
-                                  "userStroiesList",
-                                  favoritescollection);
+                                  widget.storiesCollection,
+                                  widget.profile,
+                                  widget.profiles,
+                                  "userStoriesList",
+                                  widget.favoritesCollection);
                         },
                       ),
                     ),

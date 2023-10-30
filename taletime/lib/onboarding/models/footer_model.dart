@@ -56,12 +56,12 @@ class IndicatorDesign {
 
   //Constructor
   const IndicatorDesign.polygon({required PolygonDesign polygonDesign})
-      : this._polygonDesign = polygonDesign,
-        this._lineDesign = null;
+      : _polygonDesign = polygonDesign,
+        _lineDesign = null;
 
   const IndicatorDesign.line({required LineDesign lineDesign})
-      : this._polygonDesign = null,
-        this._lineDesign = lineDesign;
+      : _polygonDesign = null,
+        _lineDesign = lineDesign;
 }
 
 class PolygonDesign {

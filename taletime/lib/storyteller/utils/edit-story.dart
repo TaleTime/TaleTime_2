@@ -6,6 +6,7 @@ import "package:file_picker/file_picker.dart";
 import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 
@@ -13,12 +14,11 @@ class EditStory extends StatefulWidget {
   final CollectionReference storiesCollection;
   final DocumentSnapshot story;
 
-  const EditStory(this.storiesCollection, this.story, {Key? key})
-      : super(key: key);
+  const EditStory(this.storiesCollection, this.story, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _EditStoryState(storiesCollection, story);
+    return _EditStoryState();
   }
 }
 
@@ -27,10 +27,8 @@ class _EditStoryState extends State<EditStory> {
   late final String author;
   late final String image;
   late final String title;
-  final CollectionReference storiesCollection;
-  final story;
 
-  _EditStoryState(this.storiesCollection, this.story);
+  _EditStoryState();
 
   final textEditingControllerAuthor = TextEditingController();
   final textEditingControllerTitle = TextEditingController();
@@ -45,9 +43,9 @@ class _EditStoryState extends State<EditStory> {
   @override
   void initState() {
     super.initState();
-    myImage = story["image"] == ""
+    myImage = widget.story["image"] == ""
         ? Image.network(storyImagePlaceholder)
-        : Image.network(story["image"]);
+        : Image.network(widget.story["image"]);
     url = "";
   }
 
@@ -62,8 +60,8 @@ class _EditStoryState extends State<EditStory> {
       await ref.child(name).putFile(file);
       String myUrl = await ref.child(name).getDownloadURL();
       setState(() {
-        storiesCollection
-            .doc(story["id"])
+        widget.storiesCollection
+            .doc(widget.story["id"])
             .update({"image": myUrl})
             .then((value) => logger.v("story Updated"))
             .catchError((error) => logger.e("Failed to update story: $error"));
@@ -79,16 +77,16 @@ class _EditStoryState extends State<EditStory> {
     //storyImage = story["image"] == "" ? storyImagePlaceholder : story["image"];
 
     textEditingControllerAuthor.text = textEditingControllerAuthor.text == ""
-        ? story["author"]
+        ? widget.story["author"]
         : textEditingControllerAuthor.text;
 
     textEditingControllerTitle.text = textEditingControllerTitle.text == ""
-        ? story["title"]
+        ? widget.story["title"]
         : textEditingControllerTitle.text;
 
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
-      return storiesCollection
+      return widget.storiesCollection
           .doc(storyId)
           .update({"author": author, "title": title})
           .then((value) => logger.v("story Updated"))
@@ -112,9 +110,9 @@ class _EditStoryState extends State<EditStory> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text(
-          "Edit story",
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.editStory,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -152,8 +150,8 @@ class _EditStoryState extends State<EditStory> {
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                child: const Text("Update Image",
-                                    style: TextStyle(
+                                child:  Text(AppLocalizations.of(context)!.updateImage,
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20)),
                               ),
@@ -185,10 +183,10 @@ class _EditStoryState extends State<EditStory> {
                           child: TextFormField(
                             controller: textEditingControllerAuthor,
                             decoration: Decorations().textInputDecoration(
-                                "Author's name", "Type in new name"),
+                                AppLocalizations.of(context)!.authorsName, AppLocalizations.of(context)!.typeInNewName),
                             validator: (val) {
                               if (val!.isEmpty) {
-                                return "Please fill in the blank space";
+                                return AppLocalizations.of(context)!.fillBlankSpace;
                               }
                               return null;
                             },
@@ -203,10 +201,10 @@ class _EditStoryState extends State<EditStory> {
                             child: TextFormField(
                               controller: textEditingControllerTitle,
                               decoration: Decorations().textInputDecoration(
-                                  "Story's Title", "Type in new title"),
+                                  AppLocalizations.of(context)!.storysTitle, AppLocalizations.of(context)!.typeInNewTitle),
                               validator: (val) {
                                 if (val!.isEmpty) {
-                                  return "Please fill in the blank space";
+                                  return AppLocalizations.of(context)!.fillBlankSpace;
                                 }
                                 return null;
                               },
@@ -221,12 +219,12 @@ class _EditStoryState extends State<EditStory> {
                                 author = textEditingControllerAuthor.text;
                                 image = url!;
                                 title = textEditingControllerTitle.text;
-                                updateStory(story["id"], author, image, title);
+                                updateStory(widget.story["id"], author, image, title);
                                 reset();
                               },
-                              child: const Text(
-                                "Update Story",
-                                style: TextStyle(
+                              child:  Text(
+                                AppLocalizations.of(context)!.updateStory,
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
                               ),
                             )),

@@ -4,6 +4,7 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/settings/changePassword.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -13,26 +14,23 @@ import "../onboarding/onboarding_main.dart";
 import "package:taletime/settings/downloads.dart";
 
 class SettingsPage extends StatefulWidget {
-  //final DocumentSnapshot profile;
   final profile;
   final profiles;
-  const SettingsPage(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const SettingsPage(this.profile, this.profiles, {super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState(profile, profiles);
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
   final logger = TaleTimeLogger.getLogger();
-  final profile;
-  final profiles;
 
-  _SettingsPageState(this.profile, this.profiles);
+  _SettingsPageState();
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     Future<void> updateLanguage(String profileId, String language) {
-      return profiles
+      return widget.profiles
           .doc(profileId)
           .update({"language": language})
           .then((value) => logger.v("profile Updated"))
@@ -40,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
 
     Future<void> updateTheme(String profileId, bool theme) {
-      return profiles
+      return widget.profiles
           .doc(profileId)
           .update({"theme": theme})
           .then((value) => logger.v("profile Updated"))
@@ -49,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    Locale currentLanguage = Locale(profile["language"]);
+    Locale currentLanguage = Locale(widget.profile.language);
 
     Locale? selectedLanguage = languageProvider.locale;
 
@@ -103,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       onChanged: (value) {
                         setState(() {
                           selectedLanguage = value;
-                          updateLanguage(profile["id"], value.toString());
+                          updateLanguage(widget.profile.id, value.toString());
                         });
                       })),
             ),
@@ -122,7 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(value);
                   setState(() {
-                    updateTheme(profile["id"], value);
+                    updateTheme(widget.profile.id, value);
                   });
                 },
                 activeTrackColor: kPrimaryColor,
@@ -164,11 +162,11 @@ class _SettingsPageState extends State<SettingsPage> {
               //Added new Downloads Section to find the downloaded stories
               child: ListTile(
                 leading: const Icon(Icons.download_rounded),
-                title: const Text("Downloads"),
+                title: Text(AppLocalizations.of(context)!.downloads),
                 onTap: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return DownloadsPage();
+                    return const DownloadsPage();
                   }));
                 },
               ),

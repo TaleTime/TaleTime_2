@@ -1,21 +1,21 @@
 ///the class [recent_stories] shows the list horizontally.
+library;
 
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 
 class LVRecentStoryTeller extends StatefulWidget {
   final List stories;
-  const LVRecentStoryTeller(this.stories, {Key? key}) : super(key: key);
+  const LVRecentStoryTeller(this.stories, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _LVRecentStoryTellerState(stories);
+    return _LVRecentStoryTellerState();
   }
 }
 
 class _LVRecentStoryTellerState extends State<LVRecentStoryTeller> {
-  late final List stories;
-  _LVRecentStoryTellerState(this.stories);
+  _LVRecentStoryTellerState();
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +24,18 @@ class _LVRecentStoryTellerState extends State<LVRecentStoryTeller> {
       body: ListView.builder(
         primary: false,
         scrollDirection: Axis.horizontal,
-        itemCount: stories.length,
+        itemCount: widget.stories.length,
         itemBuilder: (_, index) {
           return Card(
             child: SizedBox(
               height: 150,
               width: 150,
               child: ListTile(
-                leading: Image.network(stories[index]["image"] == ""
+                leading: Image.network(widget.stories[index]["image"] == ""
                     ? storyImagePlaceholder
-                    : stories[index]["image"]),
-                title: Text(stories[index]["title"]),
-                subtitle: Text(stories[index]["author"]),
+                    : widget.stories[index]["image"]),
+                title: Text(widget.stories[index]["title"]),
+                subtitle: Text(widget.stories[index]["author"]),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

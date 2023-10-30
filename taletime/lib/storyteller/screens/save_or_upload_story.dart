@@ -1,6 +1,8 @@
 //the [save_or_upload_story] class enables the user,
 ///to either save the story to storage in firebase or share the story with specific listeners or all listeners.
 ///It contains three functions save ,load,load all
+library;
+
 
 import "dart:io";
 
@@ -11,6 +13,8 @@ import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
@@ -21,7 +25,7 @@ class SaveOrUploadStory extends StatefulWidget {
   final storiesCollection;
   bool isSaved;
   SaveOrUploadStory(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved, {super.key});
 
   @override
   State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState(
@@ -58,7 +62,6 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
     var refAudios = FirebaseStorage.instance.ref().child("audios");
-    File audioFile = File(myRecordedStory.recording.getAudioPath());
     String filePath = myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
     String fileString =
@@ -102,14 +105,14 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(
       appBar: Decorations().appBarDecoration(
-          title: "Save/Upload Story", context: context, automaticArrow: true),
+          title: AppLocalizations.of(context)!.saveUploadStory, context: context, automaticArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Center(
                 child: Text(
-              "Save",
+              AppLocalizations.of(context)!.save,
               style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
@@ -129,14 +132,14 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                           isSaved = true;
                         });
                       },
-                child: Column(
+                child:  Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       Icons.save,
                       size: 50,
                     ),
-                    Text("Save Story")
+                    Text(AppLocalizations.of(context)!.saveStory)
                   ],
                 ),
               ),
@@ -146,7 +149,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             ),
             Center(
                 child: Text(
-              "Upload Story",
+              AppLocalizations.of(context)!.uploadStory,
               style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
             )),
@@ -173,8 +176,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Decorations().confirmationDialog(
-                                    "Uploading Story...",
-                                    "Do you really want to share the story only with users from your account?",
+                                    AppLocalizations.of(context)!.uploadingStory,
+                                    AppLocalizations.of(context)!.uploadingStoryDescription,
                                     context,
                                     () {
                                       Navigator.of(context).pop();
@@ -188,14 +191,14 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                   );
                                 });
                           },
-                    child: Column(
+                    child:  Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.upload_rounded,
                           size: 50,
                         ),
-                        Text("Share only with users from the same account")
+                        Text(AppLocalizations.of(context)!.shareOnlyWithUsersFromSameAccount)
                       ],
                     ),
                   ),
@@ -213,8 +216,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Decorations().confirmationDialog(
-                                      "Uploading Story...",
-                                      "Do you really want to share the story with every user?",
+                                      AppLocalizations.of(context)!.uploadingStory,
+                                      AppLocalizations.of(context)!.shareWithEveryUserDescription,
                                       context, () async {
                                     var refImages = FirebaseStorage.instance
                                         .ref()
@@ -239,14 +242,14 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                   });
                                 });
                           },
-                    child: Column(
+                    child:  Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.upload_rounded,
                           size: 50,
                         ),
-                        Text("Share with every user")
+                        Text(AppLocalizations.of(context)!.shareWithEveryUser)
                       ],
                     ),
                   ),
@@ -263,7 +266,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                   width: MediaQuery.of(context).size.width / 2,
                   child: ElevatedButton(
                       style: elevatedButtonDefaultStyle(),
-                      child: const Text("Continue"),
+                      child:  Text(AppLocalizations.of(context)!.continueStep),
                       onPressed: () {
                         Navigator.push(
                             context,

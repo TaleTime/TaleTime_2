@@ -6,7 +6,7 @@ import "package:taletime/onboarding/views/page.dart";
 
 import "models/page_model.dart";
 
-typedef T FooterBuilder<T>(
+typedef FooterBuilder<T> = T Function(
   BuildContext context,
   double netDragDistance,
   int pagesLength,
@@ -27,17 +27,16 @@ class Onboarding extends StatefulWidget {
   final FooterBuilder? footerBuilder;
 
   const Onboarding({
-    Key? key,
+    super.key,
     required this.pages,
     this.startPageIndex = 0,
     this.onPageChange,
     this.footerBuilder,
   })  : assert(startPageIndex < pages.length),
-        assert(startPageIndex >= 0),
-        super(key: key);
+        assert(startPageIndex >= 0);
 
   @override
-  _OnboardingState createState() => _OnboardingState();
+  State<Onboarding> createState() => _OnboardingState();
 }
 
 class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
@@ -99,39 +98,39 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
   }
 
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
-    final int _pagesLength = widget.pages.length;
+    final int pagesLength = widget.pages.length;
 
     final Offset currentPosition = details.globalPosition;
     final double dragedDistance = currentPosition.dx - _dragStartPosition.dx;
     final double screenWidth = context.size!.width;
     final double dragDistancePercent = dragedDistance / screenWidth;
     final double nddp =
-        (_dragStartPercent + (-dragDistancePercent / _pagesLength))
-            .clamp(0.0, 1.0 - (1 / _pagesLength));
+        (_dragStartPercent + (-dragDistancePercent / pagesLength))
+            .clamp(0.0, 1.0 - (1 / pagesLength));
     setState(() {
       _netDragDistancePercent = nddp;
     });
   }
 
   void _onHorizontalDragEnd(DragEndDetails details) {
-    final int _pagesLength = widget.pages.length;
+    final int pagesLength = widget.pages.length;
 
     _finishedDragStartPercent = _netDragDistancePercent;
     _finishedDragEndPercent =
-        (_netDragDistancePercent * _pagesLength).round() / _pagesLength;
+        (_netDragDistancePercent * pagesLength).round() / pagesLength;
     _animationController!.forward(from: 0.0);
     widget.onPageChange!(_currentIndex);
   }
 
   List<OnboardPage> get _getPages {
-    final _pagesLength = widget.pages.length;
+    final pagesLength = widget.pages.length;
     int index = 0;
     return widget.pages.map((PageModel pageModel) {
       return OnboardPage(
         pageModel: pageModel,
         index: index++,
         dragPercent: _netDragDistancePercent,
-        pagesLength: _pagesLength,
+        pagesLength: pagesLength,
       );
     }).toList();
   }

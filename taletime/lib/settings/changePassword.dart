@@ -1,18 +1,20 @@
 ///The class takes the old password and the new password and confirmed password from the user.
 ///The old password is compared with the password stored in the database.If the two match, the new password will be accepted.
+library;
 
 ///   At the end the act is confirmed with a button
 
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
-import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/text_form_field_util.dart";
+import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
+
 import "../internationalization/localizations_ext.dart";
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  const ChangePassword({super.key});
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
@@ -48,26 +50,37 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                       /// Enter old password
                       child: TextFormFieldUtil().enterOldPasswordForm(
-                          context, _oldPasswordController),
+                        context,
+                        _oldPasswordController,
+                        TextInputAction.next,
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
 
-                        ///Enter new password
-                        child: TextFormFieldUtil()
-                            .enterPasswordForm(context, _passwordController)),
+                      ///Enter new password
+                      child: TextFormFieldUtil().enterPasswordForm(
+                        context,
+                        _passwordController,
+                        TextInputAction.next,
+                      ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
                     Padding(
-
-                        /// enter the confirm the password and one compares between the new and confirmed
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormFieldUtil().confirmPasswordForm(context,
-                            _passwordController, _confirmPasswordController)),
+                      /// enter the confirm the password and one compares between the new and confirmed
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormFieldUtil().confirmPasswordForm(
+                        context,
+                        _passwordController,
+                        _confirmPasswordController,
+                        TextInputAction.done,
+                      ),
+                    ),
                     const SizedBox(
                       height: 25,
                     ),

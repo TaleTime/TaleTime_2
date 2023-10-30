@@ -16,11 +16,11 @@ class MyPlayStory extends StatefulWidget {
   final story;
   final stories;
 
-  const MyPlayStory(this.story, this.stories, {Key? key}) : super(key: key);
+  const MyPlayStory(this.story, this.stories, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _MyPlayStoryState(story, stories);
+    return _MyPlayStoryState();
   }
 }
 
@@ -28,10 +28,8 @@ enum PlaybackMode { sequential, random, repeat }
 
 class _MyPlayStoryState extends State<MyPlayStory> {
   final logger = TaleTimeLogger.getLogger();
-  final story;
-  final stories;
 
-  _MyPlayStoryState(this.story, this.stories);
+  _MyPlayStoryState();
 
   bool isPlaying = false;
   bool isFavorite = false;
@@ -45,13 +43,13 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   Future<void> checkFavoriteStatus() async {
     setState(() {
-      isFavorite = story["isLiked"];
+      isFavorite = widget.story["isLiked"];
     });
   }
 
   void fetchStories() async {
     try {
-      final QuerySnapshot snapshot = await stories.get();
+      final QuerySnapshot snapshot = await widget.stories.get();
       setState(() {
         storiesList = snapshot.docs
             .map((doc) => doc.data() as Map<String, dynamic>)
@@ -71,7 +69,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> deleteStory(String storyId) {
-    return stories.doc(storyId).delete().then((value) {
+    return widget.stories.doc(storyId).delete().then((value) {
       logger.v("Story deleted");
       Navigator.of(context).pop();
       setState(() {});
@@ -92,9 +90,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   void shareStory() async {
     try {
       final localPath = await getLocalPath();
-      final file = File('$localPath/story_${story['id']}.mp3');
+      final file = File('$localPath/story_${widget.story['id']}.mp3');
       final text =
-          'Check out this story: ${story['title']}\n\n${story['author']}';
+          'Check out this story: ${widget.story['title']}\n\n${widget.story['author']}';
       await file.writeAsString(text, flush: true);
 
       Share.shareFiles([(file.path)], text: text);
@@ -104,8 +102,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> downloadStory() async {
-    String fileName = "${story['title']} - ${story['author']}.mp3";
-    String downloadUrl = story["audio"];
+    String fileName = "${widget.story['title']} - ${widget.story['author']}.mp3";
+    String downloadUrl = widget.story["audio"];
 
     final localPath = await getLocalPath();
     final filePath = path.join(localPath, fileName);
@@ -234,7 +232,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     leading: const Icon(Icons.delete),
                     title: const Text("Delete Story"),
                     onTap: () {
-                      deleteStory(story["id"]).then((_) {
+                      deleteStory(widget.story["id"]).then((_) {
                         Navigator.of(context).pop();
                       });
                     }),
@@ -272,18 +270,18 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> toggleFavoriteStatus() async {
-    bool newStatus = !story["isLiked"];
-    await stories.doc(story["id"]).update({"isLiked": newStatus}).then((value) {
+    bool newStatus = !widget.story["isLiked"];
+    await widget.stories.doc(widget.story["id"]).update({"isLiked": newStatus}).then((value) {
       logger.v("List updated");
       setState(() {
-        story["isLiked"] = newStatus;
+        widget.story["isLiked"] = newStatus;
         checkFavoriteStatus();
       });
     }).catchError((error) => logger.e("Failed to update list: $error"));
   }
 
   int getCurrentStoryIndex() {
-    return storiesList.indexWhere((s) => s["id"] == story["id"]);
+    return storiesList.indexWhere((s) => s["id"] == widget.story["id"]);
   }
 
   void playNextStory() {
@@ -294,7 +292,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPlayStory(storiesList[nextIndex], stories),
+          builder: (context) => MyPlayStory(storiesList[nextIndex], widget.stories),
         ),
       );
     } else {
@@ -315,7 +313,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              MyPlayStory(storiesList[previousIndex], stories),
+              MyPlayStory(storiesList[previousIndex], widget.stories),
         ),
       );
     } else {
@@ -390,17 +388,17 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MyPlayStory(storiesList[currentIndex], stories),
+        builder: (context) => MyPlayStory(storiesList[currentIndex], widget.stories),
       ),
     );
   }
 
   void initPlayer() async {
-    await player.setSource(UrlSource(story["audio"]));
+    await player.setSource(UrlSource(widget.story["audio"]));
     duration = await player.getDuration();
     player.onPlayerComplete.listen((event) async {
       if (playbackMode == PlaybackMode.repeat) {
-        await player.setSource(UrlSource(story["audio"]));
+        await player.setSource(UrlSource(widget.story["audio"]));
         setState(() {
           isPlaying = true;
           _currentValue = 0;
@@ -490,9 +488,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.transparent,
                   ),
-                  child: Image.network(story["image"] == ""
+                  child: Image.network(widget.story["image"] == ""
                       ? storyImagePlaceholder
-                      : story["image"]),
+                      : widget.story["image"]),
                 ),
               ],
             ),
@@ -510,7 +508,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 SizedBox(
                   width: screenWidth * 0.8,
                   child: Text(
-                    story["title"],
+                    widget.story["title"],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: Colors.teal,
@@ -521,7 +519,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 SizedBox(
                   width: screenWidth * 0.8,
                   child: Text(
-                    story["author"],
+                    widget.story["author"],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.teal,

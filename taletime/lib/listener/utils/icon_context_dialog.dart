@@ -12,30 +12,23 @@ class IconContextDialog extends StatefulWidget {
 
   const IconContextDialog(
       this.title, this.subtitle, this.icon, this.id, this.stories,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _IconContextDialogState(title, subtitle, icon, id, stories);
+    return _IconContextDialogState();
   }
 }
 
 class _IconContextDialogState extends State<IconContextDialog> {
   final logger = TaleTimeLogger.getLogger();
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final String id;
-  final stories;
 
-  _IconContextDialogState(
-      this.title, this.subtitle, this.icon, this.id, this.stories);
+  _IconContextDialogState();
 
   bool isStoryDeleted = false;
 
-  Future<void> deleteUser(String id) async {
-    await stories.doc(id).delete().then((value) {
+  Future<void> deleteStory(String id) async {
+    await widget.stories.doc(id).delete().then((value) {
       setState(() {
         isStoryDeleted = true;
       });
@@ -59,7 +52,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
                     backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 onPressed: () async {
                   //story delete action
-                  await deleteUser(id);
+                  await deleteStory(widget.id);
                   Navigator.of(context).pop();
                   setState(() {
                     isStoryDeleted = false;
@@ -89,16 +82,16 @@ class _IconContextDialogState extends State<IconContextDialog> {
   @override
   Widget build(BuildContext context) {
     if (isStoryDeleted) {
-      return const Text("Story Deleted");
+      return Text(AppLocalizations.of(context)!.storyDeleted);
     } else {
       return IconButton(
         icon: Icon(
-          icon,
+          widget.icon,
           color: Colors.white,
           size: 21,
         ),
         onPressed: () {
-          onSelected(context, title, subtitle);
+          onSelected(context, widget.title, widget.subtitle);
         },
       );
     }
