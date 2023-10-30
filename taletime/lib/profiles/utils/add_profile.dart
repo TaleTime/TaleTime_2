@@ -60,7 +60,7 @@ class _AddProfileState extends State<AddProfile> {
       return profileImage;
     }
 
-    Future<void> updateUser(String profileId) {
+    Future<void> updateProfile(String profileId) {
       return profiles
           .doc(profileId)
           .update({"id": profileId})
@@ -68,7 +68,7 @@ class _AddProfileState extends State<AddProfile> {
           .catchError((error) => logger.e("Failed to update user: $error"));
     }
 
-    Future<void> addUser(
+    Future<void> addProfile(
         String image, String name, String title, String language, bool theme) {
       return profiles.add({
         "id": "",
@@ -79,7 +79,7 @@ class _AddProfileState extends State<AddProfile> {
         "theme": theme
       }).then((value) {
         logger.d("User Added");
-        updateUser(value.id);
+        updateProfile(value.id);
       }).catchError((error) => logger.e("Failed to set Id: $error"));
     }
 
@@ -234,7 +234,7 @@ class _AddProfileState extends State<AddProfile> {
                                 : items[0].toString();
                             theme = !themeProvider.isDarkMode;
                             language = languageProvider.locale.toString();
-                            addUser(image, name, title, language, theme);
+                            addProfile(image, name, title, language, theme);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -246,7 +246,8 @@ class _AddProfileState extends State<AddProfile> {
                           child: Text(
                             AppLocalizations.of(context)!.addProfile,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
+                                fontWeight: FontWeight.w600, fontSize: 18,
+                                color: Colors.white),
                           ),
                         ),
                       ],

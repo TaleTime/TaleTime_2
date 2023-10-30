@@ -4,10 +4,11 @@ import "package:taletime/common%20utils/tale_time_logger.dart";
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 import "../../internationalization/localizations_ext.dart";
+import "../models/profile_model.dart";
 
 class EditProfile extends StatefulWidget {
   final CollectionReference profiles;
-  final DocumentSnapshot profile;
+  final Profile profile;
 
   const EditProfile(this.profiles, this.profile, {super.key});
 
@@ -22,12 +23,14 @@ class _EditProfileState extends State<EditProfile> {
   late final String name;
   late final String image;
   late final String title;
+  late CollectionReference profiles;
+  late final Profile profile;
 
   final textEditingController = TextEditingController();
 
-  late String profileImage = widget.profile["image"];
+  late String profileImage = widget.profile.image;
 
-  late String? selectedItem = widget.profile["title"];
+  late String? selectedItem = widget.profile.title;
 
   _EditProfileState();
 
@@ -37,7 +40,7 @@ class _EditProfileState extends State<EditProfile> {
     final formKey = GlobalKey<FormState>();
 
     textEditingController.text = textEditingController.text == ""
-        ? widget.profile["name"]
+        ? widget.profile.name
         : textEditingController.text;
 
     String updateProfile(int index) {
@@ -207,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
                                 image = profileImage;
                                 title = selectedItem.toString();
                                 updateprofile(
-                                    widget.profile["id"], name, image, title);
+                                    widget.profile.id, name, image, title);
                                 reset();
                                 Navigator.of(context).pop();
                               },

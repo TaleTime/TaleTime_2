@@ -4,6 +4,7 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/settings/changePassword.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -46,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    Locale currentLanguage = Locale(widget.profile["language"]);
+    Locale currentLanguage = Locale(widget.profile.language);
 
     Locale? selectedLanguage = languageProvider.locale;
 
@@ -100,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       onChanged: (value) {
                         setState(() {
                           selectedLanguage = value;
-                          updateLanguage(widget.profile["id"], value.toString());
+                          updateLanguage(widget.profile.id, value.toString());
                         });
                       })),
             ),
@@ -119,7 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Provider.of<ThemeProvider>(context, listen: false);
                   provider.toggleTheme(value);
                   setState(() {
-                    updateTheme(widget.profile["id"], value);
+                    updateTheme(widget.profile.id, value);
                   });
                 },
                 activeTrackColor: kPrimaryColor,
