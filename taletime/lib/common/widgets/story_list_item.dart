@@ -12,52 +12,64 @@ class StoryListItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network(
-            "http://placekitten.com/128/128",
-            fit: BoxFit.contain,
-            width: 64,
-            height: 64,
-          ),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    "Eine tolle ganz ganz lange Geschichte, die noch viel länger werden kann.",
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                      fontSize: 16,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.network(
+                      "http://placekitten.com/128/128",
+                      fit: BoxFit.contain,
+                      width: 64,
+                      height: 64,
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.person,
+                    SizedBox(width: 4.0),
+                    Expanded(
+                      child: Text(
+                        "Eine tolle ganz ganz lange Geschichte, die noch viel länger und länger und länger werden kann.",
+                        // "Eine kurze Geschichte",
+                        // "Das Märchen von der kleinen Prinzessin",
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
-                      Text("By Foo Bar"),
-                      Padding(
+                    ),
+                  ]
+                ),
+                SizedBox(height: 4.0),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                    ),
+                    Text("By Foo Bar"),
+                    Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text("ꞏ")
-                      ),
-                      Text("2,5"),
-                      Icon(
-                        Icons.star,
-                      ),
-                    ],
-                  ),
+                    ),
+                    Text("2,5"),
+                    Icon(
+                      Icons.star,
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          IconButton(
-            onPressed: () { },
-            icon: const Icon(Icons.delete),
+          Column(
+            children: [
+              IconButton(
+                onPressed: () { },
+                icon: const Icon(Icons.heart_broken),
+              ),
+              IconButton(
+                onPressed: () { },
+                icon: const Icon(Icons.delete),
+              ),
+            ],
           )
         ],
       ),
