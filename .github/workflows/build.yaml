@@ -1,3 +1,5 @@
+name: Test and build Android app
+
 on:
   pull_request:
     types:
@@ -5,21 +7,13 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-    branches:
-      - 'main'
     paths-ignore:
       - '**.md'
       - 'doc/**'
       - '.git/'
       - '.vscode/'
-  push:
-    branches:
-      - 'main'
-    paths-ignore:
-      - '**.md'
-      - 'doc/**'
-      - '.git/'
-      - '.vscode/'
+  workflow_dispatch:
+
 jobs:
   build-android:
     name: Build Android
@@ -35,14 +29,25 @@ jobs:
       - name: 📦 Get dependencies
         run: flutter pub get
         working-directory: ./taletime
+      - name: 🔑 Setup signing key
+        run: |
+          echo "${{ secrets.SIGNING_KEY_KEYSTORE }}" | base64 -d > taletime/android/app/keystore.jks
       - name: 🧪 Run tests
         run: flutter test
         working-directory: ./taletime
       - name: 📱 Build Android
-        run: flutter build apk
+        id: build_apk
+        env:
+          SIGNING_KEY_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_KEY_PASSWORD }}
+          SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+        run: |
+          VERSION=$(grep -oP '^version:\s+\K.+$' pubspec.yaml)
+          flutter build apk --flavor staging --build-name $VERSION+$GITHUB_RUN_NUMBER
+          echo "versionName=$VERSION+$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+          cp build/app/outputs/flutter-apk/app-staging-release.apk build/app/outputs/flutter-apk/TaleTime-$VERSION+$GITHUB_RUN_NUMBER.apk
         working-directory: ./taletime
       - name: 📦 Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.apk
-          path: ./taletime/build/app/outputs/flutter-apk/app-release.apk
+          name: TaleTime-${{ steps.build_apk.outputs.versionName }}.apk
+          path: ./taletime/build/app/outputs/flutter-apk/TaleTime*.apk

@@ -12,8 +12,7 @@ class AddIconContextDialog extends StatefulWidget {
 
   const AddIconContextDialog(this.title, this.subtitle, this.icon,
       this.storiesCollectionReference, this.allStories,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {

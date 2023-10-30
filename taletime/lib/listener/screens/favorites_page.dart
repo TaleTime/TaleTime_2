@@ -11,8 +11,7 @@ class FavoritePage extends StatefulWidget {
   final storiesColl;
   const FavoritePage(
       this.profile, this.profiles, this.favorites, this.storiesColl,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<FavoritePage> createState() =>

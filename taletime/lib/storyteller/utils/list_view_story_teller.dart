@@ -1,6 +1,7 @@
 ///The [list_view] class allows the user to view the list of all stories.
 ///You can search for a specific story (by title or tags) in the list using the search function and then find it.
 ///it will show the list of all history of a registered person .
+library;
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -17,8 +18,7 @@ class ListViewStoryTeller extends StatefulWidget {
   final profiles;
   const ListViewStoryTeller(
       this.stories, this.storiesCollection, this.profile, this.profiles,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {

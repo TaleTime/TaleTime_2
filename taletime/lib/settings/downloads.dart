@@ -6,7 +6,7 @@ import "package:path/path.dart" as path;
 import "package:url_launcher/url_launcher.dart";
 
 class DownloadsPage extends StatefulWidget {
-  const DownloadsPage({Key? key}) : super(key: key);
+  const DownloadsPage({super.key});
 
   @override
   _DownloadsPageState createState() => _DownloadsPageState();

@@ -11,7 +11,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 class ProfilesPage extends StatefulWidget {
   final String uId;
 
-  const ProfilesPage(this.uId, {Key? key}) : super(key: key);
+  const ProfilesPage(this.uId, {super.key});
 
   @override
   State<StatefulWidget> createState() {

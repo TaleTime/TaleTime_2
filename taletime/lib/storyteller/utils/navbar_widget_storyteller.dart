@@ -9,8 +9,7 @@ import "../../settings/settings.dart";
 class NavBarSpeaker extends StatefulWidget {
   final profile;
   final profiles;
-  const NavBarSpeaker(this.profile, this.profiles, {Key? key})
-      : super(key: key);
+  const NavBarSpeaker(this.profile, this.profiles, {super.key});
 
   @override
   State<StatefulWidget> createState() {

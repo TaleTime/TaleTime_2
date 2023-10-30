@@ -17,12 +17,12 @@ class CustomIndicator extends StatelessWidget {
   final bool shouldPaint;
 
   const CustomIndicator({
-    Key? key,
+    super.key,
     required this.netDragPercent,
     required this.indicator,
     required this.pagesLength,
     this.shouldPaint = true,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return CustomPaint(

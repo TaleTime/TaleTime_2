@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
   //final DocumentSnapshot profile;
   final profile;
   final profiles;
-  const SettingsPage(this.profile, this.profiles, {Key? key}) : super(key: key);
+  const SettingsPage(this.profile, this.profiles, {super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState(profile, profiles);
@@ -168,7 +168,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return DownloadsPage();
+                    return const DownloadsPage();
                   }));
                 },
               ),

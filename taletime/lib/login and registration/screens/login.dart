@@ -10,7 +10,7 @@ import "package:taletime/login%20and%20registration/utils/authentification_util.
 import "../../internationalization/localizations_ext.dart";
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
