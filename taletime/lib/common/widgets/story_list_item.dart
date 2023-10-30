@@ -14,42 +14,48 @@ class StoryListItem extends StatelessWidget {
         children: [
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.network(
-                      "http://placekitten.com/128/128",
-                      fit: BoxFit.contain,
-                      width: 64,
-                      height: 64,
-                    ),
-                    SizedBox(width: 4.0),
-                    Expanded(
-                      child: Text(
-                        "Eine tolle ganz ganz lange Geschichte, die noch viel länger und länger und länger werden kann.",
-                        // "Eine kurze Geschichte",
-                        // "Das Märchen von der kleinen Prinzessin",
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Image.network(
+                    "http://placekitten.com/128/128",
+                    fit: BoxFit.contain,
+                    width: 64,
+                    height: 64,
+                  ),
+                  const SizedBox(width: 4.0),
+                  Expanded(
+                    child: Text(
+                      // "Eine tolle ganz ganz lange Geschichte, die noch viel länger und länger und länger werden kann.",
+                      // "Eine kurze Geschichte",
+                      "Das Märchen von der kleinen Prinzessin",
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(
+                        fontSize: 16,
                       ),
                     ),
-                  ]
-                ),
+                  ),
+                ]),
                 SizedBox(height: 4.0),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.person,
                     ),
-                    Text("By Foo Bar"),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        //"By Foo Bar Bla Bli Blub Hoo Baz Hello World",
+                        "By Foo Bar",
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("ꞏ")
-                    ),
+                        child: Text("ꞏ")),
                     Text("2,5"),
                     Icon(
                       Icons.star,
@@ -62,11 +68,11 @@ class StoryListItem extends StatelessWidget {
           Column(
             children: [
               IconButton(
-                onPressed: () { },
+                onPressed: () {},
                 icon: const Icon(Icons.heart_broken),
               ),
               IconButton(
-                onPressed: () { },
+                onPressed: () {},
                 icon: const Icon(Icons.delete),
               ),
             ],
