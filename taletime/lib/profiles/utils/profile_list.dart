@@ -82,25 +82,25 @@ class ProfileList extends StatelessWidget {
                                   ),
                                   Text(
                                     profile.title,
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        )
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 7),
                         child: profilee,
-                      )
-                    ]
-                  )
-                )
-              ]
-            )
-          )
-        ]
-      )
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
