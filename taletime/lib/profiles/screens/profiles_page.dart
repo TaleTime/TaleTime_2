@@ -16,14 +16,13 @@ class ProfilesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfilesPageState(uId);
+    return _ProfilesPageState();
   }
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
-  late String uId;
 
-  _ProfilesPageState(this.uId);
+  _ProfilesPageState();
 
   CollectionReference users =
       FirebaseFirestore.instance.collection("users"); // users collection
@@ -39,7 +38,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   @override
   Widget build(BuildContext context) {
     CollectionReference<Object> profiles = users
-        .doc(uId)
+        .doc(widget.uId)
         .collection("profiles"); //profiles of the created user as subcollection
 
     return Scaffold(
@@ -77,7 +76,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => AddProfile(uId)));
+                      MaterialPageRoute(builder: (context) => AddProfile(widget.uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,

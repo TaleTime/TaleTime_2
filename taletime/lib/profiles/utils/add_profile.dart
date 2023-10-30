@@ -20,14 +20,13 @@ class AddProfile extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _AddProfileState(uId);
+    return _AddProfileState();
   }
 }
 
 class _AddProfileState extends State<AddProfile> {
-  late String uId;
   final logger = TaleTimeLogger.getLogger();
-  _AddProfileState(this.uId);
+  _AddProfileState();
 
   late final String name;
   late final String image;
@@ -51,7 +50,7 @@ class _AddProfileState extends State<AddProfile> {
 
     CollectionReference users = FirebaseFirestore.instance.collection("users");
 
-    CollectionReference profiles = users.doc(uId).collection("profiles");
+    CollectionReference profiles = users.doc(widget.uId).collection("profiles");
 
     String updateImageProfile(int index) {
       var image = profileImages[index];
@@ -92,7 +91,7 @@ class _AddProfileState extends State<AddProfile> {
           ),
           onPressed: () async {
             await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfilesPage(uId)));
+                MaterialPageRoute(builder: (context) => ProfilesPage(widget.uId)));
           },
         ),
         title: Text(
@@ -239,7 +238,7 @@ class _AddProfileState extends State<AddProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProfilesPage(uId)));
+                                    builder: (context) => ProfilesPage(widget.uId)));
                           },
                           color: kPrimaryColor,
                           shape: RoundedRectangleBorder(

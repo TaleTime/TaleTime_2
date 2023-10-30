@@ -17,7 +17,7 @@ class EditStory extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EditStoryState(storiesCollection, story);
+    return _EditStoryState();
   }
 }
 
@@ -26,10 +26,8 @@ class _EditStoryState extends State<EditStory> {
   late final String author;
   late final String image;
   late final String title;
-  final CollectionReference storiesCollection;
-  final story;
 
-  _EditStoryState(this.storiesCollection, this.story);
+  _EditStoryState();
 
   final textEditingControllerAuthor = TextEditingController();
   final textEditingControllerTitle = TextEditingController();
@@ -44,9 +42,9 @@ class _EditStoryState extends State<EditStory> {
   @override
   void initState() {
     super.initState();
-    myImage = story["image"] == ""
+    myImage = widget.story["image"] == ""
         ? Image.network(storyImagePlaceholder)
-        : Image.network(story["image"]);
+        : Image.network(widget.story["image"]);
     url = "";
   }
 
@@ -61,8 +59,8 @@ class _EditStoryState extends State<EditStory> {
       await ref.child(name).putFile(file);
       String myUrl = await ref.child(name).getDownloadURL();
       setState(() {
-        storiesCollection
-            .doc(story["id"])
+        widget.storiesCollection
+            .doc(widget.story["id"])
             .update({"image": myUrl})
             .then((value) => logger.v("story Updated"))
             .catchError((error) => logger.e("Failed to update story: $error"));
@@ -78,16 +76,16 @@ class _EditStoryState extends State<EditStory> {
     //storyImage = story["image"] == "" ? storyImagePlaceholder : story["image"];
 
     textEditingControllerAuthor.text = textEditingControllerAuthor.text == ""
-        ? story["author"]
+        ? widget.story["author"]
         : textEditingControllerAuthor.text;
 
     textEditingControllerTitle.text = textEditingControllerTitle.text == ""
-        ? story["title"]
+        ? widget.story["title"]
         : textEditingControllerTitle.text;
 
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
-      return storiesCollection
+      return widget.storiesCollection
           .doc(storyId)
           .update({"author": author, "title": title})
           .then((value) => logger.v("story Updated"))
@@ -220,7 +218,7 @@ class _EditStoryState extends State<EditStory> {
                                 author = textEditingControllerAuthor.text;
                                 image = url!;
                                 title = textEditingControllerTitle.text;
-                                updateStory(story["id"], author, image, title);
+                                updateStory(widget.story["id"], author, image, title);
                                 reset();
                               },
                               child: const Text(
