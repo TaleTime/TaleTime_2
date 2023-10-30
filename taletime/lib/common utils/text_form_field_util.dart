@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
-import "../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
+
+import "../internationalization/localizations_ext.dart";
 
 /// contains TextFormFields with the belonging validation
 class TextFormFieldUtil {
@@ -9,12 +10,13 @@ class TextFormFieldUtil {
   ///
   /// [nameController] --> catches the user input for the username
   TextFormField enterUserNameForm(
-      BuildContext context, TextEditingController nameController) {
+      BuildContext context, TextEditingController nameController, TextInputAction textInputAction) {
     return TextFormField(
         controller: nameController,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.username,
-            AppLocalizations.of(context)!.enterUsername,
+            "",
             const Icon(Icons.person)),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (name) => ValidationUtil().validateUserName(name, context));
@@ -23,13 +25,15 @@ class TextFormFieldUtil {
   /// TextFormField to enter a email-adress
   ///
   /// [emailController] --> catches the user input for the email-adress
-  TextFormField enterEmailForm(
-      BuildContext context, TextEditingController emailController) {
+  TextFormField enterEmailForm(BuildContext context,
+      TextEditingController emailController, TextInputAction textInputAction) {
     return TextFormField(
         controller: emailController,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.email,
-          AppLocalizations.of(context)!.enterEmail,
+          "",
           const Icon(Icons.mail),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -40,10 +44,13 @@ class TextFormFieldUtil {
   ///
   /// [oldPasswordController] --> catches the user input for the old password
   TextFormField enterOldPasswordForm(
-      BuildContext context, TextEditingController oldPasswordController) {
+      BuildContext context,
+      TextEditingController oldPasswordController,
+      TextInputAction textInputAction) {
     return TextFormField(
         controller: oldPasswordController,
         obscureText: true,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.oldPassword,
           AppLocalizations.of(context)!.enterOldPassword,
@@ -58,13 +65,16 @@ class TextFormFieldUtil {
   ///
   /// [passwordController] --> catches the user input for the password
   TextFormField enterPasswordForm(
-      BuildContext context, TextEditingController passwordController) {
+      BuildContext context,
+      TextEditingController passwordController,
+      TextInputAction textInputAction) {
     return TextFormField(
         controller: passwordController,
         obscureText: true,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
           AppLocalizations.of(context)!.password,
-          AppLocalizations.of(context)!.enterPassword,
+          "",
           const Icon(Icons.lock),
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -78,22 +88,18 @@ class TextFormFieldUtil {
   TextFormField confirmPasswordForm(
       BuildContext context,
       TextEditingController passwordController,
-      TextEditingController confirmPasswordController) {
+      TextEditingController confirmPasswordController,
+      TextInputAction textInputAction) {
     return TextFormField(
         controller: confirmPasswordController,
         obscureText: true,
+        textInputAction: textInputAction,
         decoration: Decorations().textInputDecoration(
             AppLocalizations.of(context)!.confirmPassword,
             AppLocalizations.of(context)!.confirmYourPassword,
             const Icon(Icons.lock)),
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (password) {
-          if (passwordController.text.trim() != password) {
-            return AppLocalizations.of(context)!.passwordsDontMatch;
-          } else {
-            ValidationUtil().validatePassword(password, context);
-          }
-          return null;
-        });
+        validator: (password) => ValidationUtil().validatePasswordConfirmation(
+            password, passwordController.text, context));
   }
 }
