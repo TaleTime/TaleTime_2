@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/text_form_field_util.dart";
-import "package:taletime/login%20and%20registration/screens/login.dart";
 import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
 
 import "../../internationalization/localizations_ext.dart";
@@ -146,10 +145,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                             /// redirects the user to the SignupPage
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
+                              Navigator.pop(context);
                             }),
                       ],
                     ),
