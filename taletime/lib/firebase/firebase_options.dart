@@ -46,8 +46,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const apiKey = "AIzaSyAM7zJTFTpNFLk_NsxOPwknGF_Q429DMzQ";
-  static const appId = "1:98775438070:web:32d44cdaea9a96e8bc52d7";
   static const messagingSenderId = "98775438070";
   static const projectId = "taletime-2022";
   static const storageBucket = "taletime-2022.appspot.com";
@@ -55,7 +53,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: "AIzaSyAM7zJTFTpNFLk_NsxOPwknGF_Q429DMzQ",
-    appId: appId,
+    appId: "1:98775438070:web:32d44cdaea9a96e8bc52d7",
     messagingSenderId: messagingSenderId,
     projectId: projectId,
     authDomain: "taletime-2022.firebaseapp.com",
@@ -65,7 +63,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: "AIzaSyB5IRt2uwcSgR5K8F4CIvsXzQc-ed81qCo",
-    appId: appId,
+    appId: "1:98775438070:android:128dbe7bf0a4a9b1bc52d7",
     messagingSenderId: messagingSenderId,
     projectId: projectId,
     storageBucket: storageBucket,
@@ -73,12 +71,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: "AIzaSyBhTulb74TrwhYNqWQzTwRvXO7GD3rzHk8",
-    appId: appId,
+    appId: "1:98775438070:ios:0b40b232476cc782bc52d7",
     messagingSenderId: messagingSenderId,
     projectId: projectId,
     storageBucket: storageBucket,
     iosClientId:
-        "98775438070-lnmlqj396hca45lgkis592tm33ji80co.apps.googleusercontent.com",
-    iosBundleId: "de.htwsaar.taletime",
+    "98775438070-lnmlqj396hca45lgkis592tm33ji80co.apps.googleusercontent.com",
+    iosBundleId: "com.example.taletime",
   );
 }

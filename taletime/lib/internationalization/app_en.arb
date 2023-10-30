@@ -320,7 +320,7 @@
     "downloads": "Downloads",
     "createStory": "Create Story",
     "tag": "Tag",
-    "enterTag": "Gib einen Tag an (optional)",
+    "enterTag": "Enter a tag (optional)",
     "uploadImage": "Upload Image",
     "continueStep": "Continue",
     "storyRecorder": "Story Recorder",
