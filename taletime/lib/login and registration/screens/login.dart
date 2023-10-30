@@ -1,18 +1,19 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
-import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
-import "package:taletime/login%20and%20registration/screens/forgot_password.dart";
-import "package:taletime/login%20and%20registration/screens/signup.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
-import "../../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/text_form_field_util.dart";
+import "package:taletime/login%20and%20registration/screens/forgot_password.dart";
+import "package:taletime/login%20and%20registration/screens/signup.dart";
+import "package:taletime/login%20and%20registration/utils/authentification_util.dart";
+
+import "../../internationalization/localizations_ext.dart";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -37,26 +38,32 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: Decorations().appBarDecoration(
-            title: AppLocalizations.of(context)!.login,
-            context: context,
-            automaticArrow: true),
-        body: SingleChildScrollView(
-            child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                height: MediaQuery.of(context).size.height - 50,
-                width: double.infinity,
-                child: Column(
-                  children: <Widget>[
-                    Column(children: <Widget>[
-                      SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                          child: Text(
-                            AppLocalizations.of(context)!.loginToAccount,
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+      appBar: Decorations().appBarDecoration(
+        title: AppLocalizations.of(context)!.login,
+        context: context,
+        automaticArrow: true,
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+                        child: Text(
+                          AppLocalizations.of(context)!.loginToAccount,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -70,56 +77,60 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          children: <Widget>[
-                            Form(
-                                key: _formKey,
-                                child: Column(children: <Widget>[
-                                  /// TextField that catches the user input for the email-adress
-                                  Container(
-                                      width: double.infinity,
-                                      decoration: Decorations()
-                                          .inputBoxDecorationShaddow(),
-                                      child: TextFormFieldUtil().enterEmailForm(
-                                          context, _emailController)),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              /// TextField that catches the user input for the email-adress
+                              Container(
+                                width: double.infinity,
+                                decoration: Decorations().inputBoxDecorationShaddow(),
+                                child: TextFormFieldUtil().enterEmailForm(
+                                  context,
+                                  _emailController,
+                                  TextInputAction.next,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
 
-                                  /// TextField that catches the user input for the password
-                                  Container(
-                                    decoration: Decorations()
-                                        .inputBoxDecorationShaddow(),
-                                    child: TextFormFieldUtil()
-                                        .enterPasswordForm(
-                                            context, _passwordController),
-                                  ),
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(10, 2, 5, 15),
-                                    alignment: Alignment.topRight,
-                                    child: TextButton(
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .forgotPassword,
-                                            style: TextStyle(
-                                                color: kPrimaryColor)),
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const ForgotPasswordPage()));
-                                        }),
-                                  ),
-                                ])),
-                          ],
+                              /// TextField that catches the user input for the password
+                              Container(
+                                decoration: Decorations().inputBoxDecorationShaddow(),
+                                child: TextFormFieldUtil().enterPasswordForm(
+                                  context,
+                                  _passwordController,
+                                  TextInputAction.done,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(10, 2, 5, 15),
+                                alignment: Alignment.topRight,
+                                child: TextButton(
+                                  child: Text(
+                                      AppLocalizations.of(context)!.forgotPassword,
+                                      style: TextStyle(color: kPrimaryColor)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ForgotPasswordPage(
+                                              initialEmail: _emailController.text,
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 14,
                             width: double.infinity,
                             //Button for the Login
                             child: ElevatedButton(
@@ -129,17 +140,15 @@ class _LoginPageState extends State<LoginPage> {
                               /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                               onPressed: () async {
                                 final String email =
-                                    _emailController.text.trim().toLowerCase();
-                                final String password =
-                                    _passwordController.text.trim();
-                                final isValidForm =
-                                    _formKey.currentState!.validate();
+                                _emailController.text.trim().toLowerCase();
+                                final String password = _passwordController.text.trim();
+                                final isValidForm = _formKey.currentState!.validate();
                                 if (isValidForm) {
                                   AuthentificationUtil(auth: auth)
                                       .loginUsingEmailAndPassword(
-                                          email: email,
-                                          password: password,
-                                          context: context);
+                                      email: email,
+                                      password: password,
+                                      context: context);
                                 }
                               },
                               child: Text(
@@ -149,26 +158,34 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             )),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(AppLocalizations.of(context)!.dontHaveAccount),
-                          TextButton(
-                              child: Text(
-                                  AppLocalizations.of(context)!.registerVerb),
+                    ],
+                  ),
 
-                              /// redirects the user to the SignupPage
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignupPage()));
-                              }),
-                        ],
-                      ),
-                    ])
-                  ],
-                ))));
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(AppLocalizations.of(context)!.dontHaveAccount),
+                        TextButton(
+                            child: Text(AppLocalizations.of(context)!.registerVerb),
+
+                            /// redirects the user to the SignupPage
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignupPage()));
+                            }),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

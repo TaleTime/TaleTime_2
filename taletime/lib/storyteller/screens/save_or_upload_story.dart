@@ -14,6 +14,7 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
@@ -61,7 +62,6 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
     var refAudios = FirebaseStorage.instance.ref().child("audios");
-    File audioFile = File(myRecordedStory.recording.getAudioPath());
     String filePath = myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
     String fileString =

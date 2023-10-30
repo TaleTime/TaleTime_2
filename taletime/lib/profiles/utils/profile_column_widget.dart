@@ -1,34 +1,34 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "../../internationalization/localizations_ext.dart";
 import "package:taletime/profiles/utils/edit_profile.dart";
 
+import "../models/profile_model.dart";
+
 class ProfileColumn extends StatefulWidget {
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
   const ProfileColumn(this.profile, this.profiles, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ProfileColumnState(profile, profiles);
+    return _ProfileColumnState();
   }
 }
 
 class _ProfileColumnState extends State<ProfileColumn> {
   final logger = TaleTimeLogger.getLogger();
-  //late final DocumentSnapshot profile;
-  final profile;
-  final profiles;
 
-  _ProfileColumnState(this.profile, this.profiles);
+  _ProfileColumnState();
 
-  Future<void> deleteUser(id) {
-    return profiles
+  Future<void> deleteProfile(id) {
+    return widget.profiles
         .doc(id)
         .delete()
-        .then((value) => logger.d("User Deleted"))
-        .catchError((error) => logger.e("Failed to delete user: $error"));
+        .then((value) => logger.d("Profile deleted"))
+        .catchError((error) => logger.e("Failed to delete profile: $error"));
   }
 
   void onSelected(BuildContext context, int item) {
@@ -37,7 +37,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditProfile(profiles, profile)));
+                builder: (context) => EditProfile(widget.profiles, widget.profile)));
         break;
       case 1:
         showDialog(
@@ -57,7 +57,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState(() {
-                        deleteUser(profile["id"]);
+                        deleteProfile(widget.profile.id);
                         Navigator.of(context).pop();
                       });
                     },

@@ -25,40 +25,19 @@ class ListViewData extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ListViewDataState(
-      storiesColl,
-      storiesCollection,
-      profile,
-      profiles,
-      listType,
-      favoritesCollection,
-    );
+    return _ListViewDataState();
   }
 }
 
 class _ListViewDataState extends State<ListViewData> {
   final logger = TaleTimeLogger.getLogger();
-  final List storiesColl;
-  final CollectionReference storiesCollection;
-  final CollectionReference favoritesCollection;
-  final profile;
-  final profiles;
-
-  String listType;
 
   final List<IconData> _icons = [
     Icons.favorite,
     Icons.favorite_border,
   ];
 
-  _ListViewDataState(
-    this.storiesColl,
-    this.storiesCollection,
-    this.profile,
-    this.profiles,
-    this.listType,
-    this.favoritesCollection,
-  );
+  _ListViewDataState();
 
   @override
   Widget build(context) {
@@ -70,12 +49,12 @@ class _ListViewDataState extends State<ListViewData> {
         return Future.error("Invalid storyId");
       }
 
-      return storiesCollection.doc(storyId).get().then((docSnapshot) {
+      return widget.storiesCollection.doc(storyId).get().then((docSnapshot) {
         if (docSnapshot.exists) {
-          return storiesCollection
+          return widget.storiesCollection
               .doc(storyId)
               .update({"isLiked": isLiked})
-              .then((value) => listType == listTyp
+              .then((value) => widget.listType == listTyp
                   ? logger.v("Story liked/disliked")
                   : isLiked
                       ? logger.v("Story liked")
@@ -97,7 +76,7 @@ class _ListViewDataState extends State<ListViewData> {
       String rating,
       bool isLiked,
     ) {
-      return favoritesCollection
+      return widget.favoritesCollection
           .doc(id)
           .set({
             "id": id,
@@ -118,7 +97,7 @@ class _ListViewDataState extends State<ListViewData> {
         logger.e("Invalid storyId");
         return Future.error("Invalid storyId");
       }
-      return favoritesCollection
+      return widget.favoritesCollection
           .doc(storyId)
           .delete()
           .then((value) => logger.v("Story removed from favorites"))
@@ -127,7 +106,7 @@ class _ListViewDataState extends State<ListViewData> {
     }
 
     return StreamBuilder<QuerySnapshot>(
-      stream: storiesCollection.snapshots(),
+      stream: widget.storiesCollection.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Error: ${snapshot.error}");
@@ -143,7 +122,7 @@ class _ListViewDataState extends State<ListViewData> {
             [];
 
         return StreamBuilder<QuerySnapshot>(
-          stream: favoritesCollection.snapshots(),
+          stream: widget.favoritesCollection.snapshots(),
           builder: (BuildContext innerContext,
               AsyncSnapshot<QuerySnapshot> innerSnapshot) {
             if (innerSnapshot.hasError) {
@@ -159,7 +138,7 @@ class _ListViewDataState extends State<ListViewData> {
                     .toList() ??
                 [];
 
-            if (listType == "userStoriesList") {
+            if (widget.listType == "userStoriesList") {
               return ListView.builder(
                 primary: false,
                 itemCount: stories.length,
@@ -186,7 +165,7 @@ class _ListViewDataState extends State<ListViewData> {
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return MyPlayStory(stories[i], storiesCollection);
+                        return MyPlayStory(stories[i], widget.storiesCollection);
                       }));
                     },
                     child: Column(
@@ -320,7 +299,7 @@ class _ListViewDataState extends State<ListViewData> {
                                           AppLocalizations.of(context)!.storyDeleteHintDescription,
                                           Icons.delete,
                                           stories[i]["id"],
-                                          storiesCollection,
+                                          widget.storiesCollection,
                                         ),
                                         const SizedBox(
                                           width: 1,
@@ -356,7 +335,7 @@ class _ListViewDataState extends State<ListViewData> {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return MyPlayStory(
-                                favStories[i], favoritesCollection);
+                                favStories[i], widget.favoritesCollection);
                           }));
                         },
                         leading: Image.network(favStories[i]["image"],

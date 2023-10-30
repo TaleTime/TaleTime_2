@@ -15,18 +15,14 @@ class AddStory extends StatefulWidget {
       {super.key});
 
   @override
-  State<AddStory> createState() =>
-      _AddStoryState(storiesCollectionReference, allStoriesCollectionReference);
+  State<AddStory> createState() => _AddStoryState();
 }
 
 class _AddStoryState extends State<AddStory> {
-  final CollectionReference storiesCollectionReference;
-  final CollectionReference allStoriesCollectionReference;
 
   List matchStoryList = [];
 
-  _AddStoryState(
-      this.storiesCollectionReference, this.allStoriesCollectionReference);
+  _AddStoryState();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class _AddStoryState extends State<AddStory> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder(
-        stream: allStoriesCollectionReference.snapshots(),
+        stream: widget.allStoriesCollectionReference.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
@@ -242,7 +238,7 @@ class _AddStoryState extends State<AddStory> {
                                                         AppLocalizations.of(context)!.addStoryHintDescription,
                                                         Icons
                                                             .playlist_add_outlined,
-                                                        storiesCollectionReference,
+                                                        widget.storiesCollectionReference,
                                                         storiesDocumentSnapshot[
                                                             i]),
                                                     const SizedBox(

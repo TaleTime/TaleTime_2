@@ -2,14 +2,15 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/all_stories.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/screens/create_story.dart";
 import "package:taletime/storyteller/screens/speaker_homepage.dart";
 
 import "../../settings/settings.dart";
 
 class NavBarSpeaker extends StatefulWidget {
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
   const NavBarSpeaker(this.profile, this.profiles, {super.key});
 
   @override
@@ -21,8 +22,8 @@ class NavBarSpeaker extends StatefulWidget {
 class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
 
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
 
   _NavBarSpeakerState(this.profile, this.profiles);
 
@@ -38,9 +39,9 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   @override
   Widget build(BuildContext context) {
     CollectionReference lastRecorded =
-        profiles.doc(profile["id"]).collection("lastRecordedList");
+        profiles.doc(profile.id).collection("lastRecordedList");
     CollectionReference recordedStories =
-        profiles.doc(profile["id"]).collection("recordedStoriesList");
+        profiles.doc(profile.id).collection("recordedStoriesList");
 
     return Scaffold(
       body: IndexedStack(

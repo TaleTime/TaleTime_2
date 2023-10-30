@@ -16,25 +16,20 @@ class FavoritePage extends StatefulWidget {
 
   @override
   State<FavoritePage> createState() =>
-      _FavoritePageState(profile, profiles, favorites, storiesColl);
+      _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  final profile;
-  final profiles;
-  final favorites;
-  final storiesColl;
   List matchStoryList = [];
 
-  _FavoritePageState(
-      this.profile, this.profiles, this.favorites, this.storiesColl);
+  _FavoritePageState();
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return StreamBuilder<QuerySnapshot>(
-      stream: favorites.snapshots(),
+      stream: widget.favorites.snapshots(),
       builder:
           (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
         if (streamSnapshot.hasData) {
@@ -125,8 +120,8 @@ class _FavoritePageState extends State<FavoritePage> {
                     children: [
                       SizedBox(
                         height: screenHeight * 0.8,
-                        child: ListViewData(documentSnapshot, storiesColl,
-                            profile, profiles, "favList", favorites),
+                        child: ListViewData(documentSnapshot, widget.storiesColl,
+                            widget.profile, widget.profiles, "favList", widget.favorites),
                       ),
                     ],
                   ),
