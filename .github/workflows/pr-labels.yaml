@@ -34,7 +34,7 @@ jobs:
                 labels: ['Type: Bug']
               - type: 'feature'
                 nouns: ['FEATURE', 'Feature', 'feature', 'FEAT', 'Feat', 'feat']
-                labels: ['Type: Feature']
+                labels: ['Type: Enhancement']
               - type: 'breaking_change'
                 nouns: ['BREAKING CHANGE', 'BREAKING', 'MAJOR', 'FIX!', 'Fix!', 'fix!', 'FIXED!', 'Fixed!', 'fixed!', 'FEATURE!', 'Feature!', 'feature!', 'FEAT!', 'Feat!', 'feat!']
                 labels: ['Type: Breaking Change']
