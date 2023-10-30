@@ -11,6 +11,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 import "../../common utils/decoration_util.dart";
 import "../../listener/screens/my_play_story.dart";
@@ -91,7 +92,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Hello,",
+                      "${AppLocalizations.of(context)!.hello},",
                       style:
                           TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
@@ -131,7 +132,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "Search stories...",
+                          hintText: AppLocalizations.of(context)!.searchStory,
                           hintStyle:
                               const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
@@ -148,7 +149,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                     ///  last Recorded list. the five recorded stories are shown here.
 
                     Text(
-                      "Last Recorded",
+                      AppLocalizations.of(context)!.lastRecorded,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: 18,
@@ -171,8 +172,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         right: 0,
                         child: lastRecordedDocumentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
-                                "Nothing to show yet. \nplease add some stories to your story library",
-                                "recentStories")
+                                AppLocalizations.of(context)!.noStoriesAvailable, "recentStories")
                             : SizedBox(
                                 height: 190,
                                 child: PageView.builder(
@@ -277,7 +277,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                                             Colors.transparent,
                                                         child: Marquee(
                                                           text:
-                                                              "By ${lastRecordedDocumentSnapshot[i]["author"]}",
+                                                              "${AppLocalizations.of(context)!.by} ${lastRecordedDocumentSnapshot[i]["author"]}",
                                                           blankSpace: 20,
                                                           style: const TextStyle(
                                                               color:
@@ -390,7 +390,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "My Recorded Stories",
+                      AppLocalizations.of(context)!.myRecordedStories,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: 18,
@@ -410,7 +410,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                       height: 260,
                       child: storiesDocumentSnapshot.isEmpty
                           ? Decorations().noRecentContent(
-                              "No stories yet. \nplease add some stories to your story library",
+                              AppLocalizations.of(context)!.noStoriesAvailable,
                               "")
                           : ListViewStoryTeller(storiesDocumentSnapshot,
                               storiesCollection, profile, profiles),

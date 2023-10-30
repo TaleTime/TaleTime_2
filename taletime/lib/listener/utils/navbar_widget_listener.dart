@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
 import "../../profiles/models/profile_model.dart";
 import "../screens/favorites_page.dart";
@@ -69,8 +70,8 @@ class _NavBarListenerState extends State<NavBarListener> {
             Icons.home,
             "Home",
           ),
-          navBarItems(Icons.favorite_sharp, "Favorites"),
-          navBarItems(Icons.playlist_add_sharp, "Add Story"),
+          navBarItems(Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
+          navBarItems(Icons.playlist_add_sharp, AppLocalizations.of(context)!.addStory),
         ],
       ),
     );

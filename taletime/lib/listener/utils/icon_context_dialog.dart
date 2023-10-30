@@ -82,7 +82,7 @@ class _IconContextDialogState extends State<IconContextDialog> {
   @override
   Widget build(BuildContext context) {
     if (isStoryDeleted) {
-      return const Text("Story Deleted");
+      return Text(AppLocalizations.of(context)!.storyDeleted);
     } else {
       return IconButton(
         icon: Icon(

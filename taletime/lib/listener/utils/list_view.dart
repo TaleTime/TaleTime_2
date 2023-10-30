@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "../../common utils/constants.dart";
 import "../screens/my_play_story.dart";
 import "icon_context_dialog.dart";
@@ -137,7 +138,7 @@ class _ListViewDataState extends State<ListViewData> {
                     .toList() ??
                 [];
 
-            if (widget.listType == "userStroiesList") {
+            if (widget.listType == "userStoriesList") {
               return ListView.builder(
                 primary: false,
                 itemCount: stories.length,
@@ -272,7 +273,7 @@ class _ListViewDataState extends State<ListViewData> {
                                             setState(() {
                                               hasLiked = !hasLiked;
                                               updateStory(stories[i]["id"],
-                                                  hasLiked, "userStroiesList");
+                                                  hasLiked, "userStoriesList");
                                               if (hasLiked) {
                                                 addStoryToFavoriteList(
                                                   stories[i]["id"],
@@ -294,8 +295,8 @@ class _ListViewDataState extends State<ListViewData> {
                                           width: 3,
                                         ),
                                         IconContextDialog(
-                                          "Delete Story...",
-                                          "Do you really want to delete this story?",
+                                          AppLocalizations.of(context)!.storyDeleteHint,
+                                          AppLocalizations.of(context)!.storyDeleteHintDescription,
                                           Icons.delete,
                                           stories[i]["id"],
                                           widget.storiesCollection,
@@ -353,7 +354,7 @@ class _ListViewDataState extends State<ListViewData> {
                         ),
                         isThreeLine: true,
                         subtitle: Text(
-                          "${favStories[i]["title"]}\nBy ${favStories[i]["author"]}",
+                          "${favStories[i]["title"]}\n${AppLocalizations.of(context)!.by} ${favStories[i]["author"]}",
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: Row(

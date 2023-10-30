@@ -162,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
               //Added new Downloads Section to find the downloaded stories
               child: ListTile(
                 leading: const Icon(Icons.download_rounded),
-                title: const Text("Downloads"),
+                title: Text(AppLocalizations.of(context)!.downloads),
                 onTap: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {

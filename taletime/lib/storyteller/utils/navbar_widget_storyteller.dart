@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/all_stories.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/screens/create_story.dart";
@@ -62,9 +63,9 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
         unselectedItemColor: Colors.grey.shade500,
         elevation: 0.0,
         items: [
-          navBarItems(Icons.home, "Home"),
-          navBarItems(Icons.book, "All Stories"),
-          navBarItems(Icons.playlist_add_sharp, "Record Story"),
+          navBarItems(Icons.home, AppLocalizations.of(context)!.home),
+          navBarItems(Icons.book, AppLocalizations.of(context)!.allStories_pageTitle),
+          navBarItems(Icons.playlist_add_sharp, AppLocalizations.of(context)!.recordStory),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
 import "../utils/add_icon_context_dialog.dart";
 import "../../common utils/constants.dart";
@@ -45,7 +46,7 @@ class _AddStoryState extends State<AddStory> {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     title: Text(
-                      "Add Story",
+                      AppLocalizations.of(context)!.addStory,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
@@ -96,7 +97,7 @@ class _AddStoryState extends State<AddStory> {
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
                             ),
-                            hintText: "Search stories...",
+                            hintText: AppLocalizations.of(context)!.searchStory,
                             hintStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 18),
                             suffixIcon: const Icon(
@@ -233,8 +234,8 @@ class _AddStoryState extends State<AddStory> {
                                                 Row(
                                                   children: [
                                                     AddIconContextDialog(
-                                                        "Add Story...",
-                                                        "Do you really want to add this story?",
+                                                        AppLocalizations.of(context)!.addStoryHint,
+                                                        AppLocalizations.of(context)!.addStoryHintDescription,
                                                         Icons
                                                             .playlist_add_outlined,
                                                         widget.storiesCollectionReference,

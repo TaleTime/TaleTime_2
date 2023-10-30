@@ -2,6 +2,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "../../common utils/decoration_util.dart";
@@ -77,7 +78,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Hello,",
+                      "${AppLocalizations.of(context)!.hello},",
                       style:
                           TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
@@ -112,7 +113,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "Search stories...",
+                          hintText: AppLocalizations.of(context)!.searchStory,
                           hintStyle:
                               const TextStyle(color: Colors.grey, fontSize: 18),
                           suffixIcon: const Icon(
@@ -128,7 +129,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                     Container(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Recently Played",
+                        AppLocalizations.of(context)!.recentlyPlayed,
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 18,
@@ -151,8 +152,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         right: 0,
                         child: documentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
-                                "Nothing to show yet. \nplease add some stories to your story library",
-                                "recentStories")
+                                AppLocalizations.of(context)!.noStoriesAvailable, "recentStories")
                             : SizedBox(
                                 height: 190,
                                 child: PageView.builder(
@@ -323,7 +323,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "My Stories",
+                      AppLocalizations.of(context)!.myStories,
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: 18,
@@ -347,15 +347,15 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             AsyncSnapshot<dynamic> snapshot) {
                           return storiesDocumentSnapshot.isEmpty
                               ? Decorations().noRecentContent(
-                                  "No stories yet. \nplease add some stories to your story library",
+                                  AppLocalizations.of(context)!.noStoriesAvailable,
                                   "")
                               : ListViewData(
                                   storiesDocumentSnapshot,
-                              widget.storiesCollection,
-                              widget.profile,
-                              widget.profiles,
-                                  "userStroiesList",
-                              widget.favoritesCollection);
+                                  widget.storiesCollection,
+                                  widget.profile,
+                                  widget.profiles,
+                                  "userStoriesList",
+                                  widget.favoritesCollection);
                         },
                       ),
                     ),
