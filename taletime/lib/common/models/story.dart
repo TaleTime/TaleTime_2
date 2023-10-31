@@ -20,14 +20,14 @@ class Story {
 
   final String? rating;
 
-  factory Story.fromDocumentSnapshot(DocumentSnapshot<Object?> snapshot) {
+  factory Story.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return Story(
       id: snapshot.id,
-      title: snapshot.get("title"),
-      author: snapshot.get("author"),
-      imageUrl: snapshot.get("image"),
-      audioUrl: snapshot.get("audio"),
-      rating: snapshot.get("rating"),
+      title: snapshot.data()?["title"],
+      author: snapshot.data()?["author"],
+      imageUrl: snapshot.data()?["image"],
+      audioUrl: snapshot.data()?["audio"],
+      rating: snapshot.data()?["rating"],
     );
   }
 

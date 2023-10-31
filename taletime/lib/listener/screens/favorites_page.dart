@@ -120,8 +120,8 @@ class _FavoritePageState extends State<FavoritePage> {
                     children: [
                       SizedBox(
                         height: screenHeight * 0.8,
-                        child: ListViewData(documentSnapshot, widget.storiesColl,
-                            widget.profile, widget.profiles, "favList", widget.favorites),
+                        //child: ListViewData(documentSnapshot, widget.storiesColl,
+                        //    widget.profile, widget.profiles, "favList", widget.favorites),
                       ),
                     ],
                   ),

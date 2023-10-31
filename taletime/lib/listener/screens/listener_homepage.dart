@@ -2,7 +2,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
-import "package:taletime/common/models/story.dart";
+import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
@@ -33,32 +33,16 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   var _selectedIndex = 0;
 
-  Stream<QuerySnapshot<Story>>? _storiesQuery;
-
-  int _limit = 1;
+  Stream<QuerySnapshot<AddedStory>>? _storiesStream;
 
   @override
   void initState() {
     super.initState();
-    print("Hello, World!!! 123");
 
-    _storiesQuery = widget.storiesCollection.withConverter(
-      fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+    _storiesStream = widget.storiesCollection.withConverter(
+      fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
       toFirestore: (snap, _) => snap.toFirebase(),
-    ).limit(_limit).snapshots();
-
-    print("Hello, World!!!");
-  }
-
-  void _updateLimit() {
-    setState(() {
-      _limit = _limit == 1 ? 2 : 1;
-
-      _storiesQuery = widget.storiesCollection.withConverter(
-        fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-        toFirestore: (snap, _) => snap.toFirebase(),
-      ).limit(_limit).snapshots();
-    });
+    ).snapshots();
   }
   
   @override
@@ -379,7 +363,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       SizedBox(
                         height: 260,
                         child: StreamBuilder(
-                          stream: _storiesQuery,
+                          stream: _storiesStream,
                           // _storiesQuery!.snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
@@ -392,8 +376,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             return Column(
                                 children: snapshot.data!.docs.map((element) {
                               return StoryListItem(
-                                onTap: _updateLimit,
                                 story: element.data(),
+                                buttons: [
+                                  StoryActionButton(
+                                      icon: element.data().liked ? Icons.favorite : Icons.favorite_border,
+                                      onTap: () { },
+                                  )
+                                ],
                               );
                             }).toList());
                             // return SizedBox();
