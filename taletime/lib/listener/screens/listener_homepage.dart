@@ -34,17 +34,30 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selectedIndex = 0;
 
   Stream<QuerySnapshot<AddedStory>>? _storiesStream;
+  Stream<QuerySnapshot<AddedStory>>? _recentlyPlayedStoriesStream;
 
   @override
   void initState() {
     super.initState();
 
-    _storiesStream = widget.storiesCollection.withConverter(
-      fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-      toFirestore: (snap, _) => snap.toFirebase(),
-    ).snapshots();
+    _storiesStream = widget.storiesCollection
+        .withConverter(
+          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        )
+        .snapshots();
+
+    _recentlyPlayedStoriesStream = widget.storiesCollection
+        .withConverter(
+          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        )
+        .where("timeLastPlayed", isNotEqualTo: null)
+        .orderBy("timeLastPlayed", descending: true)
+        .limit(10)
+        .snapshots();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -147,7 +160,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   ),
                 ),
                 StreamBuilder(
-                    stream: widget.storiesCollection.snapshots(),
+                    stream: _recentlyPlayedStoriesStream,
                     builder:
                         (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                       if (streamSnapshot.hasData) {
@@ -379,8 +392,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                 story: element.data(),
                                 buttons: [
                                   StoryActionButton(
-                                      icon: element.data().liked ? Icons.favorite : Icons.favorite_border,
-                                      onTap: () { },
+                                    icon: element.data().liked
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    onTap: () {},
                                   )
                                 ],
                               );
