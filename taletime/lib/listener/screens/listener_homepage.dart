@@ -2,6 +2,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common/models/story.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
@@ -350,7 +351,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      StoryListItem(),
+                      /*StoryListItem(
+                        story: Story(
+                          id: "test",
+                          title: "Mein kleines Märchen",
+                          imageUrl: "http://placekitten.com/256/256",
+                        ),
+                      ),*/
                       SizedBox(
                         height: 260,
                         child: StreamBuilder(

@@ -1,10 +1,10 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "package:taletime/internationalization/localizations_ext.dart";
-import "../../common utils/constants.dart";
+import "package:taletime/common/models/story.dart";
+import "package:taletime/common/widgets/story_list_item.dart";
+
 import "../screens/my_play_story.dart";
-import "icon_context_dialog.dart";
 
 class ListViewData extends StatefulWidget {
   final List storiesColl;
@@ -13,6 +13,7 @@ class ListViewData extends StatefulWidget {
   final profile;
   final profiles;
   String listType;
+
   ListViewData(
     this.storiesColl,
     this.storiesCollection,
@@ -116,8 +117,8 @@ class _ListViewDataState extends State<ListViewData> {
           return const CircularProgressIndicator();
         }
 
-        List<Map<String, dynamic>> stories = snapshot.data?.docs
-                .map((doc) => doc.data() as Map<String, dynamic>)
+        List<Story> stories = snapshot.data?.docs
+                .map((doc) => Story.fromQueryDocumentSnapshot(doc))
                 .toList() ??
             [];
 
@@ -133,8 +134,8 @@ class _ListViewDataState extends State<ListViewData> {
               return const CircularProgressIndicator();
             }
 
-            List<Map<String, dynamic>> favStories = innerSnapshot.data?.docs
-                    .map((doc) => doc.data() as Map<String, dynamic>)
+            List<Story> favStories = innerSnapshot.data?.docs
+                    .map((doc) => Story.fromQueryDocumentSnapshot(doc))
                     .toList() ??
                 [];
 
@@ -143,7 +144,7 @@ class _ListViewDataState extends State<ListViewData> {
                 primary: false,
                 itemCount: stories.length,
                 itemBuilder: (_, i) {
-                  bool hasLiked = stories[i]["isLiked"];
+                  /*bool hasLiked = stories[i]["isLiked"];
 
                   for (var story in stories) {
                     if (story["isLiked"] == true) {
@@ -159,162 +160,28 @@ class _ListViewDataState extends State<ListViewData> {
                     } else {
                       removeFromFavoriteList(story["id"]);
                     }
-                  }
+                  }*/
 
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return MyPlayStory(stories[i], widget.storiesCollection);
-                      }));
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 85,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 75,
-                                margin: const EdgeInsets.only(bottom: 9),
-                                padding: const EdgeInsets.only(
-                                    top: 8, left: 8, bottom: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11),
-                                  color: Colors.teal.shade600,
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.transparent,
-                                      ),
-                                      child: Image.network(
-                                          stories[i]["image"] == ""
-                                              ? storyImagePlaceholder
-                                              : stories[i]["image"],
-                                          fit: BoxFit.fill),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 2),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            children: [
-                                              Text(
-                                                stories[i]["rating"],
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              const Icon(
-                                                Icons.star,
-                                                color: Colors.white,
-                                                size: 14,
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: screenWidth * 0.4,
-                                            child: Text(
-                                              stories[i]["title"],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15.0,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: screenWidth * 0.4,
-                                            child: Text(
-                                              "By ${stories[i]["author"]}",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 13.0,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Container(),
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: hasLiked == false
-                                              ? Icon(
-                                                  _icons[1],
-                                                  size: 21,
-                                                  color: Colors.white,
-                                                )
-                                              : Icon(
-                                                  _icons[0],
-                                                  size: 21,
-                                                  color: Colors.white,
-                                                ),
-                                          onPressed: () {
-                                            setState(() {
-                                              hasLiked = !hasLiked;
-                                              updateStory(stories[i]["id"],
-                                                  hasLiked, "userStoriesList");
-                                              if (hasLiked) {
-                                                addStoryToFavoriteList(
-                                                  stories[i]["id"],
-                                                  stories[i]["audio"],
-                                                  stories[i]["author"],
-                                                  stories[i]["image"],
-                                                  stories[i]["title"],
-                                                  stories[i]["rating"],
-                                                  hasLiked,
-                                                );
-                                              } else {
-                                                removeFromFavoriteList(
-                                                    stories[i]["id"]);
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
-                                        IconContextDialog(
-                                          AppLocalizations.of(context)!.storyDeleteHint,
-                                          AppLocalizations.of(context)!.storyDeleteHintDescription,
-                                          Icons.delete,
-                                          stories[i]["id"],
-                                          widget.storiesCollection,
-                                        ),
-                                        const SizedBox(
-                                          width: 1,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return MyPlayStory(
+                              stories[i], widget.storiesCollection);
+                        }));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: StoryListItem(
+                          story: stories[i],
+                          buttons: [
+                            StoryActionButton(
+                              icon: Icons.favorite,
+                              onTab: () {},
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                  );
+                      ));
                 },
               );
             } else {
@@ -322,68 +189,19 @@ class _ListViewDataState extends State<ListViewData> {
                 primary: false,
                 itemCount: favStories.length,
                 itemBuilder: (_, i) {
-                  bool hasLiked = favStories[i]["isLiked"];
-                  return Container(
-                    alignment: Alignment.center,
-                    height: 100,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      color: kPrimaryColor,
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return MyPlayStory(
-                                favStories[i], widget.favoritesCollection);
-                          }));
-                        },
-                        leading: Image.network(favStories[i]["image"],
-                            fit: BoxFit.fill),
-                        title: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              favStories[i]["rating"],
-                            ),
-                            const Icon(
-                              Icons.star,
-                              size: 15,
-                            )
-                          ],
-                        ),
-                        isThreeLine: true,
-                        subtitle: Text(
-                          "${favStories[i]["title"]}\n${AppLocalizations.of(context)!.by} ${favStories[i]["author"]}",
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: hasLiked
-                                  ? const Icon(
-                                      Icons.favorite,
-                                      color: Colors.white,
-                                    )
-                                  : const Icon(
-                                      Icons.favorite_border,
-                                      color: Colors.white,
-                                    ),
-                              onPressed: () {
-                                setState(() {
-                                  hasLiked = !hasLiked;
-
-                                  if (!hasLiked) {
-                                    updateStory(
-                                        favStories[i]["id"], false, "favList");
-                                    removeFromFavoriteList(favStories[i]["id"]);
-                                  }
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                  // bool hasLiked = favStories[i]["isLiked"];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: StoryListItem(
+                        story: stories[i],
+                        buttons: [
+                          StoryActionButton(
+                            icon: Icons.favorite,
+                            onTab: () {},
+                          ),
+                        ],
                       ),
                     ),
                   );

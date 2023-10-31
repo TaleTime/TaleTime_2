@@ -1,12 +1,33 @@
 import "package:flutter/material.dart";
+import "package:taletime/common/models/story.dart";
+
+class StoryActionButton {
+  const StoryActionButton({
+    required this.icon,
+    required this.onTab,
+  });
+
+  final IconData icon;
+  final Function() onTab;
+}
 
 class StoryListItem extends StatelessWidget {
+  const StoryListItem({
+    super.key,
+    required this.story,
+    this.buttons,
+  });
+
+  final Story story;
+
+  final List<StoryActionButton>? buttons;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: Colors.green,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        color: Colors.teal.shade600,
       ),
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -17,49 +38,70 @@ class StoryListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Image.network(
-                    "http://placekitten.com/128/128",
-                    fit: BoxFit.contain,
-                    width: 64,
-                    height: 64,
-                  ),
+                  story.imageUrl != null
+                      ? Image.network(
+                          story.imageUrl!,
+                          fit: BoxFit.cover,
+                          width: 64,
+                          height: 64,
+                        )
+                      : Image.asset("logo.png"),
                   const SizedBox(width: 4.0),
                   Expanded(
                     child: Text(
-                      // "Eine tolle ganz ganz lange Geschichte, die noch viel länger und länger und länger werden kann.",
-                      // "Eine kurze Geschichte",
-                      "Das Märchen von der kleinen Prinzessin",
+                      story.title ?? "Kein name",
                       softWrap: true,
                       overflow: TextOverflow.fade,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ]),
-                SizedBox(height: 4.0),
+                const SizedBox(height: 4.0),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.person,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        //"By Foo Bar Bla Bli Blub Hoo Baz Hello World",
-                        "By Foo Bar",
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
+                    if (story.author != null) ...[
+                      const Icon(
+                        Icons.person,
+                        color: Colors.white,
                       ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("ꞏ")),
-                    Text("2,5"),
-                    Icon(
-                      Icons.star,
-                    ),
+                      Flexible(
+                        flex: 1,
+                        child: Text(
+                          story.author!,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                    if (story.author != null && story.rating != null)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          "ꞏ",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    if (story.rating != null) ...[
+                      Text(
+                        story.rating!,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.star,
+                        color: Colors.white,
+                      ),
+                    ],
                   ],
                 ),
               ],
@@ -67,16 +109,16 @@ class StoryListItem extends StatelessWidget {
           ),
           Column(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.heart_broken),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.delete),
-              ),
+              if (buttons != null)
+                ...buttons!.map(
+                  (btn) => IconButton(
+                    onPressed: btn.onTab,
+                    icon: Icon(btn.icon),
+                    color: Colors.white,
+                  ),
+                ),
             ],
-          )
+          ),
         ],
       ),
     );
