@@ -118,7 +118,7 @@ class _ListViewDataState extends State<ListViewData> {
         }
 
         List<Story> stories = snapshot.data?.docs
-                .map((doc) => Story.fromQueryDocumentSnapshot(doc))
+                .map((doc) => Story.fromDocumentSnapshot(doc))
                 .toList() ??
             [];
 
@@ -135,7 +135,7 @@ class _ListViewDataState extends State<ListViewData> {
             }
 
             List<Story> favStories = innerSnapshot.data?.docs
-                    .map((doc) => Story.fromQueryDocumentSnapshot(doc))
+                    .map((doc) => Story.fromDocumentSnapshot(doc))
                     .toList() ??
                 [];
 

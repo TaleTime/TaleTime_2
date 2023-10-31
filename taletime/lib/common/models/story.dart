@@ -20,8 +20,7 @@ class Story {
 
   final String? rating;
 
-  factory Story.fromQueryDocumentSnapshot(
-      QueryDocumentSnapshot<Object?> snapshot) {
+  factory Story.fromDocumentSnapshot(DocumentSnapshot<Object?> snapshot) {
     return Story(
       id: snapshot.id,
       title: snapshot.get("title"),
@@ -30,5 +29,15 @@ class Story {
       audioUrl: snapshot.get("audio"),
       rating: snapshot.get("rating"),
     );
+  }
+
+  Map<String, Object?> toFirebase() {
+    return {
+      "title": title,
+      "author": author,
+      "image": imageUrl,
+      "audio": audioUrl,
+      "rating": rating,
+    };
   }
 }

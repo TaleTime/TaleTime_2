@@ -6,12 +6,10 @@ import "package:taletime/common/models/story.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
-import "package:taletime/listener/utils/list_view.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 
 import "../../common utils/decoration_util.dart";
 import "../../settings/settings.dart";
-import "../utils/search_bar_util.dart";
 
 class ListenerHomePage extends StatefulWidget {
   final Profile profile;
@@ -31,12 +29,38 @@ class ListenerHomePage extends StatefulWidget {
 }
 
 class _ListenerHomePageState extends State<ListenerHomePage> {
-  var _selectedIndex = 0;
-
   _ListenerHomePageState();
 
-  List matchStoryList = [];
+  var _selectedIndex = 0;
 
+  Stream<QuerySnapshot<Story>>? _storiesQuery;
+
+  int _limit = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    print("Hello, World!!! 123");
+
+    _storiesQuery = widget.storiesCollection.withConverter(
+      fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+      toFirestore: (snap, _) => snap.toFirebase(),
+    ).limit(_limit).snapshots();
+
+    print("Hello, World!!!");
+  }
+
+  void _updateLimit() {
+    setState(() {
+      _limit = _limit == 1 ? 2 : 1;
+
+      _storiesQuery = widget.storiesCollection.withConverter(
+        fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+        toFirestore: (snap, _) => snap.toFirebase(),
+      ).limit(_limit).snapshots();
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -101,13 +125,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         height: 42,
                         child: TextField(
                           onChanged: (value) {
-                            setState(() {
-                              matchStoryList = SearchBarUtil().searchStory(
-                                  storiesDocumentSnapshot,
-                                  value); //search stories
-                            });
-                            SearchBarUtil()
-                                .isStoryListEmpty(matchStoryList, value);
+                            setState(() {});
                           },
                           style: TextStyle(color: kPrimaryColor),
                           decoration: InputDecoration(
@@ -321,12 +339,12 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                         );
                       }
                     }),
-                Positioned(
+                /* Positioned(
                   top: 180,
                   left: 0,
                   right: 0,
                   child: SearchBarUtil().searchBarContainer(matchStoryList),
-                ),
+                ),*/
                 Positioned(
                   top: 490,
                   left: 20,
@@ -361,21 +379,24 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       SizedBox(
                         height: 260,
                         child: StreamBuilder(
-                          stream: widget.storiesCollection.snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<dynamic> snapshot) {
-                            return storiesDocumentSnapshot.isEmpty
-                                ? Decorations().noRecentContent(
-                                    AppLocalizations.of(context)!
-                                        .noStoriesAvailable,
-                                    "")
-                                : ListViewData(
-                                    storiesDocumentSnapshot,
-                                    widget.storiesCollection,
-                                    widget.profile,
-                                    widget.profiles,
-                                    "userStoriesList",
-                                    widget.favoritesCollection);
+                          stream: _storiesQuery,
+                          // _storiesQuery!.snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              print("Loading!");
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            return Column(
+                                children: snapshot.data!.docs.map((element) {
+                              return StoryListItem(
+                                onTap: _updateLimit,
+                                story: element.data(),
+                              );
+                            }).toList());
+                            // return SizedBox();
                           },
                         ),
                       ),
