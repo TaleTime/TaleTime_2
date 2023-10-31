@@ -162,26 +162,19 @@ class _ListViewDataState extends State<ListViewData> {
                     }
                   }*/
 
-                  return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return MyPlayStory(
-                              stories[i], widget.storiesCollection);
-                        }));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: StoryListItem(
-                          story: stories[i],
-                          buttons: [
-                            StoryActionButton(
-                              icon: Icons.favorite,
-                              onTab: () {},
-                            )
-                          ],
-                        ),
-                      ));
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: StoryListItem(
+                      story: stories[i],
+                      onTap: () {print("Tap on story");},
+                      buttons: [
+                        StoryActionButton(
+                          icon: Icons.favorite,
+                          onTap: () {print("Tab on story like");},
+                        )
+                      ],
+                    ),
+                  );
                 },
               );
             } else {
@@ -199,7 +192,7 @@ class _ListViewDataState extends State<ListViewData> {
                         buttons: [
                           StoryActionButton(
                             icon: Icons.favorite,
-                            onTab: () {},
+                            onTap: () {},
                           ),
                         ],
                       ),
