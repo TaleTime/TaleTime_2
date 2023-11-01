@@ -105,137 +105,132 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> documentSnapshot =
                 streamSnapshot.data!.docs;
-            return Positioned(
-              top: 270,
-              left: -90,
-              right: 0,
-              child: documentSnapshot.isEmpty
-                  ? Decorations().noRecentContent(
-                      AppLocalizations.of(context)!.noStoriesAvailable,
-                      "recentStories")
-                  : SizedBox(
-                      height: 190,
-                      child: PageView.builder(
-                          onPageChanged: (index) {
-                            setState(() {
-                              _selectedIndex = index;
-                            });
-                          },
-                          controller: PageController(viewportFraction: 0.4),
-                          itemCount: documentSnapshot == null
-                              ? 0
-                              : documentSnapshot.length,
-                          itemBuilder: (_, i) {
-                            var scale = _selectedIndex == i ? 1.0 : 0.8;
-                            return TweenAnimationBuilder(
-                                duration: const Duration(microseconds: 350),
-                                tween: Tween(begin: scale, end: scale),
-                                curve: Curves.ease,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context) {
-                                        return MyPlayStory(documentSnapshot[i],
-                                            widget.storiesCollection);
-                                      }));
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(right: 30),
-                                      height: 180,
-                                      width: 85,
-                                      padding: const EdgeInsets.only(
-                                          top: 15, left: 15, right: 10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey,
-                                          borderRadius:
-                                              BorderRadius.circular(18),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                documentSnapshot[i]["image"] ==
-                                                        ""
-                                                    ? storyImagePlaceholder
-                                                    : documentSnapshot[i]
-                                                        ["image"]),
-                                            colorFilter: ColorFilter.mode(
-                                                Colors.black.withOpacity(0.6),
-                                                BlendMode.dstATop),
-                                            fit: BoxFit.cover,
-                                          )),
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            top: 10,
-                                            left: 0,
-                                            right: 20,
-                                            child: Container(
-                                              height: 30,
-                                              color: Colors.transparent,
-                                              child: Marquee(
-                                                text: documentSnapshot[i]
-                                                    ["title"],
-                                                blankSpace: 30,
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                pauseAfterRound:
-                                                    const Duration(seconds: 2),
-                                              ),
+            return documentSnapshot.isEmpty
+                ? Decorations().noRecentContent(
+                    AppLocalizations.of(context)!.noStoriesAvailable,
+                    "recentStories")
+                : SizedBox(
+                    height: 190,
+                    child: PageView.builder(
+                        onPageChanged: (index) {
+                          setState(() {
+                            _selectedIndex = index;
+                          });
+                        },
+                        controller: PageController(viewportFraction: 0.4),
+                        itemCount: documentSnapshot == null
+                            ? 0
+                            : documentSnapshot.length,
+                        itemBuilder: (_, i) {
+                          var scale = _selectedIndex == i ? 1.0 : 0.8;
+                          return TweenAnimationBuilder(
+                              duration: const Duration(microseconds: 350),
+                              tween: Tween(begin: scale, end: scale),
+                              curve: Curves.ease,
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                      return MyPlayStory(documentSnapshot[i],
+                                          widget.storiesCollection);
+                                    }));
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 30),
+                                    height: 180,
+                                    width: 85,
+                                    padding: const EdgeInsets.only(
+                                        top: 15, left: 15, right: 10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(18),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              documentSnapshot[i]["image"] ==
+                                                      ""
+                                                  ? storyImagePlaceholder
+                                                  : documentSnapshot[i]
+                                                      ["image"]),
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.black.withOpacity(0.6),
+                                              BlendMode.dstATop),
+                                          fit: BoxFit.cover,
+                                        )),
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          top: 10,
+                                          left: 0,
+                                          right: 20,
+                                          child: Container(
+                                            height: 30,
+                                            color: Colors.transparent,
+                                            child: Marquee(
+                                              text: documentSnapshot[i]
+                                                  ["title"],
+                                              blankSpace: 30,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      FontWeight.bold),
+                                              pauseAfterRound:
+                                                  const Duration(seconds: 2),
                                             ),
                                           ),
-                                          Positioned(
-                                            top: 35,
-                                            left: 0,
-                                            right: 45,
-                                            child: Container(
-                                              height: 30,
-                                              color: Colors.transparent,
-                                              child: Marquee(
-                                                text:
-                                                    "By ${documentSnapshot[i]["author"]}",
-                                                blankSpace: 20,
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                pauseAfterRound:
-                                                    const Duration(seconds: 2),
-                                              ),
+                                        ),
+                                        Positioned(
+                                          top: 35,
+                                          left: 0,
+                                          right: 45,
+                                          child: Container(
+                                            height: 30,
+                                            color: Colors.transparent,
+                                            child: Marquee(
+                                              text:
+                                                  "By ${documentSnapshot[i]["author"]}",
+                                              blankSpace: 20,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight:
+                                                      FontWeight.bold),
+                                              pauseAfterRound:
+                                                  const Duration(seconds: 2),
                                             ),
                                           ),
-                                          Positioned(
-                                            top: 115,
-                                            left: 92,
-                                            right: 0,
-                                            child: Container(
-                                              height: 45,
-                                              width: 15,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: Icon(
-                                                Icons.play_arrow_rounded,
-                                                size: 35,
-                                                color: kPrimaryColor,
-                                              ),
+                                        ),
+                                        Positioned(
+                                          top: 115,
+                                          left: 92,
+                                          right: 0,
+                                          child: Container(
+                                            height: 45,
+                                            width: 15,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Icon(
+                                              Icons.play_arrow_rounded,
+                                              size: 35,
+                                              color: kPrimaryColor,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    )),
-                                builder: (_, value, child) {
-                                  return Transform.scale(
-                                    scale: scale,
-                                    child: child,
-                                  );
-                                });
-                          }),
-                    ),
-            );
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              builder: (_, value, child) {
+                                return Transform.scale(
+                                  scale: scale,
+                                  child: child,
+                                );
+                              });
+                        }),
+                  );
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -246,14 +241,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
         elevation: 0.0,
+        scrolledUnderElevation: 1,
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () {
@@ -269,96 +264,89 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           )
         ],
       ),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 50,
-            left: 22,
-            right: 28,
-            height: screenHeight * 0.34,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${AppLocalizations.of(context)!.hello},",
-                  style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
-                ),
-                Text(
-                  widget.profile.name,
-                  style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                SizedBox(
-                  height: 42,
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                    style: TextStyle(color: kPrimaryColor),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 30),
-                      filled: true,
-                      fillColor: Colors.blueGrey.shade50,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
+      body: SizedBox(
+        height: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${AppLocalizations.of(context)!.hello},",
+                        style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
                       ),
-                      hintText: AppLocalizations.of(context)!.searchStory,
-                      hintStyle:
-                          const TextStyle(color: Colors.grey, fontSize: 18),
-                      suffixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
+                      Text(
+                        widget.profile.name,
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      SizedBox(
+                        height: 42,
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          style: TextStyle(color: kPrimaryColor),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(left: 30),
+                            filled: true,
+                            fillColor: Colors.blueGrey.shade50,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
+                            hintText: AppLocalizations.of(context)!.searchStory,
+                            hintStyle:
+                                const TextStyle(color: Colors.grey, fontSize: 18),
+                            suffixIcon: const Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text(
+                          AppLocalizations.of(context)!.recentlyPlayed,
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    AppLocalizations.of(context)!.recentlyPlayed,
-                    style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: 18,
-                    ),
+                  _buildRecentlyPlayed(context),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.myStories,
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              ],
+                  _buildStoriesList(context),
+                ],
+              ),
             ),
-          ),
-          _buildRecentlyPlayed(context),
-          Positioned(
-            top: 490,
-            left: 20,
-            right: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.myStories,
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 528,
-            left: 30,
-            right: 15,
-            child: _buildStoriesList(context),
-          ),
-        ],
+        ),
       ),
     );
   }
