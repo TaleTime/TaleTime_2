@@ -34,7 +34,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   var _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
 
-  Color _appbarColor = Colors.transparent;
+  bool _appBarTransparent = true;
 
   Stream<QuerySnapshot<AddedStory>>? _storiesStream;
   Stream<QuerySnapshot<AddedStory>>? _recentlyPlayedStoriesStream;
@@ -61,13 +61,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         .snapshots();
 
     _scrollController.addListener(() {
-      if (_scrollController.offset < 40 && _appbarColor == Colors.white) {
+      if (_scrollController.offset < 40 && _appBarTransparent == false) {
         setState(() {
-          _appbarColor = Colors.transparent;
+          _appBarTransparent = true;
         });
-      } else if (_scrollController.offset >= 40 && _appbarColor == Colors.transparent) {
+      } else if (_scrollController.offset >= 40 && _appBarTransparent == true) {
         setState(() {
-          _appbarColor = Colors.white;
+          _appBarTransparent = false;
         });
       }
     });
@@ -158,12 +158,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                         top: 15, left: 15, right: 10),
                                     decoration: BoxDecoration(
                                         color: Colors.grey,
-                                        borderRadius:
-                                            BorderRadius.circular(18),
+                                        borderRadius: BorderRadius.circular(18),
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                              documentSnapshot[i]["image"] ==
-                                                      ""
+                                              documentSnapshot[i]["image"] == ""
                                                   ? storyImagePlaceholder
                                                   : documentSnapshot[i]
                                                       ["image"]),
@@ -188,8 +186,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                               style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 16,
-                                                  fontWeight:
-                                                      FontWeight.bold),
+                                                  fontWeight: FontWeight.bold),
                                               pauseAfterRound:
                                                   const Duration(seconds: 2),
                                             ),
@@ -209,8 +206,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                               style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12,
-                                                  fontWeight:
-                                                      FontWeight.bold),
+                                                  fontWeight: FontWeight.bold),
                                               pauseAfterRound:
                                                   const Duration(seconds: 2),
                                             ),
@@ -261,8 +257,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        backgroundColor: _appbarColor,
+        backgroundColor: _appBarTransparent ? Colors.transparent : Colors.white,
         shadowColor: Colors.white,
+        title: _appBarTransparent
+            ? null
+            : Text(
+                AppLocalizations.of(context)!.myStories,
+                style: TextStyle(color: Colors.teal.shade600),
+              ),
         actions: [
           IconButton(
             onPressed: () {
@@ -272,8 +274,9 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       builder: (context) =>
                           SettingsPage(widget.profile, widget.profiles)));
             },
-            icon: Icon(Icons.menu,
-                size: 33, color: kPrimaryColor, //kPrimaryColor
+            icon: Icon(
+              Icons.menu,
+              size: 33, color: kPrimaryColor, //kPrimaryColor
             ),
           )
         ],
@@ -285,82 +288,84 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           child: SingleChildScrollView(
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)!.hello},",
-                        style: TextStyle(color: Colors.brown.shade600, fontSize: 15),
-                      ),
-                      Text(
-                        widget.profile.name,
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      SizedBox(
-                        height: 42,
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          style: TextStyle(color: kPrimaryColor),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(left: 30),
-                            filled: true,
-                            fillColor: Colors.blueGrey.shade50,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                            hintText: AppLocalizations.of(context)!.searchStory,
-                            hintStyle:
-                                const TextStyle(color: Colors.grey, fontSize: 18),
-                            suffixIcon: const Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${AppLocalizations.of(context)!.hello},",
+                      style:
+                          TextStyle(color: Colors.brown.shade600, fontSize: 15),
+                    ),
+                    Text(
+                      widget.profile.name,
+                      style: TextStyle(
+                          color: kPrimaryColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    SizedBox(
+                      height: 42,
+                      child: TextField(
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        style: TextStyle(color: kPrimaryColor),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(left: 30),
+                          filled: true,
+                          fillColor: Colors.blueGrey.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                          hintText: AppLocalizations.of(context)!.searchStory,
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 18),
+                          suffixIcon: const Icon(
+                            Icons.search,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 35,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Text(
-                          AppLocalizations.of(context)!.recentlyPlayed,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  _buildRecentlyPlayed(context),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.myStories,
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        AppLocalizations.of(context)!.recentlyPlayed,
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 18,
                         ),
                       ),
-                    ],
-                  ),
-                  _buildStoriesList(context),
-                ],
-              ),
+                    )
+                  ],
+                ),
+                _buildRecentlyPlayed(context),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.myStories,
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+                _buildStoriesList(context),
+              ],
             ),
+          ),
         ),
       ),
     );
