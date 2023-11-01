@@ -32,6 +32,9 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   _ListenerHomePageState();
 
   var _selectedIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+
+  Color _appbarColor = Colors.transparent;
 
   Stream<QuerySnapshot<AddedStory>>? _storiesStream;
   Stream<QuerySnapshot<AddedStory>>? _recentlyPlayedStoriesStream;
@@ -56,6 +59,18 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         .orderBy("timeLastPlayed", descending: true)
         .limit(10)
         .snapshots();
+
+    _scrollController.addListener(() {
+      if (_scrollController.offset < 40 && _appbarColor == Colors.white) {
+        setState(() {
+          _appbarColor = Colors.transparent;
+        });
+      } else if (_scrollController.offset >= 40 && _appbarColor == Colors.transparent) {
+        setState(() {
+          _appbarColor = Colors.white;
+        });
+      }
+    });
   }
 
   Widget _buildStoriesList(BuildContext context) {
@@ -246,8 +261,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        scrolledUnderElevation: 1,
-        backgroundColor: Colors.transparent,
+        backgroundColor: _appbarColor,
         shadowColor: Colors.white,
         actions: [
           IconButton(
@@ -269,6 +283,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
           child: SingleChildScrollView(
+            controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
