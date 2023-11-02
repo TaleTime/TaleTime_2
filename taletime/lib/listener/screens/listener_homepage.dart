@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/added_story.dart";
+import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
@@ -116,137 +117,51 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   Widget _buildRecentlyPlayed(BuildContext context) {
     return StreamBuilder(
         stream: _recentlyPlayedStoriesStream,
-        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-          if (streamSnapshot.hasData) {
-            final List<QueryDocumentSnapshot> documentSnapshot =
-                streamSnapshot.data!.docs;
-            return documentSnapshot.isEmpty
-                ? Decorations().noRecentContent(
-                    AppLocalizations.of(context)!.noStoriesAvailable,
-                    "recentStories")
-                : SizedBox(
-                    height: 190,
-                    child: PageView.builder(
-                        onPageChanged: (index) {
-                          setState(() {
-                            _selectedIndex = index;
-                          });
-                        },
-                        controller: PageController(viewportFraction: 0.4),
-                        itemCount: documentSnapshot == null
-                            ? 0
-                            : documentSnapshot.length,
-                        itemBuilder: (_, i) {
-                          var scale = _selectedIndex == i ? 1.0 : 0.8;
-                          return TweenAnimationBuilder(
-                              duration: const Duration(microseconds: 350),
-                              tween: Tween(begin: scale, end: scale),
-                              curve: Curves.ease,
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) {
-                                      return MyPlayStory(documentSnapshot[i],
-                                          widget.storiesCollection);
-                                    }));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(right: 30),
-                                    height: 180,
-                                    width: 85,
-                                    padding: const EdgeInsets.only(
-                                        top: 15, left: 15, right: 10),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.circular(18),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              documentSnapshot[i]["image"] == ""
-                                                  ? storyImagePlaceholder
-                                                  : documentSnapshot[i]
-                                                      ["image"]),
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.black.withOpacity(0.6),
-                                              BlendMode.dstATop),
-                                          fit: BoxFit.cover,
-                                        )),
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          top: 10,
-                                          left: 0,
-                                          right: 20,
-                                          child: Container(
-                                            height: 30,
-                                            color: Colors.transparent,
-                                            child: Marquee(
-                                              text: documentSnapshot[i]
-                                                  ["title"],
-                                              blankSpace: 30,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                              pauseAfterRound:
-                                                  const Duration(seconds: 2),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 35,
-                                          left: 0,
-                                          right: 45,
-                                          child: Container(
-                                            height: 30,
-                                            color: Colors.transparent,
-                                            child: Marquee(
-                                              text:
-                                                  "By ${documentSnapshot[i]["author"]}",
-                                              blankSpace: 20,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold),
-                                              pauseAfterRound:
-                                                  const Duration(seconds: 2),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 115,
-                                          left: 92,
-                                          right: 0,
-                                          child: Container(
-                                            height: 45,
-                                            width: 15,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Icon(
-                                              Icons.play_arrow_rounded,
-                                              size: 35,
-                                              color: kPrimaryColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              builder: (_, value, child) {
-                                return Transform.scale(
-                                  scale: scale,
-                                  child: child,
-                                );
-                              });
-                        }),
-                  );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+        builder: (context, streamSnapshot) {
+          final data = streamSnapshot.data;
+
+          if (data == null) {
+            return const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           }
+
+          final docs = data.docs;
+          return docs.isEmpty
+              ? Decorations().noRecentContent(
+                  AppLocalizations.of(context)!.noStoriesAvailable,
+                  "recentStories")
+              : SizedBox(
+                  height: 190,
+                  child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                      },
+                      controller: PageController(viewportFraction: 0.4),
+                      itemCount: docs.length,
+                      itemBuilder: (_, i) {
+                        var scale = _selectedIndex == i ? 1.0 : 0.8;
+                        return TweenAnimationBuilder(
+                            duration: const Duration(microseconds: 350),
+                            tween: Tween(begin: scale, end: scale),
+                            curve: Curves.ease,
+                            child:
+                                StoryCard(
+                                  story: docs[i].data(),
+                                ),
+                            builder: (_, value, child) {
+                              return Transform.scale(
+                                scale: scale,
+                                child: child,
+                              );
+                            });
+                      }),
+                );
         });
   }
 
@@ -257,7 +172,9 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        backgroundColor: _appBarTransparent ? Colors.transparent : Colors.white,
+        backgroundColor: _appBarTransparent
+            ? Colors.transparent
+            : Theme.of(context).colorScheme.background,
         shadowColor: Colors.white,
         title: _appBarTransparent
             ? null
@@ -296,14 +213,15 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   children: [
                     Text(
                       "${AppLocalizations.of(context)!.hello},",
-                      style:
-                          TextStyle(color: Colors.brown.shade600, fontSize: 15),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          fontSize: 18),
                     ),
                     Text(
                       widget.profile.name,
                       style: TextStyle(
                           color: kPrimaryColor,
-                          fontSize: 25,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
