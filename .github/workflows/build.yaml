@@ -26,7 +26,7 @@ jobs:
         with:
             channel: 'stable'
             cache: true
-      - name: Cache flutter build
+      - name: 💵 Cache flutter build
         id: cache-primes
         uses: actions/cache@v3
         with:
