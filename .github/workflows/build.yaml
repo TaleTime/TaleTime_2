@@ -32,6 +32,10 @@ jobs:
         with:
            path: ./taletime/build
            key: ${{ runner.os }}-flutter-build
+      - name: 💵 Cache Flutter dependencies
+        uses: actions/cache@v1
+        with:
+          path: /opt/hostedtoolcache/flutter
       - name: 📦 Get dependencies
         run: flutter pub get
         working-directory: ./taletime
