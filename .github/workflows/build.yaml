@@ -26,6 +26,12 @@ jobs:
         with:
             channel: 'stable'
             cache: true
+      - name: Cache flutter build
+        id: cache-primes
+        uses: actions/cache@v3
+        with:
+           path: ./taletime/build
+           key: ${{ runner.os }}-flutter-build
       - name: 📦 Get dependencies
         run: flutter pub get
         working-directory: ./taletime
