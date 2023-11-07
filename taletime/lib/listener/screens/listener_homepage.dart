@@ -1,12 +1,10 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
-import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
-import "package:taletime/listener/screens/my_play_story.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 
 import "../../common utils/decoration_util.dart";
@@ -135,33 +133,34 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   AppLocalizations.of(context)!.noStoriesAvailable,
                   "recentStories")
               : SizedBox(
-                  height: 190,
-                  child: PageView.builder(
-                      onPageChanged: (index) {
-                        setState(() {
-                          _selectedIndex = index;
-                        });
-                      },
-                      controller: PageController(viewportFraction: 0.4),
-                      itemCount: docs.length,
-                      itemBuilder: (_, i) {
-                        var scale = _selectedIndex == i ? 1.0 : 0.8;
-                        return TweenAnimationBuilder(
-                            duration: const Duration(microseconds: 350),
-                            tween: Tween(begin: scale, end: scale),
-                            curve: Curves.ease,
-                            child:
-                                StoryCard(
-                                  story: docs[i].data(),
-                                ),
-                            builder: (_, value, child) {
-                              return Transform.scale(
-                                scale: scale,
-                                child: child,
-                              );
-                            });
-                      }),
-                );
+            height: 180,
+                child: PageView.builder(
+                    onPageChanged: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                    },
+                    controller: PageController(viewportFraction: 0.6),
+                    itemCount: docs.length,
+                    itemBuilder: (_, i) {
+                      var scale = _selectedIndex == i ? 1.0 : 0.8;
+                      return TweenAnimationBuilder(
+                          duration: const Duration(microseconds: 350000),
+                          tween: Tween(begin: scale, end: scale),
+                          curve: Curves.ease,
+                          child:
+                              StoryCard(
+                                story: docs[i].data(),
+                                onTap: () { },
+                              ),
+                          builder: (_, value, child) {
+                            return Transform.scale(
+                              scale: scale,
+                              child: child,
+                            );
+                          });
+                    }),
+              );
         });
   }
 
@@ -205,82 +204,87 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           child: SingleChildScrollView(
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${AppLocalizations.of(context)!.hello},",
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
-                          fontSize: 18),
-                    ),
-                    Text(
-                      widget.profile.name,
-                      style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    SizedBox(
-                      height: 42,
-                      child: TextField(
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                        style: TextStyle(color: kPrimaryColor),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(left: 30),
-                          filled: true,
-                          fillColor: Colors.blueGrey.shade50,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          hintText: AppLocalizations.of(context)!.searchStory,
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 18),
-                          suffixIcon: const Icon(
-                            Icons.search,
-                            color: Colors.grey,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${AppLocalizations.of(context)!.hello},",
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                            fontSize: 18),
+                      ),
+                      Text(
+                        widget.profile.name,
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      SizedBox(
+                        height: 42,
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          style: TextStyle(color: kPrimaryColor),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(left: 30),
+                            filled: true,
+                            fillColor: Colors.blueGrey.shade50,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
+                            hintText: AppLocalizations.of(context)!.searchStory,
+                            hintStyle:
+                                const TextStyle(color: Colors.grey, fontSize: 18),
+                            suffixIcon: const Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        AppLocalizations.of(context)!.recentlyPlayed,
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text(
+                          AppLocalizations.of(context)!.recentlyPlayed,
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                _buildRecentlyPlayed(context),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.myStories,
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 18,
                         ),
                       ),
-                    )
-                  ],
+                      _buildStoriesList(context),
+                    ],
+                  ),
                 ),
-                _buildRecentlyPlayed(context),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.myStories,
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                _buildStoriesList(context),
               ],
             ),
           ),

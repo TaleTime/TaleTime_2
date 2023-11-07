@@ -20,7 +20,7 @@ class StoryListItem extends StatelessWidget {
   });
 
   final Story story;
-  
+
   final Function()? onTap;
 
   final List<StoryActionButton>? buttons;
@@ -41,28 +41,31 @@ class StoryListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      story.imageUrl != null
-                          ? Image.network(
-                              story.imageUrl!,
-                              fit: BoxFit.cover,
-                              width: 64,
-                              height: 64,
-                            )
-                          : Image.asset("logo.png"),
-                      const SizedBox(width: 4.0),
-                      Expanded(
-                        child: Text(
-                          story.title ?? "Kein name",
-                          softWrap: true,
-                          overflow: TextOverflow.fade,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image(
+                            image: (story.imageUrl != null
+                                    ? NetworkImage(story.imageUrl!)
+                                    : const AssetImage("assets/logo.png"))
+                                as ImageProvider<Object>,
+                            fit: BoxFit.cover,
+                            width: 64,
+                            height: 64,
                           ),
-                        ),
-                      ),
-                    ]),
+                          const SizedBox(width: 4.0),
+                          Expanded(
+                            child: Text(
+                              story.title ?? "Kein name",
+                              softWrap: true,
+                              overflow: TextOverflow.fade,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ]),
                     const SizedBox(height: 4.0),
                     Row(
                       mainAxisSize: MainAxisSize.min,
