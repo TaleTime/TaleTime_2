@@ -133,34 +133,33 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   AppLocalizations.of(context)!.noStoriesAvailable,
                   "recentStories")
               : SizedBox(
-            height: 180,
-                child: PageView.builder(
-                    onPageChanged: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                    },
-                    controller: PageController(viewportFraction: 0.6),
-                    itemCount: docs.length,
-                    itemBuilder: (_, i) {
-                      var scale = _selectedIndex == i ? 1.0 : 0.8;
-                      return TweenAnimationBuilder(
-                          duration: const Duration(microseconds: 350000),
-                          tween: Tween(begin: scale, end: scale),
-                          curve: Curves.ease,
-                          child:
-                              StoryCard(
-                                story: docs[i].data(),
-                                onTap: () { },
-                              ),
-                          builder: (_, value, child) {
-                            return Transform.scale(
-                              scale: scale,
-                              child: child,
-                            );
-                          });
-                    }),
-              );
+                  height: 180,
+                  child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                      },
+                      controller: PageController(viewportFraction: 0.6),
+                      itemCount: docs.length,
+                      itemBuilder: (_, i) {
+                        var scale = _selectedIndex == i ? 1.0 : 0.8;
+                        return TweenAnimationBuilder(
+                            duration: const Duration(microseconds: 350000),
+                            tween: Tween(begin: scale, end: scale),
+                            curve: Curves.ease,
+                            child: StoryCard(
+                              story: docs[i].data(),
+                              onTap: () {},
+                            ),
+                            builder: (_, value, child) {
+                              return Transform.scale(
+                                scale: scale,
+                                child: child,
+                              );
+                            });
+                      }),
+                );
         });
   }
 
@@ -214,15 +213,17 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       Text(
                         "${AppLocalizations.of(context)!.hello},",
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color,
                             fontSize: 18),
                       ),
                       Text(
                         widget.profile.name,
                         style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold),
+                          color: kPrimaryColor,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(
                         height: 40,
@@ -243,8 +244,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                               borderSide: BorderSide.none,
                             ),
                             hintText: AppLocalizations.of(context)!.searchStory,
-                            hintStyle:
-                                const TextStyle(color: Colors.grey, fontSize: 18),
+                            hintStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                            ),
                             suffixIcon: const Icon(
                               Icons.search,
                               color: Colors.grey,
@@ -252,11 +255,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 35,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 15),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16, bottom: 8),
                         child: Text(
                           AppLocalizations.of(context)!.recentlyPlayed,
                           style: TextStyle(
@@ -274,11 +274,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.myStories,
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 18,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                        child: Text(
+                          AppLocalizations.of(context)!.myStories,
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       _buildStoriesList(context),
