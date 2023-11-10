@@ -13,8 +13,6 @@ class StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        print("Width: ${constraints.maxWidth}");
-        print("Height: ${constraints.maxHeight}");
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 20),
           decoration: BoxDecoration(
@@ -45,7 +43,7 @@ class StoryCard extends StatelessWidget {
                       color: Colors.transparent,
                       child: Marquee(
                         text: story.title ?? "",
-                        blankSpace: 30,
+                        blankSpace: constraints.maxWidth,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -60,7 +58,7 @@ class StoryCard extends StatelessWidget {
                       color: Colors.transparent,
                       child: Marquee(
                         text: "By ${story.author ?? ""}",
-                        blankSpace: 30,
+                        blankSpace: constraints.maxWidth,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,

@@ -2,6 +2,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/added_story.dart";
+import "package:taletime/common/services/story_service.dart";
 import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
@@ -92,16 +93,12 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               child: StoryListItem(
                 story: story,
                 buttons: [
-                  if (story.liked)
-                    StoryActionButton(
-                      icon: Icons.favorite,
-                      onTap: () {},
-                    )
-                  else
-                    StoryActionButton(
-                      icon: Icons.favorite_border,
-                      onTap: () {},
-                    )
+                  StoryActionButton(
+                    icon: story.liked ? Icons.favorite : Icons.favorite_border,
+                    onTap: () {
+                      StoryService.LikeStory(element.reference, !story.liked);
+                    },
+                  )
                 ],
               ),
             );
