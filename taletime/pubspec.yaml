@@ -15,30 +15,30 @@ dependencies:
   intl: any
   
   #Firebase
-  firebase_core: ^2.4.1
-  firebase_auth: ^4.2.5
-  cloud_firestore: ^4.3.1
-  cloud_firestore_web: ^3.2.1
-  firebase_storage: ^11.0.10
-  firebase_storage_web: ^3.3.19
-  firebase_core_web: ^2.1.0
-  firebase_auth_web: ^5.2.4
+  firebase_core: ^2.22.0
+  firebase_auth: ^4.14.0
+  cloud_firestore: ^4.13.1
+  cloud_firestore_web: ^3.8.5
+  firebase_storage: ^11.5.1
+  firebase_storage_web: ^3.6.13
+  firebase_core_web: ^2.8.1
+  firebase_auth_web: ^5.8.7
   record: ^5.0.1
-  path: ^1.8.2
+  path: ^1.8.3
 
-  email_validator: ^2.0.1
-  provider: ^6.0.3
+  email_validator: ^2.1.17
+  provider: ^6.1.1
   hexcolor: ^3.0.1
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   image_picker: ^1.0.4
-  marquee: ^2.2.1
-  file_picker: ^6.0.0
+  marquee: ^2.2.3
+  file_picker: ^6.1.1
   flutter_sound: ^9.2.13
   permission_handler: ^11.0.1
-  audioplayers: ^5.2.0
+  audioplayers: ^5.2.1
   audioplayers_web: ^4.1.0
-  flutter_picker: ^2.0.5
+  flutter_picker: ^2.1.0
   avatar_glow: ^2.0.2
 
   #share
@@ -56,8 +56,8 @@ dependencies:
     sdk: flutter
   logger: ^1.1.0
 
-  url_launcher: ^6.1.14
-  flutter_native_splash: ^2.3.4
+  url_launcher: ^6.2.1
+  flutter_native_splash: ^2.3.6
   flutter_launcher_icons: ^0.13.1
 
 
