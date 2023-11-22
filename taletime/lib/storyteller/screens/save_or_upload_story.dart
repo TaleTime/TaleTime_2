@@ -23,23 +23,18 @@ class SaveOrUploadStory extends StatefulWidget {
   final RecordedStory myRecordedStory;
   final profile;
   final storiesCollection;
-  bool isSaved;
-  SaveOrUploadStory(
+  final bool isSaved;
+  const SaveOrUploadStory(
       this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved, {super.key});
 
   @override
-  State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState(
-      myRecordedStory, profile, storiesCollection, isSaved);
+  State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState();
 }
 
 class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   final logger = TaleTimeLogger.getLogger();
-  final RecordedStory myRecordedStory;
-  final profile;
-  final storiesCollection;
-  bool isSaved;
-  _SaveOrUploadStoryState(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+  bool isSaved = false;
+  _SaveOrUploadStoryState();
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -53,19 +48,20 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   void initState() {
     super.initState();
     author = auth.currentUser!.displayName.toString();
-    title = myRecordedStory.story.getTitle();
-    image = File(myRecordedStory.story.imagePath);
-    audioPath = myRecordedStory.recording.getAudioPath();
+    title = widget.myRecordedStory.story.getTitle();
+    image = File(widget.myRecordedStory.story.imagePath);
+    audioPath = widget.myRecordedStory.recording.getAudioPath();
     audioFile = File(audioPath);
+    isSaved = widget.isSaved;
   }
 
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
     var refAudios = FirebaseStorage.instance.ref().child("audios");
-    String filePath = myRecordedStory.recording.getAudioPath();
+    String filePath = widget.myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
     String fileString =
-        filePath.substring(filePath.lastIndexOf("/"), filePath.length);
+    filePath.substring(filePath.lastIndexOf("/"), filePath.length);
     await refImages.child(imagePath).putFile(image);
     await refAudios.child(fileString).putFile(audio);
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
@@ -73,7 +69,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
         ""; // await refAudios.child(fileString).getDownloadURL();
 
     setState(() {
-      storiesCollection.add({
+      widget.storiesCollection.add({
         "rating": "2.5",
         "title": title,
         "author": author,
@@ -83,7 +79,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
         "id": ""
       }).then((value) {
         logger.v("Story Added to RecordedStories");
-        updateList(value.id, storiesCollection);
+        updateList(value.id, widget.storiesCollection);
       }).catchError((error) => logger.e("Failed to add story: $error"));
     });
   }
@@ -112,10 +108,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
           children: [
             Center(
                 child: Text(
-              AppLocalizations.of(context)!.save,
-              style:
+                  AppLocalizations.of(context)!.save,
+                  style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
-            )),
+                )),
             const SizedBox(
               height: 15,
             ),
@@ -127,11 +123,11 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                 onPressed: isSaved
                     ? null
                     : () {
-                        createStory(title, image, author, audioFile);
-                        setState(() {
-                          isSaved = true;
-                        });
-                      },
+                  createStory(title, image, author, audioFile);
+                  setState(() {
+                    isSaved = true;
+                  });
+                },
                 child:  Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -149,10 +145,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             ),
             Center(
                 child: Text(
-              AppLocalizations.of(context)!.uploadStory,
-              style:
+                  AppLocalizations.of(context)!.uploadStory,
+                  style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
-            )),
+                )),
             const SizedBox(
               height: 15,
             ),
@@ -168,29 +164,29 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                     onPressed: !isSaved
                         ? null
 
-                        ///
-                        /// Logic not working yet
-                        ///
+                    ///
+                    /// Logic not working yet
+                    ///
                         : () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Decorations().confirmationDialog(
-                                    AppLocalizations.of(context)!.uploadingStory,
-                                    AppLocalizations.of(context)!.uploadingStoryDescription,
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Decorations().confirmationDialog(
+                              AppLocalizations.of(context)!.uploadingStory,
+                              AppLocalizations.of(context)!.uploadingStoryDescription,
+                              context,
+                                  () {
+                                Navigator.of(context).pop();
+                                Navigator.push(
                                     context,
-                                    () {
-                                      Navigator.of(context).pop();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NavBarSpeaker(
-                                                      profile, profiles)));
-                                    },
-                                  );
-                                });
-                          },
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavBarSpeaker(
+                                                widget.profile, profiles)));
+                              },
+                            );
+                          });
+                    },
                     child:  Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -212,36 +208,36 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                     onPressed: !isSaved
                         ? null
                         : () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Decorations().confirmationDialog(
-                                      AppLocalizations.of(context)!.uploadingStory,
-                                      AppLocalizations.of(context)!.shareWithEveryUserDescription,
-                                      context, () async {
-                                    var refImages = FirebaseStorage.instance
-                                        .ref()
-                                        .child("images");
-                                    String myImageUrl = await refImages
-                                        .child("$author/$title.jpg")
-                                        .getDownloadURL();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Decorations().confirmationDialog(
+                                AppLocalizations.of(context)!.uploadingStory,
+                                AppLocalizations.of(context)!.shareWithEveryUserDescription,
+                                context, () async {
+                              var refImages = FirebaseStorage.instance
+                                  .ref()
+                                  .child("images");
+                              String myImageUrl = await refImages
+                                  .child("$author/$title.jpg")
+                                  .getDownloadURL();
 
-                                    UploadUtil(storiesCollection).uploadStory(
-                                        audioPath,
-                                        author,
-                                        myImageUrl,
-                                        title,
-                                        "2.5",
-                                        false);
-                                    Navigator.of(context).pop();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => NavBarSpeaker(
-                                                profile, profiles)));
-                                  });
-                                });
-                          },
+                              UploadUtil(widget.storiesCollection).uploadStory(
+                                  audioPath,
+                                  author,
+                                  myImageUrl,
+                                  title,
+                                  "2.5",
+                                  false);
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NavBarSpeaker(
+                                          widget.profile, profiles)));
+                            });
+                          });
+                    },
                     child:  Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -272,7 +268,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    NavBarSpeaker(profile, profiles)));
+                                    NavBarSpeaker(widget.profile, profiles)));
                       }),
                 )),
           ],
