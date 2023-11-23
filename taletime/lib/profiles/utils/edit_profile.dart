@@ -1,6 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 import "../../internationalization/localizations_ext.dart";
@@ -25,6 +26,7 @@ class _EditProfileState extends State<EditProfile> {
   late final String title;
   late CollectionReference profiles;
   late final Profile profile;
+  final ProfileImageSelector profileImageSelector = ProfileImageSelector();
 
   final textEditingController = TextEditingController();
 
@@ -110,7 +112,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ],
                           ),
-                          child: Image.network(profileImage, height: 150),
+                          child: profileImageSelector.selectFile(profileImage, 150),
                         ),
                         const SizedBox(
                           height: 40,
@@ -136,9 +138,9 @@ class _EditProfileState extends State<EditProfile> {
                                                 updateProfile(i);
                                               });
                                             },
-                                            child: Image.network(
+                                            child: profileImageSelector.selectFile(
                                               profileImages[i],
-                                              height: 80,
+                                              80,
                                             ));
                                       }),
                                 ),

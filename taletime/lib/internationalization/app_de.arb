@@ -115,5 +115,6 @@
     "typeInNewName": "Neuen Namen eingeben",
     "storysTitle": "Geschichtentitel",
     "typeInNewTitle": "Neuen Titel eingeben",
-    "updateStory": "Geschichte aktualisieren"
+    "updateStory": "Geschichte aktualisieren",
+    "home": "Startseite"
 }

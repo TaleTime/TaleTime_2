@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/profiles/utils/profile_column_widget.dart";
 import "../../listener/utils/navbar_widget_listener.dart";
@@ -8,8 +9,9 @@ import "../models/profile_model.dart";
 class ProfileList extends StatelessWidget {
   final Profile profile;
   final CollectionReference profiles;
+  final ProfileImageSelector profileImageSelector = ProfileImageSelector();
 
-  const ProfileList(this.profile, this.profiles, {super.key});
+  ProfileList(this.profile, this.profiles, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class ProfileList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.transparent,
                           ),
-                          child: Image.network(profile.image),
+                          child: profileImageSelector.selectFile(profile.image),
                         ),
                       ),
                       Expanded(

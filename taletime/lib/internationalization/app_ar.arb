@@ -114,5 +114,7 @@
     "typeInNewName": "Gib einen neuen Namen ein",
     "storysTitle": "Geschichtentitel",
     "typeInNewTitle": "Neuen Titel eingeben",
-    "updateStory": "Geschichte aktualisieren"
+    "updateStory": "Geschichte aktualisieren",
+    "usernameDescription": "Der Benutzername wird in deinen veröffentlichten Geschichten angezeigt.",
+    "home": "Startseite"
 }
