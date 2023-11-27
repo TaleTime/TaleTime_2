@@ -73,6 +73,46 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
     });
   }
 
+  void _deleteStory(DocumentReference<AddedStory> story, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          AppLocalizations.of(context)!.storyDeleteHint,
+          style: TextStyle(color: kPrimaryColor),
+        ),
+        content: Text(
+          AppLocalizations.of(context)!.storyDeleteHintDescription,
+        ),
+        actions: [
+          TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+            onPressed: () {
+                StoryService.deleteStory(story);
+                Navigator.of(context).pop();
+            },
+            child: Text(
+              AppLocalizations.of(context)!.yes,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              AppLocalizations.of(context)!.no,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildStoriesList(BuildContext context) {
     return StreamBuilder(
       stream: _storiesStream,
@@ -96,9 +136,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   StoryActionButton(
                     icon: story.liked ? Icons.favorite : Icons.favorite_border,
                     onTap: () {
-                      StoryService.LikeStory(element.reference, !story.liked);
+                      StoryService.likeStory(element.reference, !story.liked);
                     },
-                  )
+                  ),
+                  StoryActionButton(
+                      icon: Icons.delete_outline,
+                      onTap: () {
+                        _deleteStory(element.reference, context);
+                      }),
                 ],
               ),
             );
