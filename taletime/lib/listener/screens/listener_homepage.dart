@@ -5,6 +5,7 @@ import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/services/story_service.dart";
 import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
+import "package:taletime/common/widgets/tale_time_alert_dialog.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 
@@ -76,37 +77,22 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   void _deleteStory(DocumentReference<AddedStory> story, BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.storyDeleteHint,
-          style: TextStyle(color: kPrimaryColor),
-        ),
-        content: Text(
-          AppLocalizations.of(context)!.storyDeleteHintDescription,
-        ),
-        actions: [
-          TextButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+      builder: (context) => TaleTimeAlertDialog(
+        title: AppLocalizations.of(context)!.storyDeleteHint,
+        content: AppLocalizations.of(context)!.storyDeleteHintDescription,
+        buttons: [
+          AlertDialogButton(
+            text: AppLocalizations.of(context)!.yes,
             onPressed: () {
-                StoryService.deleteStory(story);
-                Navigator.of(context).pop();
+              StoryService.deleteStory(story);
+              Navigator.of(context).pop();
             },
-            child: Text(
-              AppLocalizations.of(context)!.yes,
-              style: const TextStyle(color: Colors.white),
-            ),
           ),
-          TextButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+          AlertDialogButton(
+            text: AppLocalizations.of(context)!.no,
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(
-              AppLocalizations.of(context)!.no,
-              style: const TextStyle(color: Colors.white),
-            ),
           ),
         ],
       ),
