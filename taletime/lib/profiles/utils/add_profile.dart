@@ -7,6 +7,7 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
+import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "../../internationalization/locale_provider.dart";
 import "../screens/profiles_page.dart";
 import "../../common utils/constants.dart";
@@ -15,7 +16,6 @@ import "../../internationalization/localizations_ext.dart";
 
 class AddProfile extends StatefulWidget {
   final String uId;
-
   const AddProfile(this.uId, {super.key});
 
   @override
@@ -26,6 +26,7 @@ class AddProfile extends StatefulWidget {
 
 class _AddProfileState extends State<AddProfile> {
   final logger = TaleTimeLogger.getLogger();
+  final ProfileImageSelector profileImageSelector = ProfileImageSelector();
   _AddProfileState();
 
   late final String name;
@@ -131,7 +132,7 @@ class _AddProfileState extends State<AddProfile> {
                                     ),
                                   ],
                                 ),
-                                child: Image.network(profileImage, height: 150),
+                                child: profileImageSelector.selectFile(profileImage, 150),
                               ),
                             ],
                           ),
@@ -160,9 +161,9 @@ class _AddProfileState extends State<AddProfile> {
                                                 updateImageProfile(i);
                                               });
                                             },
-                                            child: Image.network(
+                                            child: profileImageSelector.selectFile(
                                               profileImages[i],
-                                              height: 80,
+                                              80,
                                             ));
                                       }),
                                 ),
