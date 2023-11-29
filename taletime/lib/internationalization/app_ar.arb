@@ -115,6 +115,7 @@
     "storysTitle": "Geschichtentitel",
     "typeInNewTitle": "Neuen Titel eingeben",
     "updateStory": "Geschichte aktualisieren",
+    "noName": "لا اسم",
     "usernameDescription": "Der Benutzername wird in deinen veröffentlichten Geschichten angezeigt.",
     "home": "Startseite"
 }
