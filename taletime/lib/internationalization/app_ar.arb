@@ -114,5 +114,8 @@
     "typeInNewName": "Gib einen neuen Namen ein",
     "storysTitle": "Geschichtentitel",
     "typeInNewTitle": "Neuen Titel eingeben",
-    "updateStory": "Geschichte aktualisieren"
+    "updateStory": "Geschichte aktualisieren",
+    "noName": "لا اسم",
+    "home": "Home",
+    "usernameDescription": "سيظهر اسم المستخدم في قصصك المنشورة."
 }

@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:taletime/common/models/story.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
 class StoryActionButton {
   const StoryActionButton({
@@ -56,7 +57,7 @@ class StoryListItem extends StatelessWidget {
                           const SizedBox(width: 4.0),
                           Expanded(
                             child: Text(
-                              story.title ?? "Kein name",
+                              story.title ?? AppLocalizations.of(context)!.noName,
                               softWrap: true,
                               overflow: TextOverflow.fade,
                               style: const TextStyle(

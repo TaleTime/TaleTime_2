@@ -347,5 +347,14 @@
     "storysTitle": "Story's title",
     "typeInNewTitle": "Type in new title",
     "updateStory": "Update story",
-    "home": "Home"
+
+    "home": "Home",
+    "@home": {
+        "description": "Used in bottom navigation bar of listener screens"
+    },
+
+    "noName": "No name",
+    "@noName": {
+        "description": "Used to display that a story does not have an author name with it."
+    }
 }

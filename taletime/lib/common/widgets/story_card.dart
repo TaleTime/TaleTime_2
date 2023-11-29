@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/story.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 
 class StoryCard extends StatelessWidget {
   final Function()? onTap;
@@ -57,7 +58,7 @@ class StoryCard extends StatelessWidget {
                       height: 30,
                       color: Colors.transparent,
                       child: Marquee(
-                        text: "By ${story.author ?? ""}",
+                        text: "${AppLocalizations.of(context)!.by} ${story.author ?? ""}",
                         blankSpace: constraints.maxWidth,
                         style: const TextStyle(
                           color: Colors.white,
