@@ -1,8 +1,8 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common/models/added_story.dart";
+import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
-
-import "../utils/add_icon_context_dialog.dart";
 import "../../common utils/constants.dart";
 import "../utils/search_bar_util.dart";
 
@@ -19,96 +19,90 @@ class AddStory extends StatefulWidget {
 }
 
 class _AddStoryState extends State<AddStory> {
-
   List matchStoryList = [];
-
+  Stream<QuerySnapshot<AddedStory>>? _storiesStream;
   _AddStoryState();
 
   @override
+  void initState() {
+    super.initState();
+    _storiesStream = widget.allStoriesCollectionReference
+        .withConverter(
+      fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+      toFirestore: (snap, _) => snap.toFirebase(),
+    ).snapshots();
+  }
+  @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder(
-        stream: widget.allStoriesCollectionReference.snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+        stream: _storiesStream,
+        builder: (context, AsyncSnapshot<QuerySnapshot<AddedStory>> streamSnapshot) {
           if (streamSnapshot.hasData) {
-            final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
-                streamSnapshot.data!.docs;
+            final List<QueryDocumentSnapshot<AddedStory>> storiesDocumentSnapshot = streamSnapshot.data!.docs;
             return Scaffold(
-                body: Stack(
-              children: [
-                Positioned(
-                  top: 10,
-                  left: 8,
-                  right: 16,
-                  child: AppBar(
-                    automaticallyImplyLeading: false,
-                    backgroundColor: Colors.transparent,
-                    title: Text(
-                      AppLocalizations.of(context)!.addStory,
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+              body: Stack(children: [
+                AppBar(
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    AppLocalizations.of(context)!.addStory,
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.bold,
                     ),
-                    centerTitle: true,
-                    elevation: 0.0,
-                    actions: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.more_vert,
-                          size: 23,
-                          color: kPrimaryColor,
-                        ),
-                      )
-                    ],
                   ),
-                ),
-                Positioned(
-                  top: 80,
-                  left: 22,
-                  right: 28,
-                  height: screenHeight * 0.34,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 15,
+                  centerTitle: true,
+                  elevation: 0.0,
+                  actions: <Widget>[
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 23,
+                        color: kPrimaryColor,
                       ),
-                      SizedBox(
-                        height: 42,
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              matchStoryList = SearchBarUtil()
-                                  .searchStory(storiesDocumentSnapshot, value);
-                            });
-                            SearchBarUtil()
-                                .isStoryListEmpty(matchStoryList, value);
-                          },
-                          style: TextStyle(color: kPrimaryColor),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(left: 30),
-                            filled: true,
-                            fillColor: Colors.blueGrey.shade50,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                            hintText: AppLocalizations.of(context)!.searchStory,
-                            hintStyle: const TextStyle(
-                                color: Colors.grey, fontSize: 18),
-                            suffixIcon: const Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            ),
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      height: 42,
+                      child: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            matchStoryList = SearchBarUtil()
+                                .searchStory(storiesDocumentSnapshot, value);
+                          });
+                          SearchBarUtil()
+                              .isStoryListEmpty(matchStoryList, value);
+                        },
+                        style: TextStyle(color: kPrimaryColor),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(left: 30),
+                          filled: true,
+                          fillColor: Colors.blueGrey.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                          hintText: AppLocalizations.of(context)!.searchStory,
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 18),
+                          suffixIcon: const Icon(
+                            Icons.search,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 Positioned(
                   top: 150,
@@ -120,154 +114,22 @@ class _AddStoryState extends State<AddStory> {
                       SizedBox(
                         height: screenHeight * 0.8,
                         child: ListView.builder(
-                            primary: false,
-                            itemCount: storiesDocumentSnapshot.length,
-                            itemBuilder: (_, i) {
-                              return GestureDetector(
-                                onTap: () {},
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: 85,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 75,
-                                            margin: const EdgeInsets.only(
-                                                bottom: 9),
-                                            padding: const EdgeInsets.only(
-                                                top: 8, left: 8, bottom: 8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(11),
-                                              color: Colors.teal.shade600,
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    color: Colors.transparent,
-                                                  ),
-                                                  child: Image.network(
-                                                      storiesDocumentSnapshot[i]
-                                                                  ["image"] ==
-                                                              ""
-                                                          ? storyImagePlaceholder
-                                                          : storiesDocumentSnapshot[
-                                                              i]["image"]),
-                                                ),
-                                                const SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 2),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            storiesDocumentSnapshot[
-                                                                i]["rating"],
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        12.0),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          const Icon(
-                                                            Icons.star,
-                                                            color: Colors.white,
-                                                            size: 14,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            screenWidth * 0.4,
-                                                        child: Text(
-                                                          storiesDocumentSnapshot[
-                                                              i]["title"],
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            screenWidth * 0.4,
-                                                        child: Text(
-                                                          "By ${storiesDocumentSnapshot[i]["author"]}",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 13.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 3,
-                                                  child: Container(),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    AddIconContextDialog(
-                                                        AppLocalizations.of(context)!.addStoryHint,
-                                                        AppLocalizations.of(context)!.addStoryHintDescription,
-                                                        Icons
-                                                            .playlist_add_outlined,
-                                                        widget.storiesCollectionReference,
-                                                        storiesDocumentSnapshot[
-                                                            i]),
-                                                    const SizedBox(
-                                                      width: 1,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      )
+                          primary: false,
+                          itemCount: storiesDocumentSnapshot.length,
+                          itemBuilder: (k, i) {
+                            return GestureDetector(
+                              child: StoryCard(
+                                story: storiesDocumentSnapshot[i].data(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Positioned(
-                  top: 115,
-                  left: 0,
-                  right: 0,
-                  child: SearchBarUtil().searchBarContainer(matchStoryList),
-                ),
-              ],
-            ));
+              ]),
+            );
           } else {
             return const Center(
               child: CircularProgressIndicator(),
