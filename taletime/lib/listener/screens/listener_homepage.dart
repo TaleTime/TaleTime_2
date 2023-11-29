@@ -7,6 +7,7 @@ import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/common/widgets/tale_time_alert_dialog.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/listener/screens/my_play_story.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 
 import "../../common utils/decoration_util.dart";
@@ -118,6 +119,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: StoryListItem(
                 story: story,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MyPlayStory(story, const []),
+                    ),
+                  );
+                },
                 buttons: [
                   StoryActionButton(
                     icon: story.liked ? Icons.favorite : Icons.favorite_border,

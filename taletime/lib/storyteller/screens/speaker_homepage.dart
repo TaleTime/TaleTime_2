@@ -198,14 +198,14 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                           curve: Curves.ease,
                                           child: GestureDetector(
                                               onTap: () {
-                                                Navigator.of(context).push(
+                                                /*Navigator.of(context).push(
                                                     MaterialPageRoute(
                                                         builder: (context) {
                                                   return MyPlayStory(
                                                       lastRecordedDocumentSnapshot[
                                                           i],
-                                                      storiesCollection);
-                                                }));
+                                                      []); // TODO pass story list
+                                                }));*/ // TODO navigate to player
                                               },
                                               child: Container(
                                                 margin: const EdgeInsets.only(
@@ -361,7 +361,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return MyPlayStory(
-                                matchStoryList[index], storiesCollection);
+                                matchStoryList[index], []); // TODO pass stories list
                           }));
                         },
                         child: ListTile(

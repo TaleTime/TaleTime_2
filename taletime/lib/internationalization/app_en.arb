@@ -355,6 +355,11 @@
 
     "noName": "No name",
     "@noName": {
-        "description": "Used to display that a story does not have an author name with it."
+        "description": "Used to display that a story does not have an author name associated with it."
+    },
+
+    "noTitle": "No title",
+    "@noTitle": {
+        "description": "Used to display that a story does not have a title associated with it."
     }
 }

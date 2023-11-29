@@ -1,20 +1,23 @@
+import "dart:io";
+import "dart:math";
+
 import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:http/http.dart" as http;
+import "package:path/path.dart" as path;
+import "package:path_provider/path_provider.dart";
+import "package:share_plus/share_plus.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "package:share_plus/share_plus.dart";
-import "dart:io";
-import "package:path_provider/path_provider.dart";
-import "package:fluttertoast/fluttertoast.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
-import "dart:math";
-import "package:path/path.dart" as path;
-import "package:http/http.dart" as http;
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/settings/downloads.dart";
 
+import "../../common/models/added_story.dart";
+
 class MyPlayStory extends StatefulWidget {
-  final story;
-  final stories;
+  final AddedStory story;
+  final List<AddedStory> stories;
 
   const MyPlayStory(this.story, this.stories, {super.key});
 
@@ -27,9 +30,9 @@ class MyPlayStory extends StatefulWidget {
 enum PlaybackMode { sequential, random, repeat }
 
 class _MyPlayStoryState extends State<MyPlayStory> {
-  final logger = TaleTimeLogger.getLogger();
-
   _MyPlayStoryState();
+
+  final logger = TaleTimeLogger.getLogger();
 
   bool isPlaying = false;
   bool isFavorite = false;
@@ -41,23 +44,19 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   double _currentValue = 0;
   Duration? duration = const Duration(seconds: 0);
 
-  Future<void> checkFavoriteStatus() async {
-    setState(() {
-      isFavorite = widget.story["isLiked"];
-    });
+  @override
+  void initState() {
+    super.initState();
+    initPlayer();
+    checkFavoriteStatus();
+    _currentValue = 0;
+    duration = const Duration(seconds: 0);
   }
 
-  void fetchStories() async {
-    try {
-      final QuerySnapshot snapshot = await widget.stories.get();
-      setState(() {
-        storiesList = snapshot.docs
-            .map((doc) => doc.data() as Map<String, dynamic>)
-            .toList();
-      });
-    } catch (error) {
-      logger.e("Failed to fetch stories: $error");
-    }
+  Future<void> checkFavoriteStatus() async {
+    setState(() {
+      isFavorite = widget.story.liked;
+    });
   }
 
   displayDoubleDigits(int digit) {
@@ -69,11 +68,15 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> deleteStory(String storyId) {
-    return widget.stories.doc(storyId).delete().then((value) {
+    // TODO implement delete logic properly
+
+    return Future(() => null);
+
+    /* return widget.stories.doc(storyId).delete().then((value) {
       logger.v("Story deleted");
       Navigator.of(context).pop();
       setState(() {});
-    }).catchError((error) => logger.e("Failed to delete story: $error"));
+    }).catchError((error) => logger.e("Failed to delete story: $error")); */
   }
 
   Future<String> getLocalPath() async {
@@ -90,9 +93,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   void shareStory() async {
     try {
       final localPath = await getLocalPath();
-      final file = File('$localPath/story_${widget.story['id']}.mp3');
+      final file = File("$localPath/story_${widget.story.title}.mp3");
       final text =
-          'Check out this story: ${widget.story['title']}\n\n${widget.story['author']}';
+          'Check out this story: ${widget.story.title}\n\n${widget.story.author}';
       await file.writeAsString(text, flush: true);
 
       Share.shareFiles([(file.path)], text: text);
@@ -102,8 +105,12 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> downloadStory() async {
-    String fileName = "${widget.story['title']} - ${widget.story['author']}.mp3";
-    String downloadUrl = widget.story["audio"];
+    String fileName = "${widget.story.title} - ${widget.story.author}.mp3";
+    String? downloadUrl = widget.story.audioUrl;
+
+    if (downloadUrl == null) {
+      return Future(() => null);
+    }
 
     final localPath = await getLocalPath();
     final filePath = path.join(localPath, fileName);
@@ -232,7 +239,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     leading: const Icon(Icons.delete),
                     title: const Text("Delete Story"),
                     onTap: () {
-                      deleteStory(widget.story["id"]).then((_) {
+                      deleteStory(widget.story.id).then((_) {
                         Navigator.of(context).pop();
                       });
                     }),
@@ -270,18 +277,23 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> toggleFavoriteStatus() async {
-    bool newStatus = !widget.story["isLiked"];
-    await widget.stories.doc(widget.story["id"]).update({"isLiked": newStatus}).then((value) {
+    // TODO toggle favourite
+    return Future(() => null);
+
+    /* bool newStatus = !widget.story.liked;
+    await widget.stories
+        .doc(widget.story.id)
+        .update({"isLiked": newStatus}).then((value) {
       logger.v("List updated");
       setState(() {
-        widget.story["isLiked"] = newStatus;
+        widget.story.liked = newStatus;
         checkFavoriteStatus();
       });
-    }).catchError((error) => logger.e("Failed to update list: $error"));
+    }).catchError((error) => logger.e("Failed to update list: $error")); */
   }
 
   int getCurrentStoryIndex() {
-    return storiesList.indexWhere((s) => s["id"] == widget.story["id"]);
+    return storiesList.indexWhere((s) => s["id"] == widget.story.id);
   }
 
   void playNextStory() {
@@ -292,7 +304,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPlayStory(storiesList[nextIndex], widget.stories),
+          builder: (context) => MyPlayStory(
+              widget.story, widget.stories), // FIXME actually play next story
         ),
       );
     } else {
@@ -312,8 +325,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              MyPlayStory(storiesList[previousIndex], widget.stories),
+          builder: (context) => MyPlayStory(
+              widget.story, widget.stories), // FIXME actually play prev story
         ),
       );
     } else {
@@ -388,17 +401,25 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MyPlayStory(storiesList[currentIndex], widget.stories),
+        builder: (context) => MyPlayStory(
+            widget.story, widget.stories), // FIXME actually play next story
       ),
     );
   }
 
   void initPlayer() async {
-    await player.setSource(UrlSource(widget.story["audio"]));
+    String? audioUrl = widget.story.audioUrl;
+
+    if (audioUrl == null) {
+      return;
+    }
+
+    print(UrlSource(audioUrl));
+    await player.setSource(UrlSource(audioUrl));
     duration = await player.getDuration();
     player.onPlayerComplete.listen((event) async {
       if (playbackMode == PlaybackMode.repeat) {
-        await player.setSource(UrlSource(widget.story["audio"]));
+        await player.setSource(UrlSource(audioUrl));
         setState(() {
           isPlaying = true;
           _currentValue = 0;
@@ -414,16 +435,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
         _currentValue = newPosition.inSeconds.toDouble();
       });
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchStories();
-    initPlayer();
-    checkFavoriteStatus();
-    _currentValue = 0;
-    duration = const Duration(seconds: 0);
   }
 
   @override
@@ -488,9 +499,11 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.transparent,
                   ),
-                  child: Image.network(widget.story["image"] == ""
-                      ? storyImagePlaceholder
-                      : widget.story["image"]),
+                  child: Image(
+                      image: widget.story.imageUrl != null
+                          ? NetworkImage(widget.story.imageUrl!)
+                          : const AssetImage("assets/logo.png")
+                              as ImageProvider<Object>),
                 ),
               ],
             ),
@@ -508,7 +521,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 SizedBox(
                   width: screenWidth * 0.8,
                   child: Text(
-                    widget.story["title"],
+                    widget.story.title ?? AppLocalizations.of(context)!.noTitle,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: Colors.teal,
@@ -519,7 +532,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                 SizedBox(
                   width: screenWidth * 0.8,
                   child: Text(
-                    widget.story["author"],
+                    widget.story.author ?? AppLocalizations.of(context)!.noName,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.teal,
