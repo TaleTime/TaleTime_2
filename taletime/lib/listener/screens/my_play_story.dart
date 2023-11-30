@@ -46,6 +46,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   bool playerFullyInitialized = false;
 
+  PlaybackMode playbackMode = PlaybackMode.sequential;
+
   @override
   void initState() {
     super.initState();
@@ -342,38 +344,25 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     }
   }
 
-  void skipForward() async {
-    int skipAmountInSeconds = 10;
+  void _skipSeconds(int secondsToSkip) async {
     Duration? currentPosition = await player.getCurrentPosition();
+    int currentPositionInSeconds = currentPosition?.inSeconds ?? 0;
     int audioDurationInSeconds = duration?.inSeconds ?? 0;
 
-    int newPosition = (currentPosition?.inSeconds ?? 0) + skipAmountInSeconds;
+    int newPosition = currentPositionInSeconds + secondsToSkip;
 
-    if (newPosition > audioDurationInSeconds) {
-      newPosition = audioDurationInSeconds;
-    }
+    newPosition = newPosition.clamp(0, audioDurationInSeconds);
 
     await player.seek(Duration(seconds: newPosition));
-    setState(() {
-      _currentValue = newPosition.toDouble();
-    });
   }
 
-  void skipBackward() async {
-    int skipAmountInSeconds = 10;
-    Duration? currentPosition = await player.getCurrentPosition();
-    int newPosition = (currentPosition?.inSeconds ?? 0) - skipAmountInSeconds;
-
-    if (newPosition < 0) {
-      newPosition = 0;
-    }
-    await player.seek(Duration(seconds: newPosition));
-    setState(() {
-      _currentValue = newPosition.toDouble();
-    });
+  void _skipForward() async {
+    _skipSeconds(10);
   }
 
-  PlaybackMode playbackMode = PlaybackMode.sequential;
+  void _skipBackward() async {
+    _skipSeconds(-10);
+  }
 
   void changePlaybackMode() {
     setState(() {
@@ -435,13 +424,18 @@ class _MyPlayStoryState extends State<MyPlayStory> {
         if (playbackMode == PlaybackMode.repeat) {
           await player.setSource(UrlSource(audioUrl));
           setState(() {
-            isPlaying = true;
             _currentValue = 0;
           });
           await player.resume();
         } else {
           playNext(context);
         }
+      });
+
+      player.onPlayerStateChanged.listen((event) {
+        setState(() {
+          isPlaying = event == PlayerState.playing;
+        });
       });
 
       player.onPositionChanged.listen((Duration newPosition) {
@@ -470,19 +464,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   void handlePlayPause() async {
     if (isPlaying) {
       await player.pause();
-      setState(() {
-        isPlaying = false;
-      });
     } else {
       await player.resume();
-      setState(() {
-        isPlaying = true;
-      });
-      /*player.onPositionChanged.listen((position) {
-        setState(() {
-          _currentValue = position.inSeconds.toDouble();
-        });
-      }); */
     }
     duration = await player.getDuration();
   }
@@ -700,7 +683,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                     size: 22,
                                     color: kPrimaryColor,
                                   ),
-                                  onPressed: skipBackward,
+                                  onPressed: _skipBackward,
                                 ),
                                 IconButton(
                                   icon: Icon(
@@ -729,7 +712,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                     size: 22,
                                     color: kPrimaryColor,
                                   ),
-                                  onPressed: skipForward,
+                                  onPressed: _skipForward,
                                 ),
                               ],
                             ),
