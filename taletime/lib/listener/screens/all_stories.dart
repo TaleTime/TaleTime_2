@@ -13,8 +13,7 @@ class AllStories extends StatefulWidget {
       {super.key});
 
   @override
-  State<AllStories> createState() =>
-      _AllStoriesState();
+  State<AllStories> createState() => _AllStoriesState();
 }
 
 class _AllStoriesState extends State<AllStories> {

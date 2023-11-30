@@ -84,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
                               /// TextField that catches the user input for the email-adress
                               Container(
                                 width: double.infinity,
-                                decoration: Decorations().inputBoxDecorationShaddow(),
+                                decoration:
+                                    Decorations().inputBoxDecorationShaddow(),
                                 child: TextFormFieldUtil().enterEmailForm(
                                   context,
                                   _emailController,
@@ -97,7 +98,8 @@ class _LoginPageState extends State<LoginPage> {
 
                               /// TextField that catches the user input for the password
                               Container(
-                                decoration: Decorations().inputBoxDecorationShaddow(),
+                                decoration:
+                                    Decorations().inputBoxDecorationShaddow(),
                                 child: TextFormFieldUtil().enterPasswordForm(
                                   context,
                                   _passwordController,
@@ -109,7 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                                 alignment: Alignment.topRight,
                                 child: TextButton(
                                   child: Text(
-                                      AppLocalizations.of(context)!.forgotPassword,
+                                      AppLocalizations.of(context)!
+                                          .forgotPassword,
                                       style: TextStyle(color: kPrimaryColor)),
                                   onPressed: () {
                                     Navigator.push(
@@ -117,8 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             ForgotPasswordPage(
-                                              initialEmail: _emailController.text,
-                                            ),
+                                          initialEmail: _emailController.text,
+                                        ),
                                       ),
                                     );
                                   },
@@ -140,15 +143,17 @@ class _LoginPageState extends State<LoginPage> {
                               /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                               onPressed: () async {
                                 final String email =
-                                _emailController.text.trim().toLowerCase();
-                                final String password = _passwordController.text.trim();
-                                final isValidForm = _formKey.currentState!.validate();
+                                    _emailController.text.trim().toLowerCase();
+                                final String password =
+                                    _passwordController.text.trim();
+                                final isValidForm =
+                                    _formKey.currentState!.validate();
                                 if (isValidForm) {
                                   AuthentificationUtil(auth: auth)
                                       .loginUsingEmailAndPassword(
-                                      email: email,
-                                      password: password,
-                                      context: context);
+                                          email: email,
+                                          password: password,
+                                          context: context);
                                 }
                               },
                               child: Text(
@@ -160,7 +165,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(top: 40.0),
                     child: Row(
@@ -168,14 +172,16 @@ class _LoginPageState extends State<LoginPage> {
                       children: <Widget>[
                         Text(AppLocalizations.of(context)!.dontHaveAccount),
                         TextButton(
-                            child: Text(AppLocalizations.of(context)!.registerVerb),
+                            child: Text(
+                                AppLocalizations.of(context)!.registerVerb),
 
                             /// redirects the user to the SignupPage
                             onPressed: () {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const SignupPage()));
+                                      builder: (context) =>
+                                          const SignupPage()));
                             }),
                       ],
                     ),

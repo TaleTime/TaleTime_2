@@ -1,6 +1,7 @@
 /// the class [my_record]enables the user, to play back (listen to)
 /// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
 library;
+
 import "dart:async";
 import "dart:core";
 import "dart:io";
@@ -21,7 +22,8 @@ class MyRecordStory extends StatefulWidget {
   final Story myStory;
   final profile;
   final CollectionReference storiesCollection;
-  const MyRecordStory(this.myStory, this.profile, this.storiesCollection, {super.key});
+  const MyRecordStory(this.myStory, this.profile, this.storiesCollection,
+      {super.key});
 
   @override
   State<MyRecordStory> createState() =>
@@ -286,7 +288,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
           centerTitle: true,
           title: Text(
             AppLocalizations.of(context)!.storyRecorder,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: Center(
         child: Column(

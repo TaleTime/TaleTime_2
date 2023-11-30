@@ -21,7 +21,6 @@ class ProfilesPage extends StatefulWidget {
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
-
   _ProfilesPageState();
 
   CollectionReference users =
@@ -75,8 +74,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => AddProfile(widget.uId)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => AddProfile(widget.uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -98,8 +97,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     return ListView.builder(
                       itemCount: streamSnapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final Profile documentSnapshot = Profile.fromQueryDocumentSnapshot(streamSnapshot
-                                .data!.docs[index]); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
+                        final Profile documentSnapshot =
+                            Profile.fromQueryDocumentSnapshot(streamSnapshot
+                                    .data!.docs[
+                                index]); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
                         return ProfileList(documentSnapshot, profiles);
                       },
                     );

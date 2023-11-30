@@ -61,7 +61,8 @@ class MyThemes {
         ),
       ),
     ),
-    sliderTheme: SliderThemeData(thumbColor: kPrimaryColor), colorScheme: const ColorScheme.dark().copyWith(error: Colors.red),
+    sliderTheme: SliderThemeData(thumbColor: kPrimaryColor),
+    colorScheme: const ColorScheme.dark().copyWith(error: Colors.red),
   );
 
   /// Lightmode
@@ -94,6 +95,7 @@ class MyThemes {
         overlayColor: MaterialStateProperty.all(Colors.grey),
       ),
     ),
-    sliderTheme: SliderThemeData(thumbColor: kPrimaryColor), colorScheme: const ColorScheme.light().copyWith(error: Colors.red),
+    sliderTheme: SliderThemeData(thumbColor: kPrimaryColor),
+    colorScheme: const ColorScheme.light().copyWith(error: Colors.red),
   );
 }

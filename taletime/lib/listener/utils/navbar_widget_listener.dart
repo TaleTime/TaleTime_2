@@ -22,7 +22,6 @@ class NavBarListener extends StatefulWidget {
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
 
-
   _NavBarListenerState();
 
   CollectionReference allStories =
@@ -40,17 +39,18 @@ class _NavBarListenerState extends State<NavBarListener> {
   @override
   Widget build(BuildContext context) {
     CollectionReference favorites =
-    widget.profiles.doc(widget.profile.id).collection("favoriteList");
+        widget.profiles.doc(widget.profile.id).collection("favoriteList");
     CollectionReference recent =
-    widget.profiles.doc(widget.profile.id).collection("recentList");
+        widget.profiles.doc(widget.profile.id).collection("recentList");
     CollectionReference stories =
-    widget.profiles.doc(widget.profile.id).collection("storiesList");
+        widget.profiles.doc(widget.profile.id).collection("storiesList");
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(widget.profile, widget.profiles, stories, recent, favorites),
+          ListenerHomePage(
+              widget.profile, widget.profiles, stories, recent, favorites),
           FavoritePage(widget.profile, widget.profiles, favorites, stories),
           AddStory(stories, allStories),
           SettingsPage(widget.profile, widget.profiles),
@@ -70,8 +70,10 @@ class _NavBarListenerState extends State<NavBarListener> {
             Icons.home,
             "Home",
           ),
-          navBarItems(Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
-          navBarItems(Icons.playlist_add_sharp, AppLocalizations.of(context)!.addStory),
+          navBarItems(
+              Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
+          navBarItems(
+              Icons.playlist_add_sharp, AppLocalizations.of(context)!.addStory),
         ],
       ),
     );

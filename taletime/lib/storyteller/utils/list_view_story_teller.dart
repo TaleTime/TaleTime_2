@@ -2,6 +2,7 @@
 ///You can search for a specific story (by title or tags) in the list using the search function and then find it.
 ///it will show the list of all history of a registered person .
 library;
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -179,10 +180,12 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text(
-                                      AppLocalizations.of(context)!.storyDeleteHint,
+                                      AppLocalizations.of(context)!
+                                          .storyDeleteHint,
                                       style: TextStyle(color: kPrimaryColor),
                                     ),
-                                    content:  Text(AppLocalizations.of(context)!.storyDeleteHintDescription),
+                                    content: Text(AppLocalizations.of(context)!
+                                        .storyDeleteHintDescription),
                                     actions: [
                                       TextButton(
                                         style: ButtonStyle(
@@ -197,9 +200,10 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                             Navigator.of(context).pop();
                                           });
                                         },
-                                        child:  Text(
+                                        child: Text(
                                           AppLocalizations.of(context)!.yes,
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                       ),
                                       TextButton(
@@ -210,9 +214,10 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child:  Text(
+                                        child: Text(
                                           AppLocalizations.of(context)!.no,
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ],

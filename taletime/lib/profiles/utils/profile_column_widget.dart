@@ -37,7 +37,8 @@ class _ProfileColumnState extends State<ProfileColumn> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditProfile(widget.profiles, widget.profile)));
+                builder: (context) =>
+                    EditProfile(widget.profiles, widget.profile)));
         break;
       case 1:
         showDialog(

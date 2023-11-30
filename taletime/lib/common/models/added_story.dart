@@ -17,7 +17,8 @@ class AddedStory extends Story {
 
   final int? timeLastListened;
 
-  factory AddedStory.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory AddedStory.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return AddedStory(
       id: snapshot.id,
       title: snapshot.data()?["title"],

@@ -74,7 +74,8 @@ class _DownloadsPageState extends State<DownloadsPage> {
               },
             );
           } else {
-            return Center(child: Text(AppLocalizations.of(context)!.noDownloadedStories));
+            return Center(
+                child: Text(AppLocalizations.of(context)!.noDownloadedStories));
           }
         },
       ),
