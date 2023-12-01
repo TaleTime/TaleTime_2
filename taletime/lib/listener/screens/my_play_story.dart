@@ -10,6 +10,7 @@ import "package:path_provider/path_provider.dart";
 import "package:share_plus/share_plus.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/common/utils/string_utils.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/settings/downloads.dart";
 
@@ -35,12 +36,10 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   final logger = TaleTimeLogger.getLogger();
 
   bool isPlaying = false;
-  bool isFavorite = false;
   List<Map<String, dynamic>> storiesList = [];
 
   final AudioPlayer player = AudioPlayer();
 
-  double changeVoice = 0.0;
   double _currentValue = 0;
   Duration? duration = const Duration(seconds: 0);
 
@@ -52,15 +51,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   void initState() {
     super.initState();
     initPlayer();
-    checkFavoriteStatus();
     _currentValue = 0;
     duration = const Duration(seconds: 0);
-  }
-
-  Future<void> checkFavoriteStatus() async {
-    setState(() {
-      isFavorite = widget.story.liked;
-    });
   }
 
   displayDoubleDigits(int digit) {
@@ -440,7 +432,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
       player.onPositionChanged.listen((Duration newPosition) {
         setState(() {
-          print(newPosition.inMilliseconds.toDouble());
           _currentValue = newPosition.inMilliseconds.toDouble();
         });
       });
@@ -494,7 +485,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
         actions: <Widget>[
           IconButton(
             onPressed: toggleFavoriteStatus,
-            icon: isFavorite
+            icon: widget.story.liked
                 ? Icon(
                     Icons.favorite,
                     color: Colors.teal.shade600,
@@ -607,7 +598,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${displayDoubleDigits((_currentValue / 60 / 1000).floor())}:${displayDoubleDigits(((_currentValue / 1000).floor() % 60).floor())}",
+                                  StringUtils.durationToString(Duration(milliseconds: _currentValue.toInt())),
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: kPrimaryColor,
@@ -620,7 +611,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  "${displayDoubleDigits(duration!.inMinutes)}:${displayDoubleDigits(duration!.inSeconds % 60)}",
+                                  StringUtils.durationToString(duration!),
                                   style: TextStyle(
                                       fontSize: 14, color: kPrimaryColor),
                                 ),
