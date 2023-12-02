@@ -585,10 +585,13 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                       logger.d(
                                           "Current Slider value: $_currentValue");
                                     });
+                                    bool wasPlaying = isPlaying;
                                     player.pause();
                                     await player
                                         .seek(Duration(milliseconds: value.toInt()));
-                                    await player.resume();
+                                    if(wasPlaying) {
+                                      await player.resume();
+                                    }
                                   }),
                             ),
                             const SizedBox(
