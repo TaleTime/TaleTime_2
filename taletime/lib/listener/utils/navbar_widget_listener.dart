@@ -9,8 +9,8 @@ import "../screens/listener_homepage.dart";
 import "../../settings/settings.dart";
 
 class NavBarListener extends StatefulWidget {
-  final profile;
-  final profiles;
+  final Profile profile;
+  final CollectionReference profiles;
   const NavBarListener(this.profile, this.profiles, {super.key});
 
   @override
@@ -51,7 +51,7 @@ class _NavBarListenerState extends State<NavBarListener> {
         children: [
           ListenerHomePage(
               widget.profile, widget.profiles, stories, recent, favorites),
-          FavoritePage(widget.profile, widget.profiles, favorites, stories),
+          FavoritePage(widget.profile, favorites, favorites, stories),
           AddStory(stories, allStories),
           SettingsPage(widget.profile, widget.profiles),
         ],

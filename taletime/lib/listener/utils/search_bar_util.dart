@@ -1,12 +1,12 @@
 import "package:flutter/material.dart";
 import "package:taletime/listener/screens/my_play_story.dart";
 import "../../common utils/constants.dart";
+import "../../common/models/story.dart";
 
 class SearchBarUtil {
-  List searchStory(List stories, value) {
+  List<Story> searchStory(List<Story> stories, value) {
     return stories
-        .where((story) =>
-            story["title"].toLowerCase().contains(value.toLowerCase()))
+        .where((story) => story.title!.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
 
