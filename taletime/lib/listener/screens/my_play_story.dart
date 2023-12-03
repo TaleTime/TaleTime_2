@@ -1,14 +1,8 @@
-import "dart:io";
 import "dart:math";
 
 import "package:audio_service/audio_service.dart";
-import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
-import "package:fluttertoast/fluttertoast.dart";
-import "package:http/http.dart" as http;
-import "package:path/path.dart" as path;
 import "package:path_provider/path_provider.dart";
-import "package:share_plus/share_plus.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/common/utils/string_utils.dart";
@@ -37,26 +31,18 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   final logger = TaleTimeLogger.getLogger();
 
-  bool isPlaying = false;
-  List<Map<String, dynamic>> storiesList = [];
-
-  final AudioPlayer player = AudioPlayer();
-
-  double _currentValue = 0;
-  Duration? duration = const Duration(seconds: 0);
-
   bool playerFullyInitialized = false;
-
-  PlaybackMode playbackMode = PlaybackMode.sequential;
 
   @override
   void initState() {
     super.initState();
-    initPlayer();
-    _currentValue = 0;
-    duration = const Duration(seconds: 0);
-
-    audioHandler.playMediaItem(const MediaItem(id: "Foo", title: "Foo Bar"));
+    audioHandler.playMediaItem(const MediaItem(
+      id: "Foo",
+      title: "Foo Bar",
+      extras: {
+        "url": "https://stitcher2.acast.com/livestitches/336e40ccd81a0e192649380d2391b9e9.mp3?aid=6559b9720418cd0012decf49&chid=9e2d1373-64c9-544b-8345-9606f84ecc47&ci=n2MYXxfJDQihmnFq0Qc81Tak2z9ICougC4pahn2M_KPe1p5Q63gP9g%3D%3D&pf=rss&range=bytes%3D0-&sv=sphinx%401.191.0&uid=b2495962a3f70061e6aaa0e9a6ab6adb&Expires=1701357003232&Key-Pair-Id=K38CTQXUSD0VVB&Signature=T~SPQwaQlctwnU4Nc5rvB6~b1aRaUtmpneuRyUzdfsxXJUrR~dvgpBFaezJuOTYOPfxy2AyXT0NJLhgmo6eJdJmHMtUS8quRVYVNn1waWuEgIX7jEPr0a6S17D~Jj60iGSjGj~YlI0uPFxxwSacKag90chw5NtZGyWOvk8y8aXgFRkwuTqm8pK5e31qFjb~U8K~7k8COmc2PpyL3e75EJa~lB67Cxg2simxmMsKpz2PRilhwBL8rBSQckY-XPWOgQDbL445g9daTviDC1exi4oZ3MDSzD~Byk0Hxx32VOwTDHIQ7ZlGJTI-95iqw6tWcx1hOm7nyHMV82NIynv8XPw__"
+      }
+    ));
   }
 
   Future<void> deleteStory(String storyId) {
@@ -83,7 +69,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   void shareStory() async {
-    try {
+    /* try {
       final localPath = await getLocalPath();
       final file = File("$localPath/story_${widget.story.title}.mp3");
       final text =
@@ -93,11 +79,11 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       Share.shareFiles([(file.path)], text: text);
     } catch (error) {
       logger.e("Failed to share story: $error");
-    }
+    } */ // TODO share story
   }
 
   Future<void> downloadStory() async {
-    String fileName = "${widget.story.title} - ${widget.story.author}.mp3";
+    /* String fileName = "${widget.story.title} - ${widget.story.author}.mp3";
     String? downloadUrl = widget.story.audioUrl;
 
     if (downloadUrl == null) {
@@ -159,7 +145,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
           gravity: ToastGravity.BOTTOM,
         );
       }
-    }
+    } */ // TODO download story
   }
 
   void showSuccessDialog(String filePath) {
@@ -286,182 +272,13 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     }).catchError((error) => logger.e("Failed to update list: $error")); */
   }
 
-  int getCurrentStoryIndex() {
-    return storiesList.indexWhere((s) => s["id"] == widget.story.id);
-  }
+  // TODO Next / prev story
 
-  void playNextStory() {
-    int currentIndex = getCurrentStoryIndex();
-    int nextIndex = currentIndex + 1;
+  // TODO skip forward / backward
 
-    if (nextIndex < storiesList.length) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyPlayStory(
-              widget.story, widget.stories), // FIXME actually play next story
-        ),
-      );
-    } else {
-      Fluttertoast.showToast(
-        msg: "No more stories",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-    }
-  }
+  // TODO playback mode
 
-  void playPreviousStory() {
-    int currentIndex = getCurrentStoryIndex();
-    int previousIndex = currentIndex - 1;
-
-    if (previousIndex >= 0) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyPlayStory(
-              widget.story, widget.stories), // FIXME actually play prev story
-        ),
-      );
-    } else {
-      Fluttertoast.showToast(
-        msg: "No previous stories",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-    }
-  }
-
-  void _skipSeconds(int secondsToSkip) async {
-    Duration? currentPosition = await player.getCurrentPosition();
-    int currentPositionInSeconds = currentPosition?.inSeconds ?? 0;
-    int audioDurationInSeconds = duration?.inSeconds ?? 0;
-
-    int newPosition = currentPositionInSeconds + secondsToSkip;
-
-    newPosition = newPosition.clamp(0, audioDurationInSeconds);
-
-    await player.seek(Duration(seconds: newPosition));
-  }
-
-  void _skipForward() async {
-    _skipSeconds(10);
-  }
-
-  void _skipBackward() async {
-    _skipSeconds(-10);
-  }
-
-  void changePlaybackMode() {
-    setState(() {
-      switch (playbackMode) {
-        case PlaybackMode.sequential:
-          playbackMode = PlaybackMode.random;
-          break;
-        case PlaybackMode.random:
-          playbackMode = PlaybackMode.repeat;
-          break;
-        case PlaybackMode.repeat:
-          playbackMode = PlaybackMode.sequential;
-          break;
-      }
-    });
-  }
-
-  void playNext(BuildContext context) {
-    int currentIndex = getCurrentStoryIndex();
-    if (playbackMode == PlaybackMode.sequential) {
-      currentIndex++;
-      if (currentIndex >= storiesList.length) {
-        currentIndex = 0;
-      }
-    } else if (playbackMode == PlaybackMode.random) {
-      currentIndex = Random().nextInt(storiesList.length);
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MyPlayStory(
-            widget.story, widget.stories), // FIXME actually play next story
-      ),
-    );
-  }
-
-  void initPlayer() async {
-    String? audioUrl = widget.story.audioUrl;
-
-    // Check that there is audio present
-    if (audioUrl == null || audioUrl == "") {
-      await Future.delayed(Duration.zero);
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            AppLocalizations.of(context)!.noAudioAssociatedWithStory,
-          ),
-        ),
-      );
-      return;
-    }
-
-    try {
-      await player.setSource(UrlSource(audioUrl));
-      duration = await player.getDuration();
-      player.onPlayerComplete.listen((event) async {
-        if (playbackMode == PlaybackMode.repeat) {
-          await player.setSource(UrlSource(audioUrl));
-          setState(() {
-            _currentValue = 0;
-          });
-          await player.resume();
-        } else {
-          playNext(context);
-        }
-      });
-
-      player.onPlayerStateChanged.listen((event) {
-        setState(() {
-          isPlaying = event == PlayerState.playing;
-
-          if (isPlaying) {
-            audioHandler.pause();
-          } else {
-            audioHandler.play();
-          }
-        });
-      });
-
-      player.onPositionChanged.listen((Duration newPosition) {
-        setState(() {
-          _currentValue = newPosition.inMilliseconds.toDouble();
-        });
-      });
-
-      setState(() {
-        playerFullyInitialized = true;
-      });
-    } catch (error) {
-      await Future.delayed(Duration.zero);
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            AppLocalizations.of(context)!.audioCannotBePlayed,
-          ),
-        ),
-      );
-    }
-  }
-
-  void handlePlayPause() async {
-    if (isPlaying) {
-      await player.pause();
-    } else {
-      await player.resume();
-    }
-    duration = await player.getDuration();
-  }
+  // TODO play / pause
 
   @override
   Widget build(BuildContext context) {
@@ -478,7 +295,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             color: Colors.teal.shade600,
           ),
           onPressed: () {
-            player.stop();
+            // player.stop(); // TODO pause at back?
             Navigator.of(context).pop();
           },
         ),
@@ -514,212 +331,210 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(),
-                  Container(
-                    width: imageSize,
-                    height: imageSize,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.transparent,
-                    ),
-                    child: Image(
-                        fit: BoxFit.cover,
-                        image: widget.story.imageUrl != null
-                            ? NetworkImage(widget.story.imageUrl!)
-                            : const AssetImage("assets/logo.png")
-                                as ImageProvider<Object>),
-                  ),
-                  Column(
+            child: StreamBuilder<PlaybackState>(
+              stream: audioHandler.playbackState,
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return const CircularProgressIndicator();
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 7),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                widget.story.title ??
-                                    AppLocalizations.of(context)!.noTitle,
-                                softWrap: true,
-                                style: const TextStyle(
-                                    color: Colors.teal,
-                                    fontSize: 21.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                widget.story.author ??
-                                    AppLocalizations.of(context)!.noName,
-                                softWrap: true,
-                                style: const TextStyle(
-                                  color: Colors.teal,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      const SizedBox(),
                       Container(
+                        width: imageSize,
+                        height: imageSize,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(15),
                           color: Colors.transparent,
                         ),
-                        child: Column(
-                          children: [
-                            SizedBox(
+                        child: Image(
+                            fit: BoxFit.cover,
+                            image: widget.story.imageUrl != null
+                                ? NetworkImage(widget.story.imageUrl!)
+                                : const AssetImage("assets/logo.png")
+                                    as ImageProvider<Object>),
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 7),
+                            child: SizedBox(
                               width: double.infinity,
-                              child: Slider.adaptive(
-                                  value: _currentValue,
-                                  min: 0.0,
-                                  max: duration!.inMilliseconds.toDouble(),
-                                  onChanged: playerFullyInitialized
-                                      ? (double value) {}
-                                      : null,
-                                  onChangeEnd: (double value) async {
-                                    setState(() {
-                                      _currentValue = value;
-                                      logger.d(
-                                          "Current Slider value: $_currentValue");
-                                    });
-                                    bool wasPlaying = isPlaying;
-                                    player.pause();
-                                    await player.seek(
-                                        Duration(milliseconds: value.toInt()));
-                                    if (wasPlaying) {
-                                      await player.resume();
-                                    }
-                                  }),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  StringUtils.durationToString(Duration(
-                                      milliseconds: _currentValue.toInt())),
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: kPrimaryColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  "/",
-                                  style: TextStyle(
-                                      color: kPrimaryColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  StringUtils.durationToString(duration!),
-                                  style: TextStyle(
-                                      fontSize: 14, color: kPrimaryColor),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            SizedBox(
-                              width: 200,
-                              child: Row(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      icon: Icon(
-                                        Icons.skip_previous,
-                                        size: 30,
-                                        color: kPrimaryColor,
-                                      ),
-                                      onPressed:
-                                          playPreviousStory //playPreviousStory
-                                      ),
-                                  IconButton(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    // disabledColor: Colors.grey,
-                                    // color: kPrimaryColor,
-                                    icon: Icon(
-                                      isPlaying == false
-                                          ? Icons.play_circle_fill
-                                          : Icons.pause_circle_filled,
-                                      size: 50,
-                                    ),
-                                    onPressed: playerFullyInitialized
-                                        ? handlePlayPause
-                                        : null,
+                                children: <Widget>[
+                                  Text(
+                                    widget.story.title ??
+                                        AppLocalizations.of(context)!.noTitle,
+                                    softWrap: true,
+                                    style: const TextStyle(
+                                        color: Colors.teal,
+                                        fontSize: 21.0,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  IconButton(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      icon: Icon(
-                                        Icons.skip_next,
-                                        size: 30,
-                                        color: kPrimaryColor,
-                                      ),
-                                      onPressed: playNextStory //playNextStory,
-                                      ),
+                                  Text(
+                                    widget.story.author ??
+                                        AppLocalizations.of(context)!.noName,
+                                    softWrap: true,
+                                    style: const TextStyle(
+                                      color: Colors.teal,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.transparent,
+                            ),
+                            child: Column(
                               children: [
-                                IconButton(
-                                  padding: const EdgeInsets.only(top: 7),
-                                  icon: Icon(
-                                    Icons.replay_10,
-                                    size: 22,
-                                    color: kPrimaryColor,
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Slider.adaptive(
+                                    value: snapshot
+                                            .data?.position.inMilliseconds
+                                            .toDouble() ??
+                                        0,
+                                    min: 0.0,
+                                    max: 100000,
+                                    onChanged: playerFullyInitialized
+                                        ? (double value) {}
+                                        : null,
+                                    // TODO position change handle
                                   ),
-                                  onPressed: _skipBackward,
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                    playbackMode == PlaybackMode.sequential
-                                        ? Icons.queue_music_outlined
-                                        : (playbackMode == PlaybackMode.random
-                                            ? Icons.shuffle
-                                            : Icons.repeat),
-                                    size: 22,
-                                    color: kPrimaryColor,
-                                  ),
-                                  onPressed: changePlaybackMode,
+                                const SizedBox(
+                                  height: 5,
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.share_outlined,
-                                    size: 22,
-                                    color: kPrimaryColor,
-                                  ),
-                                  onPressed: shareStory,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      StringUtils.durationToString(
+                                          snapshot.data!.position),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: kPrimaryColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "/",
+                                      style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      StringUtils.durationToString(
+                                          const Duration(milliseconds: 100000)),
+                                      style: TextStyle(
+                                          fontSize: 14, color: kPrimaryColor),
+                                    ),
+                                  ],
                                 ),
-                                IconButton(
-                                  padding: const EdgeInsets.only(top: 7),
-                                  icon: Icon(
-                                    Icons.forward_10,
-                                    size: 22,
-                                    color: kPrimaryColor,
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                SizedBox(
+                                  width: 200,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconButton(
+                                          padding:
+                                              const EdgeInsets.only(top: 4),
+                                          icon: Icon(
+                                            Icons.skip_previous,
+                                            size: 30,
+                                            color: kPrimaryColor,
+                                          ),
+                                          onPressed:
+                                              audioHandler.skipToPrevious),
+                                      IconButton(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10),
+                                        // disabledColor: Colors.grey,
+                                        // color: kPrimaryColor,
+                                        icon: Icon(
+                                          snapshot.data?.playing == false
+                                              ? Icons.play_circle_fill
+                                              : Icons.pause_circle_filled,
+                                          size: 50,
+                                        ),
+                                        onPressed: snapshot.data!.playing ? audioHandler.pause : audioHandler.play,
+                                      ),
+                                      IconButton(
+                                          padding:
+                                              const EdgeInsets.only(top: 4),
+                                          icon: Icon(
+                                            Icons.skip_next,
+                                            size: 30,
+                                            color: kPrimaryColor,
+                                          ),
+                                          onPressed: audioHandler.skipToNext),
+                                    ],
                                   ),
-                                  onPressed: _skipForward,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    IconButton(
+                                        padding: const EdgeInsets.only(top: 7),
+                                        icon: Icon(
+                                          Icons.replay_10,
+                                          size: 22,
+                                          color: kPrimaryColor,
+                                        ),
+                                        onPressed: () =>
+                                            audioHandler.seekBackward(false)),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.shuffle, // TODO icon selection
+                                        size: 22,
+                                        color: kPrimaryColor,
+                                      ),
+                                      onPressed: () {}, // TODO change playback mode
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.share_outlined,
+                                        size: 22,
+                                        color: kPrimaryColor,
+                                      ),
+                                      onPressed: shareStory,
+                                    ),
+                                    IconButton(
+                                        padding: const EdgeInsets.only(top: 7),
+                                        icon: Icon(
+                                          Icons.forward_10,
+                                          size: 22,
+                                          color: kPrimaryColor,
+                                        ),
+                                        onPressed: () =>
+                                            audioHandler.seekForward(false)),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),
