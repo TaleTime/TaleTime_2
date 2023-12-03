@@ -36,7 +36,8 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
       await _audioPlayer.setSource(UrlSource(url));
 
       playbackState.add(playbackState.value.copyWith(
-        errorMessage: null
+        processingState: AudioProcessingState.ready,
+        updatePosition: Duration.zero,
       ));
     } catch (error) {
       // Set error message
@@ -51,6 +52,8 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> play() async {
     await _audioPlayer.resume();
+    Duration? pos = await _audioPlayer.getCurrentPosition();
+
     playbackState.add(playbackState.value.copyWith(
       playing: true,
       controls: [
@@ -58,6 +61,7 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
         MediaControl.pause,
         MediaControl.fastForward
       ],
+      updatePosition: pos ?? Duration.zero,
     ));
 
     print("play...");
@@ -65,7 +69,8 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
 
   @override
   Future<void> pause() async {
-    _audioPlayer.pause();
+    await _audioPlayer.pause();
+    Duration? pos = await _audioPlayer.getCurrentPosition();
 
     playbackState.add(playbackState.value.copyWith(
       playing: false,
@@ -74,6 +79,7 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
         MediaControl.play,
         MediaControl.fastForward
       ],
+      updatePosition: pos ?? Duration.zero,
     ));
 
     mediaItem.add(MediaItem(

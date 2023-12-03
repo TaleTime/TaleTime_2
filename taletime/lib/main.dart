@@ -31,7 +31,7 @@ Future<void> main() async {
     config: const AudioServiceConfig(
       androidNotificationChannelId: "de.htwsaar.taletime.player",
       androidNotificationChannelName: "TaleTime",
-      androidNotificationOngoing: true,
+      androidNotificationOngoing: false,
       androidStopForegroundOnPause: true,
 
     )

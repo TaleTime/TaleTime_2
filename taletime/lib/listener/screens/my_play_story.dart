@@ -36,11 +36,11 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   @override
   void initState() {
     super.initState();
-    audioHandler.playMediaItem(const MediaItem(
+    audioHandler.playMediaItem(MediaItem(
       id: "Foo",
       title: "Foo Bar",
       extras: {
-        "url": "https://stitcher2.acast.com/livestitches/336e40ccd81a0e192649380d2391b9e9.mp3?aid=6559b9720418cd0012decf49&chid=9e2d1373-64c9-544b-8345-9606f84ecc47&ci=n2MYXxfJDQihmnFq0Qc81Tak2z9ICougC4pahn2M_KPe1p5Q63gP9g%3D%3D&pf=rss&range=bytes%3D0-&sv=sphinx%401.191.0&uid=b2495962a3f70061e6aaa0e9a6ab6adb&Expires=1701357003232&Key-Pair-Id=K38CTQXUSD0VVB&Signature=T~SPQwaQlctwnU4Nc5rvB6~b1aRaUtmpneuRyUzdfsxXJUrR~dvgpBFaezJuOTYOPfxy2AyXT0NJLhgmo6eJdJmHMtUS8quRVYVNn1waWuEgIX7jEPr0a6S17D~Jj60iGSjGj~YlI0uPFxxwSacKag90chw5NtZGyWOvk8y8aXgFRkwuTqm8pK5e31qFjb~U8K~7k8COmc2PpyL3e75EJa~lB67Cxg2simxmMsKpz2PRilhwBL8rBSQckY-XPWOgQDbL445g9daTviDC1exi4oZ3MDSzD~Byk0Hxx32VOwTDHIQ7ZlGJTI-95iqw6tWcx1hOm7nyHMV82NIynv8XPw__"
+        "url": widget.story.audioUrl ?? ""
       }
     ));
   }
@@ -331,210 +331,222 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
             ),
-            child: StreamBuilder<PlaybackState>(
-              stream: audioHandler.playbackState,
-              builder: (context, snapshot) {
-                if (snapshot.data == null) {
-                  return const CircularProgressIndicator();
-                }
+            child: StreamBuilder<MediaItem?>(
+              stream: audioHandler.mediaItem,
+              builder: (context, mediaItemSnapshot)  {
+                MediaItem? mediaItem = mediaItemSnapshot.data;
 
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(),
-                      Container(
-                        width: imageSize,
-                        height: imageSize,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.transparent,
-                        ),
-                        child: Image(
-                            fit: BoxFit.cover,
-                            image: widget.story.imageUrl != null
-                                ? NetworkImage(widget.story.imageUrl!)
-                                : const AssetImage("assets/logo.png")
-                                    as ImageProvider<Object>),
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    widget.story.title ??
-                                        AppLocalizations.of(context)!.noTitle,
-                                    softWrap: true,
-                                    style: const TextStyle(
-                                        color: Colors.teal,
-                                        fontSize: 21.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    widget.story.author ??
-                                        AppLocalizations.of(context)!.noName,
-                                    softWrap: true,
-                                    style: const TextStyle(
-                                      color: Colors.teal,
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                return StreamBuilder<PlaybackState>(
+                stream: audioHandler.playbackState,
+                builder: (context, playbackStateSnapshot) {
+                  PlaybackState playbackState = playbackStateSnapshot.data ?? PlaybackState(
+                    updatePosition: Duration.zero,
+                    playing: false,
+                    processingState: AudioProcessingState.loading,
+                  );
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(),
+                        Container(
+                          width: imageSize,
+                          height: imageSize,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.transparent,
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.transparent,
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: Slider.adaptive(
-                                    value: snapshot
-                                            .data?.position.inMilliseconds
-                                            .toDouble() ??
-                                        0,
-                                    min: 0.0,
-                                    max: 100000,
-                                    onChanged: playerFullyInitialized
-                                        ? (double value) {}
-                                        : null,
-                                    // TODO position change handle
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                          child: Image(
+                              fit: BoxFit.cover,
+                              image: widget.story.imageUrl != null
+                                  ? NetworkImage(widget.story.imageUrl!)
+                                  : const AssetImage("assets/logo.png")
+                                      as ImageProvider<Object>),
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 7),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
                                     Text(
-                                      StringUtils.durationToString(
-                                          snapshot.data!.position),
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: kPrimaryColor,
+                                      widget.story.title ??
+                                          AppLocalizations.of(context)!.noTitle,
+                                      softWrap: true,
+                                      style: const TextStyle(
+                                          color: Colors.teal,
+                                          fontSize: 21.0,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      "/",
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      StringUtils.durationToString(
-                                          const Duration(milliseconds: 100000)),
-                                      style: TextStyle(
-                                          fontSize: 14, color: kPrimaryColor),
+                                      widget.story.author ??
+                                          AppLocalizations.of(context)!.noName,
+                                      softWrap: true,
+                                      style: const TextStyle(
+                                        color: Colors.teal,
+                                        fontSize: 16.0,
+                                      ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                SizedBox(
-                                  width: 200,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.transparent,
+                              ),
+                              child: Column(
+                                children: [
+                                  StreamBuilder<void>(
+                                    stream: Stream.periodic(const Duration(milliseconds: 100)),
+                                    builder: (context, snapshot2) {
+                                      print(playbackState.position.inMilliseconds);
+                                      return SizedBox(
+                                        width: double.infinity,
+                                        child: Slider.adaptive(
+                                          value: playbackState.position.inMilliseconds.toDouble(),
+                                          min: 0.0,
+                                          max: max(mediaItem?.duration?.inMilliseconds.toDouble() ?? 0, playbackState.position.inMilliseconds.toDouble()),
+                                          onChanged: playerFullyInitialized
+                                              ? (double value) {}
+                                              : null,
+                                          // TODO position change handle
+                                        ),
+                                      );
+                                    }
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        StringUtils.durationToString(
+                                            playbackState.position),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: kPrimaryColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "/",
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        StringUtils.durationToString(
+                                            const Duration(milliseconds: 100000)),
+                                        style: TextStyle(
+                                            fontSize: 14, color: kPrimaryColor),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  SizedBox(
+                                    width: 200,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        IconButton(
+                                            padding:
+                                                const EdgeInsets.only(top: 4),
+                                            icon: Icon(
+                                              Icons.skip_previous,
+                                              size: 30,
+                                              color: kPrimaryColor,
+                                            ),
+                                            onPressed:
+                                                audioHandler.skipToPrevious),
+                                        IconButton(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          // disabledColor: Colors.grey,
+                                          // color: kPrimaryColor,
+                                          icon: Icon(
+                                            playbackState.playing == false
+                                                ? Icons.play_circle_fill
+                                                : Icons.pause_circle_filled,
+                                            size: 50,
+                                          ),
+                                          onPressed: playbackState.playing ? audioHandler.pause : audioHandler.play,
+                                        ),
+                                        IconButton(
+                                            padding:
+                                                const EdgeInsets.only(top: 4),
+                                            icon: Icon(
+                                              Icons.skip_next,
+                                              size: 30,
+                                              color: kPrimaryColor,
+                                            ),
+                                            onPressed: audioHandler.skipToNext),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       IconButton(
-                                          padding:
-                                              const EdgeInsets.only(top: 4),
+                                          padding: const EdgeInsets.only(top: 7),
                                           icon: Icon(
-                                            Icons.skip_previous,
-                                            size: 30,
+                                            Icons.replay_10,
+                                            size: 22,
                                             color: kPrimaryColor,
                                           ),
-                                          onPressed:
-                                              audioHandler.skipToPrevious),
+                                          onPressed: () =>
+                                              audioHandler.seekBackward(false)),
                                       IconButton(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10),
-                                        // disabledColor: Colors.grey,
-                                        // color: kPrimaryColor,
                                         icon: Icon(
-                                          snapshot.data?.playing == false
-                                              ? Icons.play_circle_fill
-                                              : Icons.pause_circle_filled,
-                                          size: 50,
+                                          Icons.shuffle, // TODO icon selection
+                                          size: 22,
+                                          color: kPrimaryColor,
                                         ),
-                                        onPressed: snapshot.data!.playing ? audioHandler.pause : audioHandler.play,
+                                        onPressed: () {}, // TODO change playback mode
                                       ),
                                       IconButton(
-                                          padding:
-                                              const EdgeInsets.only(top: 4),
+                                        icon: Icon(
+                                          Icons.share_outlined,
+                                          size: 22,
+                                          color: kPrimaryColor,
+                                        ),
+                                        onPressed: shareStory,
+                                      ),
+                                      IconButton(
+                                          padding: const EdgeInsets.only(top: 7),
                                           icon: Icon(
-                                            Icons.skip_next,
-                                            size: 30,
+                                            Icons.forward_10,
+                                            size: 22,
                                             color: kPrimaryColor,
                                           ),
-                                          onPressed: audioHandler.skipToNext),
+                                          onPressed: () =>
+                                              audioHandler.seekForward(false)),
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    IconButton(
-                                        padding: const EdgeInsets.only(top: 7),
-                                        icon: Icon(
-                                          Icons.replay_10,
-                                          size: 22,
-                                          color: kPrimaryColor,
-                                        ),
-                                        onPressed: () =>
-                                            audioHandler.seekBackward(false)),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.shuffle, // TODO icon selection
-                                        size: 22,
-                                        color: kPrimaryColor,
-                                      ),
-                                      onPressed: () {}, // TODO change playback mode
-                                    ),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.share_outlined,
-                                        size: 22,
-                                        color: kPrimaryColor,
-                                      ),
-                                      onPressed: shareStory,
-                                    ),
-                                    IconButton(
-                                        padding: const EdgeInsets.only(top: 7),
-                                        icon: Icon(
-                                          Icons.forward_10,
-                                          size: 22,
-                                          color: kPrimaryColor,
-                                        ),
-                                        onPressed: () =>
-                                            audioHandler.seekForward(false)),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
             ),
           ),
         ),
