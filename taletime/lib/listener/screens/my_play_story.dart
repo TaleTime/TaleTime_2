@@ -1,6 +1,7 @@
 import "dart:io";
 import "dart:math";
 
+import "package:audio_service/audio_service.dart";
 import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
 import "package:fluttertoast/fluttertoast.dart";
@@ -12,6 +13,7 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/common/utils/string_utils.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/main.dart";
 import "package:taletime/settings/downloads.dart";
 
 import "../../common/models/added_story.dart";
@@ -53,14 +55,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     initPlayer();
     _currentValue = 0;
     duration = const Duration(seconds: 0);
-  }
 
-  displayDoubleDigits(int digit) {
-    if (digit < 10) {
-      return "0$digit";
-    } else {
-      return "$digit";
-    }
+    audioHandler.playMediaItem(const MediaItem(id: "Foo", title: "Foo Bar"));
   }
 
   Future<void> deleteStory(String storyId) {
@@ -427,6 +423,12 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       player.onPlayerStateChanged.listen((event) {
         setState(() {
           isPlaying = event == PlayerState.playing;
+
+          if (isPlaying) {
+            audioHandler.pause();
+          } else {
+            audioHandler.play();
+          }
         });
       });
 
@@ -587,9 +589,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                     });
                                     bool wasPlaying = isPlaying;
                                     player.pause();
-                                    await player
-                                        .seek(Duration(milliseconds: value.toInt()));
-                                    if(wasPlaying) {
+                                    await player.seek(
+                                        Duration(milliseconds: value.toInt()));
+                                    if (wasPlaying) {
                                       await player.resume();
                                     }
                                   }),
@@ -601,7 +603,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  StringUtils.durationToString(Duration(milliseconds: _currentValue.toInt())),
+                                  StringUtils.durationToString(Duration(
+                                      milliseconds: _currentValue.toInt())),
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: kPrimaryColor,

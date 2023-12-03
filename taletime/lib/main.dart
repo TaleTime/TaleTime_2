@@ -1,16 +1,21 @@
+import "package:audio_service/audio_service.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
+import "package:flutter_native_splash/flutter_native_splash.dart";
 import "package:provider/provider.dart";
+import "package:taletime/audio_player/audio_handler.dart";
 import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
-import "package:flutter_native_splash/flutter_native_splash.dart";
+
 import "../internationalization/localizations_ext.dart";
 import "firebase/firebase_options.dart";
+
+late AudioHandler audioHandler;
 
 /// Main-Class of the TaleTime-App
 
@@ -19,6 +24,19 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Initialize Audio Service
+  audioHandler = await AudioService.init(
+    builder: () => AudioPlayerHandler(),
+    config: const AudioServiceConfig(
+      androidNotificationChannelId: "de.htwsaar.taletime.player",
+      androidNotificationChannelName: "TaleTime",
+      androidNotificationOngoing: true,
+      androidStopForegroundOnPause: true,
+
+    )
+  );
+
   runApp(
     const TaleTimeApp(),
   );
