@@ -33,12 +33,17 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   bool playerFullyInitialized = false;
 
+  // TODO error handling
+  // TODO loading state
+
   @override
   void initState() {
     super.initState();
     audioHandler.playMediaItem(MediaItem(
-      id: "Foo",
-      title: "Foo Bar",
+      id: widget.story.id,
+      title: widget.story.title ?? AppLocalizations.of(context)!.noTitle,
+      artist: widget.story.author ?? AppLocalizations.of(context)!.noName,
+      artUri: Uri.parse(widget.story.imageUrl ?? ""),
       extras: {
         "url": widget.story.audioUrl ?? ""
       }

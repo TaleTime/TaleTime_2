@@ -1,6 +1,10 @@
 import "package:audio_service/audio_service.dart";
 import "package:just_audio/just_audio.dart";
 
+const _millisecondsInSecond = 1000;
+const _seekBackwardSeconds = 10;
+const _seekForwardSeconds = 10;
+
 class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -56,20 +60,45 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
     _audioPlayer.seek(position);
   }
 
+  Future<void> _seekSeconds(int seconds) async {
+    int currentPosition = _audioPlayer.position.inMilliseconds;
+    int newPosition = currentPosition + seconds * _millisecondsInSecond;
+    int duration = _audioPlayer.duration?.inMilliseconds.toInt() ?? currentPosition;
+
+    if (newPosition < 0) {
+      newPosition = 0;
+    } else if (newPosition > duration) {
+      newPosition = duration;
+    }
+
+    _audioPlayer.seek(Duration(milliseconds: newPosition));
+  }
+
+  @override
+  Future<void> seekBackward(bool begin) async {
+    _seekSeconds(-_seekBackwardSeconds);
+  }
+
+  @override
+  Future<void> seekForward(bool begin) async {
+    _seekSeconds(_seekForwardSeconds);
+  }
+
   PlaybackState _transformEvent(PlaybackEvent event) {
     return PlaybackState(
       controls: [
+        MediaControl.skipToPrevious,
         MediaControl.rewind,
         if (_audioPlayer.playing) MediaControl.pause else MediaControl.play,
-        MediaControl.stop,
         MediaControl.fastForward,
+        MediaControl.skipToNext
       ],
       systemActions: const {
         MediaAction.seek,
         MediaAction.seekForward,
         MediaAction.seekBackward,
       },
-      androidCompactActionIndices: const [0, 1, 3],
+      androidCompactActionIndices: const [1, 2, 3],
       processingState: const {
         ProcessingState.idle: AudioProcessingState.idle,
         ProcessingState.loading: AudioProcessingState.loading,
