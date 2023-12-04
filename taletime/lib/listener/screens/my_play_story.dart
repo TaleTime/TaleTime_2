@@ -406,7 +406,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                   StreamBuilder<void>(
                                     stream: Stream.periodic(const Duration(milliseconds: 100)),
                                     builder: (context, snapshot2) {
-                                      print(playbackState.position.inMilliseconds);
+                                      print(mediaItem?.duration?.toString() ?? "No duration" + " " + playbackState.position.toString());
                                       return SizedBox(
                                         width: double.infinity,
                                         child: Slider.adaptive(
