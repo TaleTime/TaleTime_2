@@ -14,7 +14,7 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 import "../../common utils/decoration_util.dart";
-import "../../listener/screens/my_play_story.dart";
+import '../../player/my_play_story.dart';
 
 import "../../settings/settings.dart";
 

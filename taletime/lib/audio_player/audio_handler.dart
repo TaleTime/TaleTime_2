@@ -43,6 +43,11 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
     _audioPlayer.pause();
   }
 
+  @override
+  Future<void> seek(Duration position) async {
+    _audioPlayer.seek(position);
+  }
+
   PlaybackState _transformEvent(PlaybackEvent event) {
     return PlaybackState(
       controls: [

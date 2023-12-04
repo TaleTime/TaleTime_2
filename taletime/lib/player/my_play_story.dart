@@ -8,9 +8,10 @@ import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/common/utils/string_utils.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
+import "package:taletime/player/progress_bar.dart";
 import "package:taletime/settings/downloads.dart";
 
-import "../../common/models/added_story.dart";
+import '../common/models/added_story.dart';
 
 class MyPlayStory extends StatefulWidget {
   final AddedStory story;
@@ -396,6 +397,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                 ),
                               ),
                             ),
+                            const ProgressBar(),
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -406,7 +408,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                   StreamBuilder<void>(
                                     stream: Stream.periodic(const Duration(milliseconds: 100)),
                                     builder: (context, snapshot2) {
-                                      print(mediaItem?.duration?.toString() ?? "No duration" + " " + playbackState.position.toString());
+                                      // print(mediaItem?.duration?.toString() ?? "No duration" + " " + playbackState.position.toString());
                                       return SizedBox(
                                         width: double.infinity,
                                         child: Slider.adaptive(

@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:taletime/listener/screens/my_play_story.dart";
+import 'package:taletime/player/my_play_story.dart';
 import "../../common utils/constants.dart";
 
 class SearchBarUtil {
