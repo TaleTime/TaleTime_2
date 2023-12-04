@@ -7,6 +7,14 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   AudioPlayerHandler() {
     // Pass playback state though
     _audioPlayer.playbackEventStream.map(_transformEvent).pipe(playbackState);
+
+    // Listen to completed events
+    _audioPlayer.playerStateStream.listen((event) {
+      if (event.processingState == ProcessingState.completed) {
+        pause();
+        seek(Duration.zero);
+      }
+    });
   }
 
   @override
@@ -23,13 +31,13 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
       mediaItem.add(mediaItem.value?.copyWith(
         duration: duration
       ));
+
+      _audioPlayer.play();
     } catch (error) {
       // Set error message
       playbackState.add(playbackState.value.copyWith(
         errorMessage: "Could not play audio",
       ));
-
-      print(error);
     }
   }
 

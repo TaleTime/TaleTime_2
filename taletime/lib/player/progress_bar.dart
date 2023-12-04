@@ -1,3 +1,4 @@
+import "dart:async";
 import "dart:math";
 
 import "package:flutter/material.dart";
@@ -26,19 +27,26 @@ class _ProgressBarState extends State<ProgressBar> {
   /// from player
   bool _trackingSlider = false;
 
+
+  /// To cancel the subscriptions when widget gets disposed
+  late StreamSubscription _mediaItemSubscription;
+  late StreamSubscription _playbackStateSubscription;
+  late StreamSubscription _periodicSubscription;
+
   @override
   void initState() {
     super.initState();
 
     // Listen to duration change
-    audioHandler.mediaItem.listen((mediaItem) {
+    _mediaItemSubscription = audioHandler.mediaItem.listen((mediaItem) {
       setState(() {
         _duration = mediaItem?.duration?.inMilliseconds.toDouble() ?? 0;
       });
     });
 
     // Listen to position change
-    audioHandler.playbackState.listen((playbackState) {
+    _playbackStateSubscription =
+        audioHandler.playbackState.listen((playbackState) {
       if (!_trackingSlider) {
         setState(() {
           _position = playbackState.position.inMilliseconds.toDouble();
@@ -47,7 +55,8 @@ class _ProgressBarState extends State<ProgressBar> {
     });
 
     // Periodically update position
-    Stream<void>.periodic(const Duration(milliseconds: 500)).listen((_) {
+    _periodicSubscription =
+        Stream<void>.periodic(const Duration(milliseconds: 500)).listen((_) {
       if (!_trackingSlider) {
         setState(() {
           _position = audioHandler.playbackState.value.position.inMilliseconds
@@ -70,13 +79,11 @@ class _ProgressBarState extends State<ProgressBar> {
               _position = pos;
             });
           },
-
           onChangeStart: (pos) {
             setState(() {
               _trackingSlider = true;
             });
           },
-
           onChangeEnd: (pos) {
             setState(() {
               _trackingSlider = false;
@@ -100,19 +107,25 @@ class _ProgressBarState extends State<ProgressBar> {
               child: Text(
                 "/",
                 style: TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.bold),
+                    color: kPrimaryColor, fontWeight: FontWeight.bold),
               ),
             ),
             Text(
               StringUtils.durationToString(
                   Duration(milliseconds: max(_position, _duration).toInt())),
-              style: TextStyle(
-                  fontSize: 14, color: kPrimaryColor),
+              style: TextStyle(fontSize: 14, color: kPrimaryColor),
             ),
           ],
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _periodicSubscription.cancel();
+    _playbackStateSubscription.cancel();
+    _mediaItemSubscription.cancel();
+    super.dispose();
   }
 }
