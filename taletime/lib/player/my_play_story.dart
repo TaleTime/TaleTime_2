@@ -5,7 +5,6 @@ import "package:flutter/material.dart";
 import "package:path_provider/path_provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "package:taletime/common/utils/string_utils.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
 import "package:taletime/player/progress_bar.dart";
@@ -335,7 +334,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             child: StreamBuilder<MediaItem?>(
               stream: audioHandler.mediaItem,
               builder: (context, mediaItemSnapshot)  {
-                MediaItem? mediaItem = mediaItemSnapshot.data;
 
                 return StreamBuilder<PlaybackState>(
                 stream: audioHandler.playbackState,
@@ -405,51 +403,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                               ),
                               child: Column(
                                 children: [
-                                  StreamBuilder<void>(
-                                    stream: Stream.periodic(const Duration(milliseconds: 100)),
-                                    builder: (context, snapshot2) {
-                                      // print(mediaItem?.duration?.toString() ?? "No duration" + " " + playbackState.position.toString());
-                                      return SizedBox(
-                                        width: double.infinity,
-                                        child: Slider.adaptive(
-                                          value: playbackState.position.inMilliseconds.toDouble(),
-                                          min: 0.0,
-                                          max: max(mediaItem?.duration?.inMilliseconds.toDouble() ?? 0, playbackState.position.inMilliseconds.toDouble()),
-                                          onChanged: playerFullyInitialized
-                                              ? (double value) {}
-                                              : null,
-                                          // TODO position change handle
-                                        ),
-                                      );
-                                    }
-                                  ),
                                   const SizedBox(
                                     height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        StringUtils.durationToString(
-                                            playbackState.position),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: kPrimaryColor,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "/",
-                                        style: TextStyle(
-                                            color: kPrimaryColor,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        StringUtils.durationToString(
-                                            const Duration(milliseconds: 100000)),
-                                        style: TextStyle(
-                                            fontSize: 14, color: kPrimaryColor),
-                                      ),
-                                    ],
                                   ),
                                   const SizedBox(
                                     height: 30,

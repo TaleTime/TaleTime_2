@@ -1,7 +1,8 @@
 import "dart:math";
 
-import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
+import "package:taletime/common/utils/string_utils.dart";
 import "package:taletime/main.dart";
 
 class ProgressBar extends StatefulWidget {
@@ -58,28 +59,60 @@ class _ProgressBarState extends State<ProgressBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Slider.adaptive(
-      value: _position,
-      min: 0,
-      max: max(_position, _duration),
-      onChanged: (pos) {
-        setState(() {
-          _position = pos;
-        });
-      },
+    return Column(
+      children: [
+        Slider.adaptive(
+          value: _position,
+          min: 0,
+          max: max(_position, _duration),
+          onChanged: (pos) {
+            setState(() {
+              _position = pos;
+            });
+          },
 
-      onChangeStart: (pos) {
-        setState(() {
-          _trackingSlider = true;
-        });
-      },
+          onChangeStart: (pos) {
+            setState(() {
+              _trackingSlider = true;
+            });
+          },
 
-      onChangeEnd: (pos) {
-        setState(() {
-          _trackingSlider = false;
-        });
-        audioHandler.seek(Duration(milliseconds: pos.toInt()));
-      },
+          onChangeEnd: (pos) {
+            setState(() {
+              _trackingSlider = false;
+            });
+            audioHandler.seek(Duration(milliseconds: pos.toInt()));
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              StringUtils.durationToString(
+                  Duration(milliseconds: _position.toInt())),
+              style: TextStyle(
+                  fontSize: 14,
+                  color: kPrimaryColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                "/",
+                style: TextStyle(
+                    color: kPrimaryColor,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Text(
+              StringUtils.durationToString(
+                  Duration(milliseconds: max(_position, _duration).toInt())),
+              style: TextStyle(
+                  fontSize: 14, color: kPrimaryColor),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
