@@ -7,6 +7,7 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
+import "package:taletime/player/player_loading_spinner.dart";
 import "package:taletime/player/progress_bar.dart";
 import "package:taletime/settings/downloads.dart";
 
@@ -34,7 +35,6 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   bool playerFullyInitialized = false;
 
   // TODO error handling
-  // TODO loading state
 
   @override
   void initState() {
@@ -44,9 +44,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       title: widget.story.title ?? AppLocalizations.of(context)!.noTitle,
       artist: widget.story.author ?? AppLocalizations.of(context)!.noName,
       artUri: Uri.parse(widget.story.imageUrl ?? ""),
-      extras: {
-        "url": widget.story.audioUrl ?? ""
-      }
+      extras: {"url": widget.story.audioUrl ?? ""},
     ));
   }
 
@@ -279,11 +277,7 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   // TODO Next / prev story
 
-  // TODO skip forward / backward
-
   // TODO playback mode
-
-  // TODO play / pause
 
   @override
   Widget build(BuildContext context) {
@@ -300,13 +294,13 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             color: Colors.teal.shade600,
           ),
           onPressed: () {
-            // player.stop(); // TODO pause at back?
             Navigator.of(context).pop();
           },
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: <Widget>[
+          const PlayerLoadingSpinner(),
           IconButton(
             onPressed: toggleFavoriteStatus,
             icon: widget.story.liked
@@ -338,85 +332,133 @@ class _MyPlayStoryState extends State<MyPlayStory> {
             ),
             child: StreamBuilder<MediaItem?>(
               stream: audioHandler.mediaItem,
-              builder: (context, mediaItemSnapshot)  {
-
+              builder: (context, mediaItemSnapshot) {
                 return StreamBuilder<PlaybackState>(
-                stream: audioHandler.playbackState,
-                builder: (context, playbackStateSnapshot) {
-                  PlaybackState playbackState = playbackStateSnapshot.data ?? PlaybackState(
-                    updatePosition: Duration.zero,
-                    playing: false,
-                    processingState: AudioProcessingState.loading,
-                  );
+                  stream: audioHandler.playbackState,
+                  builder: (context, playbackStateSnapshot) {
+                    PlaybackState playbackState = playbackStateSnapshot.data ??
+                        PlaybackState(
+                          updatePosition: Duration.zero,
+                          playing: false,
+                          processingState: AudioProcessingState.loading,
+                        );
 
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const SizedBox(),
-                        Container(
-                          width: imageSize,
-                          height: imageSize,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.transparent,
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(),
+                          Container(
+                            width: imageSize,
+                            height: imageSize,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.transparent,
+                            ),
+                            child: Image(
+                                fit: BoxFit.cover,
+                                image: widget.story.imageUrl != null
+                                    ? NetworkImage(widget.story.imageUrl!)
+                                    : const AssetImage("assets/logo.png")
+                                        as ImageProvider<Object>),
                           ),
-                          child: Image(
-                              fit: BoxFit.cover,
-                              image: widget.story.imageUrl != null
-                                  ? NetworkImage(widget.story.imageUrl!)
-                                  : const AssetImage("assets/logo.png")
-                                      as ImageProvider<Object>),
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 7),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      widget.story.title ??
-                                          AppLocalizations.of(context)!.noTitle,
-                                      softWrap: true,
-                                      style: const TextStyle(
-                                          color: Colors.teal,
-                                          fontSize: 21.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      widget.story.author ??
-                                          AppLocalizations.of(context)!.noName,
-                                      softWrap: true,
-                                      style: const TextStyle(
-                                        color: Colors.teal,
-                                        fontSize: 16.0,
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 7),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        widget.story.title ??
+                                            AppLocalizations.of(context)!
+                                                .noTitle,
+                                        softWrap: true,
+                                        style: const TextStyle(
+                                            color: Colors.teal,
+                                            fontSize: 21.0,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    ),
-                                  ],
+                                      Text(
+                                        widget.story.author ??
+                                            AppLocalizations.of(context)!
+                                                .noName,
+                                        softWrap: true,
+                                        style: const TextStyle(
+                                          color: Colors.teal,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            const ProgressBar(),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.transparent,
-                              ),
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  const SizedBox(
-                                    height: 30,
-                                  ),
-                                  SizedBox(
-                                    width: 200,
-                                    child: Row(
+                              const ProgressBar(),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: Colors.transparent,
+                                ),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    SizedBox(
+                                      width: 200,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          IconButton(
+                                              padding:
+                                                  const EdgeInsets.only(top: 4),
+                                              icon: Icon(
+                                                Icons.skip_previous,
+                                                size: 30,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed:
+                                                  audioHandler.skipToPrevious),
+                                          IconButton(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            // disabledColor: Colors.grey,
+                                            // color: kPrimaryColor,
+                                            icon: Icon(
+                                              playbackState.playing == false
+                                                  ? Icons.play_circle_fill
+                                                  : Icons.pause_circle_filled,
+                                              size: 50,
+                                            ),
+                                            onPressed: playbackState.playing
+                                                ? audioHandler.pause
+                                                : audioHandler.play,
+                                          ),
+                                          IconButton(
+                                              padding:
+                                                  const EdgeInsets.only(top: 4),
+                                              icon: Icon(
+                                                Icons.skip_next,
+                                                size: 30,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed:
+                                                  audioHandler.skipToNext),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       mainAxisAlignment:
@@ -424,91 +466,55 @@ class _MyPlayStoryState extends State<MyPlayStory> {
                                       children: [
                                         IconButton(
                                             padding:
-                                                const EdgeInsets.only(top: 4),
+                                                const EdgeInsets.only(top: 7),
                                             icon: Icon(
-                                              Icons.skip_previous,
-                                              size: 30,
+                                              Icons.replay_10,
+                                              size: 22,
                                               color: kPrimaryColor,
                                             ),
-                                            onPressed:
-                                                audioHandler.skipToPrevious),
+                                            onPressed: () => audioHandler
+                                                .seekBackward(false)),
                                         IconButton(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          // disabledColor: Colors.grey,
-                                          // color: kPrimaryColor,
                                           icon: Icon(
-                                            playbackState.playing == false
-                                                ? Icons.play_circle_fill
-                                                : Icons.pause_circle_filled,
-                                            size: 50,
+                                            Icons.shuffle,
+                                            // TODO icon selection
+                                            size: 22,
+                                            color: kPrimaryColor,
                                           ),
-                                          onPressed: playbackState.playing ? audioHandler.pause : audioHandler.play,
+                                          onPressed:
+                                              () {}, // TODO change playback mode
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.share_outlined,
+                                            size: 22,
+                                            color: kPrimaryColor,
+                                          ),
+                                          onPressed: shareStory,
                                         ),
                                         IconButton(
                                             padding:
-                                                const EdgeInsets.only(top: 4),
+                                                const EdgeInsets.only(top: 7),
                                             icon: Icon(
-                                              Icons.skip_next,
-                                              size: 30,
+                                              Icons.forward_10,
+                                              size: 22,
                                               color: kPrimaryColor,
                                             ),
-                                            onPressed: audioHandler.skipToNext),
+                                            onPressed: () => audioHandler
+                                                .seekForward(false)),
                                       ],
                                     ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      IconButton(
-                                          padding: const EdgeInsets.only(top: 7),
-                                          icon: Icon(
-                                            Icons.replay_10,
-                                            size: 22,
-                                            color: kPrimaryColor,
-                                          ),
-                                          onPressed: () =>
-                                              audioHandler.seekBackward(false)),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.shuffle, // TODO icon selection
-                                          size: 22,
-                                          color: kPrimaryColor,
-                                        ),
-                                        onPressed: () {}, // TODO change playback mode
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.share_outlined,
-                                          size: 22,
-                                          color: kPrimaryColor,
-                                        ),
-                                        onPressed: shareStory,
-                                      ),
-                                      IconButton(
-                                          padding: const EdgeInsets.only(top: 7),
-                                          icon: Icon(
-                                            Icons.forward_10,
-                                            size: 22,
-                                            color: kPrimaryColor,
-                                          ),
-                                          onPressed: () =>
-                                              audioHandler.seekForward(false)),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),

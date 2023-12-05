@@ -1,5 +1,8 @@
 import "package:audio_service/audio_service.dart";
 import "package:just_audio/just_audio.dart";
+import "package:logger/logger.dart";
+
+import "../common utils/tale_time_logger.dart";
 
 const _millisecondsInSecond = 1000;
 const _seekBackwardSeconds = 10;
@@ -7,6 +10,7 @@ const _seekForwardSeconds = 10;
 
 class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   final AudioPlayer _audioPlayer = AudioPlayer();
+  final logger = TaleTimeLogger.getLogger();
 
   AudioPlayerHandler() {
     // Pass playback state though
@@ -24,7 +28,7 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> playMediaItem(MediaItem mediaItemToPlay) async {
     // Update media item to play
-    mediaItem.add(mediaItemToPlay);
+    // mediaItem.add(mediaItemToPlay);
 
     try {
       String url = mediaItemToPlay.extras?["url"];
@@ -32,16 +36,13 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
       // Set source
       Duration? duration = await _audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(url)));
 
-      mediaItem.add(mediaItem.value?.copyWith(
+      mediaItem.add(mediaItemToPlay.copyWith(
         duration: duration
       ));
 
       _audioPlayer.play();
     } catch (error) {
-      // Set error message
-      playbackState.add(playbackState.value.copyWith(
-        errorMessage: "Could not play audio",
-      ));
+      logger.log(Level.warning, "Could not load audio source");
     }
   }
 
@@ -105,7 +106,7 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
         ProcessingState.buffering: AudioProcessingState.buffering,
         ProcessingState.ready: AudioProcessingState.ready,
         ProcessingState.completed: AudioProcessingState.completed,
-      }[_audioPlayer.processingState]!,
+      }[_audioPlayer.processingState] ?? AudioProcessingState.idle,
       playing: _audioPlayer.playing,
       updatePosition: _audioPlayer.position,
       bufferedPosition: _audioPlayer.bufferedPosition,
