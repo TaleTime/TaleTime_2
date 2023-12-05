@@ -28,7 +28,7 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> playMediaItem(MediaItem mediaItemToPlay) async {
     // Update media item to play
-    // mediaItem.add(mediaItemToPlay);
+    mediaItem.add(mediaItemToPlay);
 
     try {
       String url = mediaItemToPlay.extras?["url"];
