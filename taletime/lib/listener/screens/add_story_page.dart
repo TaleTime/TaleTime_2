@@ -26,6 +26,7 @@ class AddStory extends StatefulWidget {
 class _AddStoryState extends State<AddStory> {
   List matchStoryList = [];
   Stream<QuerySnapshot<AddedStory>>? addedStoriesStream;
+  Stream<QuerySnapshot<AddedStory>>? allStoriesStream;
   final logger = TaleTimeLogger.getLogger();
   bool updateForce = false;
 
@@ -36,12 +37,18 @@ class _AddStoryState extends State<AddStory> {
     super.initState();
     addedStoriesStream = widget.storiesCollectionReference
         .withConverter(
+          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        )
+        .snapshots();
+    allStoriesStream = widget.allStoriesCollectionReference
+        .withConverter(
       fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
       toFirestore: (snap, _) => snap.toFirebase(),
     )
         .snapshots();
-  }
 
+  }
 
   Future<void> updateStoryList(String storyId) {
     return widget.storiesCollectionReference
@@ -61,21 +68,44 @@ class _AddStoryState extends State<AddStory> {
       "rating": rating,
       "author": author,
       "isLiked": isLiked
-    })
-        .then((value) {
+    }).then((value) {
       logger.v("Story Added to story list");
       updateStoryList(value.id);
       setState(() {
         updateForce = true;
       });
-    }).catchError((error) =>
-        logger.e("Failed to add story to story list: $error"));
+    }).catchError((error) => logger.e("Failed to add story to story list: $error"));
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListenerTaletimePage(
-        widget.storiesCollectionReference,
-        widget.allStoriesCollectionReference, AddStoryActionButtons(widget.storiesCollectionReference));
+    return StreamBuilder(stream: addedStoriesStream, builder: (ctx, snapshotAddedStories){
+      final addedStories = snapshotAddedStories.data;
+      return StreamBuilder(stream: allStoriesStream, builder: (ctx, snapshotAllStories){
+        final allStories = snapshotAllStories.data;
+        if (addedStories == null || allStories == null) {
+          return const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        final addedStoriesDocs = addedStories.docs;
+        final allStoriesDocs = allStories.docs;
+        var res = allStoriesDocs.where((story)  {
+          var isContained = false;
+          for (var addedStory in addedStoriesDocs) {
+            if (addedStory.id == story.id) {
+              isContained = true;
+              break;
+            }
+          }
+          return !isContained;
+        }).toList();
+        return ListenerTaletimePage(res, AddStoryActionButtons(widget.storiesCollectionReference));
+      });
+    });
   }
 }

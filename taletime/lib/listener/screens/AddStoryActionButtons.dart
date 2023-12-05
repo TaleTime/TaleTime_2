@@ -8,7 +8,7 @@ import "../../common/widgets/story_list_item.dart";
 import "../../common/widgets/tale_time_alert_dialog.dart";
 import "../../internationalization/localizations_ext.dart";
 
-class AddStoryActionButtons extends ListenerActionButtons{
+class AddStoryActionButtons extends ListenerActionButtons {
   final CollectionReference storiesCollectionReference;
   final logger = TaleTimeLogger.getLogger();
 
@@ -36,34 +36,37 @@ class AddStoryActionButtons extends ListenerActionButtons{
       logger.v("Story Added to story list");
       updateStoryList(value.id);
     }).catchError(
-            (error) => logger.e("Failed to add story to story list: $error"));
+        (error) => logger.e("Failed to add story to story list: $error"));
   }
 
   @override
   List<StoryActionButton> build(BuildContext context, Story story) {
     return [
-          StoryActionButton(
-              icon: Icons.playlist_add_outlined,
-              onTap: () => {
+      StoryActionButton(
+          icon: Icons.playlist_add_outlined,
+          onTap: () => {
                 showDialog(
                     context: context,
-                    builder: (ctx) =>
-                        TaleTimeAlertDialog(
-                            title:
-                            AppLocalizations
-                                .of(ctx)!
-                                .addStoryHint,
-                            content: AppLocalizations
-                                .of(ctx)!
+                    builder: (ctx) => TaleTimeAlertDialog(
+                            title: AppLocalizations.of(ctx)!.addStoryHint,
+                            content: AppLocalizations.of(ctx)!
                                 .addStoryHintDescription,
                             buttons: [
-                              AlertDialogButton(text: AppLocalizations.of(ctx)!.yes, onPressed: ()=>{
-                                addStory(story.audioUrl!, story.author!, story.imageUrl!, story.title!, story.rating!, false),
-                                Navigator.pop(context)
-                              }),
-                              AlertDialogButton(text: AppLocalizations.of(ctx)!.no, onPressed: ()=>{
-                                Navigator.pop(context)
-                              })
+                              AlertDialogButton(
+                                  text: AppLocalizations.of(ctx)!.yes,
+                                  onPressed: () => {
+                                        addStory(
+                                            story.audioUrl!,
+                                            story.author!,
+                                            story.imageUrl!,
+                                            story.title!,
+                                            story.rating!,
+                                            false),
+                                        Navigator.pop(context)
+                                      }),
+                              AlertDialogButton(
+                                  text: AppLocalizations.of(ctx)!.no,
+                                  onPressed: () => {Navigator.pop(context)})
                             ]))
               })
     ];

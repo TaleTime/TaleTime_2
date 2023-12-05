@@ -6,7 +6,8 @@ import "../../common/models/story.dart";
 class SearchBarUtil {
   List<Story> searchStory(List<Story> stories, value) {
     return stories
-        .where((story) => story.title!.toLowerCase().contains(value.toLowerCase()))
+        .where(
+            (story) => story.title!.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
 
