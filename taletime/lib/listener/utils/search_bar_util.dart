@@ -4,7 +4,7 @@ import "../../common utils/constants.dart";
 import "../../common/models/story.dart";
 
 class SearchBarUtil {
-  List<Story> searchStory(List<Story> stories, value) {
+  List<T> searchStory<T extends Story>(List<T> stories, value) {
     return stories
         .where(
             (story) => story.title!.toLowerCase().contains(value.toLowerCase()))

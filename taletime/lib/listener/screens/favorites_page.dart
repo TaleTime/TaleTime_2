@@ -1,11 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
-import "package:taletime/common/models/added_story.dart";
-import "package:taletime/listener/screens/FavoriteActionButton.dart";
 
-import "../../common utils/decoration_util.dart";
 import "../../common/models/story.dart";
-import "../../internationalization/localizations_ext.dart";
 import "../../profiles/models/profile_model.dart";
 import "listener_taletime_page.dart";
 
@@ -64,7 +60,10 @@ class _FavoritePageState extends State<FavoritePage> {
       }
       final docs = data.docs;
 
-      return ListenerTaletimePage(docs, FavoriteActionButton());
+      return ListenerTaletimePage(
+          docs: docs,
+          buttonsBuilder: (_) => [],
+      );
       }
       );
   }
