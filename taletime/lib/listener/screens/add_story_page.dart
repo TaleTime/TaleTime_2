@@ -56,13 +56,14 @@ class _AddStoryState extends State<AddStory> {
   }*/
 
   Future<void> addStory(Story story) async {
+    var storyToAdd = AddedStory.fromStory(
+      story,
+      liked: false,
+      timeLastListened: 0,
+    );
     await widget.storiesCollectionReference
-        .doc()
-        .set(AddedStory.fromStory(
-          story,
-          liked: false,
-          timeLastListened: 0,
-        ))
+        .doc(storyToAdd.id)
+        .set(storyToAdd)
         .then((value) {
       logger.v("Story Added to story list");
       setState(() {
