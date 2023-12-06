@@ -1,8 +1,11 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common/models/added_story.dart";
+import "package:taletime/common/services/story_service.dart";
+import "package:taletime/listener/screens/FavoriteActionButton.dart";
 
 import "../../common/models/story.dart";
+import "../../common/widgets/story_list_item.dart";
 import "../../profiles/models/profile_model.dart";
 import "listener_taletime_page.dart";
 
@@ -24,7 +27,7 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
   List matchStoryList = [];
-  Stream<QuerySnapshot<Story>>? _storiesStream;
+  Stream<QuerySnapshot<AddedStory>>? _storiesStream;
 
   _FavoritePageState();
 
@@ -33,15 +36,15 @@ class _FavoritePageState extends State<FavoritePage> {
     super.initState();
     _storiesStream = widget.stories
         .withConverter(
-          fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        )
+      fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+      toFirestore: (snap, _) => snap.toFirebase(),
+    )
         .where("isLiked", isEqualTo: true)
         .snapshots();
   }
 
-  List<Story> filterLikedStories(
-      List<Story> allStories, List<Story> likedStories) {
+  List<Story> filterLikedStories(List<Story> allStories,
+      List<Story> likedStories) {
     List<Story> filteredStories = [];
     for (Story story in allStories) {
       if (likedStories.contains(story)) {
@@ -67,10 +70,10 @@ class _FavoritePageState extends State<FavoritePage> {
           }
           final docs = data.docs;
 
-          return ListenerTaletimePage(
+          return ListenerTaletimePage<AddedStory>(
             docs: docs,
-            buttonsBuilder: (_) => [],
+            buttonsBuilder: (e) => FavoriteActionButton().build(context, e.reference),
           );
         });
   }
-}
+  }
