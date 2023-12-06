@@ -74,39 +74,41 @@ class _AddStoryState extends State<AddStory> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: addedStoriesStream,
-        builder: (ctx, snapshotAddedStories) {
-          final addedStories = snapshotAddedStories.data;
-          return StreamBuilder(
-              stream: allStoriesStream,
-              builder: (ctx, snapshotAllStories) {
-                final allStories = snapshotAllStories.data;
-                if (addedStories == null || allStories == null) {
-                  return const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
+      stream: addedStoriesStream,
+      builder: (ctx, snapshotAddedStories) {
+        final addedStories = snapshotAddedStories.data;
+        return StreamBuilder(
+          stream: allStoriesStream,
+          builder: (ctx, snapshotAllStories) {
+            final allStories = snapshotAllStories.data;
+            if (addedStories == null || allStories == null) {
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
 
-                final addedStoriesDocs = addedStories.docs;
-                final allStoriesDocs = allStories.docs;
-                var res = allStoriesDocs.where((story) {
-                  var isContained = false;
-                  for (var addedStory in addedStoriesDocs) {
-                    if (addedStory.id == story.id) {
-                      isContained = true;
-                      break;
-                    }
-                  }
-                  return !isContained;
-                }).toList();
-                return ListenerTaletimePage(
-                  docs: res,
-                  buttonsBuilder: (_) => [],
-                );
-              });
-        });
+            final addedStoriesDocs = addedStories.docs;
+            final allStoriesDocs = allStories.docs;
+            var res = allStoriesDocs.where((story) {
+              var isContained = false;
+              for (var addedStory in addedStoriesDocs) {
+                if (addedStory.id == story.id) {
+                  isContained = true;
+                  break;
+                }
+              }
+              return !isContained;
+            }).toList();
+            return ListenerTaletimePage(
+              docs: res,
+              buttonsBuilder: (_) => [],
+            );
+          },
+        );
+      },
+    );
   }
 }

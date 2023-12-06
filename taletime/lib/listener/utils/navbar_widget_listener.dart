@@ -1,16 +1,19 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common/models/added_story.dart";
+import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 
 import "../../profiles/models/profile_model.dart";
-import "../screens/favorites_page.dart";
-import "../screens/add_story_page.dart";
-import "../screens/listener_homepage.dart";
 import "../../settings/settings.dart";
+import "../screens/add_story_page.dart";
+import "../screens/favorites_page.dart";
+import "../screens/listener_homepage.dart";
 
 class NavBarListener extends StatefulWidget {
   final Profile profile;
-  final CollectionReference profiles;
+  final CollectionReference<Profile> profiles;
+
   const NavBarListener(this.profile, this.profiles, {super.key});
 
   @override
@@ -24,8 +27,11 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   _NavBarListenerState();
 
-  CollectionReference allStories =
-      FirebaseFirestore.instance.collection("allStories");
+  CollectionReference<Story> allStories =
+      FirebaseFirestore.instance.collection("allStories").withConverter(
+            fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase(),
+          );
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -38,20 +44,27 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference favorites =
-        widget.profiles.doc(widget.profile.id).collection("favoriteList");
-    CollectionReference recent =
-        widget.profiles.doc(widget.profile.id).collection("recentList");
-    CollectionReference stories =
-        widget.profiles.doc(widget.profile.id).collection("storiesList");
+    CollectionReference<AddedStory> stories = widget.profiles
+        .doc(widget.profile.id)
+        .collection("storiesList")
+        .withConverter(
+          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
           ListenerHomePage(
-              widget.profile, widget.profiles, stories, recent, favorites),
-          FavoritePage(widget.profile, favorites, favorites, stories),
+            profile: widget.profile,
+            profiles: widget.profiles,
+            storiesCollection: stories,
+          ),
+          FavoritePage(
+              profile: widget.profile,
+              stories: stories,
+              profiles: widget.profiles),
           AddStory(stories, allStories),
           SettingsPage(widget.profile, widget.profiles),
         ],

@@ -14,14 +14,15 @@ import "../../settings/settings.dart";
 
 class ListenerHomePage extends StatefulWidget {
   final Profile profile;
-  final profiles;
-  final CollectionReference favoritesCollection;
-  final CollectionReference storiesCollection;
-  final CollectionReference recentCollection;
+  final CollectionReference<Profile> profiles;
+  final CollectionReference<AddedStory> storiesCollection;
 
-  const ListenerHomePage(this.profile, this.profiles, this.storiesCollection,
-      this.recentCollection, this.favoritesCollection,
-      {super.key});
+  const ListenerHomePage({
+    super.key,
+    required this.profile,
+    required this.profiles,
+    required this.storiesCollection,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -45,17 +46,9 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
     super.initState();
 
     _storiesStream = widget.storiesCollection
-        .withConverter(
-          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        )
         .snapshots();
 
     _recentlyPlayedStoriesStream = widget.storiesCollection
-        .withConverter(
-          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        )
         .where("timeLastPlayed", isNotEqualTo: null)
         .orderBy("timeLastPlayed", descending: true)
         .limit(10)
