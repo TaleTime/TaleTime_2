@@ -1,6 +1,7 @@
 import "package:audio_service/audio_service.dart";
 import "package:just_audio/just_audio.dart";
 import "package:logger/logger.dart";
+import "package:taletime/player/custom_player_state.dart";
 
 import "../common utils/tale_time_logger.dart";
 
@@ -23,22 +24,26 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
         seek(Duration.zero);
       }
     });
+
+    customState.add(const CustomPlayerState(
+      hasPrev: false,
+      hasNext: false,
+    ));
   }
 
   @override
-  Future<void> playMediaItem(MediaItem mediaItemToPlay) async {
+  Future<void> playMediaItem(MediaItem mediaItem) async {
     // Update media item to play
-    mediaItem.add(mediaItemToPlay);
+    this.mediaItem.add(mediaItem);
 
     try {
-      String url = mediaItemToPlay.extras?["url"];
+      String url = mediaItem.extras?["url"];
 
       // Set source
-      Duration? duration = await _audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(url)));
+      Duration? duration =
+          await _audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(url)));
 
-      mediaItem.add(mediaItemToPlay.copyWith(
-        duration: duration
-      ));
+      this.mediaItem.add(mediaItem.copyWith(duration: duration));
 
       _audioPlayer.play();
     } catch (error) {
@@ -64,7 +69,8 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   Future<void> _seekSeconds(int seconds) async {
     int currentPosition = _audioPlayer.position.inMilliseconds;
     int newPosition = currentPosition + seconds * _millisecondsInSecond;
-    int duration = _audioPlayer.duration?.inMilliseconds.toInt() ?? currentPosition;
+    int duration =
+        _audioPlayer.duration?.inMilliseconds.toInt() ?? currentPosition;
 
     if (newPosition < 0) {
       newPosition = 0;
@@ -101,12 +107,13 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
       },
       androidCompactActionIndices: const [1, 2, 3],
       processingState: const {
-        ProcessingState.idle: AudioProcessingState.idle,
-        ProcessingState.loading: AudioProcessingState.loading,
-        ProcessingState.buffering: AudioProcessingState.buffering,
-        ProcessingState.ready: AudioProcessingState.ready,
-        ProcessingState.completed: AudioProcessingState.completed,
-      }[_audioPlayer.processingState] ?? AudioProcessingState.idle,
+            ProcessingState.idle: AudioProcessingState.idle,
+            ProcessingState.loading: AudioProcessingState.loading,
+            ProcessingState.buffering: AudioProcessingState.buffering,
+            ProcessingState.ready: AudioProcessingState.ready,
+            ProcessingState.completed: AudioProcessingState.completed,
+          }[_audioPlayer.processingState] ??
+          AudioProcessingState.idle,
       playing: _audioPlayer.playing,
       updatePosition: _audioPlayer.position,
       bufferedPosition: _audioPlayer.bufferedPosition,
