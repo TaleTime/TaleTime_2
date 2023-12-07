@@ -57,7 +57,8 @@ class StoryListItem extends StatelessWidget {
                           const SizedBox(width: 4.0),
                           Expanded(
                             child: Text(
-                              story.title ?? AppLocalizations.of(context)!.noName,
+                              story.title ??
+                                  AppLocalizations.of(context)!.noName,
                               softWrap: true,
                               overflow: TextOverflow.fade,
                               style: const TextStyle(

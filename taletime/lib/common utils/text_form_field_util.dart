@@ -9,8 +9,8 @@ class TextFormFieldUtil {
   /// TextFormField to enter a username
   ///
   /// [nameController] --> catches the user input for the username
-  TextFormField enterUserNameForm(
-      BuildContext context, TextEditingController nameController, TextInputAction textInputAction) {
+  TextFormField enterUserNameForm(BuildContext context,
+      TextEditingController nameController, TextInputAction textInputAction) {
     return TextFormField(
         controller: nameController,
         textInputAction: textInputAction,

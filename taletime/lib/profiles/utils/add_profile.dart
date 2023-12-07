@@ -91,8 +91,10 @@ class _AddProfileState extends State<AddProfile> {
             Icons.arrow_back_ios,
           ),
           onPressed: () async {
-            await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfilesPage(widget.uId)));
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfilesPage(widget.uId)));
           },
         ),
         title: Text(
@@ -132,7 +134,8 @@ class _AddProfileState extends State<AddProfile> {
                                     ),
                                   ],
                                 ),
-                                child: profileImageSelector.selectFile(profileImage, 150),
+                                child: profileImageSelector.selectFile(
+                                    profileImage, 150),
                               ),
                             ],
                           ),
@@ -161,7 +164,8 @@ class _AddProfileState extends State<AddProfile> {
                                                 updateImageProfile(i);
                                               });
                                             },
-                                            child: profileImageSelector.selectFile(
+                                            child:
+                                                profileImageSelector.selectFile(
                                               profileImages[i],
                                               80,
                                             ));
@@ -239,7 +243,8 @@ class _AddProfileState extends State<AddProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProfilesPage(widget.uId)));
+                                    builder: (context) =>
+                                        ProfilesPage(widget.uId)));
                           },
                           color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
@@ -247,7 +252,8 @@ class _AddProfileState extends State<AddProfile> {
                           child: Text(
                             AppLocalizations.of(context)!.addProfile,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
                                 color: Colors.white),
                           ),
                         ),

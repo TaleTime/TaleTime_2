@@ -1,12 +1,13 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/add_profile.dart";
-import "package:taletime/common%20utils/decoration_util.dart";
+
 import "../../internationalization/localizations_ext.dart";
 import "../../login and registration/utils/authentification_util.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
 import "../utils/profile_list.dart";
 
 class ProfilesPage extends StatefulWidget {
@@ -21,7 +22,6 @@ class ProfilesPage extends StatefulWidget {
 }
 
 class _ProfilesPageState extends State<ProfilesPage> {
-
   _ProfilesPageState();
 
   CollectionReference users =
@@ -37,9 +37,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference<Object> profiles = users
-        .doc(widget.uId)
-        .collection("profiles"); //profiles of the created user as subcollection
+    CollectionReference<Profile> profiles =
+        users.doc(widget.uId).collection("profiles").withConverter(
+              fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
+              toFirestore: (snap, _) => snap.toFirebase(),
+            ); //profiles of the created user as subcollection
 
     return Scaffold(
       appBar: AppBar(
@@ -75,8 +77,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => AddProfile(widget.uId)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => AddProfile(widget.uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -92,15 +94,15 @@ class _ProfilesPageState extends State<ProfilesPage> {
               flex: cflex,
               child: StreamBuilder(
                 stream: profiles.snapshots(),
-                builder:
-                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                  if (streamSnapshot.hasData) {
+                builder: (context, profilesSnapshots) {
+                  if (profilesSnapshots.hasData) {
                     return ListView.builder(
-                      itemCount: streamSnapshot.data!.docs.length,
+                      itemCount: profilesSnapshots.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final Profile documentSnapshot = Profile.fromQueryDocumentSnapshot(streamSnapshot
-                                .data!.docs[index]); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
-                        return ProfileList(documentSnapshot, profiles);
+                        final Profile profile = profilesSnapshots
+                            .data!.docs[index]
+                            .data(); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
+                        return ProfileList(profile, profiles);
                       },
                     );
                   }

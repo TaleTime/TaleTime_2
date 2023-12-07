@@ -102,7 +102,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
   }
 
   Future<void> downloadStory() async {
-    String fileName = "${widget.story['title']} - ${widget.story['author']}.mp3";
+    String fileName =
+        "${widget.story['title']} - ${widget.story['author']}.mp3";
     String downloadUrl = widget.story["audio"];
 
     final localPath = await getLocalPath();
@@ -271,7 +272,9 @@ class _MyPlayStoryState extends State<MyPlayStory> {
 
   Future<void> toggleFavoriteStatus() async {
     bool newStatus = !widget.story["isLiked"];
-    await widget.stories.doc(widget.story["id"]).update({"isLiked": newStatus}).then((value) {
+    await widget.stories
+        .doc(widget.story["id"])
+        .update({"isLiked": newStatus}).then((value) {
       logger.v("List updated");
       setState(() {
         widget.story["isLiked"] = newStatus;
@@ -292,7 +295,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPlayStory(storiesList[nextIndex], widget.stories),
+          builder: (context) =>
+              MyPlayStory(storiesList[nextIndex], widget.stories),
         ),
       );
     } else {
@@ -388,7 +392,8 @@ class _MyPlayStoryState extends State<MyPlayStory> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MyPlayStory(storiesList[currentIndex], widget.stories),
+        builder: (context) =>
+            MyPlayStory(storiesList[currentIndex], widget.stories),
       ),
     );
   }

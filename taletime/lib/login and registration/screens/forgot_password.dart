@@ -94,7 +94,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             children: <Widget>[
                               /// TextField that catches the user input for the email-adress
                               Container(
-                                decoration: Decorations().inputBoxDecorationShaddow(),
+                                decoration:
+                                    Decorations().inputBoxDecorationShaddow(),
                                 child: TextFormFieldUtil().enterEmailForm(
                                   context,
                                   _emailController,
@@ -123,11 +124,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         /// if the input isn't valid, the the user will be informed with a error message under the belonging Textfield
                         onPressed: () async {
                           final String email =
-                          _emailController.text.trim().toLowerCase();
+                              _emailController.text.trim().toLowerCase();
                           final isValidForm = _formKey.currentState!.validate();
                           if (isValidForm) {
                             AuthentificationUtil(auth: auth)
-                                .resetPasswordWithEmail(email: email, context: context);
+                                .resetPasswordWithEmail(
+                                    email: email, context: context);
                           }
                         },
                       ),
@@ -141,7 +143,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       children: <Widget>[
                         Text(AppLocalizations.of(context)!.rememberPassword),
                         TextButton(
-                            child: Text(AppLocalizations.of(context)!.loginVerb),
+                            child:
+                                Text(AppLocalizations.of(context)!.loginVerb),
 
                             /// redirects the user to the SignupPage
                             onPressed: () {

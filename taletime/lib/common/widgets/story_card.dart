@@ -58,7 +58,8 @@ class StoryCard extends StatelessWidget {
                       height: 30,
                       color: Colors.transparent,
                       child: Marquee(
-                        text: "${AppLocalizations.of(context)!.by} ${story.author ?? ""}",
+                        text:
+                            "${AppLocalizations.of(context)!.by} ${story.author ?? ""}",
                         blankSpace: constraints.maxWidth,
                         style: const TextStyle(
                           color: Colors.white,

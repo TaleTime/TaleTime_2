@@ -20,7 +20,8 @@ class Story {
 
   final String? rating;
 
-  factory Story.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory Story.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return Story(
       id: snapshot.id,
       title: snapshot.data()?["title"],

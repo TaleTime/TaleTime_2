@@ -50,7 +50,6 @@ class DefaultFirebaseOptions {
   static const projectId = "taletime-2022";
   static const storageBucket = "taletime-2022.appspot.com";
 
-
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: "AIzaSyAM7zJTFTpNFLk_NsxOPwknGF_Q429DMzQ",
     appId: "1:98775438070:web:32d44cdaea9a96e8bc52d7",
@@ -76,7 +75,7 @@ class DefaultFirebaseOptions {
     projectId: projectId,
     storageBucket: storageBucket,
     iosClientId:
-    "98775438070-lnmlqj396hca45lgkis592tm33ji80co.apps.googleusercontent.com",
+        "98775438070-lnmlqj396hca45lgkis592tm33ji80co.apps.googleusercontent.com",
     iosBundleId: "com.example.taletime",
   );
 }
