@@ -29,27 +29,20 @@ class _AddStoryState extends State<AddStory> {
 
   _AddStoryState();
 
-  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx){
+  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx) {
     var dialog = TaleTimeAlertDialog(
-        title: AppLocalizations.of(ctx)!
-            .addStoryHint,
-        content: AppLocalizations.of(ctx)!
-            .addStoryHintDescription,
+        title: AppLocalizations.of(ctx)!.addStoryHint,
+        content: AppLocalizations.of(ctx)!.addStoryHintDescription,
         buttons: [
           AlertDialogButton(
               text: AppLocalizations.of(ctx)!.yes,
-              onPressed: () => {
-                addStory(story.data()),
-                Navigator.pop(context)
-              }),
+              onPressed: () =>
+                  {addStory(story.data()), Navigator.pop(context)}),
           AlertDialogButton(
               text: AppLocalizations.of(ctx)!.no,
-              onPressed: () =>
-              {Navigator.pop(context)})
+              onPressed: () => {Navigator.pop(context)})
         ]);
-    showDialog(
-        context: context,
-        builder: (ctx) =>dialog);
+    showDialog(context: context, builder: (ctx) => dialog);
   }
 
   @override
@@ -117,16 +110,12 @@ class _AddStoryState extends State<AddStory> {
               return !isContained;
             }).toList();
 
-
-
             return ListenerTaletimePage(
               docs: res,
               buttonsBuilder: (story) => [
                 StoryActionButton(
                     icon: Icons.playlist_add_outlined,
-                    onTap: () => {
-                          showConfirmDialog(story, context)
-                        })
+                    onTap: () => {showConfirmDialog(story, context)})
               ],
             );
           },

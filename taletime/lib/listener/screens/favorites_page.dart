@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/services/story_service.dart";
 
-import "../../common/models/story.dart";
 import "../../common/widgets/story_list_item.dart";
 import "../../profiles/models/profile_model.dart";
 import "listener_taletime_page.dart";
@@ -33,9 +32,8 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   void initState() {
     super.initState();
-    _storiesStream = widget.stories
-        .where("isLiked", isEqualTo: true)
-        .snapshots();
+    _storiesStream =
+        widget.stories.where("isLiked", isEqualTo: true).snapshots();
   }
 
   @override
