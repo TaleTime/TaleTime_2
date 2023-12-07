@@ -17,10 +17,10 @@ class AddedStory extends Story {
   final int? timeLastListened;
 
   factory AddedStory.fromStory(
-      Story story, {
-        required bool liked,
-        required int timeLastListened,
-      }) {
+    Story story, {
+    required bool liked,
+    required int timeLastListened,
+  }) {
     return AddedStory(
       id: story.id,
       title: story.title,

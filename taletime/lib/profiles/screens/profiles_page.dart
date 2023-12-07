@@ -99,8 +99,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     return ListView.builder(
                       itemCount: profilesSnapshots.data!.docs.length,
                       itemBuilder: (context, index) {
-                        final Profile profile =
-                            profilesSnapshots.data!.docs[index].data(); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
+                        final Profile profile = profilesSnapshots
+                            .data!.docs[index]
+                            .data(); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
                         return ProfileList(profile, profiles);
                       },
                     );

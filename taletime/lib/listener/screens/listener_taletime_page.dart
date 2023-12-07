@@ -16,7 +16,8 @@ class ListenerTaletimePage<T extends Story> extends StatefulWidget {
   });
 
   final List<QueryDocumentSnapshot<T>> docs;
-  final List<StoryActionButton> Function(QueryDocumentSnapshot<T>) buttonsBuilder;
+  final List<StoryActionButton> Function(QueryDocumentSnapshot<T>)
+      buttonsBuilder;
 
   @override
   State<ListenerTaletimePage<T>> createState() => _ListenerTaletimePageState();
@@ -34,17 +35,17 @@ class _ListenerTaletimePageState<T extends Story>
     }
     List<T> storiesDocumentSnapshot;
     if (searchString.trim().isNotEmpty) {
-      storiesDocumentSnapshot =
-      widget.docs.map((e) => e.data())
-          .where((element) => element.title?.toLowerCase().contains(searchString.toLowerCase())??false)
+      storiesDocumentSnapshot = widget.docs
+          .map((e) => e.data())
+          .where((element) =>
+              element.title
+                  ?.toLowerCase()
+                  .contains(searchString.toLowerCase()) ??
+              false)
           .toList();
     } else {
-      storiesDocumentSnapshot =
-          widget.docs
-              .map((e) => e.data())
-              .toList();
+      storiesDocumentSnapshot = widget.docs.map((e) => e.data()).toList();
     }
-
 
     return Scaffold(
       appBar: AppBar(

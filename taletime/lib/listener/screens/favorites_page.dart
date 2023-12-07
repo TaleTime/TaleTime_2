@@ -34,10 +34,6 @@ class _FavoritePageState extends State<FavoritePage> {
   void initState() {
     super.initState();
     _storiesStream = widget.stories
-        .withConverter(
-      fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-      toFirestore: (snap, _) => snap.toFirebase(),
-    )
         .where("isLiked", isEqualTo: true)
         .snapshots();
   }
@@ -60,8 +56,12 @@ class _FavoritePageState extends State<FavoritePage> {
 
           return ListenerTaletimePage<AddedStory>(
             docs: docs,
-            buttonsBuilder: (e) => [StoryActionButton(icon: Icons.favorite, onTap: () => StoryService.likeStory(e.reference, false))],
+            buttonsBuilder: (e) => [
+              StoryActionButton(
+                  icon: Icons.favorite,
+                  onTap: () => StoryService.likeStory(e.reference, false))
+            ],
           );
         });
   }
-  }
+}

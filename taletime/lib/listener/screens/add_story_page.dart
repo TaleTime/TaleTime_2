@@ -29,6 +29,29 @@ class _AddStoryState extends State<AddStory> {
 
   _AddStoryState();
 
+  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx){
+    var dialog = TaleTimeAlertDialog(
+        title: AppLocalizations.of(ctx)!
+            .addStoryHint,
+        content: AppLocalizations.of(ctx)!
+            .addStoryHintDescription,
+        buttons: [
+          AlertDialogButton(
+              text: AppLocalizations.of(ctx)!.yes,
+              onPressed: () => {
+                addStory(story.data()),
+                Navigator.pop(context)
+              }),
+          AlertDialogButton(
+              text: AppLocalizations.of(ctx)!.no,
+              onPressed: () =>
+              {Navigator.pop(context)})
+        ]);
+    showDialog(
+        context: context,
+        builder: (ctx) =>dialog);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -45,14 +68,6 @@ class _AddStoryState extends State<AddStory> {
         )
         .snapshots();
   }
-
-  /*Future<void> updateStoryList(String storyId) {
-    return widget.storiesCollectionReference
-        .doc(storyId)
-        .update({"id": storyId})
-        .then((value) => logger.v("List Updated"))
-        .catchError((error) => logger.e("Failed to update List: $error"));
-  }*/
 
   Future<void> addStory(Story story) async {
     var storyToAdd = AddedStory.fromStory(
@@ -101,31 +116,16 @@ class _AddStoryState extends State<AddStory> {
               }
               return !isContained;
             }).toList();
+
+
+
             return ListenerTaletimePage(
               docs: res,
               buttonsBuilder: (story) => [
                 StoryActionButton(
                     icon: Icons.playlist_add_outlined,
                     onTap: () => {
-                          showDialog(
-                              context: context,
-                              builder: (ctx) => TaleTimeAlertDialog(
-                                      title: AppLocalizations.of(ctx)!
-                                          .addStoryHint,
-                                      content: AppLocalizations.of(ctx)!
-                                          .addStoryHintDescription,
-                                      buttons: [
-                                        AlertDialogButton(
-                                            text: AppLocalizations.of(ctx)!.yes,
-                                            onPressed: () => {
-                                                  addStory(story.data()),
-                                                  Navigator.pop(context)
-                                                }),
-                                        AlertDialogButton(
-                                            text: AppLocalizations.of(ctx)!.no,
-                                            onPressed: () =>
-                                                {Navigator.pop(context)})
-                                      ]))
+                          showConfirmDialog(story, context)
                         })
               ],
             );

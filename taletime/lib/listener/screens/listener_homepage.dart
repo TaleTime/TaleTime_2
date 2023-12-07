@@ -45,8 +45,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   void initState() {
     super.initState();
 
-    _storiesStream = widget.storiesCollection
-        .snapshots();
+    _storiesStream = widget.storiesCollection.snapshots();
 
     _recentlyPlayedStoriesStream = widget.storiesCollection
         .where("timeLastPlayed", isNotEqualTo: null)
