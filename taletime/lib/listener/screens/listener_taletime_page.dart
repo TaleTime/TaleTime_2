@@ -6,7 +6,6 @@ import "../../common utils/decoration_util.dart";
 import "../../common/models/story.dart";
 import "../../common/widgets/story_list_item.dart";
 import "../../internationalization/localizations_ext.dart";
-import "../utils/search_bar_util.dart";
 
 class ListenerTaletimePage<T extends Story> extends StatefulWidget {
   const ListenerTaletimePage({
@@ -26,6 +25,10 @@ class ListenerTaletimePage<T extends Story> extends StatefulWidget {
 class _ListenerTaletimePageState<T extends Story>
     extends State<ListenerTaletimePage<T>> {
   String searchString = "";
+
+  QueryDocumentSnapshot<T> getReferenceOfStory(Story story){
+    return widget.docs.where((element) => element.id == story.id).first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +125,8 @@ class _ListenerTaletimePageState<T extends Story>
                     child: Column(
                       children: [
                         StoryListItem(
-                          buttons: widget.buttonsBuilder(widget.docs[i]),
+                          key: Key(storiesDocumentSnapshot[i].id),
+                          buttons: widget.buttonsBuilder(getReferenceOfStory(storiesDocumentSnapshot[i])),
                           story: storiesDocumentSnapshot[i],
                         ),
                       ],
