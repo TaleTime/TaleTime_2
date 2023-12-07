@@ -24,7 +24,7 @@ class ListenerTaletimePage<T extends Story> extends StatefulWidget {
 
 class _ListenerTaletimePageState<T extends Story>
     extends State<ListenerTaletimePage<T>> {
-  List<T> matchStoryList = [];
+  String searchString = "";
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,19 @@ class _ListenerTaletimePageState<T extends Story>
       return Decorations().noRecentContent(
           AppLocalizations.of(context)!.noStoriesAvailable, "recentStories");
     }
+    List<T> storiesDocumentSnapshot;
+    if (searchString.trim().isNotEmpty) {
+      storiesDocumentSnapshot =
+      widget.docs.map((e) => e.data())
+          .where((element) => element.title?.toLowerCase().contains(searchString.toLowerCase())??false)
+          .toList();
+    } else {
+      storiesDocumentSnapshot =
+          widget.docs
+              .map((e) => e.data())
+              .toList();
+    }
 
-    List<T> storiesDocumentSnapshot =
-        widget.docs.map((e) => e.data()).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -76,10 +86,8 @@ class _ListenerTaletimePageState<T extends Story>
                 child: TextField(
                   onChanged: (value) {
                     setState(() {
-                      matchStoryList = SearchBarUtil()
-                          .searchStory(storiesDocumentSnapshot, value);
+                      searchString = value;
                     });
-                    SearchBarUtil().isStoryListEmpty(matchStoryList, value);
                   },
                   style: TextStyle(color: kPrimaryColor),
                   decoration: InputDecoration(

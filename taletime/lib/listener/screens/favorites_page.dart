@@ -42,17 +42,6 @@ class _FavoritePageState extends State<FavoritePage> {
         .snapshots();
   }
 
-  List<Story> filterLikedStories(List<Story> allStories,
-      List<Story> likedStories) {
-    List<Story> filteredStories = [];
-    for (Story story in allStories) {
-      if (likedStories.contains(story)) {
-        filteredStories.add(story);
-      }
-    }
-    return filteredStories;
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(

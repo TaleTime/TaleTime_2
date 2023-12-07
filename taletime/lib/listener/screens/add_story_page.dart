@@ -26,7 +26,6 @@ class _AddStoryState extends State<AddStory> {
   Stream<QuerySnapshot<AddedStory>>? addedStoriesStream;
   Stream<QuerySnapshot<Story>>? allStoriesStream;
   final logger = TaleTimeLogger.getLogger();
-  bool updateForce = false;
 
   _AddStoryState();
 
@@ -66,9 +65,6 @@ class _AddStoryState extends State<AddStory> {
         .set(storyToAdd)
         .then((value) {
       logger.v("Story Added to story list");
-      setState(() {
-        updateForce = true;
-      });
     }).catchError(
             (error) => logger.e("Failed to add story to story list: $error"));
   }
