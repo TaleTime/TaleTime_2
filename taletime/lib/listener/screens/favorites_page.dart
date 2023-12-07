@@ -2,7 +2,6 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/services/story_service.dart";
-import "package:taletime/listener/screens/FavoriteActionButton.dart";
 
 import "../../common/models/story.dart";
 import "../../common/widgets/story_list_item.dart";
@@ -72,7 +71,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
           return ListenerTaletimePage<AddedStory>(
             docs: docs,
-            buttonsBuilder: (e) => FavoriteActionButton().build(context, e.reference),
+            buttonsBuilder: (e) => [StoryActionButton(icon: Icons.favorite, onTap: () => StoryService.likeStory(e.reference, false))],
           );
         });
   }
