@@ -79,7 +79,7 @@ class _EditProfileState extends State<EditProfile> {
             Navigator.of(context).pop();
           },
         ),
-        title:  Text(
+        title: Text(
           AppLocalizations.of(context)!.editProfile,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -112,7 +112,8 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ],
                           ),
-                          child: profileImageSelector.selectFile(profileImage, 150),
+                          child: profileImageSelector.selectFile(
+                              profileImage, 150),
                         ),
                         const SizedBox(
                           height: 40,
@@ -138,7 +139,8 @@ class _EditProfileState extends State<EditProfile> {
                                                 updateProfile(i);
                                               });
                                             },
-                                            child: profileImageSelector.selectFile(
+                                            child:
+                                                profileImageSelector.selectFile(
                                               profileImages[i],
                                               80,
                                             ));
@@ -160,7 +162,8 @@ class _EditProfileState extends State<EditProfile> {
                                 AppLocalizations.of(context)!.enterProfile),
                             validator: (val) {
                               if (val!.isEmpty) {
-                                return AppLocalizations.of(context)!.fillBlankSpace;
+                                return AppLocalizations.of(context)!
+                                    .fillBlankSpace;
                               }
                               return null;
                             },

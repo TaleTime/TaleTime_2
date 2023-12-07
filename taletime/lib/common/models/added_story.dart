@@ -14,10 +14,27 @@ class AddedStory extends Story {
   });
 
   final bool liked;
-
   final int? timeLastListened;
 
-  factory AddedStory.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory AddedStory.fromStory(
+    Story story, {
+    required bool liked,
+    required int timeLastListened,
+  }) {
+    return AddedStory(
+      id: story.id,
+      title: story.title,
+      author: story.author,
+      imageUrl: story.imageUrl,
+      audioUrl: story.audioUrl,
+      rating: story.rating,
+      liked: liked,
+      timeLastListened: timeLastListened,
+    );
+  }
+
+  factory AddedStory.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return AddedStory(
       id: snapshot.id,
       title: snapshot.data()?["title"],

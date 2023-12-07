@@ -99,7 +99,8 @@ class _CreateStoryState extends State<CreateStory> {
           automaticallyImplyLeading: false,
           title: Text(
             AppLocalizations.of(context)!.createStory,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -179,8 +180,8 @@ class _CreateStoryState extends State<CreateStory> {
                 },
                 //here is the photo from the Gallery
                 child: Text(AppLocalizations.of(context)!.uploadImage,
-                    style:
-                        const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),

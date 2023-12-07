@@ -1,35 +1,50 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:flutter/cupertino.dart";
 
 class Profile {
-   String id;
-   String image;
-   String name;
-   String title;
-   String language;
-   bool theme;
+  final String id;
+  final String image;
+  final String name;
+  final String title;
+  final String language;
+  final bool theme;
 
-  Profile(
-      this.id, this.image, this.name, this.title, this.language, this.theme);
+  Profile({
+    required this.id,
+    required this.image,
+    required this.name,
+    required this.title,
+    required this.language,
+    required this.theme,
+  });
 
   factory Profile.fromJson(Map<dynamic, dynamic> json) => Profile(
-    json["id"],
-    json["image"],
-    json["name"],
-    json["title"],
-    json["language"],
-    json["theme"],
-   );
+        id: json["id"],
+        image: json["image"],
+        name: json["name"],
+        title: json["title"],
+        language: json["language"],
+        theme: json["theme"],
+      );
 
-  factory Profile.fromQueryDocumentSnapshot(
-      QueryDocumentSnapshot<Object?> snapshot) {
+  factory Profile.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return Profile(
-      snapshot.id,
-      snapshot.get("image"),
-      snapshot.get("name"),
-      snapshot.get("title"),
-      snapshot.get("language"),
-      snapshot.get("theme"),
+      id: snapshot.id,
+      image: snapshot.data()?["image"],
+      name: snapshot.data()?["name"],
+      title: snapshot.data()?["title"],
+      language: snapshot.data()?["language"],
+      theme: snapshot.data()?["theme"],
     );
+  }
+
+  Map<String, Object?> toFirebase() {
+    return {
+      "image": image,
+      "name": name,
+      "title": title,
+      "language": language,
+      "theme": theme,
+    };
   }
 }

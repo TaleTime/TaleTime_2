@@ -64,8 +64,10 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
         elevation: 0.0,
         items: [
           navBarItems(Icons.home, AppLocalizations.of(context)!.home),
-          navBarItems(Icons.book, AppLocalizations.of(context)!.allStories_pageTitle),
-          navBarItems(Icons.playlist_add_sharp, AppLocalizations.of(context)!.recordStory),
+          navBarItems(
+              Icons.book, AppLocalizations.of(context)!.allStories_pageTitle),
+          navBarItems(Icons.playlist_add_sharp,
+              AppLocalizations.of(context)!.recordStory),
         ],
       ),
     );

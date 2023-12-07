@@ -50,7 +50,6 @@ class ValidationUtil {
   /// If the [password] is valid then null is returned.
   String? validatePasswordConfirmation(
       String? passwordConfirmation, String? password, BuildContext context) {
-
     if (passwordConfirmation == null || passwordConfirmation.isEmpty) {
       return AppLocalizations.of(context)!.passwordRequired;
     }

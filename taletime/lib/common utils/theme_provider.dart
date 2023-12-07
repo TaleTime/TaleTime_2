@@ -19,7 +19,6 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   /// Darkmode
   static final darkTheme = ThemeData(
-    useMaterial3: true,
     scaffoldBackgroundColor: Colors.grey.shade900,
     hintColor: Colors.white,
     focusColor: Colors.grey,

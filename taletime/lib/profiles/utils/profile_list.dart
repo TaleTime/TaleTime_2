@@ -8,7 +8,7 @@ import "../models/profile_model.dart";
 
 class ProfileList extends StatelessWidget {
   final Profile profile;
-  final CollectionReference profiles;
+  final CollectionReference<Profile> profiles;
   final ProfileImageSelector profileImageSelector = ProfileImageSelector();
 
   ProfileList(this.profile, this.profiles, {super.key});

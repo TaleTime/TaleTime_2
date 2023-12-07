@@ -89,9 +89,8 @@ class ShapePainter extends CustomPainter {
     final indexer = (netDragPercent / (1 / pagesLength)).round();
     final pagesLengthIndexer = pagesLength - 1;
 
-    final indicatorType =
-        indicator.indicatorDesign.polygonDesign?.polygon ??
-            indicator.indicatorDesign.lineDesign!.lineType;
+    final indicatorType = indicator.indicatorDesign.polygonDesign?.polygon ??
+        indicator.indicatorDesign.lineDesign!.lineType;
 
     switch (indicatorType) {
       case DesignType.polygon_circle:

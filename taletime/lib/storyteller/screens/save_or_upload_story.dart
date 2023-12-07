@@ -3,7 +3,6 @@
 ///It contains three functions save ,load,load all
 library;
 
-
 import "dart:io";
 
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -25,7 +24,8 @@ class SaveOrUploadStory extends StatefulWidget {
   final storiesCollection;
   final bool isSaved;
   const SaveOrUploadStory(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved, {super.key});
+      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved,
+      {super.key});
 
   @override
   State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState();
@@ -61,7 +61,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     String filePath = widget.myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
     String fileString =
-    filePath.substring(filePath.lastIndexOf("/"), filePath.length);
+        filePath.substring(filePath.lastIndexOf("/"), filePath.length);
     await refImages.child(imagePath).putFile(image);
     await refAudios.child(fileString).putFile(audio);
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
@@ -101,17 +101,19 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(
       appBar: Decorations().appBarDecoration(
-          title: AppLocalizations.of(context)!.saveUploadStory, context: context, automaticArrow: true),
+          title: AppLocalizations.of(context)!.saveUploadStory,
+          context: context,
+          automaticArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Center(
                 child: Text(
-                  AppLocalizations.of(context)!.save,
-                  style:
+              AppLocalizations.of(context)!.save,
+              style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
-                )),
+            )),
             const SizedBox(
               height: 15,
             ),
@@ -123,12 +125,12 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                 onPressed: isSaved
                     ? null
                     : () {
-                  createStory(title, image, author, audioFile);
-                  setState(() {
-                    isSaved = true;
-                  });
-                },
-                child:  Column(
+                        createStory(title, image, author, audioFile);
+                        setState(() {
+                          isSaved = true;
+                        });
+                      },
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Icon(
@@ -145,10 +147,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
             ),
             Center(
                 child: Text(
-                  AppLocalizations.of(context)!.uploadStory,
-                  style:
+              AppLocalizations.of(context)!.uploadStory,
+              style:
                   TextStyle(fontSize: MediaQuery.of(context).size.height / 15),
-                )),
+            )),
             const SizedBox(
               height: 15,
             ),
@@ -164,37 +166,40 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                     onPressed: !isSaved
                         ? null
 
-                    ///
-                    /// Logic not working yet
-                    ///
+                        ///
+                        /// Logic not working yet
+                        ///
                         : () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Decorations().confirmationDialog(
-                              AppLocalizations.of(context)!.uploadingStory,
-                              AppLocalizations.of(context)!.uploadingStoryDescription,
-                              context,
-                                  () {
-                                Navigator.of(context).pop();
-                                Navigator.push(
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Decorations().confirmationDialog(
+                                    AppLocalizations.of(context)!
+                                        .uploadingStory,
+                                    AppLocalizations.of(context)!
+                                        .uploadingStoryDescription,
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            NavBarSpeaker(
-                                                widget.profile, profiles)));
-                              },
-                            );
-                          });
-                    },
-                    child:  Column(
+                                    () {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NavBarSpeaker(widget.profile,
+                                                      profiles)));
+                                    },
+                                  );
+                                });
+                          },
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Icon(
                           Icons.upload_rounded,
                           size: 50,
                         ),
-                        Text(AppLocalizations.of(context)!.shareOnlyWithUsersFromSameAccount)
+                        Text(AppLocalizations.of(context)!
+                            .shareOnlyWithUsersFromSameAccount)
                       ],
                     ),
                   ),
@@ -208,37 +213,35 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                     onPressed: !isSaved
                         ? null
                         : () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Decorations().confirmationDialog(
-                                AppLocalizations.of(context)!.uploadingStory,
-                                AppLocalizations.of(context)!.shareWithEveryUserDescription,
-                                context, () async {
-                              var refImages = FirebaseStorage.instance
-                                  .ref()
-                                  .child("images");
-                              String myImageUrl = await refImages
-                                  .child("$author/$title.jpg")
-                                  .getDownloadURL();
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Decorations().confirmationDialog(
+                                      AppLocalizations.of(context)!
+                                          .uploadingStory,
+                                      AppLocalizations.of(context)!
+                                          .shareWithEveryUserDescription,
+                                      context, () async {
+                                    var refImages = FirebaseStorage.instance
+                                        .ref()
+                                        .child("images");
+                                    String myImageUrl = await refImages
+                                        .child("$author/$title.jpg")
+                                        .getDownloadURL();
 
-                              UploadUtil(widget.storiesCollection).uploadStory(
-                                  audioPath,
-                                  author,
-                                  myImageUrl,
-                                  title,
-                                  "2.5",
-                                  false);
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NavBarSpeaker(
-                                          widget.profile, profiles)));
-                            });
-                          });
-                    },
-                    child:  Column(
+                                    UploadUtil(widget.storiesCollection)
+                                        .uploadStory(audioPath, author,
+                                            myImageUrl, title, "2.5", false);
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NavBarSpeaker(
+                                                widget.profile, profiles)));
+                                  });
+                                });
+                          },
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Icon(
@@ -262,7 +265,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                   width: MediaQuery.of(context).size.width / 2,
                   child: ElevatedButton(
                       style: elevatedButtonDefaultStyle(),
-                      child:  Text(AppLocalizations.of(context)!.continueStep),
+                      child: Text(AppLocalizations.of(context)!.continueStep),
                       onPressed: () {
                         Navigator.push(
                             context,

@@ -172,7 +172,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         right: 0,
                         child: lastRecordedDocumentSnapshot.isEmpty
                             ? Decorations().noRecentContent(
-                                AppLocalizations.of(context)!.noStoriesAvailable, "recentStories")
+                                AppLocalizations.of(context)!
+                                    .noStoriesAvailable,
+                                "recentStories")
                             : SizedBox(
                                 height: 190,
                                 child: PageView.builder(

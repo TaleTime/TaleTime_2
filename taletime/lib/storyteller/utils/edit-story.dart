@@ -150,7 +150,8 @@ class _EditStoryState extends State<EditStory> {
                             children: [
                               Container(
                                 alignment: Alignment.center,
-                                child:  Text(AppLocalizations.of(context)!.updateImage,
+                                child: Text(
+                                    AppLocalizations.of(context)!.updateImage,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20)),
@@ -183,10 +184,12 @@ class _EditStoryState extends State<EditStory> {
                           child: TextFormField(
                             controller: textEditingControllerAuthor,
                             decoration: Decorations().textInputDecoration(
-                                AppLocalizations.of(context)!.authorsName, AppLocalizations.of(context)!.typeInNewName),
+                                AppLocalizations.of(context)!.authorsName,
+                                AppLocalizations.of(context)!.typeInNewName),
                             validator: (val) {
                               if (val!.isEmpty) {
-                                return AppLocalizations.of(context)!.fillBlankSpace;
+                                return AppLocalizations.of(context)!
+                                    .fillBlankSpace;
                               }
                               return null;
                             },
@@ -201,10 +204,12 @@ class _EditStoryState extends State<EditStory> {
                             child: TextFormField(
                               controller: textEditingControllerTitle,
                               decoration: Decorations().textInputDecoration(
-                                  AppLocalizations.of(context)!.storysTitle, AppLocalizations.of(context)!.typeInNewTitle),
+                                  AppLocalizations.of(context)!.storysTitle,
+                                  AppLocalizations.of(context)!.typeInNewTitle),
                               validator: (val) {
                                 if (val!.isEmpty) {
-                                  return AppLocalizations.of(context)!.fillBlankSpace;
+                                  return AppLocalizations.of(context)!
+                                      .fillBlankSpace;
                                 }
                                 return null;
                               },
@@ -219,10 +224,11 @@ class _EditStoryState extends State<EditStory> {
                                 author = textEditingControllerAuthor.text;
                                 image = url!;
                                 title = textEditingControllerTitle.text;
-                                updateStory(widget.story["id"], author, image, title);
+                                updateStory(
+                                    widget.story["id"], author, image, title);
                                 reset();
                               },
-                              child:  Text(
+                              child: Text(
                                 AppLocalizations.of(context)!.updateStory,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 18),
