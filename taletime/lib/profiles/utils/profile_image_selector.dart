@@ -10,9 +10,9 @@ class ProfileImageSelector {
       return Image.asset("${profileassetdir}profile_boy.png", height: height);
     } else if (url.contains("profile_girl_02")) {
       return Image.asset("${profileassetdir}profile_girl.png", height: height);
-    }
-    else if (url.contains("profile_girl_01")) {
-      return Image.asset("${profileassetdir}profile_girl_1.png", height: height);
+    } else if (url.contains("profile_girl_01")) {
+      return Image.asset("${profileassetdir}profile_girl_1.png",
+          height: height);
     }
     return Image.asset("${profileassetdir}profile_standard.png",
         height: height);

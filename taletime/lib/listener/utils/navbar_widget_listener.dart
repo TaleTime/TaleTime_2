@@ -40,10 +40,11 @@ class _NavBarListenerState extends State<NavBarListener> {
         .doc(widget.profile.id)
         .collection("storiesList")
         .withConverter(
-      fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-      toFirestore: (snap, _) => snap.toFirebase(),
-    );
+          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
   }
+
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
       icon: Icon(
@@ -55,8 +56,6 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,

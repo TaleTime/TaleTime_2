@@ -1,19 +1,25 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/profiles/utils/profile_service.dart";
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
+import "../../common utils/theme_provider.dart";
+import "../../internationalization/locale_provider.dart";
 import "../../internationalization/localizations_ext.dart";
 import "../models/profile_model.dart";
+import "../screens/profiles_page.dart";
 
 class EditProfile extends StatefulWidget {
-  final CollectionReference profiles;
   final Profile profile;
-  final DocumentReference<Profile> profileRef;
+  final DocumentReference<Profile>? profileRef;
+  final CollectionReference<Profile> profiles;
+  final String? uId;
 
-  const EditProfile(this.profiles, this.profile, this.profileRef, {super.key});
+  const EditProfile(this.profile, this.profileRef, this.profiles, this.uId,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,9 +32,7 @@ class _EditProfileState extends State<EditProfile> {
   late final String name;
   late final String image;
   late final String title;
-  late CollectionReference profiles;
   late final Profile profile;
-  final List<String> items = ["Listener", "Story-teller"];
   final textEditingController = TextEditingController();
 
   late String profileImage = widget.profile.image;
@@ -38,29 +42,44 @@ class _EditProfileState extends State<EditProfile> {
   _EditProfileState();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  String updateProfileImage(String image) {
+    setState(() {
+      profileImage = image;
+    });
+    return profileImage;
+  }
+
+  void updateProfileInDB(DocumentReference<Profile> profile, String name,
+      String image, String title) {
+    ProfileService.updateProfile(profile, image, name, title);
+  }
+
+  void reset() {
+    profileImage = "";
+    selectedItem = "";
+    textEditingController.text = "";
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final String actionButtonTitle;
+    if (widget.profileRef != null) {
+      actionButtonTitle = AppLocalizations.of(context)!.updateProfile;
+    } else {
+      actionButtonTitle = AppLocalizations.of(context)!.addProfile;
+    }
+    var otherImages =
+        profileImages.where((element) => !(element == profileImage)).toList();
+    final languageProvider = Provider.of<LocaleProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     textEditingController.text = textEditingController.text == ""
         ? widget.profile.name
         : textEditingController.text;
-
-    String updateProfile(int index) {
-      var image = profileImages[index];
-      setState(() {
-        profileImage = image;
-      });
-      return profileImage;
-    }
-
-    void updateprofile(DocumentReference<Profile> profile, String name,
-        String image, String title) {
-      ProfileService.updateProfile(profile, image, name, title);
-    }
-
-    void reset() {
-      profileImage = "";
-      selectedItem = "";
-      textEditingController.text = "";
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -111,18 +130,18 @@ class _EditProfileState extends State<EditProfile> {
                     height: 80,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: profileImages.length,
+                        itemCount: otherImages.length,
                         itemBuilder: (_, i) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    updateProfile(i);
+                                    updateProfileImage(otherImages[i]);
                                   });
                                 },
                                 child: ProfileImageSelector.selectFile(
-                                  profileImages[i],
+                                  otherImages[i],
                                   100,
                                 )),
                           );
@@ -139,14 +158,15 @@ class _EditProfileState extends State<EditProfile> {
                               AppLocalizations.of(context)!.enterProfile),
                           validator: (val) {
                             if (val!.isEmpty) {
-                              return AppLocalizations.of(context)!.fillBlankSpace;
+                              return AppLocalizations.of(context)!
+                                  .fillBlankSpace;
                             }
                             return null;
                           },
                         ),
                       ),
                       DropdownButtonFormField<String>(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           decoration: InputDecoration(
                             filled: true,
                             contentPadding:
@@ -159,7 +179,7 @@ class _EditProfileState extends State<EditProfile> {
                                 borderSide: BorderSide(color: kPrimaryColor)),
                           ),
                           value: selectedItem,
-                          items: items
+                          items: profileSelections
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
                                     child: Text(
@@ -176,7 +196,7 @@ class _EditProfileState extends State<EditProfile> {
                     ],
                   ),
                   SizedBox(
-                    height: 40,
+                      height: 40,
                       width: double.infinity,
                       child: ElevatedButton(
                         style: elevatedButtonDefaultStyle(),
@@ -184,13 +204,28 @@ class _EditProfileState extends State<EditProfile> {
                           name = textEditingController.text;
                           image = profileImage;
                           title = selectedItem.toString();
-                          updateprofile(widget.profileRef, name, image, title);
-                          reset();
-                          Navigator.of(context).pop();
+                          if (widget.profileRef != null) {
+                            ProfileService.updateProfile(
+                                widget.profileRef!, image, name, title);
+                            reset();
+                            Navigator.of(context).pop();
+                          } else {
+                            ProfileService.addProfile(
+                                widget.profiles,
+                                image,
+                                name,
+                                title,
+                                languageProvider.locale.toString(),
+                                !themeProvider.isDarkMode);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfilesPage(widget.uId!)));
+                          }
                         },
                         child: Text(
-                          //AppLocalizations.of(context)!.addProfile,
-                          AppLocalizations.of(context)!.updateProfile,
+                          actionButtonTitle,
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),

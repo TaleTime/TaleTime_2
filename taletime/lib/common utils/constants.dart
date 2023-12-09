@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 
 /// Main color of the App
 Color kPrimaryColor = Colors.teal.shade600;
@@ -15,7 +16,7 @@ const String storyImagePlaceholder =
     "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2FnoImage.jpg?alt=media&token=0e66dbf6-cd04-45bc-a79c-9ce4b46e5a60";
 
 /// Images for the profiles that are used in the App
-const List profileImages = [
+const List<String> profileImages = [
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_boy_01.png?alt=media&token=190fe16b-41b7-4957-8bbd-1a63dd0efdd7",
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_boy_02.png?alt=media&token=866ef82a-9e8c-4def-989c-f1b843d777d3",
   "https://firebasestorage.googleapis.com/v0/b/taletime-2022.appspot.com/o/images%2Fprofile_girl_02.png?alt=media&token=db5cc965-8493-4cf2-86b9-8cf4a12ef0cf",
@@ -65,3 +66,13 @@ const pageInfoStyle = TextStyle(
 const titleAndInfoPadding = EdgeInsets.only(bottom: 45);
 
 const arrows = Color.fromRGBO(0, 137, 123, 1);
+
+var default_profile = Profile(
+    id: "",
+    image: profileImages[4],
+    name: "",
+    title: profileSelections[0],
+    language: "en",
+    theme: false);
+
+const List<String> profileSelections = ["Listener", "Story-teller"];

@@ -11,7 +11,7 @@ class ProfileList extends StatelessWidget {
   final CollectionReference<Profile> profiles;
   final DocumentReference<Profile> profileRef;
 
-  ProfileList(this.profile, this.profiles, this.profileRef, {super.key});
+  const ProfileList(this.profile, this.profiles, this.profileRef, {super.key});
 
   @override
   Widget build(BuildContext context) {

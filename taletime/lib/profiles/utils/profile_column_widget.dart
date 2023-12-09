@@ -4,15 +4,16 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/profiles/utils/profile_service.dart";
 import "../../internationalization/localizations_ext.dart";
-import "package:taletime/profiles/utils/edit_profile.dart";
+import "package:taletime/profiles/utils/create_edit_profile.dart";
 
 import "../models/profile_model.dart";
 
 class ProfileColumn extends StatefulWidget {
   final Profile profile;
-  final CollectionReference profiles;
+  final CollectionReference<Profile> profiles;
   final DocumentReference<Profile> profileRef;
-  const ProfileColumn(this.profile, this.profiles, this.profileRef, {super.key});
+  const ProfileColumn(this.profile, this.profiles, this.profileRef,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,8 +32,8 @@ class _ProfileColumnState extends State<ProfileColumn> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    EditProfile(widget.profiles, widget.profile, widget.profileRef)));
+                builder: (context) => EditProfile(
+                    widget.profile, widget.profileRef, widget.profiles, null)));
         break;
       case 1:
         showDialog(

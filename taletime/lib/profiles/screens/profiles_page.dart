@@ -1,10 +1,11 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/models/profile_model.dart";
-import "package:taletime/profiles/utils/add_profile.dart";
+import "package:taletime/profiles/utils/create_edit_profile.dart";
 
 import "../../internationalization/localizations_ext.dart";
 import "../../login and registration/utils/authentification_util.dart";
@@ -78,7 +79,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => AddProfile(widget.uId)));
+                      builder: (context) => EditProfile(
+                          default_profile, null, profiles, widget.uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -102,9 +104,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         final Profile profile = profilesSnapshots
                             .data!.docs[index]
                             .data(); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
-                        final DocumentReference<Profile> profileRef = profilesSnapshots
-                            .data!.docs[index]
-                            .reference;
+                        final DocumentReference<Profile> profileRef =
+                            profilesSnapshots.data!.docs[index].reference;
                         return ProfileList(profile, profiles, profileRef);
                       },
                     );
