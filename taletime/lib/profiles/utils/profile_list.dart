@@ -9,13 +9,13 @@ import "../models/profile_model.dart";
 class ProfileList extends StatelessWidget {
   final Profile profile;
   final CollectionReference<Profile> profiles;
-  final ProfileImageSelector profileImageSelector = ProfileImageSelector();
+  final DocumentReference<Profile> profileRef;
 
-  ProfileList(this.profile, this.profiles, {super.key});
+  ProfileList(this.profile, this.profiles, this.profileRef, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final profilee = ProfileColumn(profile, profiles);
+    final profilee = ProfileColumn(profile, profiles, profileRef);
     return GestureDetector(
       onTap: () async {
         if (profile.title == "Listener") {
@@ -54,7 +54,7 @@ class ProfileList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.transparent,
                           ),
-                          child: profileImageSelector.selectFile(profile.image),
+                          child: ProfileImageSelector.selectFile(profile.image),
                         ),
                       ),
                       Expanded(

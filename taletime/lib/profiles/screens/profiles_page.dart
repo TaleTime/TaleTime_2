@@ -102,7 +102,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         final Profile profile = profilesSnapshots
                             .data!.docs[index]
                             .data(); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
-                        return ProfileList(profile, profiles);
+                        final DocumentReference<Profile> profileRef = profilesSnapshots
+                            .data!.docs[index]
+                            .reference;
+                        return ProfileList(profile, profiles, profileRef);
                       },
                     );
                   }

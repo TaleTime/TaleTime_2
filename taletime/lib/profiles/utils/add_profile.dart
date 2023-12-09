@@ -26,7 +26,6 @@ class AddProfile extends StatefulWidget {
 
 class _AddProfileState extends State<AddProfile> {
   final logger = TaleTimeLogger.getLogger();
-  final ProfileImageSelector profileImageSelector = ProfileImageSelector();
   _AddProfileState();
 
   late final String name;
@@ -134,7 +133,7 @@ class _AddProfileState extends State<AddProfile> {
                                     ),
                                   ],
                                 ),
-                                child: profileImageSelector.selectFile(
+                                child: ProfileImageSelector.selectFile(
                                     profileImage, 150),
                               ),
                             ],
@@ -165,7 +164,7 @@ class _AddProfileState extends State<AddProfile> {
                                               });
                                             },
                                             child:
-                                                profileImageSelector.selectFile(
+                                                ProfileImageSelector.selectFile(
                                               profileImages[i],
                                               80,
                                             ));
