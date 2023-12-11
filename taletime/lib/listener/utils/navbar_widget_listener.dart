@@ -13,7 +13,6 @@ import "../screens/listener_homepage.dart";
 class NavBarListener extends StatefulWidget {
   final Profile profile;
   final CollectionReference<Profile> profiles;
-
   const NavBarListener(this.profile, this.profiles, {super.key});
 
   @override
@@ -24,6 +23,7 @@ class NavBarListener extends StatefulWidget {
 
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
+  late CollectionReference<AddedStory> stories;
 
   _NavBarListenerState();
 
@@ -32,6 +32,18 @@ class _NavBarListenerState extends State<NavBarListener> {
             fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
             toFirestore: (snap, _) => snap.toFirebase(),
           );
+
+  @override
+  void initState() {
+    super.initState();
+    stories = widget.profiles
+        .doc(widget.profile.id)
+        .collection("storiesList")
+        .withConverter(
+          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
+  }
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -44,14 +56,6 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference<AddedStory> stories = widget.profiles
-        .doc(widget.profile.id)
-        .collection("storiesList")
-        .withConverter(
-          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        );
-
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,

@@ -2,15 +2,18 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/profiles/utils/profile_service.dart";
 import "../../internationalization/localizations_ext.dart";
-import "package:taletime/profiles/utils/edit_profile.dart";
+import "package:taletime/profiles/utils/create_edit_profile.dart";
 
 import "../models/profile_model.dart";
 
 class ProfileColumn extends StatefulWidget {
   final Profile profile;
-  final CollectionReference profiles;
-  const ProfileColumn(this.profile, this.profiles, {super.key});
+  final CollectionReference<Profile> profiles;
+  final DocumentReference<Profile> profileRef;
+  const ProfileColumn(this.profile, this.profiles, this.profileRef,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,22 +26,14 @@ class _ProfileColumnState extends State<ProfileColumn> {
 
   _ProfileColumnState();
 
-  Future<void> deleteProfile(id) {
-    return widget.profiles
-        .doc(id)
-        .delete()
-        .then((value) => logger.d("Profile deleted"))
-        .catchError((error) => logger.e("Failed to delete profile: $error"));
-  }
-
   void onSelected(BuildContext context, int item) {
     switch (item) {
       case 0:
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    EditProfile(widget.profiles, widget.profile)));
+                builder: (context) => CreateEditProfile(
+                    widget.profile, widget.profileRef, widget.profiles, null)));
         break;
       case 1:
         showDialog(
@@ -58,7 +53,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState(() {
-                        deleteProfile(widget.profile.id);
+                        ProfileService.deleteProfile(widget.profileRef);
                         Navigator.of(context).pop();
                       });
                     },
