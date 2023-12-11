@@ -92,17 +92,16 @@ class PlayerControls extends StatelessWidget {
                       IconButton(
                         icon: const Icon(
                           Icons.shuffle,
-                          // TODO icon selection
                           size: 22,
                         ),
-                        onPressed: () {}, // TODO change playback mode
+                        onPressed: () {},
                       ),
                       IconButton(
                         icon: const Icon(
                           Icons.share_outlined,
                           size: 22,
                         ),
-                        onPressed: () {}, // TODO shareStory,
+                        onPressed: () {},
                       ),
                       IconButton(
                         padding: const EdgeInsets.only(top: 7),
