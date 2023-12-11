@@ -12,22 +12,22 @@ import "../../internationalization/localizations_ext.dart";
 import "../models/profile_model.dart";
 import "../screens/profiles_page.dart";
 
-class EditProfile extends StatefulWidget {
+class CreateEditProfile extends StatefulWidget {
   final Profile profile;
   final DocumentReference<Profile>? profileRef;
   final CollectionReference<Profile> profiles;
   final String? uId;
 
-  const EditProfile(this.profile, this.profileRef, this.profiles, this.uId,
+  const CreateEditProfile(this.profile, this.profileRef, this.profiles, this.uId,
       {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _EditProfileState();
+    return _CreateEditProfileState();
   }
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _CreateEditProfileState extends State<CreateEditProfile> {
   final logger = TaleTimeLogger.getLogger();
   late final String name;
   late final String image;
@@ -39,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
 
   late String? selectedItem = widget.profile.title;
 
-  _EditProfileState();
+  _CreateEditProfileState();
 
   @override
   void initState() {

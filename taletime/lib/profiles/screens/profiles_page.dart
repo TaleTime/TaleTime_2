@@ -79,7 +79,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => EditProfile(
+                      builder: (context) => CreateEditProfile(
                           default_profile, null, profiles, widget.uId)));
                 },
                 icon: const Icon(

@@ -32,7 +32,7 @@ class _ProfileColumnState extends State<ProfileColumn> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditProfile(
+                builder: (context) => CreateEditProfile(
                     widget.profile, widget.profileRef, widget.profiles, null)));
         break;
       case 1:
