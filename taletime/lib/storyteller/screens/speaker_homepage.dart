@@ -15,7 +15,7 @@ import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 
 import "../../common utils/decoration_util.dart";
-import '../../player/my_play_story.dart';
+import '../../player/screens/story_player.dart';
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
@@ -361,9 +361,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            MyPlayStory.playStory(
+                            StoryPlayer.playStory(
                                 context, matchStoryList[index]);
-                            return const MyPlayStory(); // TODO pass stories list
+                            return const StoryPlayer(); // TODO pass stories list
                           }));
                         },
                         child: ListTile(

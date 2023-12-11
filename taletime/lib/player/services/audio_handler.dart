@@ -1,9 +1,9 @@
 import "package:audio_service/audio_service.dart";
 import "package:just_audio/just_audio.dart";
 import "package:logger/logger.dart";
-import "package:taletime/player/custom_player_state.dart";
+import 'package:taletime/player/models/custom_player_state.dart';
 
-import "../common utils/tale_time_logger.dart";
+import '../../common utils/tale_time_logger.dart';
 
 const _millisecondsInSecond = 1000;
 const _seekBackwardSeconds = 10;

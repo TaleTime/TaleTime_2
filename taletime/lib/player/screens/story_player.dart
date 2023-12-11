@@ -4,19 +4,19 @@ import "package:path_provider/path_provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
-import "package:taletime/player/player_controls.dart";
-import "package:taletime/player/player_loading_spinner.dart";
-import "package:taletime/player/progress_bar.dart";
-import "package:taletime/player/story_image.dart";
-import "package:taletime/player/story_metadata.dart";
+import "package:taletime/player/widgets/player_controls.dart";
+import "package:taletime/player/widgets/player_loading_spinner.dart";
+import "package:taletime/player/widgets/progress_bar.dart";
+import "package:taletime/player/widgets/story_image.dart";
+import "package:taletime/player/widgets/story_metadata.dart";
 
-import "../common/models/added_story.dart";
+import "../../common/models/added_story.dart";
 
-class MyPlayStory extends StatefulWidget {
-  const MyPlayStory({super.key});
+class StoryPlayer extends StatefulWidget {
+  const StoryPlayer({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyPlayStoryState();
+  State<StatefulWidget> createState() => _StoryPlayerState();
 
   static void playStory(BuildContext context, AddedStory story) {
     audioHandler.playMediaItem(MediaItem(
@@ -31,8 +31,8 @@ class MyPlayStory extends StatefulWidget {
 
 enum PlaybackMode { sequential, random, repeat }
 
-class _MyPlayStoryState extends State<MyPlayStory> {
-  _MyPlayStoryState();
+class _StoryPlayerState extends State<StoryPlayer> {
+  _StoryPlayerState();
 
   final logger = TaleTimeLogger.getLogger();
 

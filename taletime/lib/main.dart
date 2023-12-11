@@ -5,7 +5,7 @@ import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
 import "package:provider/provider.dart";
-import "package:taletime/audio_player/audio_handler.dart";
+import 'package:taletime/player/services/audio_handler.dart';
 import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";

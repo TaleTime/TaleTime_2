@@ -10,7 +10,6 @@ class PlayerLoadingSpinner extends StatelessWidget {
     return StreamBuilder(
       stream: audioHandler.playbackState,
       builder: (context, playbackState) {
-
         // Keep state in local variable
         AudioProcessingState? processingState =
             playbackState.data?.processingState;
@@ -27,7 +26,8 @@ class PlayerLoadingSpinner extends StatelessWidget {
               child: CircularProgressIndicator(),
             ),
           );
-        } else if (processingState == AudioProcessingState.idle || processingState == null) {
+        } else if (processingState == AudioProcessingState.idle ||
+            processingState == null) {
           return const Icon(
             Icons.warning,
             color: Colors.red,
