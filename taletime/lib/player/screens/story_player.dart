@@ -1,7 +1,5 @@
 import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
-import "package:path_provider/path_provider.dart";
-import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
 import "package:taletime/player/widgets/player_controls.dart";
@@ -12,11 +10,10 @@ import "package:taletime/player/widgets/story_metadata.dart";
 
 import "../../common/models/added_story.dart";
 
-class StoryPlayer extends StatefulWidget {
-  const StoryPlayer({super.key});
+enum PlaybackMode { sequential, random, repeat }
 
-  @override
-  State<StatefulWidget> createState() => _StoryPlayerState();
+class StoryPlayer extends StatelessWidget {
+  const StoryPlayer({super.key});
 
   static void playStory(BuildContext context, AddedStory story) {
     audioHandler.playMediaItem(MediaItem(
@@ -26,32 +23,6 @@ class StoryPlayer extends StatefulWidget {
       artUri: Uri.parse(story.imageUrl ?? ""),
       extras: {"url": story.audioUrl ?? ""},
     ));
-  }
-}
-
-enum PlaybackMode { sequential, random, repeat }
-
-class _StoryPlayerState extends State<StoryPlayer> {
-  _StoryPlayerState();
-
-  final logger = TaleTimeLogger.getLogger();
-
-  bool playerFullyInitialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<String> getLocalPath() async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  bool isContextValid(BuildContext context) {
-    final NavigatorState? navigator =
-        context.findAncestorStateOfType<NavigatorState>();
-    return navigator != null && navigator.mounted;
   }
 
   @override
