@@ -26,7 +26,7 @@ class _ListenerTaletimePageState<T extends Story>
     extends State<ListenerTaletimePage<T>> {
   String searchString = "";
 
-  QueryDocumentSnapshot<T> getReferenceOfStory(Story story){
+  QueryDocumentSnapshot<T> getReferenceOfStory(Story story) {
     return widget.docs.where((element) => element.id == story.id).first;
   }
 
@@ -126,7 +126,8 @@ class _ListenerTaletimePageState<T extends Story>
                       children: [
                         StoryListItem(
                           key: Key(storiesDocumentSnapshot[i].id),
-                          buttons: widget.buttonsBuilder(getReferenceOfStory(storiesDocumentSnapshot[i])),
+                          buttons: widget.buttonsBuilder(
+                              getReferenceOfStory(storiesDocumentSnapshot[i])),
                           story: storiesDocumentSnapshot[i],
                         ),
                       ],

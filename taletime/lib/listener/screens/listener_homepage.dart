@@ -220,7 +220,6 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
               Icons.playlist_play_outlined,
               color: kPrimaryColor,
             ),
-
           ),
           IconButton(
             onPressed: () {

@@ -27,15 +27,13 @@ Future<void> main() async {
 
   // Initialize Audio Service
   audioHandler = await AudioService.init(
-    builder: () => AudioPlayerHandler(),
-    config: const AudioServiceConfig(
-      androidNotificationChannelId: "de.htwsaar.taletime.player",
-      androidNotificationChannelName: "TaleTime",
-      androidNotificationOngoing: false,
-      androidStopForegroundOnPause: true,
-
-    )
-  );
+      builder: () => AudioPlayerHandler(),
+      config: const AudioServiceConfig(
+        androidNotificationChannelId: "de.htwsaar.taletime.player",
+        androidNotificationChannelName: "TaleTime",
+        androidNotificationOngoing: false,
+        androidStopForegroundOnPause: true,
+      ));
 
   runApp(
     const TaleTimeApp(),

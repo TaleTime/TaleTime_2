@@ -27,7 +27,6 @@ class _ProgressBarState extends State<ProgressBar> {
   /// from player
   bool _trackingSlider = false;
 
-
   /// To cancel the subscriptions when widget gets disposed
   late StreamSubscription _mediaItemSubscription;
   late StreamSubscription _playbackStateSubscription;
