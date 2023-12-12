@@ -13,9 +13,9 @@ import "package:marquee/marquee.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
-import "../../common utils/decoration_util.dart";
-import "../../listener/screens/my_play_story.dart";
 
+import "../../common utils/decoration_util.dart";
+import '../../player/screens/story_player.dart';
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
@@ -23,6 +23,7 @@ class SpeakerHomePage extends StatefulWidget {
   final CollectionReference storiesCollection;
   final CollectionReference lastRecordedCollection;
   final profiles;
+
   const SpeakerHomePage(this.profile, this.profiles, this.storiesCollection,
       this.lastRecordedCollection,
       {super.key});
@@ -185,10 +186,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                     },
                                     controller:
                                         PageController(viewportFraction: 0.4),
-                                    itemCount: lastRecordedDocumentSnapshot ==
-                                            null
-                                        ? 0
-                                        : lastRecordedDocumentSnapshot.length,
+                                    itemCount:
+                                        lastRecordedDocumentSnapshot.length,
                                     itemBuilder: (_, i) {
                                       var scale =
                                           _selecetedIndex == i ? 1.0 : 0.8;
@@ -200,14 +199,14 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                           curve: Curves.ease,
                                           child: GestureDetector(
                                               onTap: () {
-                                                Navigator.of(context).push(
+                                                /*Navigator.of(context).push(
                                                     MaterialPageRoute(
                                                         builder: (context) {
                                                   return MyPlayStory(
                                                       lastRecordedDocumentSnapshot[
                                                           i],
-                                                      storiesCollection);
-                                                }));
+                                                      []); // TODO pass story list
+                                                }));*/ // TODO navigate to player
                                               },
                                               child: Container(
                                                 margin: const EdgeInsets.only(
@@ -362,8 +361,9 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return MyPlayStory(
-                                matchStoryList[index], storiesCollection);
+                            StoryPlayer.playStory(
+                                context, matchStoryList[index]);
+                            return const StoryPlayer(); // TODO pass stories list
                           }));
                         },
                         child: ListTile(

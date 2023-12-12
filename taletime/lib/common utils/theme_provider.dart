@@ -67,18 +67,19 @@ class MyThemes {
 
   /// Lightmode
   static final lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    useMaterial3: true,
+    colorSchemeSeed: kPrimaryColor,
     hintColor: kPrimaryColor,
     elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-      shadowColor: MaterialStateProperty.all<Color>(Colors.white),
-      shape: MaterialStateProperty.all<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+      style: ButtonStyle(
+        shadowColor: MaterialStateProperty.all<Color>(Colors.white),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+          ),
         ),
       ),
-    )),
-    primaryColor: kPrimaryColor,
+    ),
     inputDecorationTheme: InputDecorationTheme(
         fillColor: Colors.white,
         prefixIconColor: kPrimaryColor,
@@ -95,7 +96,8 @@ class MyThemes {
         overlayColor: MaterialStateProperty.all(Colors.grey),
       ),
     ),
-    sliderTheme: SliderThemeData(thumbColor: kPrimaryColor),
-    colorScheme: const ColorScheme.light().copyWith(error: Colors.red),
+    sliderTheme: SliderThemeData(
+      thumbColor: kPrimaryColor,
+    ),
   );
 }

@@ -355,6 +355,21 @@
 
     "noName": "No name",
     "@noName": {
-        "description": "Used to display that a story does not have an author name with it."
+        "description": "Used to display that a story does not have an author name associated with it."
+    },
+
+    "noTitle": "No title",
+    "@noTitle": {
+        "description": "Used to display that a story does not have a title associated with it."
+    },
+
+    "noAudioAssociatedWithStory": "This story can't be played: No audio associated with it.",
+    "@noAudioAssociatedWithStory": {
+        "description": "Displayed to indicate that there is no audio associated with the story in the player."
+    },
+
+    "audioCannotBePlayed": "Audio cannot be played!",
+    "@audioCannotBePlayed": {
+        "description": "Displayed to indicate that a story cannot be played."
     }
 }
