@@ -1,9 +1,8 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 
 enum ProfileType {
-  listener(name:"Listener"),
-  storyteller(name:"Story-teller");
-
+  listener(name: "Listener"),
+  storyteller(name: "Story-teller");
 
   const ProfileType({required this.name});
 
@@ -11,15 +10,13 @@ enum ProfileType {
 
   static ProfileType? fromString(String? name) {
     if (name == null) return null;
-    return ProfileType.values.firstWhere(
-      (e) => e.name == name,
-    orElse: ()=>ProfileType.listener);
+    return ProfileType.values
+        .firstWhere((e) => e.name == name, orElse: () => ProfileType.listener);
   }
 
   @override
   String toString() => name;
 }
-
 
 class Profile {
   final String id;

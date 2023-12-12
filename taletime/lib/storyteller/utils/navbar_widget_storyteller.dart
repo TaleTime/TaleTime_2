@@ -22,7 +22,6 @@ class NavBarSpeaker extends StatefulWidget {
 class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
 
-
   _NavBarSpeakerState();
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
@@ -38,14 +37,16 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   Widget build(BuildContext context) {
     CollectionReference lastRecorded =
         widget.profiles.doc(widget.profile.id).collection("lastRecordedList");
-    CollectionReference recordedStories =
-    widget.profiles.doc(widget.profile.id).collection("recordedStoriesList");
+    CollectionReference recordedStories = widget.profiles
+        .doc(widget.profile.id)
+        .collection("recordedStoriesList");
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          SpeakerHomePage(widget.profile, widget.profiles, recordedStories, lastRecorded),
+          SpeakerHomePage(
+              widget.profile, widget.profiles, recordedStories, lastRecorded),
           AllStories(widget.profile, widget.profiles, recordedStories),
           CreateStory(widget.profile, recordedStories),
           SettingsPage(widget.profile, widget.profiles),

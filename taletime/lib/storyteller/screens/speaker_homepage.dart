@@ -67,8 +67,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SettingsPage(widget.profile, widget.profiles)));
+                                builder: (context) => SettingsPage(
+                                    widget.profile, widget.profiles)));
                       },
                       icon: Icon(
                         Icons.menu,
@@ -409,8 +409,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           ? Decorations().noRecentContent(
                               AppLocalizations.of(context)!.noStoriesAvailable,
                               "")
-                          : ListViewStoryTeller(storiesDocumentSnapshot,
-                              widget.storiesCollection, widget.profile, widget.profiles),
+                          : ListViewStoryTeller(
+                              storiesDocumentSnapshot,
+                              widget.storiesCollection,
+                              widget.profile,
+                              widget.profiles),
                     ),
                   ],
                 ),

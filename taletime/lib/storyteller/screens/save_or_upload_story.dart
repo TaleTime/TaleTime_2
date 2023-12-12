@@ -59,15 +59,13 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     audioFile = File(audioPath);
     isSaved = widget.isSaved;
 
-
     uId = auth.currentUser!.uid;
     users = FirebaseFirestore.instance.collection("users");
-    profiles = users.doc(uId).collection("profiles")
-        .withConverter(
-      fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
-      toFirestore: (snap, _) => snap.toFirebase(),
-    );
-    primarySave= isSaved ? Colors.grey : kPrimaryColor;
+    profiles = users.doc(uId).collection("profiles").withConverter(
+          fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
+    primarySave = isSaved ? Colors.grey : kPrimaryColor;
     primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
   }
 
@@ -108,10 +106,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
         .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.saveUploadStory,

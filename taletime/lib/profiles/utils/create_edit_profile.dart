@@ -18,7 +18,8 @@ class CreateEditProfile extends StatefulWidget {
   final CollectionReference<Profile> profiles;
   final String? uId;
 
-  const CreateEditProfile(this.profile, this.profileRef, this.profiles, this.uId,
+  const CreateEditProfile(
+      this.profile, this.profileRef, this.profiles, this.uId,
       {super.key});
 
   @override
