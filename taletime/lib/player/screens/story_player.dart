@@ -20,8 +20,12 @@ class StoryPlayer extends StatelessWidget {
       id: story.id,
       title: story.title ?? AppLocalizations.of(context)!.noTitle,
       artist: story.author ?? AppLocalizations.of(context)!.noName,
-      artUri: Uri.parse(story.imageUrl ?? ""),
-      extras: {"url": story.audioUrl ?? ""},
+      artUri: story.imageUrl != null ? Uri.parse(story.imageUrl!) : null,
+      extras: {
+        // This might be an invalid url, but the player will detect this and
+        // go into the error state
+        "url": story.audioUrl ?? ""
+      },
     ));
   }
 
