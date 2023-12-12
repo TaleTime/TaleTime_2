@@ -18,7 +18,7 @@ class ProfileService {
     profiles.add(Profile(
         image: image,
         name: name,
-        title: title,
+        title: ProfileType.fromString(title)!,
         id: "",
         language: language,
         theme: isDarkTheme));

@@ -71,8 +71,6 @@ var default_profile = Profile(
     id: "",
     image: profileImages[4],
     name: "",
-    title: profileSelections[0],
+    title: ProfileType.listener,
     language: "en",
     theme: false);
-
-const List<String> profileSelections = ["Listener", "Story-teller"];

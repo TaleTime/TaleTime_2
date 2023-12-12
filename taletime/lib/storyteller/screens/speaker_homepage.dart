@@ -16,10 +16,11 @@ import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 
 import "../../common utils/decoration_util.dart";
 import '../../player/screens/story_player.dart';
+import "../../profiles/models/profile_model.dart";
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
-  final profile;
+  final Profile profile;
   final CollectionReference storiesCollection;
   final CollectionReference lastRecordedCollection;
   final profiles;
@@ -30,28 +31,22 @@ class SpeakerHomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _SpeakerHomePageState(
-        profile, profiles, storiesCollection, lastRecordedCollection);
+    return _SpeakerHomePageState();
   }
 }
 
 class _SpeakerHomePageState extends State<SpeakerHomePage> {
-  var _selecetedIndex = 0;
+  var _selectedIndex = 0;
 
-  final profile;
-  final CollectionReference storiesCollection;
-  final CollectionReference lastRecordedCollection;
-  final profiles;
   List matchStoryList = [];
 
-  _SpeakerHomePageState(this.profile, this.profiles, this.storiesCollection,
-      this.lastRecordedCollection);
+  _SpeakerHomePageState();
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     return StreamBuilder(
-        stream: storiesCollection.snapshots(),
+        stream: widget.storiesCollection.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
@@ -72,8 +67,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SettingsPage(profile, profiles)));
+                                builder: (context) => SettingsPage(
+                                    widget.profile, widget.profiles)));
                       },
                       icon: Icon(
                         Icons.menu,
@@ -98,7 +93,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
                     Text(
-                      profile["name"],
+                      widget.profile.name,
                       style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 25,
@@ -160,7 +155,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 ),
               ),
               StreamBuilder(
-                  stream: storiesCollection.snapshots(),
+                  stream: widget.storiesCollection.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
@@ -181,7 +176,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                 child: PageView.builder(
                                     onPageChanged: (index) {
                                       setState(() {
-                                        _selecetedIndex = index;
+                                        _selectedIndex = index;
                                       });
                                     },
                                     controller:
@@ -190,7 +185,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                                         lastRecordedDocumentSnapshot.length,
                                     itemBuilder: (_, i) {
                                       var scale =
-                                          _selecetedIndex == i ? 1.0 : 0.8;
+                                          _selectedIndex == i ? 1.0 : 0.8;
                                       return TweenAnimationBuilder(
                                           duration:
                                               const Duration(microseconds: 350),
@@ -414,8 +409,11 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           ? Decorations().noRecentContent(
                               AppLocalizations.of(context)!.noStoriesAvailable,
                               "")
-                          : ListViewStoryTeller(storiesDocumentSnapshot,
-                              storiesCollection, profile, profiles),
+                          : ListViewStoryTeller(
+                              storiesDocumentSnapshot,
+                              widget.storiesCollection,
+                              widget.profile,
+                              widget.profiles),
                     ),
                   ],
                 ),

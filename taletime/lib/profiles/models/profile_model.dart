@@ -1,10 +1,28 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 
+enum ProfileType {
+  listener(name: "Listener"),
+  storyteller(name: "Story-teller");
+
+  const ProfileType({required this.name});
+
+  final String name;
+
+  static ProfileType? fromString(String? name) {
+    if (name == null) return null;
+    return ProfileType.values
+        .firstWhere((e) => e.name == name, orElse: () => ProfileType.listener);
+  }
+
+  @override
+  String toString() => name;
+}
+
 class Profile {
   final String id;
   final String image;
   final String name;
-  final String title;
+  final ProfileType title;
   final String language;
   final bool theme;
 
@@ -21,7 +39,7 @@ class Profile {
         id: json["id"],
         image: json["image"],
         name: json["name"],
-        title: json["title"],
+        title: ProfileType.fromString(json["title"])!,
         language: json["language"],
         theme: json["theme"],
       );
@@ -32,7 +50,7 @@ class Profile {
       id: snapshot.id,
       image: snapshot.data()?["image"],
       name: snapshot.data()?["name"],
-      title: snapshot.data()?["title"],
+      title: ProfileType.fromString(snapshot.data()?["title"])!,
       language: snapshot.data()?["language"],
       theme: snapshot.data()?["theme"],
     );
@@ -42,7 +60,7 @@ class Profile {
     return {
       "image": image,
       "name": name,
-      "title": title,
+      "title": title.name,
       "language": language,
       "theme": theme,
     };
