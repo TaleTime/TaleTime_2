@@ -18,7 +18,7 @@ class ProfileList extends StatelessWidget {
     final profilee = ProfileColumn(profile, profiles, profileRef);
     return GestureDetector(
       onTap: () async {
-        if (profile.title == "Listener") {
+        if (profile.title == ProfileType.listener) {
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -83,7 +83,7 @@ class ProfileList extends StatelessWidget {
                                     width: 10,
                                   ),
                                   Text(
-                                    profile.title,
+                                    profile.title.name,
                                   ),
                                 ],
                               ),

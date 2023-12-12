@@ -43,6 +43,11 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   late File audioFile;
   late String audioPath;
   late File image;
+  late String uId;
+  late CollectionReference users;
+  late CollectionReference<Profile> profiles;
+  late Color? primarySave;
+  late Color? primaryUpload;
 
   @override
   void initState() {
@@ -53,6 +58,17 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     audioPath = widget.myRecordedStory.recording.getAudioPath();
     audioFile = File(audioPath);
     isSaved = widget.isSaved;
+
+
+    uId = auth.currentUser!.uid;
+    users = FirebaseFirestore.instance.collection("users");
+    profiles = users.doc(uId).collection("profiles")
+        .withConverter(
+      fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
+      toFirestore: (snap, _) => snap.toFirebase(),
+    );
+    primarySave= isSaved ? Colors.grey : kPrimaryColor;
+    primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
   }
 
   void createStory(String title, File image, String author, File audio) async {
@@ -92,13 +108,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
         .catchError((error) => logger.e("Failed to update List: $error"));
   }
 
+
   @override
   Widget build(BuildContext context) {
-    String uId = auth.currentUser!.uid;
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
-    CollectionReference profiles = users.doc(uId).collection("profiles");
-    Color? primarySave = isSaved ? Colors.grey : kPrimaryColor;
-    Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
+
     return Scaffold(
       appBar: Decorations().appBarDecoration(
           title: AppLocalizations.of(context)!.saveUploadStory,
@@ -232,6 +245,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                     UploadUtil(widget.storiesCollection)
                                         .uploadStory(audioPath, author,
                                             myImageUrl, title, "2.5", false);
+
+                                    if (!context.mounted) return;
+
                                     Navigator.of(context).pop();
                                     Navigator.push(
                                         context,

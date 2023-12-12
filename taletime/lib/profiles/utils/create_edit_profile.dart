@@ -37,7 +37,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
 
   late String profileImage = widget.profile.image;
 
-  late String? selectedItem = widget.profile.title;
+  late ProfileType? selectedItem = widget.profile.title;
 
   _CreateEditProfileState();
 
@@ -60,7 +60,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
 
   void reset() {
     profileImage = "";
-    selectedItem = "";
+    selectedItem = ProfileType.listener;
     textEditingController.text = "";
   }
 
@@ -178,12 +178,12 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                                 borderRadius: BorderRadius.circular(100.0),
                                 borderSide: BorderSide(color: kPrimaryColor)),
                           ),
-                          value: selectedItem,
-                          items: profileSelections
+                          value: selectedItem?.name,
+                          items: ProfileType.values
                               .map((item) => DropdownMenuItem<String>(
-                                    value: item,
+                                    value: item.name,
                                     child: Text(
-                                      item,
+                                      item.name,
                                       style: const TextStyle(
                                         fontSize: 18,
                                       ),
@@ -191,7 +191,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                                   ))
                               .toList(),
                           onChanged: (item) => setState(() {
-                                selectedItem = item;
+                                selectedItem = ProfileType.fromString(item);
                               })),
                     ],
                   ),
