@@ -39,23 +39,23 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   @override
   void initState() {
     super.initState();
-    lastRecorded = widget.profiles.doc(widget.profile.id).collection("lastRecordedList")
+    lastRecorded = widget.profiles
+        .doc(widget.profile.id)
+        .collection("lastRecordedList")
         .withConverter(
-        fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-        toFirestore: (snap, _) => snap.toFirebase());
+            fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase());
     recordedStories = widget.profiles
         .doc(widget.profile.id)
         .collection("recordedStoriesList")
         .withConverter(
-      fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-      toFirestore: (snap, _) => snap.toFirebase(),
-    );
+          fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,

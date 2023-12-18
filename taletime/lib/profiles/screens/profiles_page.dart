@@ -27,11 +27,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
   _ProfilesPageState();
 
   CollectionReference<TaleTimeUser> users =
-      FirebaseFirestore.instance.collection("users")
-          .withConverter(
-        fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
-        toFirestore: (snap, _) => snap.toFirebase(),
-      ); // users collection
+      FirebaseFirestore.instance.collection("users").withConverter(
+            fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase(),
+          ); // users collection
   final firebase_auth.FirebaseAuth auth = firebase_auth.FirebaseAuth.instance;
   int cflex = 7;
 

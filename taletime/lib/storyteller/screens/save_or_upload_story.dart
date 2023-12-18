@@ -63,10 +63,9 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     isSaved = widget.isSaved;
 
     uId = auth.currentUser!.uid;
-    users = FirebaseFirestore.instance.collection("users")
-        .withConverter(
-      fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
-      toFirestore: (snap, _) => snap.toFirebase());
+    users = FirebaseFirestore.instance.collection("users").withConverter(
+        fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
+        toFirestore: (snap, _) => snap.toFirebase());
     profiles = users.doc(uId).collection("profiles").withConverter(
           fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
           toFirestore: (snap, _) => snap.toFirebase(),
@@ -87,13 +86,14 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
     String myAudioUrl =
         ""; // await refAudios.child(fileString).getDownloadURL();
-      var story = Story(id:"",
+    var story = Story(
+      id: "",
       title: title,
       author: author,
       imageUrl: myImageUrl,
       audioUrl: myAudioUrl,
       rating: "2.5",
-      );
+    );
     setState(() {
       widget.storiesCollection.add(story).then<void>((value) {
         logger.v("Story Added to RecordedStories");

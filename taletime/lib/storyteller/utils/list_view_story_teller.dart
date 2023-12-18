@@ -41,11 +41,10 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
   _ListViewStoryTellerState();
 
   CollectionReference<Story> allStories =
-      FirebaseFirestore.instance.collection("allStories")
-          .withConverter(
-        fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-        toFirestore: (snap, _) => snap.toFirebase(),
-      );
+      FirebaseFirestore.instance.collection("allStories").withConverter(
+            fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase(),
+          );
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +77,11 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                           String title = widget.stories[index]["title"];
                           List<String> tags = ["test"];
                           String imagePath = widget.stories[index]["image"];
-                          RecordStory story = RecordStory(title, tags, imagePath);
+                          RecordStory story =
+                              RecordStory(title, tags, imagePath);
 
-                          MyRecord record = MyRecord(widget.stories[index]["audio"]);
+                          MyRecord record =
+                              MyRecord(widget.stories[index]["audio"]);
 
                           RecordedStory recording =
                               RecordedStory(story, record);
@@ -165,7 +166,8 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => EditStory(
-                                      widget.storiesCollection, widget.stories[index])));
+                                      widget.storiesCollection,
+                                      widget.stories[index])));
                         },
                         icon: const Icon(
                           Icons.edit,
@@ -194,8 +196,8 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                         onPressed: () {
                                           setState(() {
                                             UploadUtil(widget.storiesCollection)
-                                                .deleteStory(
-                                                widget.stories[index]["id"]);
+                                                .deleteStory(widget
+                                                    .stories[index]["id"]);
                                             Navigator.of(context).pop();
                                           });
                                         },

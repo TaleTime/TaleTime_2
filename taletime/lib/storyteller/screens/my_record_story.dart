@@ -121,8 +121,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(
-                recordedStory, widget.profile, widget.storiesCollection, false)));
+            builder: (context) => SaveOrUploadStory(recordedStory,
+                widget.profile, widget.storiesCollection, false)));
   }
 
   Widget buildStart() {

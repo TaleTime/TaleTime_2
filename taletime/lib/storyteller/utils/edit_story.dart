@@ -18,8 +18,7 @@ class EditStory extends StatefulWidget {
   const EditStory(this.storiesCollection, this.story, {super.key});
 
   @override
-  State<StatefulWidget> createState()=> _EditStoryState();
-
+  State<StatefulWidget> createState() => _EditStoryState();
 }
 
 class _EditStoryState extends State<EditStory> {

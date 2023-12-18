@@ -206,13 +206,13 @@ class _CreateStoryState extends State<CreateStory> {
                       }
                       if (isValidForm) {
                         List<String> tags = ["test"];
-                        final myStory =
-                            RecordStory(_titleController.text, tags, imageFile.path);
+                        final myStory = RecordStory(
+                            _titleController.text, tags, imageFile.path);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyRecordStory(
-                                  myStory, widget.profile, widget.storiesCollection)),
+                              builder: (context) => MyRecordStory(myStory,
+                                  widget.profile, widget.storiesCollection)),
                         );
                       }
                     },

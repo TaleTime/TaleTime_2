@@ -6,11 +6,8 @@ class TaleTimeUser {
 
   final String email;
 
-  const TaleTimeUser({
-    required this.id,
-    required this.email,
-    required this.username
-  });
+  const TaleTimeUser(
+      {required this.id, required this.email, required this.username});
 
   factory TaleTimeUser.fromDocumentSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {

@@ -9,14 +9,12 @@ class UploadUtil {
   UploadUtil(this.storiesCollection);
 
   CollectionReference<Story> allStories =
-      FirebaseFirestore.instance.collection("allStories")
-          .withConverter(
-        fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-        toFirestore: (snap, _) => snap.toFirebase(),
-      );
+      FirebaseFirestore.instance.collection("allStories").withConverter(
+            fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase(),
+          );
   Future<void> uploadStory(String audio, String author, String image,
       String title, String rating, bool isLiked) {
-
     var storyToAdd = Story(
       id: "",
       rating: rating,
