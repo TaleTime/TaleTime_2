@@ -1,26 +1,32 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 
+import "../../common/models/story.dart";
+
 class UploadUtil {
   final logger = TaleTimeLogger.getLogger();
-  late final CollectionReference storiesCollection;
-  UploadUtil(CollectionReference storiesCollection) {
-    this.storiesCollection = storiesCollection;
-  }
+  late final CollectionReference<Story> storiesCollection;
+  UploadUtil(this.storiesCollection);
 
-  CollectionReference allStories =
-      FirebaseFirestore.instance.collection("allStories");
+  CollectionReference<Story> allStories =
+      FirebaseFirestore.instance.collection("allStories")
+          .withConverter(
+        fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+        toFirestore: (snap, _) => snap.toFirebase(),
+      );
   Future<void> uploadStory(String audio, String author, String image,
       String title, String rating, bool isLiked) {
-    return allStories.add({
-      "id": "",
-      "image": image,
-      "audio": audio,
-      "title": title,
-      "rating": rating,
-      "author": author,
-      "isLiked": isLiked
-    }).then((value) {
+
+    var storyToAdd = Story(
+      id: "",
+      rating: rating,
+      audioUrl: audio,
+      imageUrl: image,
+      author: author,
+      title: title,
+    );
+
+    return allStories.add(storyToAdd).then<void>((value) {
       logger.d("Story uploaded succesfully");
       updateList(value.id);
     }).catchError((error) => logger.e("Failed to upload story: $error"));

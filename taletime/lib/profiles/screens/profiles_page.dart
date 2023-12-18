@@ -1,8 +1,9 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_auth/firebase_auth.dart" as firebase_auth;
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
+import "package:taletime/common/models/tale_time_user.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/create_edit_profile.dart";
@@ -25,9 +26,13 @@ class ProfilesPage extends StatefulWidget {
 class _ProfilesPageState extends State<ProfilesPage> {
   _ProfilesPageState();
 
-  CollectionReference users =
-      FirebaseFirestore.instance.collection("users"); // users collection
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference<TaleTimeUser> users =
+      FirebaseFirestore.instance.collection("users")
+          .withConverter(
+        fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
+        toFirestore: (snap, _) => snap.toFirebase(),
+      ); // users collection
+  final firebase_auth.FirebaseAuth auth = firebase_auth.FirebaseAuth.instance;
   int cflex = 7;
 
   @override
@@ -80,7 +85,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => CreateEditProfile(
-                          default_profile, null, profiles, widget.uId)));
+                          defaultProfile, null, profiles, widget.uId)));
                 },
                 icon: const Icon(
                   Icons.person_add,

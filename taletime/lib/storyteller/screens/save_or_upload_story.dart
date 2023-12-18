@@ -12,16 +12,19 @@ import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/common/models/tale_time_user.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
 
+import "../../common/models/story.dart";
+
 class SaveOrUploadStory extends StatefulWidget {
   final RecordedStory myRecordedStory;
-  final profile;
-  final storiesCollection;
+  final Profile profile;
+  final CollectionReference<Story> storiesCollection;
   final bool isSaved;
   const SaveOrUploadStory(
       this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved,
@@ -44,7 +47,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   late String audioPath;
   late File image;
   late String uId;
-  late CollectionReference users;
+  late CollectionReference<TaleTimeUser> users;
   late CollectionReference<Profile> profiles;
   late Color? primarySave;
   late Color? primaryUpload;
@@ -60,7 +63,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     isSaved = widget.isSaved;
 
     uId = auth.currentUser!.uid;
-    users = FirebaseFirestore.instance.collection("users");
+    users = FirebaseFirestore.instance.collection("users")
+        .withConverter(
+      fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
+      toFirestore: (snap, _) => snap.toFirebase());
     profiles = users.doc(uId).collection("profiles").withConverter(
           fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
           toFirestore: (snap, _) => snap.toFirebase(),
@@ -81,17 +87,15 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
     String myAudioUrl =
         ""; // await refAudios.child(fileString).getDownloadURL();
-
+      var story = Story(id:"",
+      title: title,
+      author: author,
+      imageUrl: myImageUrl,
+      audioUrl: myAudioUrl,
+      rating: "2.5",
+      );
     setState(() {
-      widget.storiesCollection.add({
-        "rating": "2.5",
-        "title": title,
-        "author": author,
-        "image": myImageUrl,
-        "audio": myAudioUrl,
-        "isLiked": false,
-        "id": ""
-      }).then((value) {
+      widget.storiesCollection.add(story).then<void>((value) {
         logger.v("Story Added to RecordedStories");
         updateList(value.id, widget.storiesCollection);
       }).catchError((error) => logger.e("Failed to add story: $error"));
