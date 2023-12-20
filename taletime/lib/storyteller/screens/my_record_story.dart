@@ -207,45 +207,45 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     final animate = recoder;
 
     return AvatarGlow(
-      endRadius: 140,
       animate: animate,
-      repeatPauseDuration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
+      repeat: true,
       child: CircleAvatar(
-        radius: 100,
-        backgroundColor: Colors.teal.shade100,
-        child: CircleAvatar(
-          radius: 92,
-          backgroundColor: kPrimaryColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "TaleTime",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                printDuration(recordingTime),
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                text,
-                style: const TextStyle(color: Colors.white, fontSize: 12),
-              ),
-            ],
+    radius: 100,
+    backgroundColor: Colors.teal.shade100,
+    child: CircleAvatar(
+      radius: 92,
+      backgroundColor: kPrimaryColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "TaleTime",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold),
           ),
-        ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            printDuration(recordingTime),
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 50,
+                fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            text,
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ],
+      ),
+    ),
       ),
     );
   }
