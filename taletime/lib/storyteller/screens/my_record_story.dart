@@ -207,9 +207,9 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     final animate = recoder;
 
     return AvatarGlow(
-      endRadius: 140,
       animate: animate,
-      repeatPauseDuration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
+      repeat: true,
       child: CircleAvatar(
         radius: 100,
         backgroundColor: Colors.teal.shade100,
