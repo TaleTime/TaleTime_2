@@ -14,33 +14,32 @@ import "package:logger/logger.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
-import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
 import "../../common utils/decoration_util.dart";
+import "../../profiles/models/profile_model.dart";
+import "../utils/record_class.dart";
 import "my_record_story.dart";
 import "package:path/path.dart" as path;
+import "../../common/models/story.dart";
 
 class CreateStory extends StatefulWidget {
-  final profile;
-  final CollectionReference storiesCollection;
+  final Profile profile;
+  final CollectionReference<Story> storiesCollection;
 
   const CreateStory(this.profile, this.storiesCollection, {super.key});
 
   @override
-  State<CreateStory> createState() =>
-      _CreateStoryState(profile, storiesCollection);
+  State<CreateStory> createState() => _CreateStoryState();
 }
 
 class _CreateStoryState extends State<CreateStory> {
   final logger = TaleTimeLogger.getLogger();
-  final profile;
-  final CollectionReference storiesCollection;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _tagController = TextEditingController();
 
-  _CreateStoryState(this.profile, this.storiesCollection);
+  _CreateStoryState();
 
   String? title;
   final List<ChipModel> _chipList = [];
@@ -207,13 +206,13 @@ class _CreateStoryState extends State<CreateStory> {
                       }
                       if (isValidForm) {
                         List<String> tags = ["test"];
-                        final myStory =
-                            Story(_titleController.text, tags, imageFile.path);
+                        final myStory = RecordStory(
+                            _titleController.text, tags, imageFile.path);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyRecordStory(
-                                  myStory, profile, storiesCollection)),
+                              builder: (context) => MyRecordStory(myStory,
+                                  widget.profile, widget.storiesCollection)),
                         );
                       }
                     },

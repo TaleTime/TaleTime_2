@@ -1,7 +1,7 @@
 import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
 import "package:taletime/main.dart";
-import 'package:taletime/player/models/custom_player_state.dart';
+import "package:taletime/player/models/custom_player_state.dart";
 
 class PlayerControls extends StatelessWidget {
   const PlayerControls({super.key});

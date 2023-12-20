@@ -18,25 +18,24 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/sound_recorder.dart";
 
+import "../../common/models/story.dart";
+import "../../profiles/models/profile_model.dart";
+
 class MyRecordStory extends StatefulWidget {
-  final Story myStory;
-  final profile;
-  final CollectionReference storiesCollection;
+  final RecordStory myStory;
+  final Profile profile;
+  final CollectionReference<Story> storiesCollection;
   const MyRecordStory(this.myStory, this.profile, this.storiesCollection,
       {super.key});
 
   @override
-  State<MyRecordStory> createState() =>
-      _MyRecordStoryState(myStory, profile, storiesCollection);
+  State<MyRecordStory> createState() => _MyRecordStoryState();
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
   final logger = TaleTimeLogger.getLogger();
-  final Story? myStory;
-  final profile;
-  final CollectionReference storiesCollection;
 
-  _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
+  _MyRecordStoryState();
 
   SoundRecorder recorder = SoundRecorder();
   final AudioPlayer player = AudioPlayer();
@@ -118,12 +117,12 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     setState(() {});
 
     MyRecord record = MyRecord(newAudio.path);
-    RecordedStory recordedStory = RecordedStory(myStory!, record);
+    RecordedStory recordedStory = RecordedStory(widget.myStory, record);
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(
-                recordedStory, profile, storiesCollection, false)));
+            builder: (context) => SaveOrUploadStory(recordedStory,
+                widget.profile, widget.storiesCollection, false)));
   }
 
   Widget buildStart() {

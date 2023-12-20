@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "../../common/models/story.dart";
 import "../../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "../../common utils/decoration_util.dart";
@@ -7,9 +8,9 @@ import "../../profiles/models/profile_model.dart";
 import "../../storyteller/utils/list_view_story_teller.dart";
 
 class AllStories extends StatefulWidget {
-  final CollectionReference recordedStoriesCollection;
+  final CollectionReference<Story> recordedStoriesCollection;
   final Profile profile;
-  final CollectionReference profiles;
+  final CollectionReference<Profile> profiles;
   const AllStories(this.profile, this.profiles, this.recordedStoriesCollection,
       {super.key});
 

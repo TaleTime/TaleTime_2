@@ -15,15 +15,16 @@ import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 
 import "../../common utils/decoration_util.dart";
+import "../../common/models/story.dart";
 import '../../player/screens/story_player.dart';
 import "../../profiles/models/profile_model.dart";
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
   final Profile profile;
-  final CollectionReference storiesCollection;
-  final CollectionReference lastRecordedCollection;
-  final profiles;
+  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story> lastRecordedCollection;
+  final CollectionReference<Profile> profiles;
 
   const SpeakerHomePage(this.profile, this.profiles, this.storiesCollection,
       this.lastRecordedCollection,

@@ -1,14 +1,9 @@
-class Story {
-  /// Instanzvariablen
+class RecordStory {
   late String title;
   late List<String> tags;
   late String imagePath;
 
-  Story(String title, List<String> tags, String imagePath) {
-    this.title = title;
-    this.tags = tags;
-    this.imagePath = imagePath;
-  }
+  RecordStory(this.title, this.tags, this.imagePath);
 
   String getTitle() {
     return title;
@@ -22,9 +17,7 @@ class Story {
 class MyRecord {
   late String audio;
 
-  MyRecord(String audio) {
-    this.audio = audio;
-  }
+  MyRecord(this.audio);
 
   String getAudioPath() {
     return audio;
@@ -32,13 +25,10 @@ class MyRecord {
 }
 
 class RecordedStory {
-  late Story story;
+  late RecordStory story;
   late MyRecord recording;
 
-  RecordedStory(Story story, MyRecord recording) {
-    this.story = story;
-    this.recording = recording;
-  }
+  RecordedStory(this.story, this.recording);
 }
 
 class ChipModel {

@@ -6,6 +6,7 @@ import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/screens/create_story.dart";
 import "package:taletime/storyteller/screens/speaker_homepage.dart";
 
+import "../../common/models/story.dart";
 import "../../settings/settings.dart";
 
 class NavBarSpeaker extends StatefulWidget {
@@ -21,6 +22,8 @@ class NavBarSpeaker extends StatefulWidget {
 
 class _NavBarSpeakerState extends State<NavBarSpeaker> {
   var _currentIndex = 0;
+  late CollectionReference<Story> recordedStories;
+  late CollectionReference<Story> lastRecorded;
 
   _NavBarSpeakerState();
 
@@ -34,13 +37,25 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    CollectionReference lastRecorded =
-        widget.profiles.doc(widget.profile.id).collection("lastRecordedList");
-    CollectionReference recordedStories = widget.profiles
+  void initState() {
+    super.initState();
+    lastRecorded = widget.profiles
         .doc(widget.profile.id)
-        .collection("recordedStoriesList");
+        .collection("lastRecordedList")
+        .withConverter(
+            fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase());
+    recordedStories = widget.profiles
+        .doc(widget.profile.id)
+        .collection("recordedStoriesList")
+        .withConverter(
+          fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
