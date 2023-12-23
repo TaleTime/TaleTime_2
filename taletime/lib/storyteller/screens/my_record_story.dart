@@ -20,23 +20,23 @@ import "package:taletime/storyteller/utils/sound_recorder.dart";
 
 class MyRecordStory extends StatefulWidget {
   final Story myStory;
-  final profile;
+
   final CollectionReference storiesCollection;
-  const MyRecordStory(this.myStory, this.profile, this.storiesCollection,
+  const MyRecordStory(this.myStory, this.storiesCollection,
       {super.key});
 
   @override
   State<MyRecordStory> createState() =>
-      _MyRecordStoryState(myStory, profile, storiesCollection);
+      _MyRecordStoryState(myStory, storiesCollection);
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
   final logger = TaleTimeLogger.getLogger();
   final Story? myStory;
-  final profile;
+
   final CollectionReference storiesCollection;
 
-  _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
+  _MyRecordStoryState(this.myStory, this.storiesCollection);
 
   SoundRecorder recorder = SoundRecorder();
   final AudioPlayer player = AudioPlayer();
@@ -123,7 +123,7 @@ class _MyRecordStoryState extends State<MyRecordStory> {
         context,
         MaterialPageRoute(
             builder: (context) => SaveOrUploadStory(
-                recordedStory, profile, storiesCollection, false)));
+                recordedStory, storiesCollection, false)));
   }
 
   Widget buildStart() {

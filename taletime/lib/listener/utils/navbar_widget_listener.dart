@@ -11,9 +11,7 @@ import "../screens/favorites_page.dart";
 import "../screens/listener_homepage.dart";
 
 class NavBarListener extends StatefulWidget {
-  final Profile profile;
-  final CollectionReference<Profile> profiles;
-  const NavBarListener(this.profile, this.profiles, {super.key});
+  const NavBarListener({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +21,6 @@ class NavBarListener extends StatefulWidget {
 
 class _NavBarListenerState extends State<NavBarListener> {
   var _currentIndex = 0;
-  late CollectionReference<AddedStory> stories;
 
   _NavBarListenerState();
 
@@ -32,18 +29,6 @@ class _NavBarListenerState extends State<NavBarListener> {
             fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
             toFirestore: (snap, _) => snap.toFirebase(),
           );
-
-  @override
-  void initState() {
-    super.initState();
-    stories = widget.profiles
-        .doc(widget.profile.id)
-        .collection("storiesList")
-        .withConverter(
-          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        );
-  }
 
   BottomNavigationBarItem navBarItems(IconData icons, String labels) {
     return BottomNavigationBarItem(
@@ -60,17 +45,10 @@ class _NavBarListenerState extends State<NavBarListener> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(
-            profile: widget.profile,
-            profiles: widget.profiles,
-            storiesCollection: stories,
-          ),
-          FavoritePage(
-              profile: widget.profile,
-              stories: stories,
-              profiles: widget.profiles),
-          AddStory(stories, allStories),
-          SettingsPage(widget.profile, widget.profiles),
+          ListenerHomePage(),
+          FavoritePage(),
+          AddStory(allStories),
+          SettingsPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

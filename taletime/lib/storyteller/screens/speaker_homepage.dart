@@ -10,23 +10,21 @@ library;
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:marquee/marquee.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/state/profile_state.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 
 import "../../common utils/decoration_util.dart";
 import '../../player/screens/story_player.dart';
-import "../../profiles/models/profile_model.dart";
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
-  final Profile profile;
   final CollectionReference storiesCollection;
   final CollectionReference lastRecordedCollection;
-  final profiles;
 
-  const SpeakerHomePage(this.profile, this.profiles, this.storiesCollection,
-      this.lastRecordedCollection,
+  const SpeakerHomePage(this.storiesCollection, this.lastRecordedCollection,
       {super.key});
 
   @override
@@ -67,8 +65,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SettingsPage(
-                                    widget.profile, widget.profiles)));
+                                builder: (context) => SettingsPage()));
                       },
                       icon: Icon(
                         Icons.menu,
@@ -92,12 +89,14 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                       style:
                           TextStyle(color: Colors.brown.shade600, fontSize: 15),
                     ),
-                    Text(
-                      widget.profile.name,
-                      style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
+                    Consumer<ProfileState>(
+                      builder: (context, profileState, _) => Text(
+                        profileState.profile!.name,
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(
                       height: 40,
@@ -412,8 +411,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                           : ListViewStoryTeller(
                               storiesDocumentSnapshot,
                               widget.storiesCollection,
-                              widget.profile,
-                              widget.profiles),
+                            ),
                     ),
                   ],
                 ),

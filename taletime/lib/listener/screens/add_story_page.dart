@@ -1,20 +1,22 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/common/widgets/tale_time_alert_dialog.dart";
+import "package:taletime/state/profile_state.dart";
 
 import "../../common utils/tale_time_logger.dart";
 import "../../internationalization/localizations_ext.dart";
 import "listener_taletime_page.dart";
 
 class AddStory extends StatefulWidget {
-  final CollectionReference<AddedStory> storiesCollectionReference;
+
   final CollectionReference<Story> allStoriesCollectionReference;
 
   const AddStory(
-      this.storiesCollectionReference, this.allStoriesCollectionReference,
+      this.allStoriesCollectionReference,
       {super.key});
 
   @override
@@ -29,7 +31,7 @@ class _AddStoryState extends State<AddStory> {
 
   _AddStoryState();
 
-  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx) {
+  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx, CollectionReference<AddedStory> addedStories) {
     var dialog = TaleTimeAlertDialog(
         title: AppLocalizations.of(ctx)!.addStoryHint,
         content: AppLocalizations.of(ctx)!.addStoryHintDescription,
@@ -37,7 +39,7 @@ class _AddStoryState extends State<AddStory> {
           AlertDialogButton(
               text: AppLocalizations.of(ctx)!.yes,
               onPressed: () =>
-                  {addStory(story.data()), Navigator.pop(context)}),
+                  {addStory(story.data(), addedStories), Navigator.pop(context)}),
           AlertDialogButton(
               text: AppLocalizations.of(ctx)!.no,
               onPressed: () => {Navigator.pop(context)})
@@ -48,12 +50,7 @@ class _AddStoryState extends State<AddStory> {
   @override
   void initState() {
     super.initState();
-    addedStoriesStream = widget.storiesCollectionReference
-        .withConverter(
-          fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        )
-        .snapshots();
+
     allStoriesStream = widget.allStoriesCollectionReference
         .withConverter(
           fromFirestore: (snap, _) => AddedStory.fromDocumentSnapshot(snap),
@@ -62,13 +59,13 @@ class _AddStoryState extends State<AddStory> {
         .snapshots();
   }
 
-  Future<void> addStory(Story story) async {
+  Future<void> addStory(Story story, CollectionReference<AddedStory> addedStories) async {
     var storyToAdd = AddedStory.fromStory(
       story,
       liked: false,
       timeLastListened: 0,
     );
-    await widget.storiesCollectionReference
+    await addedStories
         .doc(storyToAdd.id)
         .set(storyToAdd)
         .then((value) {
@@ -110,13 +107,15 @@ class _AddStoryState extends State<AddStory> {
               return !isContained;
             }).toList();
 
-            return ListenerTaletimePage(
-              docs: res,
-              buttonsBuilder: (story) => [
-                StoryActionButton(
-                    icon: Icons.playlist_add_outlined,
-                    onTap: () => {showConfirmDialog(story, context)})
-              ],
+            return Consumer<ProfileState>(
+              builder: (context, profileState, _) => ListenerTaletimePage(
+                docs: res,
+                buttonsBuilder: (story) => [
+                  StoryActionButton(
+                      icon: Icons.playlist_add_outlined,
+                      onTap: () => {showConfirmDialog(story, context, profileState.storiesRef!)})
+                ],
+              ),
             );
           },
         );

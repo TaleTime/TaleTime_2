@@ -21,26 +21,24 @@ import "my_record_story.dart";
 import "package:path/path.dart" as path;
 
 class CreateStory extends StatefulWidget {
-  final profile;
+
   final CollectionReference storiesCollection;
 
-  const CreateStory(this.profile, this.storiesCollection, {super.key});
+  const CreateStory(this.storiesCollection, {super.key});
 
   @override
-  State<CreateStory> createState() =>
-      _CreateStoryState(profile, storiesCollection);
+  State<CreateStory> createState() => _CreateStoryState();
 }
 
 class _CreateStoryState extends State<CreateStory> {
   final logger = TaleTimeLogger.getLogger();
-  final profile;
-  final CollectionReference storiesCollection;
+
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _tagController = TextEditingController();
 
-  _CreateStoryState(this.profile, this.storiesCollection);
+  _CreateStoryState();
 
   String? title;
   final List<ChipModel> _chipList = [];
@@ -213,7 +211,7 @@ class _CreateStoryState extends State<CreateStory> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => MyRecordStory(
-                                  myStory, profile, storiesCollection)),
+                                  myStory, widget.storiesCollection)),
                         );
                       }
                     },

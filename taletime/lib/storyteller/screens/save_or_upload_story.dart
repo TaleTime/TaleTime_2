@@ -20,11 +20,10 @@ import "package:taletime/storyteller/utils/upload_util.dart";
 
 class SaveOrUploadStory extends StatefulWidget {
   final RecordedStory myRecordedStory;
-  final profile;
   final storiesCollection;
   final bool isSaved;
   const SaveOrUploadStory(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved,
+      this.myRecordedStory, this.storiesCollection, this.isSaved,
       {super.key});
 
   @override
@@ -194,8 +193,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NavBarSpeaker(widget.profile,
-                                                      profiles)));
+                                                  NavBarSpeaker()));
                                     },
                                   );
                                 });
@@ -248,8 +246,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => NavBarSpeaker(
-                                                widget.profile, profiles)));
+                                            builder: (context) => NavBarSpeaker()));
                                   });
                                 });
                           },
@@ -283,7 +280,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    NavBarSpeaker(widget.profile, profiles)));
+                                    NavBarSpeaker()));
                       }),
                 )),
           ],

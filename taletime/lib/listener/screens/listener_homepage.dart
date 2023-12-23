@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/services/story_service.dart";
@@ -9,20 +10,15 @@ import "package:taletime/common/widgets/tale_time_alert_dialog.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import 'package:taletime/player/screens/story_player.dart';
 import "package:taletime/profiles/models/profile_model.dart";
+import "package:taletime/state/profile_state.dart";
 
 import "../../common utils/decoration_util.dart";
 import "../../settings/settings.dart";
 
 class ListenerHomePage extends StatefulWidget {
-  final Profile profile;
-  final CollectionReference<Profile> profiles;
-  final CollectionReference<AddedStory> storiesCollection;
 
   const ListenerHomePage({
     super.key,
-    required this.profile,
-    required this.profiles,
-    required this.storiesCollection,
   });
 
   @override
@@ -39,20 +35,9 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   bool _appBarTransparent = true;
 
-  Stream<QuerySnapshot<AddedStory>>? _storiesStream;
-  Stream<QuerySnapshot<AddedStory>>? _recentlyPlayedStoriesStream;
-
   @override
   void initState() {
     super.initState();
-
-    _storiesStream = widget.storiesCollection.snapshots();
-
-    _recentlyPlayedStoriesStream = widget.storiesCollection
-        .where("timeLastPlayed", isNotEqualTo: null)
-        .orderBy("timeLastPlayed", descending: true)
-        .limit(10)
-        .snapshots();
 
     _scrollController.addListener(() {
       if (_scrollController.offset < 40 && _appBarTransparent == false) {
@@ -92,11 +77,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
     );
   }
 
-  Widget _buildStoriesList(BuildContext context) {
-    return StreamBuilder(
-      stream: _storiesStream,
-      builder: (context, snapshot) {
-        var stories = snapshot.data;
+  Widget _buildStoriesList(BuildContext context, List<AddedStory>? stories, CollectionReference<AddedStory> storiesRef) {
+
 
         if (stories == null) {
           return const Center(
@@ -105,8 +87,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         }
 
         return Column(
-          children: stories.docs.map((element) {
-            AddedStory story = element.data();
+          children: stories.map((story) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: StoryListItem(
@@ -123,27 +104,27 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                   StoryActionButton(
                     icon: story.liked ? Icons.favorite : Icons.favorite_border,
                     onTap: () {
-                      StoryService.likeStory(element.reference, !story.liked);
+                      StoryService.likeStory(storiesRef.doc(story.id), !story.liked);
                     },
                   ),
                   StoryActionButton(
                       icon: Icons.delete_outline,
                       onTap: () {
-                        _deleteStory(element.reference, context);
+                        _deleteStory(storiesRef.doc(story.id), context);
                       }),
                 ],
               ),
             );
           }).toList(),
         );
-        // return SizedBox();
-      },
-    );
   }
 
-  Widget _buildRecentlyPlayed(BuildContext context) {
+  Widget _buildRecentlyPlayed(BuildContext context, CollectionReference<AddedStory> storiesRef) {
     return StreamBuilder(
-        stream: _recentlyPlayedStoriesStream,
+        stream: storiesRef.where("timeLastPlayed", isNotEqualTo: null)
+        .orderBy("timeLastPlayed", descending: true)
+        .limit(10)
+        .snapshots(),
         builder: (context, streamSnapshot) {
           final data = streamSnapshot.data;
 
@@ -194,141 +175,143 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0.0,
-        backgroundColor: _appBarTransparent
-            ? Colors.transparent
-            : Theme.of(context).colorScheme.background,
-        shadowColor: Colors.white,
-        title: _appBarTransparent
-            ? null
-            : Text(
-                AppLocalizations.of(context)!.myStories,
-                style: TextStyle(color: Colors.teal.shade600),
+    return Consumer<ProfileState>(
+      builder: (context, profileState, _) => Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: _appBarTransparent
+              ? Colors.transparent
+              : Theme.of(context).colorScheme.background,
+          shadowColor: Colors.white,
+          title: _appBarTransparent
+              ? null
+              : Text(
+                  AppLocalizations.of(context)!.myStories,
+                  style: TextStyle(color: Colors.teal.shade600),
+                ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const StoryPlayer(),
+                ));
+              },
+              icon: Icon(
+                Icons.playlist_play_outlined,
+                color: kPrimaryColor,
               ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const StoryPlayer(),
-              ));
-            },
-            icon: Icon(
-              Icons.playlist_play_outlined,
-              color: kPrimaryColor,
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          SettingsPage(widget.profile, widget.profiles)));
-            },
-            icon: Icon(
-              Icons.menu,
-              size: 33, color: kPrimaryColor, //kPrimaryColor
-            ),
-          )
-        ],
-      ),
-      body: SizedBox(
-        height: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)!.hello},",
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyMedium?.color,
-                            fontSize: 18),
-                      ),
-                      Text(
-                        widget.profile.name,
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SettingsPage()));
+              },
+              icon: Icon(
+                Icons.menu,
+                size: 33, color: kPrimaryColor, //kPrimaryColor
+              ),
+            )
+          ],
+        ),
+        body: SizedBox(
+          height: double.infinity,
+          child: Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${AppLocalizations.of(context)!.hello},",
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium?.color,
+                              fontSize: 18),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      SizedBox(
-                        height: 42,
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          style: TextStyle(color: kPrimaryColor),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(left: 30),
-                            filled: true,
-                            fillColor: Colors.blueGrey.shade50,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
+                        Text(
+                          profileState.profile?.name ?? "",
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        SizedBox(
+                          height: 42,
+                          child: TextField(
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            style: TextStyle(color: kPrimaryColor),
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.only(left: 30),
+                              filled: true,
+                              fillColor: Colors.blueGrey.shade50,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: AppLocalizations.of(context)!.searchStory,
+                              hintStyle: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 18,
+                              ),
+                              suffixIcon: const Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
                             ),
-                            hintText: AppLocalizations.of(context)!.searchStory,
-                            hintStyle: const TextStyle(
-                              color: Colors.grey,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16, bottom: 8),
+                          child: Text(
+                            AppLocalizations.of(context)!.recentlyPlayed,
+                            style: TextStyle(
+                              color: kPrimaryColor,
                               fontSize: 18,
                             ),
-                            suffixIcon: const Icon(
-                              Icons.search,
-                              color: Colors.grey,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  _buildRecentlyPlayed(context, profileState.storiesRef!),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0, bottom: 8),
+                          child: Text(
+                            AppLocalizations.of(context)!.myStories,
+                            style: TextStyle(
+                              color: kPrimaryColor,
+                              fontSize: 18,
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 8),
-                        child: Text(
-                          AppLocalizations.of(context)!.recentlyPlayed,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                    ],
+                        _buildStoriesList(context, profileState.stories, profileState.storiesRef!),
+                      ],
+                    ),
                   ),
-                ),
-                _buildRecentlyPlayed(context),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 8),
-                        child: Text(
-                          AppLocalizations.of(context)!.myStories,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      _buildStoriesList(context),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

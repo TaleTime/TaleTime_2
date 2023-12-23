@@ -16,24 +16,21 @@ import "edit-story.dart";
 class ListViewStoryTeller extends StatefulWidget {
   final List stories;
   final CollectionReference storiesCollection;
-  final profile;
-  final profiles;
+
   const ListViewStoryTeller(
-      this.stories, this.storiesCollection, this.profile, this.profiles,
+      this.stories, this.storiesCollection,
       {super.key});
 
   @override
   State<StatefulWidget> createState() {
     return _ListViewStoryTellerState(
-        stories, storiesCollection, profile, profiles);
+        stories, storiesCollection);
   }
 }
 
 class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
   late final List stories;
   final CollectionReference storiesCollection;
-  final profile;
-  final profiles;
 
   late final String newAudio;
   late final String newImage;
@@ -43,7 +40,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
   late final String newRating;
 
   _ListViewStoryTellerState(
-      this.stories, this.storiesCollection, this.profile, this.profiles);
+      this.stories, this.storiesCollection);
 
   CollectionReference allStories =
       FirebaseFirestore.instance.collection("allStories");
@@ -90,7 +87,6 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               MaterialPageRoute(
                                   builder: (context) => SaveOrUploadStory(
                                       recording,
-                                      profile,
                                       storiesCollection,
                                       true)));
                           /**

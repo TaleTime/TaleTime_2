@@ -1,33 +1,37 @@
-import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
+import "package:taletime/state/profile_state.dart";
+import "package:taletime/state/user_state.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/profiles/utils/profile_column_widget.dart";
 import "../../listener/utils/navbar_widget_listener.dart";
 import "../models/profile_model.dart";
 
 class ProfileList extends StatelessWidget {
-  final Profile profile;
-  final CollectionReference<Profile> profiles;
-  final DocumentReference<Profile> profileRef;
+  const ProfileList({required this.profile, super.key});
 
-  const ProfileList(this.profile, this.profiles, this.profileRef, {super.key});
+  final Profile profile;
 
   @override
   Widget build(BuildContext context) {
-    final profilee = ProfileColumn(profile, profiles, profileRef);
+    final profileColumn = ProfileColumn(profile: profile,);
     return GestureDetector(
       onTap: () async {
+        var profiles = Provider.of<UserState>(context, listen: false).profilesRef;
+
+        Provider.of<ProfileState>(context, listen: false).profileRef = profiles!.doc(profile.id);
+
         if (profile.title == ProfileType.listener) {
           await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NavBarListener(profile, profiles)));
+                  builder: (context) => NavBarListener()));
         } else {
           await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NavBarSpeaker(profile, profiles)));
+                  builder: (context) => NavBarSpeaker()));
         }
       },
       child: Column(
@@ -93,7 +97,7 @@ class ProfileList extends StatelessWidget {
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 7),
-                        child: profilee,
+                        child: profileColumn,
                       ),
                     ],
                   ),

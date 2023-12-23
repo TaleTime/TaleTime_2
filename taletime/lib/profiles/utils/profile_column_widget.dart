@@ -1,19 +1,18 @@
-import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
-import "package:taletime/profiles/utils/profile_service.dart";
-import "../../internationalization/localizations_ext.dart";
 import "package:taletime/profiles/utils/create_edit_profile.dart";
+import "package:taletime/profiles/utils/profile_service.dart";
+import "package:taletime/state/profile_state.dart";
 
+import "../../internationalization/localizations_ext.dart";
 import "../models/profile_model.dart";
 
 class ProfileColumn extends StatefulWidget {
   final Profile profile;
-  final CollectionReference<Profile> profiles;
-  final DocumentReference<Profile> profileRef;
-  const ProfileColumn(this.profile, this.profiles, this.profileRef,
-      {super.key});
+
+  const ProfileColumn({super.key, required this.profile});
 
   @override
   State<StatefulWidget> createState() {
@@ -30,10 +29,13 @@ class _ProfileColumnState extends State<ProfileColumn> {
     switch (item) {
       case 0:
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreateEditProfile(
-                    widget.profile, widget.profileRef, widget.profiles, null)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateEditProfile(
+              profile: widget.profile,
+            ),
+          ),
+        );
         break;
       case 1:
         showDialog(
@@ -53,7 +55,8 @@ class _ProfileColumnState extends State<ProfileColumn> {
                             MaterialStateProperty.all(kPrimaryColor)),
                     onPressed: () {
                       setState(() {
-                        ProfileService.deleteProfile(widget.profileRef);
+                        ProfileService.deleteProfile(
+                            Provider.of<ProfileState>(context).profileRef!);
                         Navigator.of(context).pop();
                       });
                     },
