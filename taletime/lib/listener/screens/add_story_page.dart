@@ -25,7 +25,6 @@ class AddStory extends StatefulWidget {
 
 class _AddStoryState extends State<AddStory> {
   List matchStoryList = [];
-  Stream<QuerySnapshot<AddedStory>>? addedStoriesStream;
   Stream<QuerySnapshot<Story>>? allStoriesStream;
   final logger = TaleTimeLogger.getLogger();
 
@@ -76,50 +75,52 @@ class _AddStoryState extends State<AddStory> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: addedStoriesStream,
-      builder: (ctx, snapshotAddedStories) {
-        final addedStories = snapshotAddedStories.data;
-        return StreamBuilder(
-          stream: allStoriesStream,
-          builder: (ctx, snapshotAllStories) {
-            final allStories = snapshotAllStories.data;
-            if (addedStories == null || allStories == null) {
-              return const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Center(
-                  child: CircularProgressIndicator(),
+    return Consumer<ProfileState>(
+      builder: (context, profileState, _) => StreamBuilder(
+        stream: profileState.storiesRef!.snapshots(),
+        builder: (ctx, snapshotAddedStories) {
+          final addedStories = snapshotAddedStories.data;
+          return StreamBuilder(
+            stream: allStoriesStream,
+            builder: (ctx, snapshotAllStories) {
+              final allStories = snapshotAllStories.data;
+              if (addedStories == null || allStories == null) {
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              final addedStoriesDocs = addedStories.docs;
+              final allStoriesDocs = allStories.docs;
+
+              var res = allStoriesDocs.where((story) {
+                var isContained = false;
+                for (var addedStory in addedStoriesDocs) {
+                  if (addedStory.id == story.id) {
+                    isContained = true;
+                    break;
+                  }
+                }
+                return !isContained;
+              }).toList();
+
+              return Consumer<ProfileState>(
+                builder: (context, profileState, _) => ListenerTaletimePage(
+                  docs: res,
+                  buttonsBuilder: (story) => [
+                    StoryActionButton(
+                        icon: Icons.playlist_add_outlined,
+                        onTap: () => {showConfirmDialog(story, context, profileState.storiesRef!)})
+                  ],
                 ),
               );
-            }
-
-            final addedStoriesDocs = addedStories.docs;
-            final allStoriesDocs = allStories.docs;
-
-            var res = allStoriesDocs.where((story) {
-              var isContained = false;
-              for (var addedStory in addedStoriesDocs) {
-                if (addedStory.id == story.id) {
-                  isContained = true;
-                  break;
-                }
-              }
-              return !isContained;
-            }).toList();
-
-            return Consumer<ProfileState>(
-              builder: (context, profileState, _) => ListenerTaletimePage(
-                docs: res,
-                buttonsBuilder: (story) => [
-                  StoryActionButton(
-                      icon: Icons.playlist_add_outlined,
-                      onTap: () => {showConfirmDialog(story, context, profileState.storiesRef!)})
-                ],
-              ),
-            );
-          },
-        );
-      },
+            },
+          );
+        },
+      ),
     );
   }
 }
