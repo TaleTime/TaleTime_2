@@ -38,6 +38,7 @@ class ProfileState with ChangeNotifier {
     _storiesSubscription?.cancel();
     _storiesSubscription = _storiesRef?.snapshots().listen((storiesSnapshot) {
       _stories = storiesSnapshot.docs.map((story) => story.data()).toList();
+      notifyListeners();
     });
 
     notifyListeners();
