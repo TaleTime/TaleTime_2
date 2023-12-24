@@ -246,7 +246,8 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => NavBarSpeaker()));
+                                            builder: (context) =>
+                                                NavBarSpeaker()));
                                   });
                                 });
                           },
@@ -279,8 +280,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    NavBarSpeaker()));
+                                builder: (context) => NavBarSpeaker()));
                       }),
                 )),
           ],

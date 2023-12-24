@@ -15,23 +15,23 @@ class ProfileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileColumn = ProfileColumn(profile: profile,);
+    final profileColumn = ProfileColumn(
+      profile: profile,
+    );
     return GestureDetector(
       onTap: () async {
-        var profiles = Provider.of<UserState>(context, listen: false).profilesRef;
+        var profiles =
+            Provider.of<UserState>(context, listen: false).profilesRef;
 
-        Provider.of<ProfileState>(context, listen: false).profileRef = profiles!.doc(profile.id);
+        Provider.of<ProfileState>(context, listen: false).profileRef =
+            profiles!.doc(profile.id);
 
         if (profile.title == ProfileType.listener) {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => NavBarListener()));
+          await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NavBarListener()));
         } else {
-          await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => NavBarSpeaker()));
+          await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NavBarSpeaker()));
         }
       },
       child: Column(

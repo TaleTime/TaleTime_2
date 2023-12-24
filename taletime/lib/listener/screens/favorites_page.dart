@@ -8,9 +8,7 @@ import "../../common/widgets/story_list_item.dart";
 import "listener_taletime_page.dart";
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({
-    super.key
-  });
+  const FavoritePage({super.key});
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
@@ -30,7 +28,9 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Consumer<ProfileState>(
       builder: (context, profileState, _) => StreamBuilder(
-          stream: profileState.storiesRef!.where("isLiked", isEqualTo: true).snapshots(),
+          stream: profileState.storiesRef!
+              .where("isLiked", isEqualTo: true)
+              .snapshots(),
           builder: (context, streamSnapshot) {
             final data = streamSnapshot.data;
             if (data == null) {

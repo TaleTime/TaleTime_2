@@ -21,7 +21,6 @@ import "my_record_story.dart";
 import "package:path/path.dart" as path;
 
 class CreateStory extends StatefulWidget {
-
   final CollectionReference storiesCollection;
 
   const CreateStory(this.storiesCollection, {super.key});
@@ -32,7 +31,6 @@ class CreateStory extends StatefulWidget {
 
 class _CreateStoryState extends State<CreateStory> {
   final logger = TaleTimeLogger.getLogger();
-
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();

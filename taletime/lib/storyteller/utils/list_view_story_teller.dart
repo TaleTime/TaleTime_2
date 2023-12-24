@@ -17,14 +17,11 @@ class ListViewStoryTeller extends StatefulWidget {
   final List stories;
   final CollectionReference storiesCollection;
 
-  const ListViewStoryTeller(
-      this.stories, this.storiesCollection,
-      {super.key});
+  const ListViewStoryTeller(this.stories, this.storiesCollection, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ListViewStoryTellerState(
-        stories, storiesCollection);
+    return _ListViewStoryTellerState(stories, storiesCollection);
   }
 }
 
@@ -39,8 +36,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
   late final String newAuthor;
   late final String newRating;
 
-  _ListViewStoryTellerState(
-      this.stories, this.storiesCollection);
+  _ListViewStoryTellerState(this.stories, this.storiesCollection);
 
   CollectionReference allStories =
       FirebaseFirestore.instance.collection("allStories");
@@ -86,9 +82,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SaveOrUploadStory(
-                                      recording,
-                                      storiesCollection,
-                                      true)));
+                                      recording, storiesCollection, true)));
                           /**
                           setState(() {
                             newAudio = stories[index]["audio"];

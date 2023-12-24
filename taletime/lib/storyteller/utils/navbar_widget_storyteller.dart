@@ -36,10 +36,10 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   Widget build(BuildContext context) {
     return Consumer<ProfileState>(
       builder: (context, profileState, _) {
-        CollectionReference lastRecorded = profileState.profileRef!
-            .collection("lastRecordedList");
-        CollectionReference recordedStories = profileState.profileRef!
-            .collection("recordedStoriesList");
+        CollectionReference lastRecorded =
+            profileState.profileRef!.collection("lastRecordedList");
+        CollectionReference recordedStories =
+            profileState.profileRef!.collection("recordedStoriesList");
 
         return Scaffold(
           body: IndexedStack(

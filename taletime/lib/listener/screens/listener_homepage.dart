@@ -8,15 +8,13 @@ import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/common/widgets/tale_time_alert_dialog.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
-import 'package:taletime/player/screens/story_player.dart';
-import "package:taletime/profiles/models/profile_model.dart";
+import "package:taletime/player/screens/story_player.dart";
 import "package:taletime/state/profile_state.dart";
 
 import "../../common utils/decoration_util.dart";
 import "../../settings/settings.dart";
 
 class ListenerHomePage extends StatefulWidget {
-
   const ListenerHomePage({
     super.key,
   });
@@ -77,54 +75,56 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
     );
   }
 
-  Widget _buildStoriesList(BuildContext context, List<AddedStory>? stories, CollectionReference<AddedStory> storiesRef) {
+  Widget _buildStoriesList(BuildContext context, List<AddedStory>? stories,
+      CollectionReference<AddedStory> storiesRef) {
+    if (stories == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
-
-        if (stories == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        return Column(
-          children: stories.map((story) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: StoryListItem(
-                story: story,
+    return Column(
+      children: stories.map((story) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: StoryListItem(
+            story: story,
+            onTap: () {
+              StoryPlayer.playStory(context, story);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const StoryPlayer(),
+                ),
+              );
+            },
+            buttons: [
+              StoryActionButton(
+                icon: story.liked ? Icons.favorite : Icons.favorite_border,
                 onTap: () {
-                  StoryPlayer.playStory(context, story);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const StoryPlayer(),
-                    ),
-                  );
+                  StoryService.likeStory(
+                      storiesRef.doc(story.id), !story.liked);
                 },
-                buttons: [
-                  StoryActionButton(
-                    icon: story.liked ? Icons.favorite : Icons.favorite_border,
-                    onTap: () {
-                      StoryService.likeStory(storiesRef.doc(story.id), !story.liked);
-                    },
-                  ),
-                  StoryActionButton(
-                      icon: Icons.delete_outline,
-                      onTap: () {
-                        _deleteStory(storiesRef.doc(story.id), context);
-                      }),
-                ],
               ),
-            );
-          }).toList(),
+              StoryActionButton(
+                  icon: Icons.delete_outline,
+                  onTap: () {
+                    _deleteStory(storiesRef.doc(story.id), context);
+                  }),
+            ],
+          ),
         );
+      }).toList(),
+    );
   }
 
-  Widget _buildRecentlyPlayed(BuildContext context, CollectionReference<AddedStory> storiesRef) {
+  Widget _buildRecentlyPlayed(
+      BuildContext context, CollectionReference<AddedStory> storiesRef) {
     return StreamBuilder(
-        stream: storiesRef.where("timeLastPlayed", isNotEqualTo: null)
-        .orderBy("timeLastPlayed", descending: true)
-        .limit(10)
-        .snapshots(),
+        stream: storiesRef
+            .where("timeLastPlayed", isNotEqualTo: null)
+            .orderBy("timeLastPlayed", descending: true)
+            .limit(10)
+            .snapshots(),
         builder: (context, streamSnapshot) {
           final data = streamSnapshot.data;
 
@@ -205,11 +205,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
             ),
             IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SettingsPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()));
               },
               icon: Icon(
                 Icons.menu,
@@ -221,7 +218,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         body: SizedBox(
           height: double.infinity,
           child: Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
             child: SingleChildScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -265,7 +263,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: AppLocalizations.of(context)!.searchStory,
+                              hintText:
+                                  AppLocalizations.of(context)!.searchStory,
                               hintStyle: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 18,
@@ -306,7 +305,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             ),
                           ),
                         ),
-                        _buildStoriesList(context, profileState.stories, profileState.storiesRef!),
+                        _buildStoriesList(context, profileState.stories,
+                            profileState.storiesRef!),
                       ],
                     ),
                   ),

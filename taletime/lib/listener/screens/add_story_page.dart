@@ -12,12 +12,9 @@ import "../../internationalization/localizations_ext.dart";
 import "listener_taletime_page.dart";
 
 class AddStory extends StatefulWidget {
-
   final CollectionReference<Story> allStoriesCollectionReference;
 
-  const AddStory(
-      this.allStoriesCollectionReference,
-      {super.key});
+  const AddStory(this.allStoriesCollectionReference, {super.key});
 
   @override
   State<AddStory> createState() => _AddStoryState();
@@ -30,15 +27,18 @@ class _AddStoryState extends State<AddStory> {
 
   _AddStoryState();
 
-  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx, CollectionReference<AddedStory> addedStories) {
+  void showConfirmDialog(QueryDocumentSnapshot<Story> story, BuildContext ctx,
+      CollectionReference<AddedStory> addedStories) {
     var dialog = TaleTimeAlertDialog(
         title: AppLocalizations.of(ctx)!.addStoryHint,
         content: AppLocalizations.of(ctx)!.addStoryHintDescription,
         buttons: [
           AlertDialogButton(
               text: AppLocalizations.of(ctx)!.yes,
-              onPressed: () =>
-                  {addStory(story.data(), addedStories), Navigator.pop(context)}),
+              onPressed: () => {
+                    addStory(story.data(), addedStories),
+                    Navigator.pop(context)
+                  }),
           AlertDialogButton(
               text: AppLocalizations.of(ctx)!.no,
               onPressed: () => {Navigator.pop(context)})
@@ -58,19 +58,17 @@ class _AddStoryState extends State<AddStory> {
         .snapshots();
   }
 
-  Future<void> addStory(Story story, CollectionReference<AddedStory> addedStories) async {
+  Future<void> addStory(
+      Story story, CollectionReference<AddedStory> addedStories) async {
     var storyToAdd = AddedStory.fromStory(
       story,
       liked: false,
       timeLastListened: 0,
     );
-    await addedStories
-        .doc(storyToAdd.id)
-        .set(storyToAdd)
-        .then((value) {
+    await addedStories.doc(storyToAdd.id).set(storyToAdd).then((value) {
       logger.v("Story Added to story list");
     }).catchError(
-            (error) => logger.e("Failed to add story to story list: $error"));
+        (error) => logger.e("Failed to add story to story list: $error"));
   }
 
   @override
@@ -113,7 +111,10 @@ class _AddStoryState extends State<AddStory> {
                   buttonsBuilder: (story) => [
                     StoryActionButton(
                         icon: Icons.playlist_add_outlined,
-                        onTap: () => {showConfirmDialog(story, context, profileState.storiesRef!)})
+                        onTap: () => {
+                              showConfirmDialog(
+                                  story, context, profileState.storiesRef!)
+                            })
                   ],
                 ),
               );

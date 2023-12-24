@@ -22,8 +22,7 @@ class MyRecordStory extends StatefulWidget {
   final Story myStory;
 
   final CollectionReference storiesCollection;
-  const MyRecordStory(this.myStory, this.storiesCollection,
-      {super.key});
+  const MyRecordStory(this.myStory, this.storiesCollection, {super.key});
 
   @override
   State<MyRecordStory> createState() =>
@@ -122,8 +121,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(
-                recordedStory, storiesCollection, false)));
+            builder: (context) =>
+                SaveOrUploadStory(recordedStory, storiesCollection, false)));
   }
 
   Widget buildStart() {

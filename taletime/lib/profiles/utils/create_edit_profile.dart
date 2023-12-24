@@ -78,7 +78,8 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
         ? widget.profile.name
         : textEditingController.text;
 
-    DocumentReference<Profile>? profileRef = Provider.of<UserState>(context).profilesRef?.doc(widget.profile.id);
+    DocumentReference<Profile>? profileRef =
+        Provider.of<UserState>(context).profilesRef?.doc(widget.profile.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -219,7 +220,8 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ProfilesPage()));
+                                    builder: (context) =>
+                                        const ProfilesPage()));
                           }
                         },
                         child: Text(
