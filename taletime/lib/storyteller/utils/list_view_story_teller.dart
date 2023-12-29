@@ -11,24 +11,22 @@ import "package:taletime/storyteller/screens/save_or_upload_story.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
 
-import "edit-story.dart";
+import "../../common/models/story.dart";
+import "../../profiles/models/profile_model.dart";
+import "edit_story.dart";
 
 class ListViewStoryTeller extends StatefulWidget {
   final List stories;
-  final CollectionReference storiesCollection;
+  final CollectionReference<Story> storiesCollection;
 
-  const ListViewStoryTeller(this.stories, this.storiesCollection, {super.key});
+  const ListViewStoryTeller(
+      this.stories, this.storiesCollection, {super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _ListViewStoryTellerState(stories, storiesCollection);
-  }
+  State<StatefulWidget> createState() => _ListViewStoryTellerState();
 }
 
 class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
-  late final List stories;
-  final CollectionReference storiesCollection;
-
   late final String newAudio;
   late final String newImage;
   late final String newTitle;
@@ -36,32 +34,35 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
   late final String newAuthor;
   late final String newRating;
 
-  _ListViewStoryTellerState(this.stories, this.storiesCollection);
+  _ListViewStoryTellerState();
 
-  CollectionReference allStories =
-      FirebaseFirestore.instance.collection("allStories");
+  CollectionReference<Story> allStories =
+      FirebaseFirestore.instance.collection("allStories").withConverter(
+            fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+            toFirestore: (snap, _) => snap.toFirebase(),
+          );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
         primary: false,
-        itemCount: stories.length,
+        itemCount: widget.stories.length,
         itemBuilder: (_, index) {
           return Card(
               color: kPrimaryColor,
               child: ListTile(
                 leading: Image.network(
-                  stories[index]["image"],
+                  widget.stories[index]["image"],
                   fit: BoxFit.fill,
                   width: 60,
                 ),
                 title: Text(
-                  stories[index]["title"],
+                  widget.stories[index]["title"],
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.white),
                 ),
-                subtitle: Text(stories[index]["author"],
+                subtitle: Text(widget.stories[index]["author"],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.white)),
                 trailing: Row(
@@ -69,12 +70,14 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          String title = stories[index]["title"];
+                          String title = widget.stories[index]["title"];
                           List<String> tags = ["test"];
-                          String imagePath = stories[index]["image"];
-                          Story story = Story(title, tags, imagePath);
+                          String imagePath = widget.stories[index]["image"];
+                          RecordStory story =
+                              RecordStory(title, tags, imagePath);
 
-                          MyRecord record = MyRecord(stories[index]["audio"]);
+                          MyRecord record =
+                              MyRecord(widget.stories[index]["audio"]);
 
                           RecordedStory recording =
                               RecordedStory(story, record);
@@ -156,7 +159,8 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => EditStory(
-                                      storiesCollection, stories[index])));
+                                      widget.storiesCollection,
+                                      widget.stories[index])));
                         },
                         icon: const Icon(
                           Icons.edit,
@@ -184,9 +188,9 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                                                     kPrimaryColor)),
                                         onPressed: () {
                                           setState(() {
-                                            UploadUtil(storiesCollection)
-                                                .deleteStory(
-                                                    stories[index]["id"]);
+                                            UploadUtil(widget.storiesCollection)
+                                                .deleteStory(widget
+                                                    .stories[index]["id"]);
                                             Navigator.of(context).pop();
                                           });
                                         },

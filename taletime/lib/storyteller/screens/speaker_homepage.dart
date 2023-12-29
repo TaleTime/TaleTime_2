@@ -17,12 +17,13 @@ import "package:taletime/state/profile_state.dart";
 import "package:taletime/storyteller/utils/list_view_story_teller.dart";
 
 import "../../common utils/decoration_util.dart";
+import "../../common/models/story.dart";
 import '../../player/screens/story_player.dart';
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
-  final CollectionReference storiesCollection;
-  final CollectionReference lastRecordedCollection;
+  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story> lastRecordedCollection;
 
   const SpeakerHomePage(this.storiesCollection, this.lastRecordedCollection,
       {super.key});

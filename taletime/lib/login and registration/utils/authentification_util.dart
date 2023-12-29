@@ -2,6 +2,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/common/models/tale_time_user.dart";
 import "package:taletime/login%20and%20registration/screens/login.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -32,6 +33,7 @@ class AuthentificationUtil {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
+      if (!context.mounted) return;
       if (user != null) {
         final SnackBar signinSuccesful = SnackBar(
             content: Text(AppLocalizations.of(context)!.signInSuccesful),
@@ -68,6 +70,7 @@ class AuthentificationUtil {
         "userName": userName,
         "UID": auth.currentUser!.uid,
       };
+      if (!context.mounted) return;
 
       if (user != null) {
         final SnackBar signupSuccesful = SnackBar(
@@ -93,8 +96,15 @@ class AuthentificationUtil {
         .set(userInfoMap);
   }
 
-  Future<DocumentSnapshot> getUserFromDB(String userId) {
-    return FirebaseFirestore.instance.collection("users").doc(userId).get();
+  Future<DocumentSnapshot<TaleTimeUser>> getUserFromDB(String userId) {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(userId)
+        .withConverter(
+          fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        )
+        .get();
   }
 
   /// Allows the user to reset his password by entering his email address.
@@ -106,6 +116,7 @@ class AuthentificationUtil {
       {required String email, required BuildContext context}) async {
     try {
       await auth.sendPasswordResetEmail(email: email);
+      if (!context.mounted) return;
       SnackBar resetSuccesful = SnackBar(
           content: Text(AppLocalizations.of(context)!.emailSent),
           backgroundColor: kPrimaryColor);

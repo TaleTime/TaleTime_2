@@ -18,24 +18,23 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/sound_recorder.dart";
 
-class MyRecordStory extends StatefulWidget {
-  final Story myStory;
+import "../../common/models/story.dart";
+import "../../profiles/models/profile_model.dart";
 
-  final CollectionReference storiesCollection;
+class MyRecordStory extends StatefulWidget {
+  final RecordStory myStory;
+
+  final CollectionReference<Story> storiesCollection;
   const MyRecordStory(this.myStory, this.storiesCollection, {super.key});
 
   @override
-  State<MyRecordStory> createState() =>
-      _MyRecordStoryState(myStory, storiesCollection);
+  State<MyRecordStory> createState() => _MyRecordStoryState();
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
   final logger = TaleTimeLogger.getLogger();
-  final Story? myStory;
 
-  final CollectionReference storiesCollection;
-
-  _MyRecordStoryState(this.myStory, this.storiesCollection);
+  _MyRecordStoryState();
 
   SoundRecorder recorder = SoundRecorder();
   final AudioPlayer player = AudioPlayer();
@@ -117,12 +116,12 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     setState(() {});
 
     MyRecord record = MyRecord(newAudio.path);
-    RecordedStory recordedStory = RecordedStory(myStory!, record);
+    RecordedStory recordedStory = RecordedStory(widget.myStory, record);
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                SaveOrUploadStory(recordedStory, storiesCollection, false)));
+            builder: (context) => SaveOrUploadStory(recordedStory,
+                widget.storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -206,9 +205,9 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     final animate = recoder;
 
     return AvatarGlow(
-      endRadius: 140,
       animate: animate,
-      repeatPauseDuration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
+      repeat: true,
       child: CircleAvatar(
         radius: 100,
         backgroundColor: Colors.teal.shade100,

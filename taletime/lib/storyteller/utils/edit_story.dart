@@ -6,20 +6,19 @@ import "package:file_picker/file_picker.dart";
 import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/material.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 
 class EditStory extends StatefulWidget {
-  final CollectionReference storiesCollection;
+  final CollectionReference<Story> storiesCollection;
   final DocumentSnapshot story;
 
   const EditStory(this.storiesCollection, this.story, {super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _EditStoryState();
-  }
+  State<StatefulWidget> createState() => _EditStoryState();
 }
 
 class _EditStoryState extends State<EditStory> {

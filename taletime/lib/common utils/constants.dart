@@ -67,7 +67,7 @@ const titleAndInfoPadding = EdgeInsets.only(bottom: 45);
 
 const arrows = Color.fromRGBO(0, 137, 123, 1);
 
-var default_profile = Profile(
+var defaultProfile = Profile(
     id: "",
     image: profileImages[4],
     name: "",

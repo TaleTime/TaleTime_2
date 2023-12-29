@@ -14,14 +14,16 @@ import "package:logger/logger.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
-import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
 import "../../common utils/decoration_util.dart";
+import "../../profiles/models/profile_model.dart";
+import "../utils/record_class.dart";
 import "my_record_story.dart";
 import "package:path/path.dart" as path;
+import "../../common/models/story.dart";
 
 class CreateStory extends StatefulWidget {
-  final CollectionReference storiesCollection;
+  final CollectionReference<Story> storiesCollection;
 
   const CreateStory(this.storiesCollection, {super.key});
 
@@ -203,8 +205,8 @@ class _CreateStoryState extends State<CreateStory> {
                       }
                       if (isValidForm) {
                         List<String> tags = ["test"];
-                        final myStory =
-                            Story(_titleController.text, tags, imageFile.path);
+                        final myStory = RecordStory(
+                            _titleController.text, tags, imageFile.path);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
