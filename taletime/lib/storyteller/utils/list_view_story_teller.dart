@@ -12,7 +12,6 @@ import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
 
 import "../../common/models/story.dart";
-import "../../profiles/models/profile_model.dart";
 import "edit_story.dart";
 
 class ListViewStoryTeller extends StatefulWidget {
@@ -85,7 +84,7 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SaveOrUploadStory(
-                                      recording, storiesCollection, true)));
+                                      recording, widget.storiesCollection, true)));
                           /**
                           setState(() {
                             newAudio = stories[index]["audio"];

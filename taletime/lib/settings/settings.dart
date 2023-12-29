@@ -4,7 +4,6 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
-import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/settings/changePassword.dart";
 import "package:taletime/common%20utils/constants.dart";
@@ -49,16 +48,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
         final languageProvider = Provider.of<LocaleProvider>(context);
         final themeProvider = Provider.of<ThemeProvider>(context);
-        Locale currentLanguage = Locale(profileState.profile!.language);
 
         Locale? selectedLanguage = languageProvider.locale;
-
-        Locale getSelecetedLanguage(Locale language) {
-          setState(() {
-            languageProvider.setLocale(language);
-          });
-          return languageProvider.locale;
-        }
 
         return Scaffold(
           appBar: AppBar(

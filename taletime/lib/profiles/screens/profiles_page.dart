@@ -78,7 +78,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => CreateEditProfile(
-                            profile: default_profile,
+                            profile: defaultProfile,
                           )));
                 },
                 icon: const Icon(
