@@ -57,10 +57,13 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       AppLocalizations.of(context)!.confirmLogout,
                       context, () async {
                     AuthentificationUtil(auth: auth).signOut();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const WelcomePage()));
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WelcomePage(),
+                      ),
+                      (route) => false,
+                    );
                   });
                 },
               );
