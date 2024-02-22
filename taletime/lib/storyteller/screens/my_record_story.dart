@@ -19,7 +19,6 @@ import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/sound_recorder.dart";
 
 import "../../common/models/story.dart";
-import "../../profiles/models/profile_model.dart";
 
 class MyRecordStory extends StatefulWidget {
   final RecordStory myStory;
@@ -120,8 +119,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SaveOrUploadStory(recordedStory,
-                widget.storiesCollection, false)));
+            builder: (context) => SaveOrUploadStory(
+                recordedStory, widget.storiesCollection, false)));
   }
 
   Widget buildStart() {

@@ -18,8 +18,7 @@ class ListViewStoryTeller extends StatefulWidget {
   final List stories;
   final CollectionReference<Story> storiesCollection;
 
-  const ListViewStoryTeller(
-      this.stories, this.storiesCollection, {super.key});
+  const ListViewStoryTeller(this.stories, this.storiesCollection, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ListViewStoryTellerState();
@@ -84,7 +83,9 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SaveOrUploadStory(
-                                      recording, widget.storiesCollection, true)));
+                                      recording,
+                                      widget.storiesCollection,
+                                      true)));
                           /**
                           setState(() {
                             newAudio = stories[index]["audio"];
