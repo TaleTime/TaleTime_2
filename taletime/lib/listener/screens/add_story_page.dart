@@ -107,6 +107,7 @@ class _AddStoryState extends State<AddStory> {
 
               return Consumer<ProfileState>(
                 builder: (context, profileState, _) => ListenerTaletimePage(
+                  title: AppLocalizations.of(context)!.addStory,
                   docs: res,
                   buttonsBuilder: (story) => [
                     StoryActionButton(

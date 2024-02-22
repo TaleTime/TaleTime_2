@@ -12,8 +12,10 @@ class ListenerTaletimePage<T extends Story> extends StatefulWidget {
     super.key,
     required this.docs,
     required this.buttonsBuilder,
+    required this.title,
   });
 
+  final String title;
   final List<QueryDocumentSnapshot<T>> docs;
   final List<StoryActionButton> Function(QueryDocumentSnapshot<T>)
       buttonsBuilder;
@@ -57,7 +59,7 @@ class _ListenerTaletimePageState<T extends Story>
         backgroundColor: Colors.transparent,
         toolbarOpacity: 0,
         title: Text(
-          AppLocalizations.of(context)!.addStory,
+          widget.title,
           style: TextStyle(
             color: kPrimaryColor,
             fontWeight: FontWeight.bold,
