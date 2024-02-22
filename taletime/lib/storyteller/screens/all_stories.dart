@@ -4,15 +4,12 @@ import "../../common/models/story.dart";
 import "../../internationalization/localizations_ext.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "../../common utils/decoration_util.dart";
-import "../../profiles/models/profile_model.dart";
-import "../../storyteller/utils/list_view_story_teller.dart";
+import "../utils/list_view_story_teller.dart";
 
 class AllStories extends StatefulWidget {
   final CollectionReference<Story> recordedStoriesCollection;
-  final Profile profile;
-  final CollectionReference<Profile> profiles;
-  const AllStories(this.profile, this.profiles, this.recordedStoriesCollection,
-      {super.key});
+
+  const AllStories(this.recordedStoriesCollection, {super.key});
 
   @override
   State<AllStories> createState() => _AllStoriesState();
@@ -86,8 +83,7 @@ class _AllStoriesState extends State<AllStories> {
                             : ListViewStoryTeller(
                                 recordedStoriesDocumentSnapshot,
                                 widget.recordedStoriesCollection,
-                                widget.profile,
-                                widget.profiles),
+                              ),
                       ),
                     ],
                   ),

@@ -4,6 +4,7 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/profiles/utils/profile_service.dart";
+import "package:taletime/state/user_state.dart";
 import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 import "../../common utils/theme_provider.dart";
@@ -13,14 +14,9 @@ import "../models/profile_model.dart";
 import "../screens/profiles_page.dart";
 
 class CreateEditProfile extends StatefulWidget {
-  final Profile profile;
-  final DocumentReference<Profile>? profileRef;
-  final CollectionReference<Profile> profiles;
-  final String? uId;
+  const CreateEditProfile({super.key, required this.profile});
 
-  const CreateEditProfile(
-      this.profile, this.profileRef, this.profiles, this.uId,
-      {super.key});
+  final Profile profile;
 
   @override
   State<StatefulWidget> createState() {
@@ -68,7 +64,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
   @override
   Widget build(BuildContext context) {
     final String actionButtonTitle;
-    if (widget.profileRef != null) {
+    if (widget.profile.id != "") {
       actionButtonTitle = AppLocalizations.of(context)!.updateProfile;
     } else {
       actionButtonTitle = AppLocalizations.of(context)!.addProfile;
@@ -81,6 +77,9 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
     textEditingController.text = textEditingController.text == ""
         ? widget.profile.name
         : textEditingController.text;
+
+    DocumentReference<Profile>? profileRef =
+        Provider.of<UserState>(context).profilesRef?.doc(widget.profile.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -205,14 +204,14 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                           name = textEditingController.text;
                           image = profileImage;
                           title = selectedItem.toString();
-                          if (widget.profileRef != null) {
+                          if (widget.profile.id != "") {
                             ProfileService.updateProfile(
-                                widget.profileRef!, image, name, title);
+                                profileRef!, image, name, title);
                             reset();
                             Navigator.of(context).pop();
                           } else {
                             ProfileService.addProfile(
-                                widget.profiles,
+                                Provider.of<UserState>(context).profilesRef!,
                                 image,
                                 name,
                                 title,
@@ -222,7 +221,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ProfilesPage(widget.uId!)));
+                                        const ProfilesPage()));
                           }
                         },
                         child: Text(

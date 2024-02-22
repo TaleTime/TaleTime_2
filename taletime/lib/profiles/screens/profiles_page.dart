@@ -1,21 +1,21 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart" as firebase_auth;
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common/models/tale_time_user.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/create_edit_profile.dart";
+import "package:taletime/state/user_state.dart";
 
 import "../../internationalization/localizations_ext.dart";
 import "../../login and registration/utils/authentification_util.dart";
 import "../utils/profile_list.dart";
 
 class ProfilesPage extends StatefulWidget {
-  final String uId;
-
-  const ProfilesPage(this.uId, {super.key});
+  const ProfilesPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -42,12 +42,6 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference<Profile> profiles =
-        users.doc(widget.uId).collection("profiles").withConverter(
-              fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
-              toFirestore: (snap, _) => snap.toFirebase(),
-            ); //profiles of the created user as subcollection
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -63,10 +57,13 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       AppLocalizations.of(context)!.confirmLogout,
                       context, () async {
                     AuthentificationUtil(auth: auth).signOut();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const WelcomePage()));
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WelcomePage(),
+                      ),
+                      (route) => false,
+                    );
                   });
                 },
               );
@@ -84,7 +81,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => CreateEditProfile(
-                          defaultProfile, null, profiles, widget.uId)));
+                            profile: defaultProfile,
+                          )));
                 },
                 icon: const Icon(
                   Icons.person_add,
@@ -98,19 +96,16 @@ class _ProfilesPageState extends State<ProfilesPage> {
           children: [
             Expanded(
               flex: cflex,
-              child: StreamBuilder(
-                stream: profiles.snapshots(),
-                builder: (context, profilesSnapshots) {
-                  if (profilesSnapshots.hasData) {
+              child: Consumer<UserState>(
+                builder: (context, userState, _) {
+                  List<Profile>? profiles = userState.profiles;
+
+                  if (profiles != null) {
                     return ListView.builder(
-                      itemCount: profilesSnapshots.data!.docs.length,
+                      itemCount: profiles.length,
                       itemBuilder: (context, index) {
-                        final Profile profile = profilesSnapshots
-                            .data!.docs[index]
-                            .data(); //documentSnapshot as a single profile in the profiles collections (using a snapshot we got this single profile object)
-                        final DocumentReference<Profile> profileRef =
-                            profilesSnapshots.data!.docs[index].reference;
-                        return ProfileList(profile, profiles, profileRef);
+                        final Profile profile = profiles[index];
+                        return ProfileList(profile: profile);
                       },
                     );
                   }

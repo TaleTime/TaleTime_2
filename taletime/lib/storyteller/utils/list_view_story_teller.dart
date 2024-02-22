@@ -12,22 +12,16 @@ import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
 
 import "../../common/models/story.dart";
-import "../../profiles/models/profile_model.dart";
 import "edit_story.dart";
 
 class ListViewStoryTeller extends StatefulWidget {
   final List stories;
   final CollectionReference<Story> storiesCollection;
-  final Profile profile;
-  final CollectionReference<Profile> profiles;
-  const ListViewStoryTeller(
-      this.stories, this.storiesCollection, this.profile, this.profiles,
-      {super.key});
+
+  const ListViewStoryTeller(this.stories, this.storiesCollection, {super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _ListViewStoryTellerState();
-  }
+  State<StatefulWidget> createState() => _ListViewStoryTellerState();
 }
 
 class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
@@ -90,7 +84,6 @@ class _ListViewStoryTellerState extends State<ListViewStoryTeller> {
                               MaterialPageRoute(
                                   builder: (context) => SaveOrUploadStory(
                                       recording,
-                                      widget.profile,
                                       widget.storiesCollection,
                                       true)));
                           /**

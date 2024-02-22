@@ -23,10 +23,9 @@ import "package:path/path.dart" as path;
 import "../../common/models/story.dart";
 
 class CreateStory extends StatefulWidget {
-  final Profile profile;
   final CollectionReference<Story> storiesCollection;
 
-  const CreateStory(this.profile, this.storiesCollection, {super.key});
+  const CreateStory(this.storiesCollection, {super.key});
 
   @override
   State<CreateStory> createState() => _CreateStoryState();
@@ -211,8 +210,8 @@ class _CreateStoryState extends State<CreateStory> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyRecordStory(myStory,
-                                  widget.profile, widget.storiesCollection)),
+                              builder: (context) => MyRecordStory(
+                                  myStory, widget.storiesCollection)),
                         );
                       }
                     },

@@ -39,8 +39,8 @@ class AuthentificationUtil {
             content: Text(AppLocalizations.of(context)!.signInSuccesful),
             backgroundColor: kPrimaryColor);
         ScaffoldMessenger.of(context).showSnackBar(signinSuccesful);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ProfilesPage(auth.currentUser!.uid)));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const ProfilesPage()));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showLoginError(e, context);
@@ -80,8 +80,8 @@ class AuthentificationUtil {
 
         addUserInfoToDB(auth.currentUser!.uid, userInfoMap);
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ProfilesPage(auth.currentUser!.uid)));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ProfilesPage()));
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showRegisterError(e, context);
