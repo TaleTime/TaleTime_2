@@ -1,5 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/added_story.dart";
@@ -175,16 +176,26 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Brightness systemUiBrightness = Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark;
+
     return Consumer<ProfileState>(
       builder: (context, profileState, _) => Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          elevation: 0.0,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Theme.of(context).colorScheme.background,
+            statusBarBrightness: systemUiBrightness,
+            statusBarIconBrightness: systemUiBrightness,
+          ),
+
           backgroundColor: _appBarTransparent
               ? Colors.transparent
               : Theme.of(context).colorScheme.background,
-          shadowColor: Colors.white,
+
           title: _appBarTransparent
               ? null
               : Text(
@@ -218,8 +229,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
         body: SizedBox(
           height: double.infinity,
           child: Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+            padding: MediaQuery.of(context).viewPadding,
             child: SingleChildScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
