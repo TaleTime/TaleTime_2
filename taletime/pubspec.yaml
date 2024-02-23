@@ -23,7 +23,7 @@ dependencies:
   firebase_storage_web: ^3.7.0
   firebase_core_web: ^2.11.4
   firebase_auth_web: ^5.8.7
-  record: ^5.0.1
+  record: ^5.0.4
   path: ^1.8.3
 
   email_validator: ^2.1.17
