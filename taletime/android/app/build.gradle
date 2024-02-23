@@ -68,15 +68,6 @@ android {
         }
     }
 
-    signingConfigs {
-        release {
-            storeFile file("./keystore.jks")
-            storePassword System.getenv("SIGNING_KEY_STORE_PASSWORD")
-            keyAlias "TaleTime-Key"
-            keyPassword System.getenv("SIGNING_KEY_KEY_PASSWORD")
-        }
-    }
-
     flavorDimensions "environment"
 
     productFlavors {
@@ -92,13 +83,13 @@ android {
             dimension "environment"
             applicationIdSuffix ".stageing"
             resValue "string", "app_name", "[Staging] TaleTime"
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
 
         prod {
             dimension "environment"
             resValue "string", "app_name", "TaleTime"
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
 
