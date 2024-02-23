@@ -705,10 +705,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker_for_web
-      sha256: "50bc9ae6a77eea3a8b11af5eb6c661eeb858fdd2f734c2a4fd17086922347ef7"
+      sha256: e2423c53a68b579a7c37a1eda967b8ae536c3d98518e5db95ca1fe5719a730a3
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   image_picker_ios:
     dependency: transitive
     description:
