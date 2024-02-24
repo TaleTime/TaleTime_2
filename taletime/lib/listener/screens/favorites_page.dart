@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/services/story_service.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/state/profile_state.dart";
 
 import "../../common/widgets/story_list_item.dart";
@@ -44,6 +45,7 @@ class _FavoritePageState extends State<FavoritePage> {
             final docs = data.docs;
 
             return ListenerTaletimePage<AddedStory>(
+              title: AppLocalizations.of(context)!.favorites,
               docs: docs,
               buttonsBuilder: (e) => [
                 StoryActionButton(
