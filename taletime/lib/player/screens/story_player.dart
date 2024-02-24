@@ -2,6 +2,7 @@ import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
+import "package:taletime/player/widgets/favorite_button.dart";
 import "package:taletime/player/widgets/player_controls.dart";
 import "package:taletime/player/widgets/player_loading_spinner.dart";
 import "package:taletime/player/widgets/progress_bar.dart";
@@ -46,13 +47,7 @@ class StoryPlayer extends StatelessWidget {
         elevation: 0.0,
         actions: <Widget>[
           const PlayerLoadingSpinner(),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.favorite_border,
-              color: Colors.teal.shade600,
-            ),
-          ),
+          FavoriteButton(),
           IconButton(
             onPressed: () {},
             icon: Icon(
