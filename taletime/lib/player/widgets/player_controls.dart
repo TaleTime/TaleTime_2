@@ -46,7 +46,7 @@ class PlayerControls extends StatelessWidget {
                             Icons.skip_previous,
                             size: 30,
                           ),
-                          onPressed: customPlayerState?.hasPrev ?? false
+                          onPressed: customPlayerState?.hasPrev() ?? false
                               ? audioHandler.skipToPrevious
                               : null,
                         ),
@@ -68,7 +68,7 @@ class PlayerControls extends StatelessWidget {
                             Icons.skip_next,
                             size: 30,
                           ),
-                          onPressed: customPlayerState?.hasNext ?? false
+                          onPressed: customPlayerState?.hasNext() ?? false
                               ? audioHandler.skipToNext
                               : null,
                         ),
@@ -94,7 +94,16 @@ class PlayerControls extends StatelessWidget {
                           Icons.shuffle,
                           size: 22,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (shuffle) {
+                            audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
+                            shuffle = false;
+                          } else
+                            {
+                            audioHandler.setShuffleMode(AudioServiceShuffleMode.all);
+                            shuffle = true;
+                            }
+                        },
                       ),
                       IconButton(
                         icon: const Icon(

@@ -62,7 +62,6 @@ dependencies:
   audio_service: ^0.18.12
   just_audio: ^0.9.36
 
-
 dev_dependencies:
   build_runner: ^2.4.8
   flutter_test:
