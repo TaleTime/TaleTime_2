@@ -42,8 +42,9 @@ class StoryPlayer extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0.0,
+        scrolledUnderElevation: 0.0,
         actions: <Widget>[
           const PlayerLoadingSpinner(),
           IconButton(

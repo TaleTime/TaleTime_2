@@ -56,7 +56,7 @@ class _ListenerTaletimePageState<T extends Story>
       appBar: AppBar(
         leading: null,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.background,
         toolbarOpacity: 0,
         title: Text(
           widget.title,
@@ -67,6 +67,7 @@ class _ListenerTaletimePageState<T extends Story>
         ),
         centerTitle: true,
         elevation: 0.0,
+        scrolledUnderElevation: 0.0,
         actions: <Widget>[
           IconButton(
             onPressed: () {},
