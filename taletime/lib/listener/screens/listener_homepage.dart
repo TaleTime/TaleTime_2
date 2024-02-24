@@ -176,7 +176,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Brightness systemUiBrightness = Theme.of(context).brightness == Brightness.dark ? Brightness.light : Brightness.dark;
+    Brightness systemUiBrightness =
+        Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark;
 
     return Consumer<ProfileState>(
       builder: (context, profileState, _) => Scaffold(
@@ -185,17 +188,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           automaticallyImplyLeading: false,
           elevation: 0,
           scrolledUnderElevation: 0,
-
           systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Theme.of(context).colorScheme.background,
+            statusBarColor: Theme.of(context).colorScheme.background,
             statusBarBrightness: systemUiBrightness,
             statusBarIconBrightness: systemUiBrightness,
           ),
-
           backgroundColor: _appBarTransparent
               ? Colors.transparent
               : Theme.of(context).colorScheme.background,
-
           title: _appBarTransparent
               ? null
               : Text(
