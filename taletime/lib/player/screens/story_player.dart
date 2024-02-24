@@ -31,8 +31,11 @@ class StoryPlayer extends StatelessWidget {
     ));
 
     // Set timestamp
-    var storyRef = Provider.of<ProfileState>(context, listen: false).storiesRef!.doc(story.id);
-    storyRef.update({"timeLastListened": DateTime.now().millisecondsSinceEpoch});
+    var storyRef = Provider.of<ProfileState>(context, listen: false)
+        .storiesRef!
+        .doc(story.id);
+    storyRef
+        .update({"timeLastListened": DateTime.now().millisecondsSinceEpoch});
   }
 
   @override
