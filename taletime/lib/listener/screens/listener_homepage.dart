@@ -223,7 +223,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 Icons.menu,
                 size: 33, color: kPrimaryColor, //kPrimaryColor
               ),
-            )
+            ),
           ],
         ),
         body: SizedBox(
