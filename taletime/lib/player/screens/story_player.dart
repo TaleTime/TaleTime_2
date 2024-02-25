@@ -48,7 +48,7 @@ class StoryPlayer extends StatelessWidget {
         scrolledUnderElevation: 0.0,
         actions: <Widget>[
           const PlayerLoadingSpinner(),
-          FavoriteButton(),
+          const FavoriteButton(),
           IconButton(
             onPressed: () {},
             icon: Icon(

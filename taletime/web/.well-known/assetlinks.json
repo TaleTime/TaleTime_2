@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.htwsaar.taletime.dev",
+      "sha256_cert_fingerprints": [
+        "D2:65:F6:B9:E9:42:68:0C:13:D0:E4:0A:0B:D1:DB:A2:D0:2B:D9:F9:F2:0B:05:E7:15:DB:DE:7B:58:98:74:40"
+      ]
+    }
+  }
+]

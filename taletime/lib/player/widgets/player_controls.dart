@@ -1,5 +1,6 @@
 import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
+import "package:share_plus/share_plus.dart";
 import "package:taletime/main.dart";
 import "package:taletime/player/models/custom_player_state.dart";
 
@@ -101,7 +102,9 @@ class PlayerControls extends StatelessWidget {
                           Icons.share_outlined,
                           size: 22,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Share.share("Meine erste Geschichte von Doba16 https://foo.example.com/x/123");
+                        },
                       ),
                       IconButton(
                         padding: const EdgeInsets.only(top: 7),
