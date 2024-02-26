@@ -96,7 +96,7 @@ class Providers extends StatelessWidget {
             routes: [
               GoRoute(
                 path: "shared",
-                builder: (_, __) => SharedStroy(),
+                builder: (_, __) => SharedStory(),
               ),
             ],
           ),

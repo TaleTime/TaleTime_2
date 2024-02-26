@@ -371,5 +371,15 @@
     "audioCannotBePlayed": "Audio cannot be played!",
     "@audioCannotBePlayed": {
         "description": "Displayed to indicate that a story cannot be played."
+    },
+
+    "sharedStory": "Shared Story",
+    "@sharedStory": {
+        "description": "App bar title for shared story screen."
+    },
+
+    "addToProfile": "Add to profile",
+    "@addToProfile": {
+        "description": "Button to add story to profile on shared story screen."
     }
 }

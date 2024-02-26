@@ -117,5 +117,10 @@
     "typeInNewTitle": "Neuen Titel eingeben",
     "updateStory": "Geschichte aktualisieren",
     "noName": "Kein name",
-    "home": "Startseite"
+    "home": "Startseite",
+    "noTitle": "Kein Titel",
+    "noAudioAssociatedWithStory":  "Mit dieser Geschichte ist kein Audio verknüpft.",
+    "audioCannotBePlayed": "Das Audio kann nicht wiedergegeben werden.",
+    "sharedStory": "Geteilte Geschichte",
+    "addToProfile": "Zum Profil hinzufügen"
 }
