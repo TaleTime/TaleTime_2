@@ -9,9 +9,11 @@ import "../../listener/utils/navbar_widget_listener.dart";
 import "../models/profile_model.dart";
 
 class ProfileList extends StatelessWidget {
-  const ProfileList({required this.profile, super.key});
+  const ProfileList({required this.profile, super.key, this.redirectTo});
 
   final Profile profile;
+
+  final Widget? redirectTo;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +28,19 @@ class ProfileList extends StatelessWidget {
         Provider.of<ProfileState>(context, listen: false).profileRef =
             profiles!.doc(profile.id);
 
-        if (profile.title == ProfileType.listener) {
-          await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => NavBarListener()));
+        if (redirectTo == null) {
+          if (profile.title == ProfileType.listener) {
+            await Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) => const NavBarListener()));
+          } else {
+            await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const NavBarSpeaker()));
+          }
         } else {
-          await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => NavBarSpeaker()));
+          await Navigator.pushReplacement(context,
+              MaterialPageRoute(
+                  builder: (context) => redirectTo!));
         }
       },
       child: Column(

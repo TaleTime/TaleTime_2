@@ -10,7 +10,9 @@ import "package:taletime/login%20and%20registration/utils/authentification_util.
 import "../../internationalization/localizations_ext.dart";
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, this.redirectTo});
+
+  final Widget? redirectTo;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -151,9 +153,11 @@ class _LoginPageState extends State<LoginPage> {
                                 if (isValidForm) {
                                   AuthentificationUtil(auth: auth)
                                       .loginUsingEmailAndPassword(
-                                          email: email,
-                                          password: password,
-                                          context: context);
+                                    email: email,
+                                    password: password,
+                                    context: context,
+                                    redirectTo: widget.redirectTo,
+                                  );
                                 }
                               },
                               child: Text(
