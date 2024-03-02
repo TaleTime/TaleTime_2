@@ -7,6 +7,7 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/state/profile_state.dart";
 import "package:taletime/state/user_state.dart";
@@ -34,30 +35,21 @@ class SharedStoryState extends State<SharedStory> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       setState(() {
-        _storyId = GoRouterState
-            .of(context)
-            .uri
-            .queryParameters["storyId"];
+        _storyId = GoRouterState.of(context).uri.queryParameters["storyId"];
 
         _storyRef = FirebaseFirestore.instance
             .doc("allStories/$_storyId")
             .withConverter(
-          fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-          toFirestore: (snap, _) => snap.toFirebase(),
-        );
+              fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+              toFirestore: (snap, _) => snap.toFirebase(),
+            );
       });
     });
   }
 
   Widget _buildStoryMetadata(BuildContext context, Story? story) {
-    final double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     final imageSize = min(screenHeight, screenWidth) * 0.6;
 
     return Column(
@@ -75,7 +67,7 @@ class SharedStoryState extends State<SharedStory> {
               image: story?.imageUrl != null
                   ? NetworkImage(story!.imageUrl!)
                   : const AssetImage("assets/logo.png")
-              as ImageProvider<Object>),
+                      as ImageProvider<Object>),
         ),
         Padding(
           padding: const EdgeInsets.all(12.0),
@@ -103,28 +95,70 @@ class SharedStoryState extends State<SharedStory> {
     );
   }
 
-  Widget _buildProfilePreview(BuildContext context) {
-    if (Provider
-        .of<UserState>(context)
-        .user == null) {
-      return Text(AppLocalizations.of(context)!.notLoggedIn);
+  Widget _buildAddToProfile(BuildContext context) {
+    renderWidget(
+        {required Widget profile, Widget? error, void Function()? btnClick}) {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: profile,
+          ),
+          error ?? const SizedBox(),
+          ElevatedButton(
+            style: elevatedButtonDefaultStyle(),
+            onPressed: btnClick,
+            child: Text(AppLocalizations.of(context)!.addToProfile),
+          ),
+        ],
+      );
     }
 
-    final profile = Provider
-        .of<ProfileState>(context)
-        .profile;
+    // Test if logged in
+    if (Provider.of<UserState>(context).user == null) {
+      return renderWidget(
+        profile: Text(AppLocalizations.of(context)!.notLoggedIn),
+      );
+    }
 
+    // Test if profile selected
+    final profile = Provider.of<ProfileState>(context).profile;
     if (profile == null) {
-      return Text(AppLocalizations.of(context)!.noProfileSelected);
+      return renderWidget(
+        profile: Text(AppLocalizations.of(context)!.noProfileSelected),
+      );
     }
 
-    return Row(
+    // Build profile preview
+    final profileWidget = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ProfileImageSelector.selectFile(profile.image, 25),
-        const SizedBox(width: 8,),
+        const SizedBox(
+          width: 8,
+        ),
         Text(profile.name),
       ],
+    );
+
+    // Test if story teller
+    if (profile.title == ProfileType.storyteller) {
+      return renderWidget(
+        profile: profileWidget,
+        error: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            AppLocalizations.of(context)!.cantAddToStoryTeller,
+            softWrap: true,
+            style: const TextStyle(color: Colors.redAccent),
+          ),
+        ),
+      );
+    }
+
+    return renderWidget(
+      profile: profileWidget,
+      btnClick: () {},
     );
   }
 
@@ -136,47 +170,31 @@ class SharedStoryState extends State<SharedStory> {
       ),
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (context, constraints) =>
-              SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: StreamBuilder(
-                      stream: _storyRef?.snapshots(),
-                      builder: (context, storySnapshot) {
-                        var story = storySnapshot.data?.data();
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: StreamBuilder(
+                  stream: _storyRef?.snapshots(),
+                  builder: (context, storySnapshot) {
+                    var story = storySnapshot.data?.data();
 
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            _buildStoryMetadata(context, story),
-                            Column(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8),
-                                    child: _buildProfilePreview(context),
-                                ),
-                                ElevatedButton(
-                                  style: elevatedButtonDefaultStyle(),
-                                  onPressed: story == null ? null : () {},
-                                  child: Text(
-                                      AppLocalizations.of(context)!
-                                          .addToProfile),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _buildStoryMetadata(context, story),
+                        _buildAddToProfile(context),
+                      ],
+                    );
+                  },
                 ),
               ),
+            ),
+          ),
         ),
       ),
     );

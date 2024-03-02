@@ -391,5 +391,10 @@
     "notLoggedIn": "Not logged in",
     "@notLoggedIn": {
         "description": "Shown above the add-to-profile-button to indicate that user is not logged in"
+    },
+
+    "cantAddToStoryTeller": "A story can't be added to a story teller's profile.",
+    "@cantAddToStoryTeller": {
+        "description": "Shown above the add-to-profile-button to indicate that a story can't be added to a story teller's profile"
     }
 }
