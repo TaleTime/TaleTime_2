@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:taletime/profiles/utils/profile_column_widget.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/state/profile_state.dart";
 import "package:taletime/state/user_state.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
-import "package:taletime/profiles/utils/profile_column_widget.dart";
+
 import "../../listener/utils/navbar_widget_listener.dart";
 import "../models/profile_model.dart";
 
@@ -25,22 +26,42 @@ class ProfileList extends StatelessWidget {
         var profiles =
             Provider.of<UserState>(context, listen: false).profilesRef;
 
-        Provider.of<ProfileState>(context, listen: false).profileRef =
-            profiles!.doc(profile.id);
+        final profileState = Provider.of<ProfileState>(context, listen: false);
+
+        profileState.profileRef = profiles!.doc(profile.id);
 
         if (redirectTo == null) {
           if (profile.title == ProfileType.listener) {
-            await Navigator.push(context,
-                MaterialPageRoute(
-                    builder: (context) => const NavBarListener()));
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NavBarListener(),
+              ),
+            );
+
+            print('Logging out of profile...');
+            profileState.profileRef = null;
           } else {
-            await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const NavBarSpeaker()));
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NavBarSpeaker(),
+              ),
+            );
+
+            print('Logging out of profile...');
+            profileState.profileRef = null;
           }
         } else {
-          await Navigator.pushReplacement(context,
-              MaterialPageRoute(
-                  builder: (context) => redirectTo!));
+          await Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => redirectTo!,
+            ),
+          );
+
+          print('Logging out of profile...');
+          profileState.profileRef = null;
         }
       },
       child: Column(

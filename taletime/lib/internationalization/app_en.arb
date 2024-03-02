@@ -381,5 +381,15 @@
     "addToProfile": "Add to profile",
     "@addToProfile": {
         "description": "Button to add story to profile on shared story screen."
+    },
+
+    "noProfileSelected": "No profile selected",
+    "@noProfileSelected": {
+        "description": "Shown above the add-to-profile-button to indicate that no profile is selected"
+    },
+
+    "notLoggedIn": "Not logged in",
+    "@notLoggedIn": {
+        "description": "Shown above the add-to-profile-button to indicate that user is not logged in"
     }
 }
