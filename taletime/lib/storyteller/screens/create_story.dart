@@ -16,14 +16,13 @@ import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/login%20and%20registration/utils/validation_util.dart";
 import "../../common utils/decoration_util.dart";
-import "../../profiles/models/profile_model.dart";
 import "../utils/record_class.dart";
 import "my_record_story.dart";
 import "package:path/path.dart" as path;
 import "../../common/models/story.dart";
 
 class CreateStory extends StatefulWidget {
-  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story>? storiesCollection;
 
   const CreateStory(this.storiesCollection, {super.key});
 

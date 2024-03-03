@@ -22,8 +22,8 @@ import '../../player/screens/story_player.dart';
 import "../../settings/settings.dart";
 
 class SpeakerHomePage extends StatefulWidget {
-  final CollectionReference<Story> storiesCollection;
-  final CollectionReference<Story> lastRecordedCollection;
+  final CollectionReference<Story>? storiesCollection;
+  final CollectionReference<Story>? lastRecordedCollection;
 
   const SpeakerHomePage(this.storiesCollection, this.lastRecordedCollection,
       {super.key});
@@ -45,7 +45,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     return StreamBuilder(
-        stream: widget.storiesCollection.snapshots(),
+        stream: widget.storiesCollection?.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> storiesDocumentSnapshot =
@@ -92,7 +92,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                     ),
                     Consumer<ProfileState>(
                       builder: (context, profileState, _) => Text(
-                        profileState.profile!.name,
+                        profileState.profile?.name ?? AppLocalizations.of(context)!.noName,
                         style: TextStyle(
                             color: kPrimaryColor,
                             fontSize: 25,
@@ -155,7 +155,7 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                 ),
               ),
               StreamBuilder(
-                  stream: widget.storiesCollection.snapshots(),
+                  stream: widget.storiesCollection?.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {

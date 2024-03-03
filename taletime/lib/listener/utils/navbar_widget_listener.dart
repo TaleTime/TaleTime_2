@@ -4,7 +4,6 @@ import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 
-import "../../profiles/models/profile_model.dart";
 import "../../settings/settings.dart";
 import "../screens/add_story_page.dart";
 import "../screens/favorites_page.dart";
@@ -45,10 +44,10 @@ class _NavBarListenerState extends State<NavBarListener> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(),
-          FavoritePage(),
+          const ListenerHomePage(),
+          const FavoritePage(),
           AddStory(allStories),
-          SettingsPage(),
+          const SettingsPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

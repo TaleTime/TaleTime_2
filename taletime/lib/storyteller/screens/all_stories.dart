@@ -7,7 +7,7 @@ import "../../common utils/decoration_util.dart";
 import "../utils/list_view_story_teller.dart";
 
 class AllStories extends StatefulWidget {
-  final CollectionReference<Story> recordedStoriesCollection;
+  final CollectionReference<Story>? recordedStoriesCollection;
 
   const AllStories(this.recordedStoriesCollection, {super.key});
 
@@ -21,7 +21,7 @@ class _AllStoriesState extends State<AllStories> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: widget.recordedStoriesCollection.snapshots(),
+        stream: widget.recordedStoriesCollection?.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
           if (streamSnapshot.hasData) {
             final List<QueryDocumentSnapshot> recordedStoriesDocumentSnapshot =

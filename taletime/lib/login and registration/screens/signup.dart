@@ -11,7 +11,9 @@ import "../../internationalization/localizations_ext.dart";
 /// The Signup class is used to create a new account in the app
 /// All  users are stored in Firebase
 class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+  const SignupPage({super.key, this.redirectTo});
+
+  final Widget? redirectTo;
 
   @override
   State<SignupPage> createState() => _SignupPageState();
@@ -164,10 +166,12 @@ class _SignupPageState extends State<SignupPage> {
                               if (isValidForm) {
                                 AuthentificationUtil(auth: auth)
                                     .registerWithEmailAndPassword(
-                                        userName: userName,
-                                        email: email,
-                                        password: password,
-                                        context: context);
+                                  userName: userName,
+                                  email: email,
+                                  password: password,
+                                  context: context,
+                                  redirectTo: widget.redirectTo,
+                                );
                               }
                             },
                             child: Text(
@@ -193,9 +197,13 @@ class _SignupPageState extends State<SignupPage> {
                         /// redirects the user to the LoginPage
                         onPressed: () {
                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(
+                                redirectTo: widget.redirectTo,
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ],

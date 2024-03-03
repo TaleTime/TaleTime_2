@@ -39,13 +39,13 @@ class _NavBarSpeakerState extends State<NavBarSpeaker> {
   Widget build(BuildContext context) {
     return Consumer<ProfileState>(
       builder: (context, profileState, _) {
-        CollectionReference<Story> lastRecorded = profileState.profileRef!
-            .collection("lastRecordedList")
+        CollectionReference<Story>? lastRecorded = profileState.profileRef
+            ?.collection("lastRecordedList")
             .withConverter(
                 fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
                 toFirestore: (snap, _) => snap.toFirebase());
-        CollectionReference<Story> recordedStories = profileState.profileRef!
-            .collection("recordedStoriesList")
+        CollectionReference<Story>? recordedStories = profileState.profileRef
+            ?.collection("recordedStoriesList")
             .withConverter(
               fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
               toFirestore: (snap, _) => snap.toFirebase(),
