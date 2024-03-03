@@ -7,8 +7,11 @@ import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/login%20and%20registration/screens/login.dart";
 import "package:taletime/profiles/models/profile_model.dart";
+import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
+import "package:taletime/share/screens/add_shared_story.dart";
 import "package:taletime/state/profile_state.dart";
 import "package:taletime/state/user_state.dart";
 
@@ -83,7 +86,7 @@ class SharedStoryState extends State<SharedStory> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            story?.author ?? AppLocalizations.of(context)!.noTitle,
+            story?.author ?? AppLocalizations.of(context)!.noName,
             softWrap: true,
             style: const TextStyle(
               color: Colors.teal,
@@ -95,7 +98,7 @@ class SharedStoryState extends State<SharedStory> {
     );
   }
 
-  Widget _buildAddToProfile(BuildContext context) {
+  Widget _buildAddToProfile(BuildContext context, Story? story) {
     renderWidget(
         {required Widget profile, Widget? error, void Function()? btnClick}) {
       return Column(
@@ -118,6 +121,20 @@ class SharedStoryState extends State<SharedStory> {
     if (Provider.of<UserState>(context).user == null) {
       return renderWidget(
         profile: Text(AppLocalizations.of(context)!.notLoggedIn),
+        btnClick: story == null
+            ? null
+            : () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(
+                      redirectTo: AddSharedStory(
+                        story: story,
+                      ),
+                    ),
+                  ),
+                );
+              },
       );
     }
 
@@ -126,6 +143,20 @@ class SharedStoryState extends State<SharedStory> {
     if (profile == null) {
       return renderWidget(
         profile: Text(AppLocalizations.of(context)!.noProfileSelected),
+        btnClick: story == null
+            ? null
+            : () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilesPage(
+                      redirectTo: AddSharedStory(
+                        story: story,
+                      ),
+                    ),
+                  ),
+                );
+              },
       );
     }
 
@@ -158,7 +189,18 @@ class SharedStoryState extends State<SharedStory> {
 
     return renderWidget(
       profile: profileWidget,
-      btnClick: () {},
+      btnClick: story == null
+          ? null
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddSharedStory(
+                    story: story,
+                  ),
+                ),
+              );
+            },
     );
   }
 
@@ -187,7 +229,7 @@ class SharedStoryState extends State<SharedStory> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _buildStoryMetadata(context, story),
-                        _buildAddToProfile(context),
+                        _buildAddToProfile(context, story),
                       ],
                     );
                   },
