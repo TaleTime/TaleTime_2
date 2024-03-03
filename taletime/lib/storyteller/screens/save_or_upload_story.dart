@@ -3,7 +3,6 @@
 ///It contains three functions save ,load,load all
 library;
 
-
 import "dart:io";
 
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -13,33 +12,32 @@ import "package:flutter/material.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/decoration_util.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
+import "package:taletime/common/models/tale_time_user.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/upload_util.dart";
 
+import "../../common/models/story.dart";
+
 class SaveOrUploadStory extends StatefulWidget {
   final RecordedStory myRecordedStory;
-  final profile;
-  final storiesCollection;
-  bool isSaved;
-  SaveOrUploadStory(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved, {super.key});
+  final CollectionReference<Story> storiesCollection;
+  final bool isSaved;
+
+  const SaveOrUploadStory(
+      this.myRecordedStory, this.storiesCollection, this.isSaved,
+      {super.key});
 
   @override
-  State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState(
-      myRecordedStory, profile, storiesCollection, isSaved);
+  State<SaveOrUploadStory> createState() => _SaveOrUploadStoryState();
 }
 
 class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   final logger = TaleTimeLogger.getLogger();
-  final RecordedStory myRecordedStory;
-  final profile;
-  final storiesCollection;
-  bool isSaved;
-  _SaveOrUploadStoryState(
-      this.myRecordedStory, this.profile, this.storiesCollection, this.isSaved);
+  bool isSaved = false;
+  _SaveOrUploadStoryState();
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -48,21 +46,38 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
   late File audioFile;
   late String audioPath;
   late File image;
+  late String uId;
+  late CollectionReference<TaleTimeUser> users;
+  late CollectionReference<Profile> profiles;
+  late Color? primarySave;
+  late Color? primaryUpload;
 
   @override
   void initState() {
     super.initState();
     author = auth.currentUser!.displayName.toString();
-    title = myRecordedStory.story.getTitle();
-    image = File(myRecordedStory.story.imagePath);
-    audioPath = myRecordedStory.recording.getAudioPath();
+    title = widget.myRecordedStory.story.getTitle();
+    image = File(widget.myRecordedStory.story.imagePath);
+    audioPath = widget.myRecordedStory.recording.getAudioPath();
     audioFile = File(audioPath);
+    isSaved = widget.isSaved;
+
+    uId = auth.currentUser!.uid;
+    users = FirebaseFirestore.instance.collection("users").withConverter(
+        fromFirestore: (snap, _) => TaleTimeUser.fromDocumentSnapshot(snap),
+        toFirestore: (snap, _) => snap.toFirebase());
+    profiles = users.doc(uId).collection("profiles").withConverter(
+          fromFirestore: (snap, _) => Profile.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
+    primarySave = isSaved ? Colors.grey : kPrimaryColor;
+    primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
   }
 
   void createStory(String title, File image, String author, File audio) async {
     var refImages = FirebaseStorage.instance.ref().child("images");
     var refAudios = FirebaseStorage.instance.ref().child("audios");
-    String filePath = myRecordedStory.recording.getAudioPath();
+    String filePath = widget.myRecordedStory.recording.getAudioPath();
     String imagePath = "$author/$title.jpg";
     String fileString =
         filePath.substring(filePath.lastIndexOf("/"), filePath.length);
@@ -71,19 +86,18 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
     String myImageUrl = await refImages.child(imagePath).getDownloadURL();
     String myAudioUrl =
         ""; // await refAudios.child(fileString).getDownloadURL();
-
+    var story = Story(
+      id: "",
+      title: title,
+      author: author,
+      imageUrl: myImageUrl,
+      audioUrl: myAudioUrl,
+      rating: "2.5",
+    );
     setState(() {
-      storiesCollection.add({
-        "rating": "2.5",
-        "title": title,
-        "author": author,
-        "image": myImageUrl,
-        "audio": myAudioUrl,
-        "isLiked": false,
-        "id": ""
-      }).then((value) {
+      widget.storiesCollection.add(story).then<void>((value) {
         logger.v("Story Added to RecordedStories");
-        updateList(value.id, storiesCollection);
+        updateList(value.id, widget.storiesCollection);
       }).catchError((error) => logger.e("Failed to add story: $error"));
     });
   }
@@ -98,14 +112,11 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
 
   @override
   Widget build(BuildContext context) {
-    String uId = auth.currentUser!.uid;
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
-    CollectionReference profiles = users.doc(uId).collection("profiles");
-    Color? primarySave = isSaved ? Colors.grey : kPrimaryColor;
-    Color? primaryUpload = !isSaved ? Colors.grey : kPrimaryColor;
     return Scaffold(
       appBar: Decorations().appBarDecoration(
-          title: AppLocalizations.of(context)!.saveUploadStory, context: context, automaticArrow: true),
+          title: AppLocalizations.of(context)!.saveUploadStory,
+          context: context,
+          automaticArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -132,7 +143,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                           isSaved = true;
                         });
                       },
-                child:  Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Icon(
@@ -176,8 +187,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Decorations().confirmationDialog(
-                                    AppLocalizations.of(context)!.uploadingStory,
-                                    AppLocalizations.of(context)!.uploadingStoryDescription,
+                                    AppLocalizations.of(context)!
+                                        .uploadingStory,
+                                    AppLocalizations.of(context)!
+                                        .uploadingStoryDescription,
                                     context,
                                     () {
                                       Navigator.of(context).pop();
@@ -185,20 +198,20 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NavBarSpeaker(
-                                                      profile, profiles)));
+                                                  NavBarSpeaker()));
                                     },
                                   );
                                 });
                           },
-                    child:  Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Icon(
                           Icons.upload_rounded,
                           size: 50,
                         ),
-                        Text(AppLocalizations.of(context)!.shareOnlyWithUsersFromSameAccount)
+                        Text(AppLocalizations.of(context)!
+                            .shareOnlyWithUsersFromSameAccount)
                       ],
                     ),
                   ),
@@ -216,8 +229,10 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Decorations().confirmationDialog(
-                                      AppLocalizations.of(context)!.uploadingStory,
-                                      AppLocalizations.of(context)!.shareWithEveryUserDescription,
+                                      AppLocalizations.of(context)!
+                                          .uploadingStory,
+                                      AppLocalizations.of(context)!
+                                          .shareWithEveryUserDescription,
                                       context, () async {
                                     var refImages = FirebaseStorage.instance
                                         .ref()
@@ -226,23 +241,22 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                                         .child("$author/$title.jpg")
                                         .getDownloadURL();
 
-                                    UploadUtil(storiesCollection).uploadStory(
-                                        audioPath,
-                                        author,
-                                        myImageUrl,
-                                        title,
-                                        "2.5",
-                                        false);
+                                    UploadUtil(widget.storiesCollection)
+                                        .uploadStory(audioPath, author,
+                                            myImageUrl, title, "2.5", false);
+
+                                    if (!context.mounted) return;
+
                                     Navigator.of(context).pop();
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => NavBarSpeaker(
-                                                profile, profiles)));
+                                            builder: (context) =>
+                                                NavBarSpeaker()));
                                   });
                                 });
                           },
-                    child:  Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Icon(
@@ -266,13 +280,12 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
                   width: MediaQuery.of(context).size.width / 2,
                   child: ElevatedButton(
                       style: elevatedButtonDefaultStyle(),
-                      child:  Text(AppLocalizations.of(context)!.continueStep),
+                      child: Text(AppLocalizations.of(context)!.continueStep),
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    NavBarSpeaker(profile, profiles)));
+                                builder: (context) => NavBarSpeaker()));
                       }),
                 )),
           ],

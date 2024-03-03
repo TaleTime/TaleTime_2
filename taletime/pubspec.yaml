@@ -1,7 +1,7 @@
 name: taletime
 description: TaleTime App.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.3
+version: 1.1.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -15,63 +15,66 @@ dependencies:
   intl: any
   
   #Firebase
-  firebase_core: ^2.4.1
-  firebase_auth: ^4.2.5
-  cloud_firestore: ^4.3.1
-  cloud_firestore_web: ^3.2.1
-  firebase_storage: ^11.0.10
-  firebase_storage_web: ^3.3.19
-  firebase_core_web: ^2.1.0
-  firebase_auth_web: ^5.2.4
-  record: ^5.0.1
-  path: ^1.8.2
+  firebase_core: ^2.22.0
+  firebase_auth: ^4.17.5
+  cloud_firestore: ^4.15.5
+  cloud_firestore_web: ^3.8.5
+  firebase_storage: ^11.6.6
+  firebase_storage_web: ^3.7.0
+  firebase_core_web: ^2.11.4
+  firebase_auth_web: ^5.8.7
+  record: ^5.0.4
+  path: ^1.8.3
 
-  email_validator: ^2.0.1
-  provider: ^6.0.3
+  email_validator: ^2.1.17
+  provider: ^6.1.1
   hexcolor: ^3.0.1
   cupertino_icons: ^1.0.2
   get: ^4.6.5
-  image_picker: ^1.0.4
-  marquee: ^2.2.1
-  file_picker: ^6.0.0
+  image_picker: ^1.0.7
+  marquee: ^2.2.3
+  file_picker: ^6.1.1
   flutter_sound: ^9.2.13
-  permission_handler: ^11.0.1
-  audioplayers: ^5.2.0
+  permission_handler: ^11.3.0
+  audioplayers: ^5.2.1
   audioplayers_web: ^4.1.0
-  flutter_picker: ^2.0.5
-  avatar_glow: ^2.0.2
+  flutter_picker: ^2.1.0
+  avatar_glow: ^3.0.1
 
   #share
-  share_plus: ^7.2.1
+  share_plus: ^7.2.2
 
   #fluttertoast
-  fluttertoast: ^8.0.8
+  fluttertoast: ^8.2.4
   percent_indicator: ^4.2.3
-  open_file: ^3.2.1
+  open_file: ^3.3.2
 
-  image_picker_for_web: ^3.0.1
-  path_provider: ^2.0.11
+  image_picker_for_web: ^3.0.2
+  path_provider: ^2.1.2
   flutter_sound_web: ^9.2.13
   flutter_web_plugins:
     sdk: flutter
-  logger: ^1.1.0
+  logger: ^1.4.0
 
-  url_launcher: ^6.1.14
-  flutter_native_splash: ^2.3.4
+  url_launcher: ^6.2.5
+  flutter_native_splash: ^2.3.10
   flutter_launcher_icons: ^0.13.1
+  audio_service: ^0.18.12
+  just_audio: ^0.9.36
 
 
 dev_dependencies:
-  build_runner: ^2.1.7
+  build_runner: ^2.4.8
   flutter_test:
     sdk: flutter
-  mockito: ^5.2.0
-  lint: ^2.0.0
-  flutter_lints: ^3.0.0
+  mockito: ^5.4.4
+  lint: ^2.3.0
+  flutter_lints: ^3.0.1
 
 flutter:
   assets:
     - assets/
+    - assets/profile/
   generate: true
   uses-material-design: true
 flutter_launcher_icons:

@@ -21,31 +21,51 @@ jobs:
     steps:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v3
+      - name: 📦 Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
             channel: 'stable'
             cache: true
+            cache-key: 'flutter-linux'
+      - name: 💵 Cache flutter build
+        id: cache-primes
+        uses: actions/cache@v3
+        with:
+           path: |
+            ./taletime/build
+             /opt/hostedtoolcache/flutter
+           key: ${{ runner.os }}-flutter-build
       - name: 📦 Get dependencies
         run: flutter pub get
         working-directory: ./taletime
-      - name: 🔑 Setup signing key
-        run: |
-          echo "${{ secrets.SIGNING_KEY_KEYSTORE }}" | base64 -d > taletime/android/app/keystore.jks
       - name: 🧪 Run tests
         run: flutter test
         working-directory: ./taletime
       - name: 📱 Build Android
         id: build_apk
-        env:
-          SIGNING_KEY_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_KEY_PASSWORD }}
-          SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
         run: |
+          rm -f build/app/outputs/flutter-apk/*.apk
           VERSION=$(grep -oP '^version:\s+\K.+$' pubspec.yaml)
           flutter build apk --flavor staging --build-name $VERSION+$GITHUB_RUN_NUMBER
           echo "versionName=$VERSION+$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
-          cp build/app/outputs/flutter-apk/app-staging-release.apk build/app/outputs/flutter-apk/TaleTime-$VERSION+$GITHUB_RUN_NUMBER.apk
         working-directory: ./taletime
+      - name: 🔑 Sign app
+        uses: ilharp/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDir: taletime/build/app/outputs/flutter-apk
+          signingKey: ${{ secrets.SIGNING_KEY_KEYSTORE }}
+          keyAlias: "TaleTime-Key"
+          keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNING_KEY_KEY_PASSWORD }}
+          buildToolsVersion: 33.0.0
+      - name: 🏷 Rename APK file
+        run: cp ${{ steps.sign_app.outputs.signedFile }} taletime/build/app/outputs/flutter-apk/TaleTime-${{ steps.build_apk.outputs.versionName }}.apk
       - name: 📦 Upload artifact
         uses: actions/upload-artifact@v2
         with:

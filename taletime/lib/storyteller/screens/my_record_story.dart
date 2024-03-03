@@ -1,6 +1,7 @@
 /// the class [my_record]enables the user, to play back (listen to)
 /// the history . the class offers many functions, such as a button to go forward/back 5/1/15 seconds.
 library;
+
 import "dart:async";
 import "dart:core";
 import "dart:io";
@@ -17,24 +18,22 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/storyteller/utils/record_class.dart";
 import "package:taletime/storyteller/utils/sound_recorder.dart";
 
+import "../../common/models/story.dart";
+
 class MyRecordStory extends StatefulWidget {
-  final Story myStory;
-  final profile;
-  final CollectionReference storiesCollection;
-  const MyRecordStory(this.myStory, this.profile, this.storiesCollection, {super.key});
+  final RecordStory myStory;
+
+  final CollectionReference<Story> storiesCollection;
+  const MyRecordStory(this.myStory, this.storiesCollection, {super.key});
 
   @override
-  State<MyRecordStory> createState() =>
-      _MyRecordStoryState(myStory, profile, storiesCollection);
+  State<MyRecordStory> createState() => _MyRecordStoryState();
 }
 
 class _MyRecordStoryState extends State<MyRecordStory> {
   final logger = TaleTimeLogger.getLogger();
-  final Story? myStory;
-  final profile;
-  final CollectionReference storiesCollection;
 
-  _MyRecordStoryState(this.myStory, this.profile, this.storiesCollection);
+  _MyRecordStoryState();
 
   SoundRecorder recorder = SoundRecorder();
   final AudioPlayer player = AudioPlayer();
@@ -116,12 +115,12 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     setState(() {});
 
     MyRecord record = MyRecord(newAudio.path);
-    RecordedStory recordedStory = RecordedStory(myStory!, record);
+    RecordedStory recordedStory = RecordedStory(widget.myStory, record);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => SaveOrUploadStory(
-                recordedStory, profile, storiesCollection, false)));
+                recordedStory, widget.storiesCollection, false)));
   }
 
   Widget buildStart() {
@@ -205,9 +204,9 @@ class _MyRecordStoryState extends State<MyRecordStory> {
     final animate = recoder;
 
     return AvatarGlow(
-      endRadius: 140,
       animate: animate,
-      repeatPauseDuration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
+      repeat: true,
       child: CircleAvatar(
         radius: 100,
         backgroundColor: Colors.teal.shade100,
@@ -286,7 +285,8 @@ class _MyRecordStoryState extends State<MyRecordStory> {
           centerTitle: true,
           title: Text(
             AppLocalizations.of(context)!.storyRecorder,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           )),
       body: Center(
         child: Column(

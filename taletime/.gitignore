@@ -77,7 +77,6 @@ fastlane/readme.md
 .pub/
 build/
 # If you're building an application, you may want to check-in your pubspec.lock
-pubspec.lock
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -243,3 +242,6 @@ google-services.json
 # Plugins (already resolved through pubspec.yaml)
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Untranslated messages land in here
+untranslated.txt
