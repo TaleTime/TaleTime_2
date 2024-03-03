@@ -401,5 +401,20 @@
     "continueToProfile": "Continue to profile",
     "@continueToProfile": {
         "description": "Shown on added story to profile page on button"
+    },
+
+    "couldNotBeAddedToNonListenerProfile": "The story could not be added because the selected profile is not a listener profile.",
+    "@couldNotBeAddedToNonListenerProfile": {
+        "description:": "Shown to indicate that a non-listener profile was selected and the story could not be added to the profile"
+    },
+
+    "addedSuccessfully": "The story was added successfully.",
+    "@addedSuccessfully": {
+        "description:": "Shown to indicate that story was successfully added"
+    },
+
+    "errorAddingStory": "There was an error adding the story to your profile.",
+    "@errorAddingStory": {
+        "description:": "Shown to indicate that there was an error adding the story to the profile"
     }
 }

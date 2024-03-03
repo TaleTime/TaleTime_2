@@ -2,8 +2,10 @@ import "dart:math";
 
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/state/profile_state.dart";
 
@@ -25,15 +27,57 @@ class AddSharedStoryState extends State<AddSharedStory> {
   @override
   void initState() {
     super.initState();
-    print("Adding story to profile...");
 
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _isLoading = false;
-        _success = false;
-        _message = "Erfolgreich";
-      });
-    });
+    () async {
+      print("Adding story to profile...");
+
+      try {
+        final profileState = Provider.of<ProfileState>(context, listen: false);
+
+        final profileDocSnap = await profileState.profileRef!.get();
+        final profile = profileDocSnap.data();
+
+        print("Got profile!");
+
+
+        if (profile?.title != ProfileType.listener) {
+          print("Not a listener profile");
+
+          setState(() {
+            _success = false;
+            _isLoading = false;
+            _message = AppLocalizations.of(context)!
+                .couldNotBeAddedToNonListenerProfile;
+          });
+
+          return;
+        }
+
+        print("Now adding...");
+
+
+        // Create new added story
+        var storyToAdd = AddedStory.fromStory(
+          widget.story,
+          liked: false,
+          timeLastListened: 0,
+        );
+
+        await profileState.storiesRef?.doc(storyToAdd.id).set(storyToAdd);
+
+        setState(() {
+          _isLoading = false;
+          _success = true;
+          _message = AppLocalizations.of(context)!.addedSuccessfully;
+        });
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+          _success = false;
+          _message = AppLocalizations.of(context)!.errorAddingStory;
+        });
+      }
+    }();
   }
 
   Widget _buildSuccessMessage(BuildContext context) {
