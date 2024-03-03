@@ -122,8 +122,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
       BuildContext context, CollectionReference<AddedStory> storiesRef) {
     return StreamBuilder(
         stream: storiesRef
-            .where("timeLastPlayed", isNotEqualTo: null)
-            .orderBy("timeLastPlayed", descending: true)
+            .where("timeLastListened", isNotEqualTo: null)
+            .orderBy("timeLastListened", descending: true)
             .limit(10)
             .snapshots(),
         builder: (context, streamSnapshot) {
@@ -161,7 +161,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             curve: Curves.ease,
                             child: StoryCard(
                               story: docs[i].data(),
-                              onTap: () {},
+                              onTap: () {
+                                StoryPlayer.playStory(context, docs[i].data());
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const StoryPlayer(),
+                                  ),
+                                );
+                              },
                             ),
                             builder: (_, value, child) {
                               return Transform.scale(
