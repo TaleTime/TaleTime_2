@@ -124,5 +124,6 @@
     "playlistAddStory": "Geschichte zur Playlist hinzufügen",
     "close": "Schließen",
     "editPlaylist": "Playlist bearbeiten",
-    "title": "Titel"
+    "title": "Titel",
+    "noDescriptionAvailable": "Keine Beschreibung verfügbar"
 }

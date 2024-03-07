@@ -63,7 +63,7 @@ class DetailedPlaylistPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                playlist.description ?? "No description",
+                playlist.description ?? AppLocalizations.of(context)!.noDescriptionAvailable,
                 textAlign: TextAlign.left,
                 softWrap: true,
                 style: const TextStyle(fontSize: 16, color: Colors.black45),

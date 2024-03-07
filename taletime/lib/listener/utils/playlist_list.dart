@@ -66,7 +66,7 @@ class PlaylistList extends StatelessWidget {
                                 ),
                                 Text(
                                   playlist.description ??
-                                      "Keine Beschreibung vorhanden",
+                                      AppLocalizations.of(context)!.noDescriptionAvailable,
                                   softWrap: true,
                                   overflow: TextOverflow.fade,
                                   style: const TextStyle(
