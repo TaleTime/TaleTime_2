@@ -122,5 +122,7 @@
     "playlists": "Playlisten",
     "description": "Beschreibung",
     "playlistAddStory": "Geschichte zur Playlist hinzufügen",
-    "close": "Schließen"
+    "close": "Schließen",
+    "editPlaylist": "Playlist bearbeiten",
+    "title": "Titel"
 }

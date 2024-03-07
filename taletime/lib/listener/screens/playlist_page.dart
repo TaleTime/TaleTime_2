@@ -66,13 +66,13 @@ class PlaylistPage extends StatelessWidget {
                       ),
                     );
                   },
-                  value: "edit",
-                  child: const Text("Edit"),
+                  value: AppLocalizations.of(context)!.edit,
+                  child: Text(AppLocalizations.of(context)!.edit),
                 ),
                 PopupMenuItem(
                   onTap: () {},
-                  value: "delete",
-                  child: const Text("Delete"),
+                  value: AppLocalizations.of(context)!.delete,
+                  child: Text(AppLocalizations.of(context)!.delete),
                 ),
               ],
             ),

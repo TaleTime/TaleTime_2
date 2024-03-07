@@ -33,8 +33,8 @@ class _EditPlaylistPageState extends State<EditPlaylistPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Edit Playlist",
-              style: TextStyle(fontSize: 24, color: Colors.white)),
+          title: Text(AppLocalizations.of(context)!.editPlaylist,
+              style: const TextStyle(fontSize: 24, color: Colors.white)),
         ),
         body: SafeArea(
           child: Padding(
@@ -42,8 +42,8 @@ class _EditPlaylistPageState extends State<EditPlaylistPage> {
             child: Column(
               children: [
                 TextField(
-                  decoration: const InputDecoration(
-                    labelText: "Title",
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.title,
                   ),
                   controller:
                       TextEditingController(text: widget.playlist.title),

@@ -388,5 +388,13 @@
     "close": "Close",
     "@close": {
         "description": "Used in playlist tab of listener screens"
+    },
+    "editPlaylist": "Edit playlist",
+    "@editPlaylist": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "title": "Title",
+    "@title": {
+        "description": "Used in playlist tab of listener screens"
     }
 }
