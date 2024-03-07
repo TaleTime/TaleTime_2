@@ -27,7 +27,7 @@ dependencies:
   path: ^1.8.3
 
   email_validator: ^2.1.17
-  provider: ^6.1.1
+  provider: ^6.1.2
   hexcolor: ^3.0.1
   cupertino_icons: ^1.0.2
   get: ^4.6.5
