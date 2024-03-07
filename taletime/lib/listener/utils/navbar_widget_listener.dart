@@ -80,7 +80,8 @@ class _NavBarListenerState extends State<NavBarListener> {
               Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
           navBarItems(
               Icons.playlist_add_sharp, AppLocalizations.of(context)!.addStory),
-          navBarItems(Icons.playlist_add_circle, AppLocalizations.of(context)!.playlists),
+          navBarItems(Icons.playlist_add_circle,
+              AppLocalizations.of(context)!.playlists),
         ],
       ),
     );

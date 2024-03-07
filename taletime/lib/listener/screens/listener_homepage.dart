@@ -93,7 +93,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           child: StoryListItem(
             story: story,
             onTap: () {
-              if (audioHandler.customState is CustomPlayerState){
+              if (audioHandler.customState is CustomPlayerState) {
                 var playerState = audioHandler.customState as CustomPlayerState;
                 playerState.setPlaylist([]);
                 playerState.currentStoryPlayed = 0;

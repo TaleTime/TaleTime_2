@@ -96,13 +96,14 @@ class PlayerControls extends StatelessWidget {
                         ),
                         onPressed: () {
                           if (shuffle) {
-                            audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
+                            audioHandler
+                                .setShuffleMode(AudioServiceShuffleMode.none);
                             shuffle = false;
-                          } else
-                            {
-                            audioHandler.setShuffleMode(AudioServiceShuffleMode.all);
+                          } else {
+                            audioHandler
+                                .setShuffleMode(AudioServiceShuffleMode.all);
                             shuffle = true;
-                            }
+                          }
                         },
                       ),
                       IconButton(

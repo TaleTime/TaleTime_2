@@ -17,11 +17,11 @@ class Playlist {
 
   factory Playlist.fromDocumentSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
-
     List<AddedStory> storyConverted = [];
 
-    for (var storyLoaded in snapshot.data()?["stories"] ?? { }) {
-      storyConverted.add(AddedStory.fromMap(storyLoaded, storyLoaded["id"]??""));
+    for (var storyLoaded in snapshot.data()?["stories"] ?? {}) {
+      storyConverted
+          .add(AddedStory.fromMap(storyLoaded, storyLoaded["id"] ?? ""));
     }
 
     return Playlist(

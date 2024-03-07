@@ -119,5 +119,8 @@
     "noName": "Kein name",
     "home": "Startseite",
     "stories": "Geschichten",
-    "playlists": "Playlisten"
+    "playlists": "Playlisten",
+    "description": "Beschreibung",
+    "playlistAddStory": "Geschichte zur Playlist hinzufügen",
+    "close": "Schließen"
 }

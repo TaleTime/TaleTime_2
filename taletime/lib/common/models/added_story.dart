@@ -47,7 +47,6 @@ class AddedStory extends Story {
     );
   }
 
-
   factory AddedStory.fromMap(Map<String, dynamic> data, String id) {
     return AddedStory(
       id: id,

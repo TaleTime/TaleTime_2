@@ -40,7 +40,6 @@ class StoryPlayer extends StatelessWidget {
         .update({"timeLastListened": DateTime.now().millisecondsSinceEpoch});
   }
 
-
   static MediaItem getMediaItemFromStory(Story story) {
     return MediaItem(
       id: story.id,

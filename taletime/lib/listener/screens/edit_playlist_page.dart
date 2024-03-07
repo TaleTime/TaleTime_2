@@ -6,6 +6,7 @@ import "package:taletime/state/profile_state.dart";
 import "../../common/models/play_list.dart";
 import "../../common/models/story.dart";
 import "../../common/widgets/story_list_item.dart";
+import "../../internationalization/localizations_ext.dart";
 
 class EditPlaylistPage extends StatefulWidget {
   final Playlist playlist;
@@ -51,8 +52,8 @@ class _EditPlaylistPageState extends State<EditPlaylistPage> {
                   },
                 ),
                 TextField(
-                  decoration: const InputDecoration(
-                    labelText: "Description",
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.description,
                   ),
                   controller:
                       TextEditingController(text: widget.playlist.description),
@@ -64,7 +65,7 @@ class _EditPlaylistPageState extends State<EditPlaylistPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Stories"),
+                    Text(AppLocalizations.of(context)!.stories),
                     ElevatedButton(
                         child: const Icon(Icons.add),
                         onPressed: () {
@@ -72,62 +73,62 @@ class _EditPlaylistPageState extends State<EditPlaylistPage> {
                             context: context,
                             builder: (BuildContext context) => Dialog(
                               child: StatefulBuilder(
-                                builder: (context, setDialogState) {
-                                  var notAddedStories = myStories
-                                      ?.where((element) => !playlistStories.contains(element))
-                                      .toList();
+                                  builder: (context, setDialogState) {
+                                var notAddedStories = myStories
+                                    ?.where((element) =>
+                                        !playlistStories.contains(element))
+                                    .toList();
 
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
-                                      children: <Widget>[
-                                        const Text(
-                                            "Add a story to your playlist"),
-                                        const SizedBox(height: 15),
-                                        Expanded(
-                                            child: ListView.builder(
-                                              padding: const EdgeInsets.all(8),
-                                              itemCount: notAddedStories != null
-                                                  ? notAddedStories.length
-                                                  : 0,
-                                              itemBuilder: (context, index) {
-                                                return Container(
-                                                    margin: const EdgeInsets
-                                                        .only(
-                                                        bottom: 8),
-                                                    child: StoryListItem(
-                                                        story: notAddedStories![index],
-                                                        buttons: [
-                                                          StoryActionButton(
-                                                              icon: Icons.add,
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  setDialogState(() {
-                                                                    playlistStories
-                                                                        .add(
-                                                                        notAddedStories[
-                                                                        index]);
-                                                                  });
-                                                                });
-                                                              })
-                                                        ]));
-                                              },
-                                            )),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("Close"),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              ),
-                              ),
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(AppLocalizations.of(context)!
+                                          .playlistAddStory),
+                                      const SizedBox(height: 15),
+                                      Expanded(
+                                          child: ListView.builder(
+                                        padding: const EdgeInsets.all(8),
+                                        itemCount: notAddedStories != null
+                                            ? notAddedStories.length
+                                            : 0,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 8),
+                                              child: StoryListItem(
+                                                  story:
+                                                      notAddedStories![index],
+                                                  buttons: [
+                                                    StoryActionButton(
+                                                        icon: Icons.add,
+                                                        onTap: () {
+                                                          setState(() {
+                                                            setDialogState(() {
+                                                              playlistStories.add(
+                                                                  notAddedStories[
+                                                                      index]);
+                                                            });
+                                                          });
+                                                        })
+                                                  ]));
+                                        },
+                                      )),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .close),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
                           );
                         })
                   ],

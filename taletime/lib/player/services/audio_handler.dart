@@ -62,23 +62,26 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> skipToNext() async {
     if (customState.value is CustomPlayerState) {
-      CustomPlayerState customPlayerState = customState.value as CustomPlayerState;
+      CustomPlayerState customPlayerState =
+          customState.value as CustomPlayerState;
       if (customPlayerState.hasNext()) {
         customPlayerState.currentStoryPlayed += 1;
-        var mediaitem = StoryPlayer.getMediaItemFromStory(customPlayerState.storyPlaylist[customPlayerState.currentStoryPlayed]);
+        var mediaitem = StoryPlayer.getMediaItemFromStory(customPlayerState
+            .storyPlaylist[customPlayerState.currentStoryPlayed]);
         playMediaItem(mediaitem);
       }
     }
   }
 
-
   @override
   Future<void> skipToPrevious() async {
     if (customState.value is CustomPlayerState) {
-      CustomPlayerState customPlayerState = customState.value as CustomPlayerState;
+      CustomPlayerState customPlayerState =
+          customState.value as CustomPlayerState;
       if (customPlayerState.hasPrev()) {
         customPlayerState.currentStoryPlayed -= 1;
-        var mediaitem = StoryPlayer.getMediaItemFromStory(customPlayerState.storyPlaylist[customPlayerState.currentStoryPlayed]);
+        var mediaitem = StoryPlayer.getMediaItemFromStory(customPlayerState
+            .storyPlaylist[customPlayerState.currentStoryPlayed]);
         playMediaItem(mediaitem);
       }
     }

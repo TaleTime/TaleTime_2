@@ -44,7 +44,8 @@ class DetailedPlaylistPage extends StatelessWidget {
                 PopupMenuItem(
                   onTap: () {
                     Provider.of<ProfileState>(context, listen: false)
-                        .playlistsRef?.doc(playlist.id)
+                        .playlistsRef
+                        ?.doc(playlist.id)
                         .delete();
                     Navigator.pop(context);
                   },
@@ -68,7 +69,7 @@ class DetailedPlaylistPage extends StatelessWidget {
                 style: const TextStyle(fontSize: 16, color: Colors.black45),
               ),
               const SizedBox(width: 8.0),
-            Text(AppLocalizations.of(context)!.stories,
+              Text(AppLocalizations.of(context)!.stories,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 24, color: Colors.black)),
               SingleChildScrollView(
@@ -79,27 +80,32 @@ class DetailedPlaylistPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: StoryListItem(story: playlist.stories![index],
-                    buttons: [
-                      StoryActionButton(
-                        icon: Icons.play_arrow,
-                        onTap: () {
-                          if(playlist.stories == null) return;
-                          if (audioHandler.customState.value is CustomPlayerState){
-                            var state = audioHandler.customState.value as CustomPlayerState;
-                            state.setPlaylist(playlist.stories!);
-                            state.currentStoryPlayed = index;
-                          }
-                          StoryPlayer.playStory(context, playlist.stories![index]);
+                    child: StoryListItem(
+                      story: playlist.stories![index],
+                      buttons: [
+                        StoryActionButton(
+                          icon: Icons.play_arrow,
+                          onTap: () {
+                            if (playlist.stories == null) return;
+                            if (audioHandler.customState.value
+                                is CustomPlayerState) {
+                              var state = audioHandler.customState.value
+                                  as CustomPlayerState;
+                              state.setPlaylist(playlist.stories!);
+                              state.currentStoryPlayed = index;
+                            }
+                            StoryPlayer.playStory(
+                                context, playlist.stories![index]);
 
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const StoryPlayer(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const StoryPlayer(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 },
               )),
