@@ -12,12 +12,14 @@ import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import 'package:taletime/player/services/audio_handler.dart';
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/state/profile_state.dart";
+import "package:taletime/state/stories_state.dart";
 import "package:taletime/state/user_state.dart";
 
 import "../internationalization/localizations_ext.dart";
 import "firebase/firebase_options.dart";
 
 late AudioHandler audioHandler;
+bool shuffle = false;
 
 /// Main-Class of the TaleTime-App
 
@@ -65,6 +67,9 @@ class TaleTimeApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ProfileState>(
           create: (_) => ProfileState(),
+        ),
+        ChangeNotifierProvider<StoriesState>(
+          create: (_) => StoriesState(),
         ),
       ],
       child: const Providers(),

@@ -117,5 +117,14 @@
     "typeInNewTitle": "Neuen Titel eingeben",
     "updateStory": "Geschichte aktualisieren",
     "noName": "Kein name",
-    "home": "Startseite"
+    "home": "Startseite",
+    "stories": "Geschichten",
+    "playlists": "Playlisten",
+    "description": "Beschreibung",
+    "playlistAddStory": "Geschichte zur Playlist hinzufügen",
+    "close": "Schließen",
+    "editPlaylist": "Playlist bearbeiten",
+    "title": "Titel",
+    "noDescriptionAvailable": "Keine Beschreibung verfügbar",
+    "createPlaylist": "Playlist erstellen"
 }

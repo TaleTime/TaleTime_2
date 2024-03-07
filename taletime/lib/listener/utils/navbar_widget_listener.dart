@@ -1,14 +1,15 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 
-import "../../profiles/models/profile_model.dart";
-import "../../settings/settings.dart";
+import "../../state/profile_state.dart";
 import "../screens/add_story_page.dart";
 import "../screens/favorites_page.dart";
 import "../screens/listener_homepage.dart";
+import "../screens/playlist_page.dart";
 
 class NavBarListener extends StatefulWidget {
   const NavBarListener({super.key});
@@ -41,14 +42,24 @@ class _NavBarListenerState extends State<NavBarListener> {
 
   @override
   Widget build(BuildContext context) {
+    var profile = Provider.of<ProfileState>(context).profile;
+
+    if (profile == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          ListenerHomePage(),
-          FavoritePage(),
+          const ListenerHomePage(),
+          const FavoritePage(),
           AddStory(allStories),
-          SettingsPage(),
+          PlaylistPage(profileId: profile.id),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -68,7 +79,9 @@ class _NavBarListenerState extends State<NavBarListener> {
           navBarItems(
               Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
           navBarItems(
-              Icons.playlist_add_sharp, AppLocalizations.of(context)!.addStory),
+              Icons.add, AppLocalizations.of(context)!.addStory),
+          navBarItems(Icons.playlist_add_circle,
+              AppLocalizations.of(context)!.playlists),
         ],
       ),
     );
