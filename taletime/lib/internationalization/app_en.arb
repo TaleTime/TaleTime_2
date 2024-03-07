@@ -371,5 +371,13 @@
     "audioCannotBePlayed": "Audio cannot be played!",
     "@audioCannotBePlayed": {
         "description": "Displayed to indicate that a story cannot be played."
+    },
+    "stories": "Stories",
+    "@stories": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "playlists": "Playlists",
+    "@playlists": {
+        "description": "Used in playlist tab of listener screens"
     }
 }

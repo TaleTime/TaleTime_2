@@ -6,6 +6,7 @@ import "package:taletime/listener/screens/edit_playlist_page.dart";
 import "package:taletime/player/models/custom_player_state.dart";
 
 import "../../common/models/play_list.dart";
+import "../../internationalization/localizations_ext.dart";
 import "../../main.dart";
 import "../../player/screens/story_player.dart";
 import "../../state/profile_state.dart";
@@ -37,8 +38,8 @@ class DetailedPlaylistPage extends StatelessWidget {
                       ),
                     );
                   },
-                  value: "edit",
-                  child: const Text("Edit"),
+                  value: AppLocalizations.of(context)!.edit,
+                  child: Text(AppLocalizations.of(context)!.edit),
                 ),
                 PopupMenuItem(
                   onTap: () {
@@ -47,8 +48,8 @@ class DetailedPlaylistPage extends StatelessWidget {
                         .delete();
                     Navigator.pop(context);
                   },
-                  value: "delete",
-                  child: const Text("Delete"),
+                  value: AppLocalizations.of(context)!.delete,
+                  child: Text(AppLocalizations.of(context)!.delete),
                 ),
               ],
             ),
@@ -67,9 +68,9 @@ class DetailedPlaylistPage extends StatelessWidget {
                 style: const TextStyle(fontSize: 16, color: Colors.black45),
               ),
               const SizedBox(width: 8.0),
-              const Text("Stories",
+            Text(AppLocalizations.of(context)!.stories,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24, color: Colors.black)),
+                  style: const TextStyle(fontSize: 24, color: Colors.black)),
               SingleChildScrollView(
                   child: ListView.builder(
                 shrinkWrap: true,

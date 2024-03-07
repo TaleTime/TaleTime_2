@@ -4,6 +4,7 @@ import "package:provider/provider.dart";
 import "package:taletime/common/models/play_list.dart";
 import "package:taletime/listener/utils/playlist_list.dart";
 
+import "../../internationalization/localizations_ext.dart";
 import "../../state/profile_state.dart";
 import "package:taletime/common%20utils/constants.dart";
 
@@ -33,9 +34,9 @@ class PlaylistPage extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).colorScheme.background,
           toolbarOpacity: 0,
-          title: const Text(
-            "Playlists",
-            style: TextStyle(
+          title: Text(
+            AppLocalizations.of(context)!.playlists,
+            style: const TextStyle(
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),

@@ -117,5 +117,7 @@
     "typeInNewTitle": "Neuen Titel eingeben",
     "updateStory": "Geschichte aktualisieren",
     "noName": "Kein name",
-    "home": "Startseite"
+    "home": "Startseite",
+    "stories": "Geschichten",
+    "playlists": "Playlisten"
 }
