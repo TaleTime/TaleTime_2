@@ -70,6 +70,7 @@ class AddedStory extends Story {
       "rating": rating,
       "liked": liked,
       "timeLastListened": timeLastListened,
+      "id": id
     };
   }
 }
