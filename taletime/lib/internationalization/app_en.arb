@@ -397,5 +397,6 @@
     "@title": {
         "description": "Used in playlist tab of listener screens"
     },
-    "noDescriptionAvailable": "No description available"
+    "noDescriptionAvailable": "No description available",
+    "createPlaylist": "Create playlist"
 }

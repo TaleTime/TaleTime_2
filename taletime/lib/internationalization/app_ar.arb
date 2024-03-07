@@ -125,5 +125,6 @@
     "close": "Schließen",
     "editPlaylist": "Playlist bearbeiten",
     "title": "Titel",
-    "noDescriptionAvailable": "Keine Beschreibung verfügbar"
+    "noDescriptionAvailable": "Keine Beschreibung verfügbar",
+    "createPlaylist": "Playlist erstellen"
 }

@@ -33,7 +33,6 @@ class PlaylistPage extends StatelessWidget {
           leading: null,
           automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).colorScheme.background,
-          toolbarOpacity: 0,
           title: Text(
             AppLocalizations.of(context)!.playlists,
             style: const TextStyle(
@@ -66,13 +65,8 @@ class PlaylistPage extends StatelessWidget {
                       ),
                     );
                   },
-                  value: AppLocalizations.of(context)!.edit,
-                  child: Text(AppLocalizations.of(context)!.edit),
-                ),
-                PopupMenuItem(
-                  onTap: () {},
-                  value: AppLocalizations.of(context)!.delete,
-                  child: Text(AppLocalizations.of(context)!.delete),
+                  value: AppLocalizations.of(context)!.createPlaylist,
+                  child: Text(AppLocalizations.of(context)!.createPlaylist),
                 ),
               ],
             ),
