@@ -269,18 +269,18 @@ packages:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
-      sha256: adff62e6d3736d8c529a417487d81c5bec1be227e0c04ba95ef64364485aee09
+      sha256: d200d82314548a11a02056ca96861d216ff814a1efe7bcc6595d404202f5212c
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.8"
+    version: "6.1.10"
   cloud_firestore_web:
     dependency: "direct main"
     description:
       name: cloud_firestore_web
-      sha256: "73efac045b40263001b9265a375b1bd4032945dc6b888698d8add927dc74b818"
+      sha256: "3b3046c23eccc1064328ab010cff4df470b6b1cfd648b82e08a84f5fb210bcb9"
       url: "https://pub.dev"
     source: hosted
-    version: "3.10.7"
+    version: "3.10.9"
   code_builder:
     dependency: transitive
     description:
