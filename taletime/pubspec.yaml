@@ -57,7 +57,7 @@ dependencies:
   logger: ^1.4.0
 
   url_launcher: ^6.2.5
-  flutter_native_splash: ^2.3.10
+  flutter_native_splash: ^2.4.0
   flutter_launcher_icons: ^0.13.1
   audio_service: ^0.18.12
   just_audio: ^0.9.36
