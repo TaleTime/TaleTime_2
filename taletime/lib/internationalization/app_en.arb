@@ -416,5 +416,10 @@
     "errorAddingStory": "There was an error adding the story to your profile.",
     "@errorAddingStory": {
         "description:": "Shown to indicate that there was an error adding the story to the profile"
+    },
+
+    "storyAlreadyAdded": "This story is already added to your profile",
+    "@storyAlreadyAdded": {
+        "description:": "Shown to indicate that the story was already added to the profile"
     }
 }

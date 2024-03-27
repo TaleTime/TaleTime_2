@@ -5,9 +5,12 @@ import "package:provider/provider.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/listener/screens/listener_homepage.dart";
+import "package:taletime/listener/utils/navbar_widget_listener.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
 import "package:taletime/state/profile_state.dart";
+import "package:taletime/storyteller/utils/navbar_widget_storyteller.dart";
 
 class AddSharedStory extends StatefulWidget {
   const AddSharedStory({super.key, required this.story});
@@ -53,23 +56,34 @@ class AddSharedStoryState extends State<AddSharedStory> {
           return;
         }
 
-        print("Now adding...");
+        final newDocRef = profileState.storiesRef?.doc(widget.story.id);
+        final newDoc = await newDocRef?.get();
+        final exists = newDoc?.exists;
 
+        if (exists == null || !exists) {
+          print("Now adding...");
 
-        // Create new added story
-        var storyToAdd = AddedStory.fromStory(
-          widget.story,
-          liked: false,
-          timeLastListened: 0,
-        );
+          // Create new added story
+          var storyToAdd = AddedStory.fromStory(
+            widget.story,
+            liked: false,
+            timeLastListened: 0,
+          );
 
-        await profileState.storiesRef?.doc(storyToAdd.id).set(storyToAdd);
+          await profileState.storiesRef?.doc(storyToAdd.id).set(storyToAdd);
 
-        setState(() {
-          _isLoading = false;
-          _success = true;
-          _message = AppLocalizations.of(context)!.addedSuccessfully;
-        });
+          setState(() {
+            _isLoading = false;
+            _success = true;
+            _message = AppLocalizations.of(context)!.addedSuccessfully;
+          });
+        } else {
+          setState(() {
+            _isLoading = false;
+            _success = true;
+            _message = AppLocalizations.of(context)!.storyAlreadyAdded;
+          });
+        }
       } catch (e) {
         setState(() {
           _isLoading = false;
@@ -195,7 +209,17 @@ class AddSharedStoryState extends State<AddSharedStory> {
                                 ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  if (Provider.of<ProfileState>(context, listen: false).profile?.title == ProfileType.listener) {
+                                    return const NavBarListener();
+                                  } else {
+                                    return const NavBarSpeaker();
+                                  }
+                                },
+                            ));
+                          },
                           child: Text(
                               AppLocalizations.of(context)!.continueToProfile),
                         ),
