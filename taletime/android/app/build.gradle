@@ -81,7 +81,7 @@ android {
 
         staging {
             dimension "environment"
-            applicationIdSuffix ".stageing"
+            applicationIdSuffix ".staging"
             resValue "string", "app_name", "[Staging] TaleTime"
             signingConfig signingConfigs.debug
         }

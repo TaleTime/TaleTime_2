@@ -7,19 +7,22 @@
         {
             "name": "taletime",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": ["--flavor", "dev" ]
         },
         {
             "name": "taletime (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": ["--flavor", "dev" ]
         },
         {
             "name": "taletime (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": ["--flavor", "dev" ]
         }
     ]
 }
