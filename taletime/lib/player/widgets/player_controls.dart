@@ -1,11 +1,27 @@
 import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
 import "package:share_plus/share_plus.dart";
+import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
 import "package:taletime/player/models/custom_player_state.dart";
 
 class PlayerControls extends StatelessWidget {
   const PlayerControls({super.key});
+
+  void _shareStory(BuildContext context) {
+    final mediaItem = audioHandler.mediaItem.value;
+
+    if (mediaItem == null) {
+      return;
+    }
+
+    final title = mediaItem.title;
+    final author = mediaItem.artist;
+    final id = mediaItem.id;
+
+    final sharedText = "$title ${AppLocalizations.of(context)!.by} $author - https://taletime-2022.web.app/shared?storyId=$id";
+    Share.share(sharedText);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +119,7 @@ class PlayerControls extends StatelessWidget {
                           size: 22,
                         ),
                         onPressed: () {
-                          Share.share("Meine erste Geschichte von Doba16 https://foo.example.com/x/123");
+                          _shareStory(context);
                         },
                       ),
                       IconButton(
