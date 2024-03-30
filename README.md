@@ -48,7 +48,7 @@ We recommend using [Android Studio](https://developer.android.com/studio) becaus
 It comes with all tools required for developing and configuring your emulators.
 
 While already being configured for Android projects, the IDE is still missing support for Flutter.
-But this can simply be added by installing the [Flutter Plugin](https://plugins.jetbrains.com/plugin/9212-flutter).
+This can easily be added by installing the [Flutter Plugin] (https://plugins.jetbrains.com/plugin/9212-flutter).
 You can also add the [Flutter Intl Plugin](https://plugins.jetbrains.com/plugin/13666-flutter-intl).
 
 In order to open the project properly, import only the `taletime/` folder into Android Studio.
@@ -58,11 +58,11 @@ Otherwise the IDE might not correctly detect the flutter project.
 
 An alternative to Android Studio is [Visual Studio Code](https://code.visualstudio.com/).
 It is a lightweight IDE which can be customized to your needs.
-In addition to that the Project is already configured to it and offers a few benefits.
+In addition to that the project is already configured to it and offers a few benefits.
 
 ##### Recommended Plugins
 ###### Code Spell Checker: streetsidesoftware.code-spell-checker
-Offers Spellchecking for English, other language packages can be downloaded aswell 
+Offers spellchecking for English, other language packages can be downloaded aswell 
 ###### Markdown All in One: yzhang.markdown-all-in-one
 All in one Markdown solution
 ###### Flutter: Dart-Code.flutter
@@ -214,12 +214,12 @@ When merging this pull request, this issue will automatically closed.
 
 ### Dependabot
 
-Dependabot is a piece of software by GitHub that checks you code for newer versions of dependencies.
-If it finds something to update, it will open a pull request that applies this newer version.
-In our configuration it will run weakly its checks.
-If there are pull requests by dependabot, wait until the status checks are passed and then merge the pull request.
+Dependabot is software from GitHub that checks your code for newer versions of dependencies.
+If it finds something that needs to be updated, it will create a pull request to apply that newer version.
+In our configuration, it will run its checks weakly.
+If there are pull requests from dependabot, wait for the status checks to pass, and then merge the pull request.
 
-After merging any changes, dependabot realizes this rebases it to have those latest changes included.
+After merging changes, dependabot recognises this and rebases itself to include the latest changes.
 This is indicated by yellow warning signs in the description.
 DO NOT touch this pull request while these warning signs are shown.
 
@@ -251,7 +251,7 @@ This allows for quick installation and other team members can test you newly add
 
 ### Automatic creation of releases
 
-The app is released using GitHub's release system.
+The app is released using the GitHub release system.
 After adding relevant features or bug fixes a new release should be created.
 Releases do not need to be crafted by hand, there is a workflow for it!
 
