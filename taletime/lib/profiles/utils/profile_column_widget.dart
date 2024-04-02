@@ -4,7 +4,6 @@ import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common%20utils/tale_time_logger.dart";
 import "package:taletime/profiles/utils/create_edit_profile.dart";
 import "package:taletime/profiles/utils/profile_service.dart";
-import "package:taletime/state/profile_state.dart";
 import "package:taletime/state/user_state.dart";
 
 import "../../internationalization/localizations_ext.dart";
@@ -57,7 +56,9 @@ class _ProfileColumnState extends State<ProfileColumn> {
                     onPressed: () {
                       setState(() {
                         ProfileService.deleteProfile(
-                            Provider.of<UserState>(context, listen: false).profilesRef!.doc(widget.profile.id));
+                            Provider.of<UserState>(context, listen: false)
+                                .profilesRef!
+                                .doc(widget.profile.id));
                         Navigator.of(context).pop();
                       });
                     },

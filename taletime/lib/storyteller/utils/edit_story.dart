@@ -86,10 +86,12 @@ class _EditStoryState extends State<EditStory> {
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
       return widget.storiesCollection
-          ?.doc(storyId)
-          .update({"author": author, "title": title})
-          .then((value) => logger.v("story Updated"))
-          .catchError((error) => logger.e("Failed to update story: $error")) ?? Future.value();
+              ?.doc(storyId)
+              .update({"author": author, "title": title})
+              .then((value) => logger.v("story Updated"))
+              .catchError(
+                  (error) => logger.e("Failed to update story: $error")) ??
+          Future.value();
     }
 
     void reset() {

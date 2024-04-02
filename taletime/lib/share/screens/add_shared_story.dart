@@ -5,7 +5,6 @@ import "package:provider/provider.dart";
 import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
-import "package:taletime/listener/screens/listener_homepage.dart";
 import "package:taletime/listener/utils/navbar_widget_listener.dart";
 import "package:taletime/profiles/models/profile_model.dart";
 import "package:taletime/profiles/utils/profile_image_selector.dart";
@@ -41,7 +40,6 @@ class AddSharedStoryState extends State<AddSharedStory> {
         final profile = profileDocSnap.data();
 
         print("Got profile!");
-
 
         if (profile?.title != ProfileType.listener) {
           print("Not a listener profile");
@@ -211,13 +209,17 @@ class AddSharedStoryState extends State<AddSharedStory> {
                         ElevatedButton(
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  if (Provider.of<ProfileState>(context, listen: false).profile?.title == ProfileType.listener) {
-                                    return const NavBarListener();
-                                  } else {
-                                    return const NavBarSpeaker();
-                                  }
-                                },
+                              builder: (context) {
+                                if (Provider.of<ProfileState>(context,
+                                            listen: false)
+                                        .profile
+                                        ?.title ==
+                                    ProfileType.listener) {
+                                  return const NavBarListener();
+                                } else {
+                                  return const NavBarSpeaker();
+                                }
+                              },
                             ));
                           },
                           child: Text(

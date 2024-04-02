@@ -216,12 +216,15 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
             ),
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsPage()));
               },
               icon: Icon(
                 Icons.menu,
-                size: 33, color: kPrimaryColor, //kPrimaryColor
+                size: 33,
+                color: kPrimaryColor,
               ),
             ),
           ],

@@ -96,7 +96,7 @@ class Providers extends StatelessWidget {
             routes: [
               GoRoute(
                 path: "shared",
-                builder: (_, __) => SharedStory(),
+                builder: (_, __) => const SharedStory(),
               ),
             ],
           ),
@@ -134,7 +134,7 @@ class HomePage extends StatelessWidget {
 
           /// if the user is already logged in he will be redirected to the ProfilesPage
           if (user != null) {
-            return ProfilesPage();
+            return const ProfilesPage();
 
             /// if the user isn't logged in he will be redirected to the WelcomePage
           } else {

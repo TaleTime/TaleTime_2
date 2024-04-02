@@ -19,7 +19,11 @@ class PlayerControls extends StatelessWidget {
     final author = mediaItem.artist;
     final id = mediaItem.id;
 
-    final sharedText = "$title ${AppLocalizations.of(context)!.by} $author - https://taletime-2022.web.app/shared?storyId=$id";
+    const baseUrl = String.fromEnvironment("BASE_URL",
+        defaultValue: "https://taletime-2022.web.app/shared?storyId=");
+
+    final sharedText =
+        "$title ${AppLocalizations.of(context)!.by} $author - $baseUrl$id";
     Share.share(sharedText);
   }
 

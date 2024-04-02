@@ -92,7 +92,8 @@ class _SpeakerHomePageState extends State<SpeakerHomePage> {
                     ),
                     Consumer<ProfileState>(
                       builder: (context, profileState, _) => Text(
-                        profileState.profile?.name ?? AppLocalizations.of(context)!.noName,
+                        profileState.profile?.name ??
+                            AppLocalizations.of(context)!.noName,
                         style: TextStyle(
                             color: kPrimaryColor,
                             fontSize: 25,

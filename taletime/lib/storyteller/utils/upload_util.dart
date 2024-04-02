@@ -40,9 +40,11 @@ class UploadUtil {
 
   Future<void> deleteStory(String storyId) {
     return storiesCollection
-        ?.doc(storyId)
-        .delete()
-        .then((value) => logger.v("story Deleted"))
-        .catchError((error) => logger.e("Failed to delete story: $error")) ?? Future.value();
+            ?.doc(storyId)
+            .delete()
+            .then((value) => logger.v("story Deleted"))
+            .catchError(
+                (error) => logger.e("Failed to delete story: $error")) ??
+        Future.value();
   }
 }
