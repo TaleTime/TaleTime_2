@@ -9,21 +9,23 @@
             "cwd": "taletime",
             "request": "launch",
             "type": "dart",
-            "args": ["--flavor", "dev", ]
+            "args": ["--flavor", "dev" ]
         },
         {
             "name": "taletime (profile mode)",
             "cwd": "taletime",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": ["--flavor", "dev" ]
         },
         {
             "name": "taletime (release mode)",
             "cwd": "taletime",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": ["--flavor", "dev" ]
         }
     ]
 }
