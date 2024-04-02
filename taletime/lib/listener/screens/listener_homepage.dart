@@ -9,6 +9,8 @@ import "package:taletime/common/widgets/story_card.dart";
 import "package:taletime/common/widgets/story_list_item.dart";
 import "package:taletime/common/widgets/tale_time_alert_dialog.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
+import "package:taletime/main.dart";
+import "package:taletime/player/models/custom_player_state.dart";
 import "package:taletime/player/screens/story_player.dart";
 import "package:taletime/state/profile_state.dart";
 
@@ -91,6 +93,12 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
           child: StoryListItem(
             story: story,
             onTap: () {
+              if (audioHandler.customState is CustomPlayerState) {
+                var playerState = audioHandler.customState as CustomPlayerState;
+                playerState.setPlaylist([]);
+                playerState.currentStoryPlayed = 0;
+              }
+
               StoryPlayer.playStory(context, story);
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -122,8 +130,8 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
       BuildContext context, CollectionReference<AddedStory>? storiesRef) {
     return StreamBuilder(
         stream: storiesRef
-            ?.where("timeLastPlayed", isNotEqualTo: null)
-            .orderBy("timeLastPlayed", descending: true)
+            ?.where("timeLastListened", isNotEqualTo: null)
+            .orderBy("timeLastListened", descending: true)
             .limit(10)
             .snapshots(),
         builder: (context, streamSnapshot) {
@@ -161,7 +169,14 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                             curve: Curves.ease,
                             child: StoryCard(
                               story: docs[i].data(),
-                              onTap: () {},
+                              onTap: () {
+                                StoryPlayer.playStory(context, docs[i].data());
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const StoryPlayer(),
+                                  ),
+                                );
+                              },
                             ),
                             builder: (_, value, child) {
                               return Transform.scale(

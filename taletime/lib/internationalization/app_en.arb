@@ -421,5 +421,32 @@
     "storyAlreadyAdded": "This story is already added to your profile",
     "@storyAlreadyAdded": {
         "description:": "Shown to indicate that the story was already added to the profile"
-    }
+    },
+    "stories": "Stories",
+    "@stories": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "playlists": "Playlists",
+    "@playlists": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "description": "Description",
+    "@description": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "playlistAddStory": "Add story to playlist",
+    "close": "Close",
+    "@close": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "editPlaylist": "Edit playlist",
+    "@editPlaylist": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "title": "Title",
+    "@title": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "noDescriptionAvailable": "No description available",
+    "createPlaylist": "Create playlist"
 }

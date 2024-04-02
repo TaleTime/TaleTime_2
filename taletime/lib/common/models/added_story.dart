@@ -47,6 +47,19 @@ class AddedStory extends Story {
     );
   }
 
+  factory AddedStory.fromMap(Map<String, dynamic> data, String id) {
+    return AddedStory(
+      id: id,
+      title: data["title"],
+      audioUrl: data["audio"],
+      imageUrl: data["image"],
+      author: data["author"],
+      liked: data["isLiked"] ?? false,
+      timeLastListened: data["timeLastListened"],
+      rating: data["rating"],
+    );
+  }
+
   @override
   Map<String, Object?> toFirebase() {
     return {
@@ -57,6 +70,7 @@ class AddedStory extends Story {
       "rating": rating,
       "liked": liked,
       "timeLastListened": timeLastListened,
+      "id": id
     };
   }
 }

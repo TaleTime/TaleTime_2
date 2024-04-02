@@ -32,6 +32,17 @@ class Story {
     );
   }
 
+  factory Story.fromMap(Map<String, dynamic> data, String id) {
+    return Story(
+      id: id,
+      title: data["title"],
+      audioUrl: data["audio"],
+      imageUrl: data["image"],
+      author: data["author"],
+      rating: data["rating"],
+    );
+  }
+
   Map<String, Object?> toFirebase() {
     return {
       "title": title,

@@ -1,5 +1,6 @@
 import "package:audio_service/audio_service.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 import "package:taletime/main.dart";
 import "package:taletime/player/widgets/favorite_button.dart";
@@ -8,8 +9,10 @@ import "package:taletime/player/widgets/player_loading_spinner.dart";
 import "package:taletime/player/widgets/progress_bar.dart";
 import "package:taletime/player/widgets/story_image.dart";
 import "package:taletime/player/widgets/story_metadata.dart";
+import "package:taletime/state/profile_state.dart";
 
 import "../../common/models/added_story.dart";
+import "../../common/models/story.dart";
 
 enum PlaybackMode { sequential, random, repeat }
 
@@ -18,6 +21,41 @@ class StoryPlayer extends StatelessWidget {
 
   static void playStory(BuildContext context, AddedStory story) {
     audioHandler.playMediaItem(MediaItem(
+      id: story.id,
+      title: story.title ?? AppLocalizations.of(context)!.noTitle,
+      artist: story.author ?? AppLocalizations.of(context)!.noName,
+      artUri: story.imageUrl != null ? Uri.parse(story.imageUrl!) : null,
+      extras: {
+        // This might be an invalid url, but the player will detect this and
+        // go into the error state
+        "url": story.audioUrl ?? ""
+      },
+    ));
+
+    // Set timestamp
+    var storyRef = Provider.of<ProfileState>(context, listen: false)
+        .storiesRef!
+        .doc(story.id);
+    storyRef
+        .update({"timeLastListened": DateTime.now().millisecondsSinceEpoch});
+  }
+
+  static MediaItem getMediaItemFromStory(Story story) {
+    return MediaItem(
+      id: story.id,
+      title: story.title ?? "no title",
+      artist: story.author ?? "no name",
+      artUri: story.imageUrl != null ? Uri.parse(story.imageUrl!) : null,
+      extras: {
+        // This might be an invalid url, but the player will detect this and
+        // go into the error state
+        "url": story.audioUrl ?? ""
+      },
+    );
+  }
+
+  static void addStoryToQueue(BuildContext context, AddedStory story) {
+    audioHandler.addQueueItem(MediaItem(
       id: story.id,
       title: story.title ?? AppLocalizations.of(context)!.noTitle,
       artist: story.author ?? AppLocalizations.of(context)!.noName,
