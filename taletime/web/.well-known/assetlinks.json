@@ -10,5 +10,29 @@
         "D2:65:F6:B9:E9:42:68:0C:13:D0:E4:0A:0B:D1:DB:A2:D0:2B:D9:F9:F2:0B:05:E7:15:DB:DE:7B:58:98:74:40"
       ]
     }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.htwsaar.taletime.staging",
+      "sha256_cert_fingerprints": [
+        "B4:02:88:71:6D:B5:2C:01:01:0D:80:FE:27:75:98:73:29:F1:4E:AF:D5:9D:1A:E4:BA:3D:22:05:A2:FE:65:CC"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.htwsaar.taletime",
+      "sha256_cert_fingerprints": [
+        "B4:02:88:71:6D:B5:2C:01:01:0D:80:FE:27:75:98:73:29:F1:4E:AF:D5:9D:1A:E4:BA:3D:22:05:A2:FE:65:CC"
+      ]
+    }
   }
 ]
