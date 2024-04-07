@@ -79,7 +79,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   }
 
   Widget _buildStoriesList(BuildContext context, List<AddedStory>? stories,
-      CollectionReference<AddedStory> storiesRef) {
+      CollectionReference<AddedStory>? storiesRef) {
     if (stories == null) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -111,13 +111,13 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                 icon: story.liked ? Icons.favorite : Icons.favorite_border,
                 onTap: () {
                   StoryService.likeStory(
-                      storiesRef.doc(story.id), !story.liked);
+                      storiesRef!.doc(story.id), !story.liked);
                 },
               ),
               StoryActionButton(
                   icon: Icons.delete_outline,
                   onTap: () {
-                    _deleteStory(storiesRef.doc(story.id), context);
+                    _deleteStory(storiesRef!.doc(story.id), context);
                   }),
             ],
           ),
@@ -127,10 +127,10 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
   }
 
   Widget _buildRecentlyPlayed(
-      BuildContext context, CollectionReference<AddedStory> storiesRef) {
+      BuildContext context, CollectionReference<AddedStory>? storiesRef) {
     return StreamBuilder(
         stream: storiesRef
-            .where("timeLastListened", isNotEqualTo: null)
+            ?.where("timeLastListened", isNotEqualTo: null)
             .orderBy("timeLastListened", descending: true)
             .limit(10)
             .snapshots(),
@@ -231,14 +231,17 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
             ),
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsPage()));
               },
               icon: Icon(
                 Icons.menu,
-                size: 33, color: kPrimaryColor, //kPrimaryColor
+                size: 33,
+                color: kPrimaryColor,
               ),
-            )
+            ),
           ],
         ),
         body: SizedBox(
@@ -314,7 +317,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                       ],
                     ),
                   ),
-                  _buildRecentlyPlayed(context, profileState.storiesRef!),
+                  _buildRecentlyPlayed(context, profileState.storiesRef),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -331,7 +334,7 @@ class _ListenerHomePageState extends State<ListenerHomePage> {
                           ),
                         ),
                         _buildStoriesList(context, profileState.stories,
-                            profileState.storiesRef!),
+                            profileState.storiesRef),
                       ],
                     ),
                   ),

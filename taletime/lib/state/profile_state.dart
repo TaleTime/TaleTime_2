@@ -32,6 +32,7 @@ class ProfileState with ChangeNotifier {
 
   set profileRef(DocumentReference<Profile>? profileRef) {
     _profileRef = profileRef;
+    _profile = null;
 
     _profileSubscription?.cancel();
     _profileSubscription = _profileRef?.snapshots().listen((profileSnapshot) {

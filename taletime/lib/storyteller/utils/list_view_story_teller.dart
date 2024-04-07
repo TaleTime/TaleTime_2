@@ -16,7 +16,7 @@ import "edit_story.dart";
 
 class ListViewStoryTeller extends StatefulWidget {
   final List stories;
-  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story>? storiesCollection;
 
   const ListViewStoryTeller(this.stories, this.storiesCollection, {super.key});
 

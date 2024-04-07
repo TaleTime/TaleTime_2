@@ -4,6 +4,8 @@ import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
+import "package:flutter_web_plugins/url_strategy.dart";
+import "package:go_router/go_router.dart";
 import "package:provider/provider.dart";
 import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/internationalization/l10n.dart";
@@ -11,6 +13,7 @@ import "package:taletime/internationalization/locale_provider.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
 import 'package:taletime/player/services/audio_handler.dart';
 import "package:taletime/profiles/screens/profiles_page.dart";
+import "package:taletime/share/screens/shared_story.dart";
 import "package:taletime/state/profile_state.dart";
 import "package:taletime/state/stories_state.dart";
 import "package:taletime/state/user_state.dart";
@@ -28,6 +31,8 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  usePathUrlStrategy();
 
   // Initialize Audio Service
   audioHandler = await AudioService.init(
@@ -86,9 +91,23 @@ class Providers extends StatelessWidget {
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
+
+    return MaterialApp.router(
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+            path: "/",
+            builder: (_, __) => HomePage(),
+            routes: [
+              GoRoute(
+                path: "shared",
+                builder: (_, __) => const SharedStory(),
+              ),
+            ],
+          ),
+        ],
+      ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
       themeMode: themeProvider.themeMode,
       theme: MyThemes.lightTheme,
       darkTheme: MyThemes.darkTheme,
@@ -120,7 +139,7 @@ class HomePage extends StatelessWidget {
 
           /// if the user is already logged in he will be redirected to the ProfilesPage
           if (user != null) {
-            return ProfilesPage();
+            return const ProfilesPage();
 
             /// if the user isn't logged in he will be redirected to the WelcomePage
           } else {

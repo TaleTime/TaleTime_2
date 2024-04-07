@@ -29,8 +29,8 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Consumer<ProfileState>(
       builder: (context, profileState, _) => StreamBuilder(
-          stream: profileState.storiesRef!
-              .where("isLiked", isEqualTo: true)
+          stream: profileState.storiesRef
+              ?.where("isLiked", isEqualTo: true)
               .snapshots(),
           builder: (context, streamSnapshot) {
             final data = streamSnapshot.data;

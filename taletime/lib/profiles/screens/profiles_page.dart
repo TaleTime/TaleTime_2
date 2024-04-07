@@ -15,7 +15,9 @@ import "../../login and registration/utils/authentification_util.dart";
 import "../utils/profile_list.dart";
 
 class ProfilesPage extends StatefulWidget {
-  const ProfilesPage({super.key});
+  const ProfilesPage({super.key, this.redirectTo});
+
+  final Widget? redirectTo;
 
   @override
   State<StatefulWidget> createState() {
@@ -105,7 +107,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       itemCount: profiles.length,
                       itemBuilder: (context, index) {
                         final Profile profile = profiles[index];
-                        return ProfileList(profile: profile);
+                        return ProfileList(
+                          profile: profile,
+                          redirectTo: widget.redirectTo,
+                        );
                       },
                     );
                   }

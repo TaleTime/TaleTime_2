@@ -245,3 +245,5 @@ google-services.json
 
 # Untranslated messages land in here
 untranslated.txt
+
+.firebase/
