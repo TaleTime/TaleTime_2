@@ -20,6 +20,11 @@ jobs:
         with:
           fetch-depth: 0
           ref: "dev"
+      - name: 📦 Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
       - name: ⚙️ Setup Flutter
         uses: subosito/flutter-action@v2
         with:
