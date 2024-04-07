@@ -59,7 +59,7 @@ dependencies:
   url_launcher: ^6.2.5
   flutter_native_splash: ^2.4.0
   flutter_launcher_icons: ^0.13.1
-  audio_service: ^0.18.12
+  audio_service: ^0.18.13
   just_audio: ^0.9.36
 
 dev_dependencies:
