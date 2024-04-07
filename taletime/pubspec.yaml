@@ -1,7 +1,7 @@
 name: taletime
 description: TaleTime App.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.2.0
+version: 1.2.1-SNAPSHOT
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
