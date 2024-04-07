@@ -23,7 +23,7 @@ import "../../common/models/story.dart";
 class MyRecordStory extends StatefulWidget {
   final RecordStory myStory;
 
-  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story>? storiesCollection;
   const MyRecordStory(this.myStory, this.storiesCollection, {super.key});
 
   @override

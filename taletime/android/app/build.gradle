@@ -36,7 +36,7 @@ if (flutterVersionName == null) {
 
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -68,6 +68,15 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file("debug.keystore")
+            storePassword "taletime"
+            keyAlias "TaleTime-Dev"
+            keyPassword "taletime"
+        }
+    }
+
     flavorDimensions "environment"
 
     productFlavors {
@@ -81,7 +90,7 @@ android {
 
         staging {
             dimension "environment"
-            applicationIdSuffix ".stageing"
+            applicationIdSuffix ".staging"
             resValue "string", "app_name", "[Staging] TaleTime"
             signingConfig signingConfigs.debug
         }

@@ -75,7 +75,7 @@ class _AddStoryState extends State<AddStory> {
   Widget build(BuildContext context) {
     return Consumer<ProfileState>(
       builder: (context, profileState, _) => StreamBuilder(
-        stream: profileState.storiesRef!.snapshots(),
+        stream: profileState.storiesRef?.snapshots(),
         builder: (ctx, snapshotAddedStories) {
           final addedStories = snapshotAddedStories.data;
           return StreamBuilder(

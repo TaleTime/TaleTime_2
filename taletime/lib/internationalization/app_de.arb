@@ -117,5 +117,19 @@
     "typeInNewTitle": "Neuen Titel eingeben",
     "updateStory": "Geschichte aktualisieren",
     "noName": "Kein name",
-    "home": "Startseite"
+    "home": "Startseite",
+    "noTitle": "Kein Titel",
+    "noAudioAssociatedWithStory":  "Mit dieser Geschichte ist kein Audio verknüpft.",
+    "audioCannotBePlayed": "Das Audio kann nicht wiedergegeben werden.",
+    "sharedStory": "Geteilte Geschichte",
+    "addToProfile": "Zum Profil hinzufügen",
+    "stories": "Geschichten",
+    "playlists": "Playlisten",
+    "description": "Beschreibung",
+    "playlistAddStory": "Geschichte zur Playlist hinzufügen",
+    "close": "Schließen",
+    "editPlaylist": "Playlist bearbeiten",
+    "title": "Titel",
+    "noDescriptionAvailable": "Keine Beschreibung verfügbar",
+    "createPlaylist": "Playlist erstellen"
 }

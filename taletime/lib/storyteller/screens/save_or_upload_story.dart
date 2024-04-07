@@ -23,7 +23,7 @@ import "../../common/models/story.dart";
 
 class SaveOrUploadStory extends StatefulWidget {
   final RecordedStory myRecordedStory;
-  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story>? storiesCollection;
   final bool isSaved;
 
   const SaveOrUploadStory(
@@ -95,7 +95,7 @@ class _SaveOrUploadStoryState extends State<SaveOrUploadStory> {
       rating: "2.5",
     );
     setState(() {
-      widget.storiesCollection.add(story).then<void>((value) {
+      widget.storiesCollection!.add(story).then<void>((value) {
         logger.v("Story Added to RecordedStories");
         updateList(value.id, widget.storiesCollection);
       }).catchError((error) => logger.e("Failed to add story: $error"));

@@ -12,7 +12,7 @@ import "../../common utils/constants.dart";
 import "../../common utils/decoration_util.dart";
 
 class EditStory extends StatefulWidget {
-  final CollectionReference<Story> storiesCollection;
+  final CollectionReference<Story>? storiesCollection;
   final DocumentSnapshot story;
 
   const EditStory(this.storiesCollection, this.story, {super.key});
@@ -60,7 +60,7 @@ class _EditStoryState extends State<EditStory> {
       String myUrl = await ref.child(name).getDownloadURL();
       setState(() {
         widget.storiesCollection
-            .doc(widget.story["id"])
+            ?.doc(widget.story["id"])
             .update({"image": myUrl})
             .then((value) => logger.v("story Updated"))
             .catchError((error) => logger.e("Failed to update story: $error"));
@@ -86,10 +86,12 @@ class _EditStoryState extends State<EditStory> {
     Future<void> updateStory(
         String storyId, String author, String image, String title) {
       return widget.storiesCollection
-          .doc(storyId)
-          .update({"author": author, "title": title})
-          .then((value) => logger.v("story Updated"))
-          .catchError((error) => logger.e("Failed to update story: $error"));
+              ?.doc(storyId)
+              .update({"author": author, "title": title})
+              .then((value) => logger.v("story Updated"))
+              .catchError(
+                  (error) => logger.e("Failed to update story: $error")) ??
+          Future.value();
     }
 
     void reset() {

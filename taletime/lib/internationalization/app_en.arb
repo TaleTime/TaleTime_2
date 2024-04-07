@@ -371,5 +371,82 @@
     "audioCannotBePlayed": "Audio cannot be played!",
     "@audioCannotBePlayed": {
         "description": "Displayed to indicate that a story cannot be played."
-    }
+    },
+
+    "sharedStory": "Shared Story",
+    "@sharedStory": {
+        "description": "App bar title for shared story screen."
+    },
+
+    "addToProfile": "Add to profile",
+    "@addToProfile": {
+        "description": "Button to add story to profile on shared story screen."
+    },
+
+    "noProfileSelected": "No profile selected",
+    "@noProfileSelected": {
+        "description": "Shown above the add-to-profile-button to indicate that no profile is selected"
+    },
+
+    "notLoggedIn": "Not logged in",
+    "@notLoggedIn": {
+        "description": "Shown above the add-to-profile-button to indicate that user is not logged in"
+    },
+
+    "cantAddToStoryTeller": "A story can't be added to a story teller's profile.",
+    "@cantAddToStoryTeller": {
+        "description": "Shown above the add-to-profile-button to indicate that a story can't be added to a story teller's profile"
+    },
+
+    "continueToProfile": "Continue to profile",
+    "@continueToProfile": {
+        "description": "Shown on added story to profile page on button"
+    },
+
+    "couldNotBeAddedToNonListenerProfile": "The story could not be added because the selected profile is not a listener profile.",
+    "@couldNotBeAddedToNonListenerProfile": {
+        "description:": "Shown to indicate that a non-listener profile was selected and the story could not be added to the profile"
+    },
+
+    "addedSuccessfully": "The story was added successfully.",
+    "@addedSuccessfully": {
+        "description:": "Shown to indicate that story was successfully added"
+    },
+
+    "errorAddingStory": "There was an error adding the story to your profile.",
+    "@errorAddingStory": {
+        "description:": "Shown to indicate that there was an error adding the story to the profile"
+    },
+
+    "storyAlreadyAdded": "This story is already added to your profile",
+    "@storyAlreadyAdded": {
+        "description:": "Shown to indicate that the story was already added to the profile"
+    },
+    "stories": "Stories",
+    "@stories": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "playlists": "Playlists",
+    "@playlists": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "description": "Description",
+    "@description": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "playlistAddStory": "Add story to playlist",
+    "close": "Close",
+    "@close": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "editPlaylist": "Edit playlist",
+    "@editPlaylist": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "title": "Title",
+    "@title": {
+        "description": "Used in playlist tab of listener screens"
+    },
+    "noDescriptionAvailable": "No description available",
+    "createPlaylist": "Create playlist"
 }
