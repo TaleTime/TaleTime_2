@@ -45,7 +45,7 @@ dependencies:
   share_plus: ^8.0.2
 
   #fluttertoast
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.2.5
   percent_indicator: ^4.2.3
   open_file: ^3.3.2
 
