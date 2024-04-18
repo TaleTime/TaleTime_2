@@ -29,7 +29,7 @@ dependencies:
   email_validator: ^2.1.17
   provider: ^6.1.2
   hexcolor: ^3.0.1
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.8
   get: ^4.6.5
   image_picker: ^1.0.8
   marquee: ^2.2.3
