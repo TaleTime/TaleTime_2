@@ -42,7 +42,7 @@ dependencies:
   avatar_glow: ^3.0.1
 
   #share
-  share_plus: ^8.0.2
+  share_plus: ^8.0.3
 
   #fluttertoast
   fluttertoast: ^8.2.5
