@@ -12,7 +12,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  intl: any
+  intl: 0.19.0
   
   #Firebase
   firebase_core: ^2.28.0
