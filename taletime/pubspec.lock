@@ -1129,26 +1129,26 @@ packages:
     dependency: "direct main"
     description:
       name: record
-      sha256: "113b368168c49c78902ab37c2b354dea30a0aec5bdeca434073826b6ea73eca1"
+      sha256: "78353d3d55fa145ffe1db1f63232ad0a0cd4c773e9f7d161210ce796ba1c94f9"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.5"
+    version: "5.1.1"
   record_android:
     dependency: transitive
     description:
       name: record_android
-      sha256: "0df98e05873b22b443309e289bf1eb3b5b9a60e7779134334e2073eb0763a992"
+      sha256: fe83beefc8ac81b9dd02ca9365e8685755e3f12be1d442964082f1d5b618183d
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.2"
   record_darwin:
     dependency: transitive
     description:
       name: record_darwin
-      sha256: ee8cb1bb1712d7ce38140ecabe70e5c286c02f05296d66043bee865ace7eb1b9
+      sha256: "2210da0fde7c86b4048cccfe2cd19b25fc7adf1ada7d50ec4a5ab4af2a863739"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0"
   record_linux:
     dependency: transitive
     description:
@@ -1161,10 +1161,10 @@ packages:
     dependency: transitive
     description:
       name: record_platform_interface
-      sha256: "3a4b56e94ecd2a0b2b43eb1fa6f94c5b8484334f5d38ef43959c4bf97fb374cf"
+      sha256: "11f8b03ea8a0e279b0e306571dbe0db0202c0b8e866495c9fa1ad2281d5e4c15"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.1.0"
   record_web:
     dependency: transitive
     description:
