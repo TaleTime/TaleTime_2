@@ -34,7 +34,7 @@ dependencies:
   image_picker: ^1.1.2
   marquee: ^2.2.3
   file_picker: ^8.0.3
-  flutter_sound: ^9.2.13
+  flutter_sound: ^9.4.15
   permission_handler: ^11.3.1
   audioplayers: ^6.0.0
   audioplayers_web: ^5.0.0
