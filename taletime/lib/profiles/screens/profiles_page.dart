@@ -59,12 +59,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       AppLocalizations.of(context)!.confirmLogout,
                       context, () async {
                     AuthentificationUtil(auth: auth).signOut();
-                    Navigator.pushAndRemoveUntil(
-                      context,
+                    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const WelcomePage(),
                       ),
-                      (route) => false,
+                      (route) => true,
                     );
                   });
                 },
@@ -81,10 +80,20 @@ class _ProfilesPageState extends State<ProfilesPage> {
               padding: const EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => CreateEditProfile(
+                  var navigator = Navigator.of(context);
+                    if(navigator.canPop()) {
+                      Navigator.of(context)
+                          .pushReplacement(MaterialPageRoute(
+                          builder: (_) => CreateEditProfile(
                             profile: defaultProfile,
                           )));
+                    } else {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                          builder: (_) => CreateEditProfile(
+                            profile: defaultProfile,
+                          )));
+                    }
                 },
                 icon: const Icon(
                   Icons.person_add,
