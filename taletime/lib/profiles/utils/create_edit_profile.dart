@@ -78,8 +78,16 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
         ? widget.profile.name
         : textEditingController.text;
 
-    DocumentReference<Profile>? profileRef =
-        Provider.of<UserState>(context).profilesRef?.doc(widget.profile.id);
+
+    DocumentReference<Profile>? profileRef;
+
+    if (widget.profile.id != "") {
+      profileRef = Provider
+          .of<UserState>(context)
+          .profilesRef
+          ?.doc(widget.profile.id);
+    }
+
 
     return Scaffold(
       appBar: AppBar(
@@ -211,7 +219,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                             Navigator.of(context).pop();
                           } else {
                             ProfileService.addProfile(
-                                Provider.of<UserState>(context).profilesRef!,
+                                Provider.of<UserState>(context, listen: false).profilesRef!,
                                 image,
                                 name,
                                 title,
