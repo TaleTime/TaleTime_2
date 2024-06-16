@@ -225,11 +225,7 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                                 title,
                                 languageProvider.locale.toString(),
                                 !themeProvider.isDarkMode);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfilesPage()));
+                            Navigator.of(context).pop();
                           }
                         },
                         child: Text(
