@@ -24,7 +24,6 @@ class SharedStory extends StatefulWidget {
 }
 
 class SharedStoryState extends State<SharedStory> {
-
   DocumentReference<Story>? _storyRef;
 
   @override
@@ -36,12 +35,11 @@ class SharedStoryState extends State<SharedStory> {
     }
 
     _storyRef = FirebaseFirestore.instance
-            .doc("allStories/${widget.storyId}")
-            .withConverter(
-              fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
-              toFirestore: (snap, _) => snap.toFirebase(),
-            );
-
+        .doc("allStories/${widget.storyId}")
+        .withConverter(
+          fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
+          toFirestore: (snap, _) => snap.toFirebase(),
+        );
   }
 
   Widget _buildStoryMetadata(BuildContext context, Story? story) {

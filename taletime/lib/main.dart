@@ -92,19 +92,17 @@ class Providers extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
-      routes: {
-        "/": (_) => HomePage(),
-        "/shared": (_) => const SharedStory()
-      },
+      routes: {"/": (_) => HomePage(), "/shared": (_) => const SharedStory()},
       initialRoute: "/",
       onGenerateRoute: (settings) {
         var uri = Uri.parse(settings.name ?? "");
 
         // Only react to shared route. Other routes have no matching screen.
         if (uri.path == "/shared") {
-          return MaterialPageRoute(builder: (_) => SharedStory(
-            storyId: uri.queryParameters["storyId"],
-          ));
+          return MaterialPageRoute(
+              builder: (_) => SharedStory(
+                    storyId: uri.queryParameters["storyId"],
+                  ));
         }
 
         return null;
