@@ -2,7 +2,6 @@ import "dart:math";
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
-import "package:go_router/go_router.dart";
 import "package:provider/provider.dart";
 import "package:taletime/common%20utils/constants.dart";
 import "package:taletime/common/models/story.dart";
@@ -15,39 +14,34 @@ import "package:taletime/share/screens/add_shared_story.dart";
 import "package:taletime/state/profile_state.dart";
 import "package:taletime/state/user_state.dart";
 
-class SharedStoryArguments {
-  SharedStoryArguments(this.storyId);
+class SharedStory extends StatefulWidget {
+  const SharedStory({super.key, this.storyId});
 
   final String? storyId;
-}
-
-class SharedStory extends StatefulWidget {
-  const SharedStory({super.key});
 
   @override
   State<StatefulWidget> createState() => SharedStoryState();
 }
 
 class SharedStoryState extends State<SharedStory> {
-  String? _storyId;
+
   DocumentReference<Story>? _storyRef;
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      setState(() {
-        _storyId = GoRouterState.of(context).uri.queryParameters["storyId"];
+    if (widget.storyId == null) {
+      return;
+    }
 
-        _storyRef = FirebaseFirestore.instance
-            .doc("allStories/$_storyId")
+    _storyRef = FirebaseFirestore.instance
+            .doc("allStories/${widget.storyId}")
             .withConverter(
               fromFirestore: (snap, _) => Story.fromDocumentSnapshot(snap),
               toFirestore: (snap, _) => snap.toFirebase(),
             );
-      });
-    });
+
   }
 
   Widget _buildStoryMetadata(BuildContext context, Story? story) {

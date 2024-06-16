@@ -5,13 +5,12 @@ import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
 import "package:flutter_web_plugins/url_strategy.dart";
-import "package:go_router/go_router.dart";
 import "package:provider/provider.dart";
 import "package:taletime/common%20utils/theme_provider.dart";
 import "package:taletime/internationalization/l10n.dart";
 import "package:taletime/internationalization/locale_provider.dart";
 import "package:taletime/login%20and%20registration/screens/welcome.dart";
-import 'package:taletime/player/services/audio_handler.dart';
+import "package:taletime/player/services/audio_handler.dart";
 import "package:taletime/profiles/screens/profiles_page.dart";
 import "package:taletime/share/screens/shared_story.dart";
 import "package:taletime/state/profile_state.dart";
@@ -92,21 +91,24 @@ class Providers extends StatelessWidget {
     final languageProvider = Provider.of<LocaleProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return MaterialApp.router(
-      routerConfig: GoRouter(
-        routes: [
-          GoRoute(
-            path: "/",
-            builder: (_, __) => HomePage(),
-            routes: [
-              GoRoute(
-                path: "shared",
-                builder: (_, __) => const SharedStory(),
-              ),
-            ],
-          ),
-        ],
-      ),
+    return MaterialApp(
+      routes: {
+        "/": (_) => HomePage(),
+        "/shared": (_) => const SharedStory()
+      },
+      initialRoute: "/",
+      onGenerateRoute: (settings) {
+        var uri = Uri.parse(settings.name ?? "");
+
+        // Only react to shared route. Other routes have no matching screen.
+        if (uri.path == "/shared") {
+          return MaterialPageRoute(builder: (_) => SharedStory(
+            storyId: uri.queryParameters["storyId"],
+          ));
+        }
+
+        return null;
+      },
       debugShowCheckedModeBanner: false,
       themeMode: themeProvider.themeMode,
       theme: MyThemes.lightTheme,
