@@ -41,10 +41,14 @@ class AuthentificationUtil {
             content: Text(AppLocalizations.of(context)!.signInSuccesful),
             backgroundColor: kPrimaryColor);
         ScaffoldMessenger.of(context).showSnackBar(signinSuccesful);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
             builder: (context) => ProfilesPage(
-                  redirectTo: redirectTo,
-                )));
+              redirectTo: redirectTo,
+            ),
+          ),
+          (route) => false,
+        );
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showLoginError(e, context);
@@ -86,10 +90,14 @@ class AuthentificationUtil {
 
         addUserInfoToDB(auth.currentUser!.uid, userInfoMap);
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
             builder: (context) => ProfilesPage(
-                  redirectTo: redirectTo,
-                )));
+              redirectTo: redirectTo,
+            ),
+          ),
+          (route) => false,
+        );
       }
     } on FirebaseAuthException catch (e) {
       final SnackBar snackBar = ErrorUtil().showRegisterError(e, context);

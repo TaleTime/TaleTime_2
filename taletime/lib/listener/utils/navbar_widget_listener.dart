@@ -5,7 +5,6 @@ import "package:taletime/common/models/added_story.dart";
 import "package:taletime/common/models/story.dart";
 import "package:taletime/internationalization/localizations_ext.dart";
 
-import "../../settings/settings.dart";
 import "../../state/profile_state.dart";
 import "../screens/add_story_page.dart";
 import "../screens/favorites_page.dart";
@@ -79,8 +78,7 @@ class _NavBarListenerState extends State<NavBarListener> {
           ),
           navBarItems(
               Icons.favorite_sharp, AppLocalizations.of(context)!.favorites),
-          navBarItems(
-              Icons.add, AppLocalizations.of(context)!.addStory),
+          navBarItems(Icons.add, AppLocalizations.of(context)!.addStory),
           navBarItems(Icons.playlist_add_circle,
               AppLocalizations.of(context)!.playlists),
         ],
