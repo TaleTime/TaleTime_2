@@ -11,7 +11,6 @@ import "../../common utils/theme_provider.dart";
 import "../../internationalization/locale_provider.dart";
 import "../../internationalization/localizations_ext.dart";
 import "../models/profile_model.dart";
-import "../screens/profiles_page.dart";
 
 class CreateEditProfile extends StatefulWidget {
   const CreateEditProfile({super.key, required this.profile});
@@ -78,8 +77,12 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
         ? widget.profile.name
         : textEditingController.text;
 
-    DocumentReference<Profile>? profileRef =
-        Provider.of<UserState>(context).profilesRef?.doc(widget.profile.id);
+    DocumentReference<Profile>? profileRef;
+
+    if (widget.profile.id != "") {
+      profileRef =
+          Provider.of<UserState>(context).profilesRef?.doc(widget.profile.id);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -211,17 +214,14 @@ class _CreateEditProfileState extends State<CreateEditProfile> {
                             Navigator.of(context).pop();
                           } else {
                             ProfileService.addProfile(
-                                Provider.of<UserState>(context).profilesRef!,
+                                Provider.of<UserState>(context, listen: false)
+                                    .profilesRef!,
                                 image,
                                 name,
                                 title,
                                 languageProvider.locale.toString(),
                                 !themeProvider.isDarkMode);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfilesPage()));
+                            Navigator.of(context).pop();
                           }
                         },
                         child: Text(
