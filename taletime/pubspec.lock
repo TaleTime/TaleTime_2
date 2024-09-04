@@ -485,18 +485,18 @@ packages:
     dependency: transitive
     description:
       name: firebase_storage_platform_interface
-      sha256: "75abce1fdb9618581fdaaefc9c35d336024a69d1ab8b64bc3e0258d3d3a23409"
+      sha256: "3da511301b77514dee5370281923fbbc6d5725c2a0b96004c5c45415e067f234"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.23"
+    version: "5.1.28"
   firebase_storage_web:
     dependency: "direct main"
     description:
       name: firebase_storage_web
-      sha256: "8a57a5565830331d4020bb7edb324451d52db4ccad1bc3647990c7882a200a8b"
+      sha256: "7ad67b1c1c46c995a6bd4f225d240fc9a5fb277fade583631ae38750ffd9be17"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.8"
+    version: "3.9.13"
   fixnum:
     dependency: transitive
     description:
