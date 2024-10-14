@@ -32,7 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.6.5
   image_picker: ^1.1.2
-  marquee: ^2.2.3
+  marquee: ^2.3.0
   file_picker: ^8.0.7
   flutter_sound: ^9.16.2
   permission_handler: ^11.3.1
